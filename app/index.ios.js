@@ -9,23 +9,27 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  TouchableHighlight,
+  Linking,
+  MapView,
 } from 'react-native';
 
 class lilt extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <TouchableHighlight underlayColor={'#666666'}
+                            onPress={() => Linking.openURL('http://www.google.com')}>
+          <Text style={styles.welcome}>Welcome to React Native!</Text>
+        </TouchableHighlight>
+        <MapView style={styles.map}
+                 annotations={[
+      {
+        longitude: 12.40,
+        latitude: 41.90,
+      }]}
+                 />
       </View>
     );
   }
@@ -48,6 +52,12 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  map: {
+    width: 300,
+    height: 300,
+    borderWidth: 1,
+    borderColor: '#FF0000',
+  }
 });
 
 AppRegistry.registerComponent('lilt', () => lilt);
