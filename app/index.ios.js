@@ -15,25 +15,32 @@ import {
   MapView,
 } from 'react-native';
 
+import * as generated from './js/gen';
+
+
 class lilt extends Component {
   render() {
+    const { Test } = generated;
+
+    console.log(generated);
     return (
       <View style={styles.container}>
         <TouchableHighlight underlayColor={'#666666'}
                             onPress={() => Linking.openURL('http://www.google.com')}>
           <Text style={styles.welcome}>Welcome to React Native!</Text>
         </TouchableHighlight>
+        <Test />
         <MapView style={styles.map}
-                 annotations={[
-      {
-        longitude: 12.40,
-        latitude: 41.90,
-      }]}
-                 />
+                 annotations={[{
+                   longitude: 12.40,
+                   latitude: 41.90,
+                 }]}
+                  />
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -59,5 +66,6 @@ const styles = StyleSheet.create({
     borderColor: '#FF0000',
   }
 });
+
 
 AppRegistry.registerComponent('lilt', () => lilt);
