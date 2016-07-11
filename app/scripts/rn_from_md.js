@@ -17,25 +17,52 @@ function main() {
 
   // compute output js directory
   const genDir = path.join(__dirname, '..', 'js', 'gen');
+  const comps = [];
 
+  // generate component classes
   for (let i = 0; i < names.length; ++i) {
     // read markdown from input file
     const inputFn = path.join(contentDir, names[i]);
     const markdown = fs.readFileSync(inputFn, 'utf-8');
 
     // generate react-native component
-    const comp = nunjucks.render('md_component.njk', {
+    const basename = path.basename(names[i], '.md').toLowerCase();
+    const compClass = basename.charAt(0).toUpperCase() + basename.slice(1);
+
+    const comp = nunjucks.render('gen_component.njk', {
+      className: compClass,
       markdownContent: rnMarked(markdown),
     });
 
     // write output js file
-    const basename = path.basename(names[i], '.md');
     const outputFn = path.join(genDir, basename + '.js');
     fs.writeFileSync(outputFn, comp);
 
     // eslint-disable-next-line no-console
     console.log(names[i] + ' -> ' + basename + '.js');
+
+    comps.push([basename, compClass]);
   }
+
+  // generate index.js file
+  let imports = '', compClasses = '';
+  for (let i = 0; i < comps.length; ++i) {
+    if (i > 0) {
+      imports += '\n';
+      compClasses += ', ';
+    }
+
+    imports += 'import ' + comps[i][1] + " from './" + comps[i][0] + "';";
+    compClasses += comps[i][1];
+  }
+
+  const genIndex = nunjucks.render('gen_index.njk', {
+    imports,
+    compClasses,
+  });
+
+  const outputIndexFn = path.join(genDir, 'index.js');
+  fs.writeFileSync(outputIndexFn, genIndex);
 }
 
 main();
