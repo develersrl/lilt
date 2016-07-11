@@ -43,7 +43,7 @@ class lilt extends Component {
 
     return (
       <View style={styles.container}>
-        <Expandable />
+        <Expandable title={'Expandable Title'} content={() => <Test />} />
         <View style={styles.flexible} />
       </View>
     );

@@ -4,6 +4,10 @@ import { StyleSheet } from 'react-native';
 
 
 const common = StyleSheet.create({
+  debug: {
+    borderWidth: 1,
+    borderColor: '#FFFF00',
+  },
   debug1: {
     borderWidth: 1,
     borderColor: '#FF0000',
@@ -21,7 +25,7 @@ const common = StyleSheet.create({
     justifyContent: 'center',
   },
   mediumText: {
-    fontSize: 14,
+    fontSize: 12,
   },
 });
 
@@ -33,18 +37,21 @@ const block = {
       borderColor: '#EB9A5B',
     },
     titleView: {
-      height: 40,
+      height: 20,
       flexDirection: 'row',
     },
     signImg: {
-      margin: 3,
-      width: 20,
-      height: 20,
+      width: 15,
+      height: 15,
       resizeMode: 'contain',
     },
     titleTextView: {
       flex: 1,
       justifyContent: 'center',
+    },
+    contentView: {
+      marginLeft: 15,  // signImg
+      height: 300,
     },
   }),
 };
