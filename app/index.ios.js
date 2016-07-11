@@ -43,8 +43,8 @@ class lilt extends Component {
 
     return (
       <View style={styles.container}>
-        <Test />
-        <Expandable style={styles.expandable} />
+        <Expandable />
+        <View style={styles.flexible} />
       </View>
     );
   }
@@ -58,8 +58,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
-    borderWidth: 1,
-    borderColor: '#00FF00',
   },
   welcome: {
     fontSize: 20,
@@ -81,6 +79,13 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: '#FF0000',
+  },
+  flexible: {
+    flex: 1,
+  },
+  debug: {
+    borderWidth: 1,
+    borderColor: '#00FF00',
   },
 });
 
