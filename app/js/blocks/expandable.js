@@ -1,12 +1,17 @@
+// @flow
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, Image } from 'react-native';
 
 import * as style from '../style';
 
 
-export default class Expandable extends Component {
+export default React.createClass({
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+  },
+
   render() {
     const {
       container,
@@ -31,4 +36,4 @@ export default class Expandable extends Component {
       </View>
       );
   }
-}
+});

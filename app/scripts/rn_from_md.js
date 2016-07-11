@@ -56,11 +56,7 @@ function main() {
     compClasses += comps[i][1];
   }
 
-  const genIndex = nunjucks.render('gen_index.njk', {
-    imports,
-    compClasses,
-  });
-
+  const genIndex = nunjucks.render('gen_index.njk', { imports, compClasses });
   const outputIndexFn = path.join(genDir, 'index.js');
   fs.writeFileSync(outputIndexFn, genIndex);
 }
