@@ -50,7 +50,7 @@ export default class Expandable extends Component {
       imgView,
       signImg,
       titleTextView
-    } = style.block.expandable;
+    } = style.blocks.expandable;
 
     const { centeredChildren, mediumText, debug, debug1 } = style.common;
     const { title } = this.props;
@@ -84,7 +84,7 @@ export default class Expandable extends Component {
     if (!expanded)
       return null;
 
-    const { contentView } = style.block.expandable;
+    const { contentView } = style.blocks.expandable;
     const { content } = this.props;
     const { debug } = style.common;
 
@@ -97,7 +97,7 @@ export default class Expandable extends Component {
 
 
   render() {
-    const { container } = style.block.expandable;
+    const { container } = style.blocks.expandable;
 
     return (
       <View style={container}>

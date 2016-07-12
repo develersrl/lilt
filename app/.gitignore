@@ -41,4 +41,4 @@ android/app/libs
 android/keystores/debug.keystore
 
 # custom
-js/gen/
+js/markdown/

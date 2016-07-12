@@ -16,7 +16,7 @@ function main() {
   nunjucks.configure(__dirname);
 
   // compute output js directory and create it if it is not already there
-  const genDir = path.join(__dirname, '..', 'js', 'gen');
+  const genDir = path.join(__dirname, '..', 'js', 'markdown');
   if (!fs.existsSync(genDir)) {
     fs.mkdirSync(genDir);
   }

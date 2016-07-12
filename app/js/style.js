@@ -30,7 +30,7 @@ const common = StyleSheet.create({
 });
 
 
-const block = {
+const blocks = {
   expandable: StyleSheet.create({
     container: {
       borderWidth: 1,
@@ -60,4 +60,13 @@ const block = {
 };
 
 
-module.exports = { common, block };
+const pages = {
+  glossary: StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+  }),
+};
+
+
+module.exports = { common, blocks, pages };

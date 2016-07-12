@@ -15,8 +15,9 @@ import {
   MapView,
 } from 'react-native';
 
-import * as generated from './js/gen';
+import * as markdown from './js/markdown';
 import * as blocks from './js/blocks';
+import * as pages from './js/pages';
 
 
 class lilt extends Component {
@@ -38,14 +39,15 @@ class lilt extends Component {
   }
 
   render() {
-    const { Test } = generated;
+    const { Test } = markdown;
     const { Expandable } = blocks;
+    const { Glossary } = pages;
 
     // <Expandable title={'Expandable Title'} content={() => <Test />} />
 
     return (
       <View style={styles.container}>
-        <View style={styles.flexible} />
+        <Glossary style={styles.flexible} />
       </View>
     );
   }
