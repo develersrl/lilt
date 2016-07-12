@@ -45,8 +45,14 @@ export default class Expandable extends Component {
 
 
   renderTitle() {
-    const { titleView, signImg, titleTextView } = style.block.expandable;
-    const { centeredChildren, mediumText } = style.common;
+    const {
+      titleView,
+      imgView,
+      signImg,
+      titleTextView
+    } = style.block.expandable;
+
+    const { centeredChildren, mediumText, debug, debug1 } = style.common;
     const { title } = this.props;
 
     let imgSource = '';
@@ -60,8 +66,8 @@ export default class Expandable extends Component {
     return (
       <TouchableOpacity onPress={this.onSignPress.bind(this)}>
         <View style={titleView}>
-          <View style={centeredChildren}>
-            <Image style={signImg} source={imgSource} />
+          <View style={[imgView, centeredChildren, debug1]}>
+            <Image style={[signImg, debug]} source={imgSource} />
           </View>
           <View style={titleTextView}>
             <Text style={mediumText}>{title}</Text>
@@ -80,9 +86,10 @@ export default class Expandable extends Component {
 
     const { contentView } = style.block.expandable;
     const { content } = this.props;
+    const { debug } = style.common;
 
     return (
-      <View style={contentView}>
+      <View style={[contentView, debug]}>
         {content()}
       </View>
       );

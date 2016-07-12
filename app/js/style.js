@@ -37,8 +37,10 @@ const block = {
       borderColor: '#EB9A5B',
     },
     titleView: {
-      height: 20,
       flexDirection: 'row',
+    },
+    imgView: {
+      padding: 2,
     },
     signImg: {
       width: 15,
@@ -52,6 +54,7 @@ const block = {
     contentView: {
       marginLeft: 15,  // signImg
       height: 300,
+      marginTop: 10,
     },
   }),
 };

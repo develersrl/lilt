@@ -41,9 +41,10 @@ class lilt extends Component {
     const { Test } = generated;
     const { Expandable } = blocks;
 
+    // <Expandable title={'Expandable Title'} content={() => <Test />} />
+
     return (
       <View style={styles.container}>
-        <Expandable title={'Expandable Title'} content={() => <Test />} />
         <View style={styles.flexible} />
       </View>
     );
