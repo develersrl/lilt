@@ -15,8 +15,12 @@ function main() {
   // configure nunjucks to fetch templates from this script's directory
   nunjucks.configure(__dirname);
 
-  // compute output js directory
+  // compute output js directory and create it if it is not already there
   const genDir = path.join(__dirname, '..', 'js', 'gen');
+  if (!fs.existsSync(genDir)) {
+    fs.mkdirSync(genDir);
+  }
+
   const comps = [];
 
   // generate component classes
