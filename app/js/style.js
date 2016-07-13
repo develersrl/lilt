@@ -27,6 +27,9 @@ const common = StyleSheet.create({
   mediumText: {
     fontSize: 12,
   },
+  flexible: {
+    flex: 1,
+  },
 });
 
 
@@ -62,9 +65,7 @@ const blocks = {
 
 const pages = {
   glossary: StyleSheet.create({
-    container: {
-      flex: 1,
-    },
+
   }),
 };
 
