@@ -2,7 +2,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
 import SearchBar from 'react-native-search-bar';
 import TableView from 'react-native-tableview';
@@ -15,25 +15,13 @@ export default class Glossary extends Component {
     super(props);
   }
 
-  componentWillMount() {
-
-  }
-
   render() {
-    const { searchView } = style.pages.glossary;
-    const { flexible, debug1, debug2 } = style.common;
-    const { Section, Item } = TableView;
+    const { flexible, debug2 } = style.common;
 
     return (
       <View style={[flexible]}>
         <SearchBar placeholder={'Cerca'} />
-        <TableView style={[flexible, debug2]}>
-          <Section label="A">
-            <Item value="AAA" detail="Detail1">AAA</Item>
-          </Section>
-          <Section label="B">
-            <Item value="BBB" detail="Detail1">AAA</Item>
-          </Section>
+        <TableView style={[flexible, debug2]} json="glossary">
         </TableView>
       </View>
       );
