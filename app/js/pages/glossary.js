@@ -16,12 +16,17 @@ export default class Glossary extends Component {
   }
 
   render() {
-    const { flexible, debug2 } = style.common;
+    const { flexible } = style.common;
 
     return (
       <View style={[flexible]}>
         <SearchBar placeholder={'Cerca'} />
-        <TableView style={[flexible, debug2]} json="glossary">
+        <TableView tableViewStyle={TableView.Consts.Style.Plain}
+                   tableViewCellStyle={TableView.Consts.CellStyle.Subtitle}
+                   style={flexible}
+                   // textColor={'#FF7700'}
+                   detailFontSize={9}
+                   json="glossary">
         </TableView>
       </View>
       );

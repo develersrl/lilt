@@ -2,13 +2,22 @@
 {
     "label": "A",
     "items": [
-        {"value":"AF","label":"Afghanistan"}
+        {
+            "value": "AF",
+            "label": "Afghanistan",
+            "detail": "Mio dettaglio"
+        },
+        {
+            "value": "AZ",
+            "label": "Azerbaijan",
+            "detail": "Lame"
+        }
     ]
 },
 {
     "label": "B",
     "items": [
-        {"value":"AF","label":"Afghanistan"}
+        {"value":"AF","label":"BBB"}
     ]
 },
 {
