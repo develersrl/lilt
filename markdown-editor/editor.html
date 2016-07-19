@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Markdown Editor</title>
+        <script src="./ckeditor/ckeditor.js"></script>
+        <style>
+            .container {
+                display: flex;
+                flex-direction: row;
+            }
+            .left-column {
+                flex-grow: 1;
+            }
+            .right-column {
+                flex-grow: 2;
+            }
+        </style>
+    </head>
+    <body class="container">
+        <div class="right-column">
+            <textarea name="md-editor" id="md-editor" rows="10"></textarea>
+        </div>
+        <script>
+            CKEDITOR.replace('md-editor', {
+                toolbarGroups: [
+                    {name: 'tools'},
+                    {name: 'basicstyles', groups: ['basicstyles', 'cleanup']},
+                    {name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ]},
+                    {name: 'styles'},
+                    {name: 'others'}
+                ],
+                removeButtons: 'Underline,Subscript,Superscript,Strike',
+                extraPlugins: 'markdown',
+                format_tags: 'p;h1;h2;h3;pre',
+                removeDialogTabs: 'image:advanced;link:advanced'
+            });
+        </script>
+    </body>
+</html>
