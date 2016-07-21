@@ -25,7 +25,12 @@ def __init():
     __templates_dir = os.path.join(__content_dir, 'templates')
     __target_pages_dir = os.path.join(app_dir, 'js', 'pages')
 
+    # initialize Jinja environment to work on "templates" directory
     __j2_env = Environment(loader=FileSystemLoader(__templates_dir))
+
+    # create the target "pages" directory if it does not exist
+    if not os.path.exists(__target_pages_dir):
+        os.makedirs(__target_pages_dir)
 
     return (os.path.isdir(__content_dir) and
             os.path.isfile(__pages_json_fn) and
