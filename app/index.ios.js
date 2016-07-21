@@ -5,6 +5,7 @@
  */
 
 import React, { Component } from 'react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -15,8 +16,6 @@ import {
   MapView,
 } from 'react-native';
 
-import * as markdown from './js/markdown';
-import * as blocks from './js/blocks';
 import * as pages from './js/pages';
 
 
@@ -39,15 +38,11 @@ class lilt extends Component {
   }
 
   render() {
-    const { Test } = markdown;
-    const { Expandable } = blocks;
-    const { Glossary } = pages;
-
-    // <Expandable title={'Expandable Title'} content={() => <Test />} />
+    const { Glossary07 } = pages;
 
     return (
       <View style={styles.container}>
-        <Glossary style={styles.flexible} />
+        <Glossary07 />
       </View>
     );
   }

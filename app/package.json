@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "flow": "./node_modules/.bin/flow check",
-    "gen": "node scripts/rn_from_md.js",
+    "mdgen": "node scripts/rn_from_md.js",
+    "gen": "python scripts/gen.py",
     "sync-tableview": "rsync -avh ../../../contrib/react-native-tableview/ ./node_modules/react-native-tableview/"
   },
   "dependencies": {
