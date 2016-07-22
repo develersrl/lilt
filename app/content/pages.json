@@ -5,6 +5,7 @@
 },
 {
     "id": 5,
-    "style": "test"
+    "style": "test",
+    "start_page": true
 }
 ]

@@ -45,6 +45,10 @@ def __get_page_component_filename_from_page_data(page_data):
 
 def __get_page_component_classname_from_page_data(page_data):
     """Return a generated page component classname from json page data."""
+
+    if page_data.get("start_page", False):
+        return "StartPage"
+
     return "{}{}".format(
         page_data["style"].capitalize(),
         str(page_data["id"]).zfill(2)

@@ -9,17 +9,20 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text,
   View,
+  /*
+  Text,
   TouchableHighlight,
   Linking,
   MapView,
+  */
 } from 'react-native';
 
 import * as pages from './js/pages';
 
 
 class lilt extends Component {
+  /*
   renderExternalLink() {
     return (
       <TouchableHighlight
@@ -36,13 +39,14 @@ class lilt extends Component {
                annotations={[{longitude: 12.40, latitude: 41.90 }]} />
       );
   }
+  */
 
   render() {
-    const { Glossary07 } = pages;
+    const { StartPage } = pages;
 
     return (
       <View style={styles.container}>
-        <Glossary07 />
+        <StartPage />
       </View>
     );
   }
@@ -56,34 +60,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  map: {
-    width: 300,
-    height: 300,
-    borderWidth: 1,
-    borderColor: '#FF0000',
-  },
-  expandable: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#FF0000',
-  },
-  flexible: {
-    flex: 1,
-  },
-  debug: {
-    borderWidth: 1,
-    borderColor: '#00FF00',
   },
 });
 
