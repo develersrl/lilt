@@ -6,6 +6,13 @@
 {
     "id": 5,
     "style": "test",
-    "start_page": true
+    "start_page": true,
+    "content": {
+        "testButton": {
+            "type": "button",
+            "text": "Generated Text",
+            "link": 7
+        }
+    }
 }
 ]

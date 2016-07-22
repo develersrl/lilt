@@ -55,25 +55,34 @@ def __get_page_component_classname_from_page_data(page_data):
         )
 
 
+def __gen_button(button_data):
+    """Generate a button block inside a page."""
+    # print button_data
+    return "<Button text={{'{}'}} onPress={{() => {{}}}} />".format(
+        button_data["text"]
+        )
+
+
 def __gen_page(page_data):
     """Generate a page component."""
-    global __templates_dir, __target_pages_dir
+    global __templates_dir, __target_pages_dir, __j2_env
+
     print "Generating page {}..".format(page_data["id"])
-    template_basename = page_data["style"] + ".tmpl.js"
-    template_fn = os.path.join(__templates_dir, template_basename)
 
-    # read input template file
-    code = ''
-    with open(template_fn, 'r') as in_file:
-        code = in_file.read()
-
-    # TODO: instantiate template here
+    # generate page content
+    content = page_data.get("content", {})
+    replacements = {}
+    for (block_id, block_data) in content.iteritems():
+        # use content type (e.g. "button") to call generation fun by name
+        genfun = globals()["__gen_" + block_data["type"]]
+        replacements[block_id] = genfun(block_data)
 
     # write output file
     target_basename = __get_page_component_filename_from_page_data(page_data)
     target_fn = os.path.join(__target_pages_dir, target_basename)
+    template_name = page_data["style"] + ".tmpl.js"
     with open(target_fn, 'w') as f:
-        f.write(code)
+        f.write(__j2_env.get_template(template_name).render(**replacements))
 
     return True
 

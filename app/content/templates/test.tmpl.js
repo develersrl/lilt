@@ -17,7 +17,7 @@ export default class Test extends Component {
         <View style={[flexible, stretch, centeredChildren, debug1]}>
           <Text>Hello Test Page!</Text>
         </View>
-        <Button text={'Hello Button'} onPress={() => {}} />
+        {{testButton}}
       </View>
       );
   }
