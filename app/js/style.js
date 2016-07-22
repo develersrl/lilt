@@ -24,6 +24,9 @@ const common = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  stretch: {
+    alignSelf: 'stretch',
+  },
   mediumText: {
     fontSize: 12,
   },
@@ -60,13 +63,14 @@ const blocks = {
       marginTop: 10,
     },
   }),
+  button: {
+    underlayColor: '#999999',  // note that we do not use stylesheet here
+  },
 };
 
 
 const pages = {
-  glossary: StyleSheet.create({
 
-  }),
 };
 
 

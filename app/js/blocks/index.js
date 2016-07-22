@@ -1,6 +1,6 @@
 // @flow
 'use strict';
 
-import Expandable from './expandable';
+import Button from './button';
 
-module.exports = { Expandable };
+module.exports = { Button };
