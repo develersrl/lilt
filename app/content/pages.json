@@ -1,12 +1,50 @@
 [
+    {
+    "id": 9,
+    "style": "test",
+    "start_page": true,
+    "title": "My Start Page",
+    "content": {
+        "testButton": {
+            "type": "button",
+            "text": "Generated Text",
+            "link": 5
+        }
+    }
+},
 {
     "id": 7,
+    "title": "Glossary",
     "style": "glossary"
 },
 {
     "id": 5,
     "style": "test",
-    "start_page": true,
+    "title": "Page 2",
+    "content": {
+        "testButton": {
+            "type": "button",
+            "text": "Generated Text",
+            "link": 10
+        }
+    }
+},
+{
+    "id": 10,
+    "style": "test",
+    "title": "Page 3",
+    "content": {
+        "testButton": {
+            "type": "button",
+            "text": "Generated Text",
+            "link": 4
+        }
+    }
+},
+{
+    "id": 4,
+    "style": "test",
+    "title": "Page 4",
     "content": {
         "testButton": {
             "type": "button",
