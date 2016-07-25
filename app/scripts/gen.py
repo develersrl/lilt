@@ -10,7 +10,7 @@ __content_dir = None  # content directory path
 __pages_json_fn = None  # pages.json filename
 __templates_dir = None  # js templates directory path
 __target_pages_dir = None  # generated pages directory
-__j2_env = None
+__j2_env = None  # jinja2 environment
 
 
 def __init():

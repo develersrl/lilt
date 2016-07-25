@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { NavigatorIOS } from 'react-native';
 
-import * as style from './style';
+import * as style from '../style';
 import { getStartRoute } from './navigator_data';
 
 
