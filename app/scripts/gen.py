@@ -10,13 +10,14 @@ __content_dir = None  # content directory path
 __pages_json_fn = None  # pages.json filename
 __templates_dir = None  # js templates directory path
 __target_pages_dir = None  # generated pages directory
+__target_navigation_dir = None  # app "navigation" directory
 __j2_env = None  # jinja2 environment
 
 
 def __init():
     """Initialize global variables."""
     global __content_dir, __pages_json_fn, __templates_dir, __target_pages_dir
-    global __j2_env
+    global __target_navigation_dir, __j2_env
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     app_dir = os.path.dirname(script_dir)
@@ -24,6 +25,7 @@ def __init():
     __pages_json_fn = os.path.join(__content_dir, 'pages.json')
     __templates_dir = os.path.join(__content_dir, 'templates')
     __target_pages_dir = os.path.join(app_dir, 'js', 'pages')
+    __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
 
     # initialize Jinja environment to work on "templates" directory
     __j2_env = Environment(loader=FileSystemLoader(__templates_dir))
@@ -35,7 +37,8 @@ def __init():
     return (os.path.isdir(__content_dir) and
             os.path.isfile(__pages_json_fn) and
             os.path.isdir(__templates_dir) and
-            os.path.isdir(__target_pages_dir))
+            os.path.isdir(__target_pages_dir) and
+            os.path.isdir(__target_navigation_dir))
 
 
 def __get_page_component_filename_from_page_data(page_data):
@@ -125,6 +128,62 @@ def __gen_pages():
     return True
 
 
+def __gen_navigation():
+    """Generate app navigation code."""
+    global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
+    global __target_navigation_dir
+
+    # load source json file
+    with open(__pages_json_fn, 'r') as f:
+        pages_data = json.load(f)
+
+    # iterate over json pages and build react-native navigation routes
+    initial_route_id = -1
+    routes_list = []
+    for page_data in pages_data:
+        # store initial route id for later use
+        if page_data.get('start_page', False):
+            initial_route_id = page_data["id"]
+
+        # compute navigation component (e.g. "pages.Glossary")
+        comp_class = __get_page_component_classname_from_page_data(page_data)
+        comp_class = 'pages.{}'.format(comp_class)
+
+        # store route code
+        routes_list.append("{}: {{ title: '{}', component: {} }}".format(
+            page_data['id'],
+            page_data.get('title', ''),
+            comp_class
+            ))
+
+    # assemble routes data
+    routes_code = 'const routes = {{\n  {},\n}};'.format(
+        ',\n  '.join(routes_list))
+
+    # stop generation if initial route is not found
+    if initial_route_id < 0:
+        print 'Initial route not found!'
+        return False
+
+    # generate initial route code
+    initial_route_code = 'const initialRouteId = {};'.format(initial_route_id)
+
+    # compute jinja template replacements
+    replacements = {
+        "routes": routes_code,
+        "initialRouteId": initial_route_code
+    }
+
+    # generate navigator_data.js file
+    target_file = os.path.join(__target_navigation_dir, 'navigator_data.js')
+    with open(target_file, 'w') as f:
+        f.write(__j2_env.get_template('navigator_data.tmpl.js').render(
+            **replacements
+            ))
+
+    return True
+
+
 if __name__ == '__main__':
-    ok = __init() and __gen_pages()
+    ok = __init() and __gen_pages() and __gen_navigation()
     sys.exit(0 if ok else 1)

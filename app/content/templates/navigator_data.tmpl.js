@@ -6,12 +6,9 @@ import * as pages from '../pages';
 /*
     Warning: this code section is generated.
  */
-const routes = {
-  7: { title: '', component: pages.Glossary07 },
-  5: { title: '', component: pages.StartPage },
-};
+{{routes}}
 
-const initialRouteId = 5;
+{{initialRouteId}}
 // -----------------------------------------------------------------------------
 
 /*
