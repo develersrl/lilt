@@ -57,9 +57,13 @@ def __get_page_component_classname_from_page_data(page_data):
 
 def __gen_button(button_data):
     """Generate a button block inside a page."""
-    # print button_data
-    return "<Button text={{'{}'}} onPress={{() => {{}}}} />".format(
-        button_data["text"]
+    pressImpl = "this.props.navigator.push(this.props.getRoute({}))".format(
+        button_data["link"]
+        )
+
+    return "<Button text={{'{}'}} onPress={{() => {}}} />".format(
+        button_data["text"],
+        pressImpl
         )
 
 

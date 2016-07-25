@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { NavigatorIOS } from 'react-native';
 
-import { StartPage } from './pages';
 import * as style from './style';
+import { getStartRoute } from './navigator_data';
 
 
 export default class Navigator extends Component {
@@ -15,7 +15,7 @@ export default class Navigator extends Component {
     return (
       <NavigatorIOS style={[flexible, navigator.nav]}
                     itemWrapperStyle={navigator.wrapped}
-                    initialRoute={{component: StartPage, title: 'My Title'}} />
+                    initialRoute={getStartRoute()} />
       );
   }
 }
