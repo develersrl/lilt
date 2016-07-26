@@ -10,12 +10,13 @@ import * as blocks from '../blocks';
 export default class Test extends Component {
   render() {
     const { flexible, centeredChildren, stretch } = style.common;
+    const { markdown } = style.blocks;
     const { Button } = blocks;
 
     return (
       <View style={[flexible, centeredChildren]}>
         <View style={[flexible, stretch, centeredChildren]}>
-          <Text>Hello Test Page!</Text>
+          {{testMarkdown}}
         </View>
         {{testButton}}
       </View>

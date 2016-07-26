@@ -66,6 +66,15 @@ const blocks = {
   button: {
     underlayColor: '#999999',  // note that we do not use stylesheet here
   },
+  markdown: StyleSheet.create({
+    header: {
+      fontWeight: 'bold',
+    },
+    paragraph: {
+      marginTop: 10,
+      marginBottom: 10,
+    },
+  }),
 };
 
 

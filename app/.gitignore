@@ -44,3 +44,4 @@ android/keystores/debug.keystore
 js/markdown/
 js/pages/
 js/navigation/navigator_data.js
+*.pyc
