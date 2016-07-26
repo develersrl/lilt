@@ -12,7 +12,7 @@ export default class Button extends Component {
     const { button } = style.blocks;
 
     return (
-      <TouchableHighlight style={[flexible, centeredChildren, stretch]}
+      <TouchableHighlight style={button.css}
                           {...this.props}
                           underlayColor={button.underlayColor}>
         <Text>{this.props.text}</Text>

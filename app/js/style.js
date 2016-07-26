@@ -64,7 +64,15 @@ const blocks = {
     },
   }),
   button: {
-    underlayColor: '#999999',  // note that we do not use stylesheet here
+    underlayColor: '#999999',
+    css: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#CCCCCC',
+      borderWidth: 1,
+      borderColor: '#DDDDDD',
+    },
   },
   markdown: StyleSheet.create({
     header: {
