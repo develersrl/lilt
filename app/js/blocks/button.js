@@ -8,7 +8,6 @@ import * as style from '../style';
 
 export default class Button extends Component {
   render() {
-    const { flexible, centeredChildren, stretch } = style.common;
     const { button } = style.blocks;
 
     return (
