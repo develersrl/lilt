@@ -80,8 +80,16 @@ def __gen_markdown(markdown_data):
     with open(os.path.join(__markdown_dir, markdown_data["source"]), 'r') as f:
         markdown_code = f.read()
 
-    # render react-native code and enclose everything inside a View
-    return '<View>{}</View>'.format(__md_renderer(markdown_code))
+    # render react-native code and enclose everything inside a ScrollView
+    # If you want explanations about contentInset etc.. see here:
+    # https://github.com/facebook/react-native/issues/2052
+    return (
+        '<ScrollView style={{markdown.container}}' +
+        'contentInset={{{{top:0}}}} ' +
+        'automaticallyAdjustContentInsets={{false}} ' +
+        '>{}</ScrollView>').format(
+        __md_renderer(markdown_code)
+        )
 
 
 def __gen_button(button_data):
