@@ -43,3 +43,4 @@ android/keystores/debug.keystore
 # custom
 js/markdown/
 js/pages/
+js/navigation/navigator_data.js

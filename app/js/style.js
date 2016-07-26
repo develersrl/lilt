@@ -70,7 +70,14 @@ const blocks = {
 
 
 const pages = {
-
+  navigator: {
+    nav: {
+      paddingTop: 20,  // status bar height
+    },
+    wrapped: {
+      marginTop: 44,  // navigation bar height
+    },
+  },
 };
 
 
