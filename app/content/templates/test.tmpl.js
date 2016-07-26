@@ -9,16 +9,19 @@ import * as blocks from '../blocks';
 
 export default class Test extends Component {
   render() {
-    const { flexible, centeredChildren, stretch } = style.common;
+    const { flexible, centeredChildren, stretch, row } = style.common;
     const { markdown } = style.blocks;
     const { Button } = blocks;
 
     return (
       <View style={[flexible, centeredChildren]}>
-        <View style={[flexible, stretch, centeredChildren]}>
-          {{testMarkdown}}
+        <View style={[flexible, stretch]}>
+          {{testButton}}
         </View>
-        {{testButton}}
+
+        {{testMarkdown}}
+
+        {{testArray}}
       </View>
       );
   }

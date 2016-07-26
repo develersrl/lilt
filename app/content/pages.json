@@ -13,6 +13,37 @@
         "testMarkdown": {
             "type": "markdown",
             "source": "test.md"
+        },
+        "testArray": {
+            "type": "array",
+            "orientation": "horizontal",
+            "items": [
+                {
+                    "type": "button",
+                    "text": "Btn 1",
+                    "link": 7
+                },
+                {
+                    "type": "button",
+                    "text": "Btn 2",
+                    "link": 7
+                },
+                {
+                    "type": "array",
+                    "orientation": "vertical",
+                    "items": [
+                        {
+                            "type": "button",
+                            "text": "Btn 1",
+                            "link": 7
+                        },
+                        {
+                            "type": "markdown",
+                            "source": "test.md"
+                        }
+                    ]
+                }
+            ]
         }
     }
 },

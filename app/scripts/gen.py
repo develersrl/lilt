@@ -104,6 +104,24 @@ def __gen_button(button_data):
         )
 
 
+def __gen_array(array_data):
+    """Generate an array of elements."""
+    if array_data['orientation'] == 'vertical':
+        container_style = 'flexible'
+    else:
+        container_style = '[flexible, row]'
+
+    content = []
+    for item in array_data['items']:
+        genfun = globals()['__gen_' + item['type']]
+        content.append(genfun(item))
+
+    return '<View style={{{}}}>\n{}\n</View>'.format(
+        container_style,
+        '\n'.join(content)
+        )
+
+
 def __gen_page(page_data):
     """Generate a page component."""
     global __templates_dir, __target_pages_dir, __j2_env

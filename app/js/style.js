@@ -33,6 +33,9 @@ const common = StyleSheet.create({
   flexible: {
     flex: 1,
   },
+  row: {
+    flexDirection: 'row',
+  },
 });
 
 
