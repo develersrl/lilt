@@ -89,6 +89,13 @@ const blocks = {
       marginBottom: 10,
     },
   }),
+  image: {
+    borderWidth: 1,
+    borderColor: '#0000FF',
+    resizeMode: 'contain',
+    height: 100,
+    width: 150,
+  },
 };
 
 

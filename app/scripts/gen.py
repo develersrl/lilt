@@ -84,10 +84,10 @@ def __gen_markdown(markdown_data):
     # If you want explanations about contentInset etc.. see here:
     # https://github.com/facebook/react-native/issues/2052
     return (
-        '<ScrollView style={{markdown.container}}' +
+        '<ScrollView style={{markdown.container}} ' +
         'contentInset={{{{top:0}}}} ' +
         'automaticallyAdjustContentInsets={{false}} ' +
-        '>{}</ScrollView>').format(
+        '>\n{}\n</ScrollView>').format(
         __md_renderer(markdown_code)
         )
 
