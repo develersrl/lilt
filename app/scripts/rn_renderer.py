@@ -97,12 +97,17 @@ class RNRenderer(mistune.Renderer):
             self.__image_counter += 1
 
             # download image from url and save it to target image file
-            target_image_fn = os.path.join(self.__images_dir, image_basename)
+            target_image_fn = os.path.join(
+                self.__images_dir,
+                'downloaded',
+                image_basename
+                )
+
             with open(target_image_fn, 'wb') as f:
                 f.write(requests.get(src).content)
         else:
             # in case of local image..
-            target_image_fn = os.path.join(self.__images_dir, src)
+            target_image_fn = os.path.join(self.__images_dir, 'static', src)
 
         # compute the react-native require statement to use the local image
         source_value = 'require("{}")'.format(target_image_fn)

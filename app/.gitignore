@@ -45,3 +45,4 @@ js/markdown/
 js/pages/
 js/navigation/navigator_data.js
 *.pyc
+content/images/downloaded/
