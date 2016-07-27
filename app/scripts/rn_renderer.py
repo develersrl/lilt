@@ -55,7 +55,6 @@ class RNRenderer(mistune.Renderer):
         # the image using the following counter as suffix
         self.__image_counter = 1
 
-
     def header(self, text, level, raw=None):
         """Render header/heading tags like ``<h1>`` ``<h2>``.
 
@@ -67,7 +66,15 @@ class RNRenderer(mistune.Renderer):
 
     def paragraph(self, text):
         """Render a text paragraph."""
-        return '<View style={{markdown.paragraph}}>\n{}\n</View>'.format(text)
+        # We enclose everything inside a View component to apply paragraph
+        # margins (see markdown.paragraph style). The paragraph body is
+        # enclosed in a Text, too. In this wary we can emphasize wingle words
+        # on the same line (see http://stackoverflow.com/questions/35718143)
+        return """
+            <View style={{markdown.paragraph}}>
+                <Text>\n{}\n</Text>
+            </View>
+            """.format(text)
 
     def image(self, src, title, text):
         """Rendering a image with title and text.
@@ -131,3 +138,11 @@ class RNRenderer(mistune.Renderer):
         :param text: text content.
         """
         return '<Text>{}</Text>'.format(txt)
+
+    def emphasis(self, text):
+        """Generate emphasized (italic) text from markdown."""
+        return '<Text style={{{{fontStyle: "italic"}}}}>{}</Text>'.format(text)
+
+    def double_emphasis(self, text):
+        """Generate double-emphasized (bold) text from markdown."""
+        return '<Text style={{{{fontWeight: "bold"}}}}>{}</Text>'.format(text)
