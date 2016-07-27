@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import mistune
+import requests
 
 
 class Wrapper(object):
@@ -11,13 +13,13 @@ class Wrapper(object):
     do not know which renderer method to override.
     In this case you can build mistune renderer this way:
 
-        renderer = mistune.Markdown(renderer=Wrapper(RNRenderer))
+        renderer = mistune.Markdown(renderer=Wrapper(RNRenderer()))
         renderer(<markdown-code-here>)
 
     Called methods will be printed on stdout.
     """
     def __init__(self, wrapped_class):
-        self.wrapped_class = wrapped_class()
+        self.wrapped_class = wrapped_class
 
     def __getattr__(self, attr):
         orig_attr = self.wrapped_class.__getattribute__(attr)
@@ -43,6 +45,16 @@ class RNRenderer(mistune.Renderer):
     Methods documentation taken from mistune default html renderer:
     https://github.com/lepture/mistune/blob/master/mistune.py
     """
+
+    def __init__(self, **kwargs):
+        super(RNRenderer, self).__init__(**kwargs)
+        # all images will be downloaded-in/fetched-from a particular directory
+        self.__images_dir = kwargs.get('images_dir', '')
+
+        # if a markdown image refers to an external url, then we download
+        # the image using the following counter as suffix
+        self.__image_counter = 1
+
 
     def header(self, text, level, raw=None):
         """Render header/heading tags like ``<h1>`` ``<h2>``.
@@ -70,14 +82,30 @@ class RNRenderer(mistune.Renderer):
         if src == '':
             return ''
 
+        # this variable will hold the complete path to the local image file
+        target_image_fn = ''
+
         if src.startswith('http://') or src.startswith('https://'):
-            source_value = '{{uri: "{}"}}'.format(src)
+            # if image source is an external url we download the image and
+            # save it to the images folder
+            print '\t\tdownloading image: {}..'.format(src)
+
+            # compute the target image file basename (e.g. image_002.png)
+            image_basename = 'image_{}.png'.format(
+                str(self.__image_counter).zfill(3)
+                )
+            self.__image_counter += 1
+
+            # download image from url and save it to target image file
+            target_image_fn = os.path.join(self.__images_dir, image_basename)
+            with open(target_image_fn, 'wb') as f:
+                f.write(requests.get(src).content)
         else:
-            # If the image is "local" we require it from a fixed location.
-            # Since the markdown is part of an application page, we know the
-            # relative path of that fixed location from "pages" folder.
-            # TODO: (2) [Renderer] pass img directory in renderer constructor.
-            source_value = 'require("../../content/images/{}")'.format(src)
+            # in case of local image..
+            target_image_fn = os.path.join(self.__images_dir, src)
+
+        # compute the react-native require statement to use the local image
+        source_value = 'require("{}")'.format(target_image_fn)
 
         # NOTE: (0) Image size from markdown is not currently supported.
         # But it should be, otherwise there is no easy way to generate a

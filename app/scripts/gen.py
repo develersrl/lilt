@@ -37,11 +37,19 @@ def __init():
     # initialize Jinja environment to work on "templates" directory
     __j2_env = Environment(loader=FileSystemLoader(__templates_dir))
 
+    # Images used by the application are collected inside "images" folder
+    # under "content" folder.
+    images_dir = os.path.join(__content_dir, 'images')
+    if not os.path.isdir(images_dir):
+        os.makedirs(images_dir)
+
     # initialize markdown-to-react-native renderer
+    rn_renderer = RNRenderer(images_dir=images_dir)
+
     # Use the Wrapper class if you want to see which renderer function are
     # called (e.g. when adding the support for new markdown tokens).
-    # __md_renderer = mistune.Markdown(renderer=Wrapper(RNRenderer))
-    __md_renderer = mistune.Markdown(renderer=RNRenderer())
+    # __md_renderer = mistune.Markdown(renderer=Wrapper(rn_renderer))
+    __md_renderer = mistune.Markdown(renderer=rn_renderer)
 
     # create the target "pages" directory if it does not exist
     if not os.path.exists(__target_pages_dir):
