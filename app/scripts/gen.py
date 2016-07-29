@@ -106,7 +106,7 @@ def __gen_markdown(markdown_data):
 
 def __gen_button(button_data):
     """Generate a button block inside a page."""
-    pressImpl = "this.props.navigator.push(this.props.getRoute({}))".format(
+    pressImpl = 'this.props.navigator.push(this.props.getRoute("{}"))'.format(
         button_data["link"]
         )
 
@@ -207,15 +207,15 @@ def __gen_navigation():
     for page_data in pages_data:
         # store initial route id for later use
         if page_data.get('start_page', False):
-            initial_route_id = page_data["id"]
+            initial_route_id = "'#{}'".format(page_data["id"])
 
         # compute navigation component (e.g. "pages.Glossary")
         comp_class = __get_page_component_classname_from_page_data(page_data)
         comp_class = 'pages.generated.{}'.format(comp_class)
 
         # store route code
-        routes_list.append("{}: {{ title: '{}', component: {} }}".format(
-            page_data['id'],
+        routes_list.append("'{}': {{ title: '{}', component: {} }}".format(
+            '#{}'.format(page_data['id']),
             page_data.get('title', ''),
             comp_class
             ))
