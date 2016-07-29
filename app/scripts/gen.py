@@ -212,7 +212,7 @@ def __gen_navigation():
             ))
 
     # assemble routes data
-    routes_code = 'const routes = {{\n  {},\n}};'.format(
+    routes_code = 'const generatedRoutes = {{\n  {},\n}};'.format(
         ',\n  '.join(routes_list)
         )
 

@@ -9,6 +9,17 @@ import * as pages from '../pages';
 {{generatedRoutes}}
 // -----------------------------------------------------------------------------
 
+
+/* eslint-disable quote-props */
+const customRoutes = {
+  'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
+};
+/* eslint-enable quote-props */
+
+// application routes is the union of generated routes and custom routes
+const routes = { ...generatedRoutes, ... customRoutes };
+
+// the start route key
 const initialRouteId = "#9";
 
 /*

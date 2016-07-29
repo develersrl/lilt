@@ -33,8 +33,8 @@
                     "items": [
                         {
                             "type": "button",
-                            "text": "Btn 1",
-                            "link": "#7"
+                            "text": "Custom Test",
+                            "link": "test"
                         },
                         {
                             "type": "markdown",
