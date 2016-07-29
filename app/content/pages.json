@@ -45,5 +45,17 @@
             ]
         }
     }
+},
+{
+    "id": "7",
+    "style": "test2",
+    "title": "Full Button",
+    "content": {
+        "centralButton": {
+            "type": "button",
+            "text": "Press Me!",
+            "link": "#9"
+        }
+    }
 }
 ]
