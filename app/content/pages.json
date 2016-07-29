@@ -2,7 +2,6 @@
 {
     "id": "9",
     "style": "test",
-    "start_page": true,
     "title": "My Start Page",
     "content": {
         "testButton": {

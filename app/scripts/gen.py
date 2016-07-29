@@ -74,10 +74,6 @@ def __get_page_component_filename_from_page_data(page_data):
 
 def __get_page_component_classname_from_page_data(page_data):
     """Return a generated page component classname from json page data."""
-
-    if page_data.get("start_page", False):
-        return "StartPage"
-
     return "{}{}".format(
         page_data["style"].capitalize(),
         str(page_data["id"]).zfill(2)
@@ -202,13 +198,8 @@ def __gen_navigation():
         pages_data = json.load(f)
 
     # iterate over json pages and build react-native navigation routes
-    initial_route_id = -1
     routes_list = []
     for page_data in pages_data:
-        # store initial route id for later use
-        if page_data.get('start_page', False):
-            initial_route_id = "'#{}'".format(page_data["id"])
-
         # compute navigation component (e.g. "pages.Glossary")
         comp_class = __get_page_component_classname_from_page_data(page_data)
         comp_class = 'pages.generated.{}'.format(comp_class)
@@ -222,20 +213,12 @@ def __gen_navigation():
 
     # assemble routes data
     routes_code = 'const routes = {{\n  {},\n}};'.format(
-        ',\n  '.join(routes_list))
-
-    # stop generation if initial route is not found
-    if initial_route_id < 0:
-        print 'Initial route not found!'
-        return False
-
-    # generate initial route code
-    initial_route_code = 'const initialRouteId = {};'.format(initial_route_id)
+        ',\n  '.join(routes_list)
+        )
 
     # compute jinja template replacements
     replacements = {
-        "routes": routes_code,
-        "initialRouteId": initial_route_code
+        "generatedRoutes": routes_code
     }
 
     # generate navigator_data.js file

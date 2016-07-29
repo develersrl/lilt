@@ -6,10 +6,10 @@ import * as pages from '../pages';
 /*
     Warning: this code section is generated.
  */
-{{routes}}
-
-{{initialRouteId}}
+{{generatedRoutes}}
 // -----------------------------------------------------------------------------
+
+const initialRouteId = "#9";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in
