@@ -7,7 +7,7 @@
         "testButton": {
             "type": "button",
             "text": "Generated Text",
-            "link": "#7"
+            "link": "glossary"
         },
         "testMarkdown": {
             "type": "markdown",
@@ -20,7 +20,7 @@
                 {
                     "type": "button",
                     "text": "Btn 1",
-                    "link": "#7"
+                    "link": "glossary"
                 },
                 {
                     "type": "button",
@@ -45,10 +45,5 @@
             ]
         }
     }
-},
-{
-    "id": "7",
-    "title": "Glossary",
-    "style": "glossary"
 }
 ]

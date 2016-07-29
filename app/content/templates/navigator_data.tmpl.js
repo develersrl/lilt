@@ -13,6 +13,7 @@ import * as pages from '../pages';
 /* eslint-disable quote-props */
 const customRoutes = {
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
+  'glossary': { title: 'Glossary', component: pages.custom.Glossary },
 };
 /* eslint-enable quote-props */
 
