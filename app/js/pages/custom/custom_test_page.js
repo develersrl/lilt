@@ -1,18 +1,35 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, ActionSheetIOS } from 'react-native';
 
 import { common } from '../../style';
+import { Button } from '../../blocks';
 
 
-export default class StaticTestPage extends Component {
+export default class CustomTestPage extends Component {
+  testShareSheet() {
+    ActionSheetIOS.showShareActionSheetWithOptions({
+      message: 'message to go with the shared url',
+      subject: 'a subject to go in the email heading',
+    },
+    (error) => console.log(error),
+    (success, method) => {
+      if (success) {
+        console.log(`Shared via ${method}`);
+      }
+      else {
+        console.log('You didn\'t share');
+      }
+    });
+  }
+
   render() {
-    const { flexible, centeredChildren } = common;
+    const { flexible } = common;
 
     return (
-      <View style={[flexible, centeredChildren]}>
-        <Text>Hello Static Test Page!</Text>
+      <View style={[flexible]}>
+        <Button text="Open Sharesheet" onPress={this.testShareSheet} />
       </View>
       );
   }

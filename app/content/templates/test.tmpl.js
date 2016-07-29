@@ -1,32 +1,13 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, ScrollView, Image, ActionSheetIOS } from 'react-native';
+import { View, Text, ScrollView, Image } from 'react-native';
 
 import * as style from '../../style';
 import * as blocks from '../../blocks';
 
 
 export default class Test extends Component {
-  /*
-  testShare() {
-    console.log('sharing');
-    ActionSheetIOS.showShareActionSheetWithOptions({
-      message: 'message to go with the shared url',
-      subject: 'a subject to go in the email heading',
-    },
-    (error) => console.log(error),
-    (success, method) => {
-      if (success) {
-        console.log(`Shared via ${method}`);
-      }
-      else {
-        console.log('You didn\'t share');
-      }
-    });
-  }
-  */
-
   render() {
     const { flexible, centeredChildren, stretch, row } = style.common;
     const { markdown, image } = style.blocks;
