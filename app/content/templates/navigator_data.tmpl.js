@@ -6,10 +6,22 @@ import * as pages from '../pages';
 /*
     Warning: this code section is generated.
  */
-{{routes}}
-
-{{initialRouteId}}
+{{generatedRoutes}}
 // -----------------------------------------------------------------------------
+
+
+/* eslint-disable quote-props */
+const customRoutes = {
+  'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
+  'glossary': { title: 'Glossary', component: pages.custom.Glossary },
+};
+/* eslint-enable quote-props */
+
+// application routes is the union of generated routes and custom routes
+const routes = { ...generatedRoutes, ... customRoutes };
+
+// the start route key
+const initialRouteId = "#9";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in

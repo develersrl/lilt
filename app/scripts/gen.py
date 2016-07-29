@@ -31,7 +31,7 @@ def __init():
     __pages_json_fn = os.path.join(__content_dir, 'pages.json')
     __templates_dir = os.path.join(__content_dir, 'templates')
     __markdown_dir = os.path.join(__content_dir, 'markdown')
-    __target_pages_dir = os.path.join(app_dir, 'js', 'pages')
+    __target_pages_dir = os.path.join(app_dir, 'js', 'pages', 'generated')
     __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
 
     # initialize Jinja environment to work on "templates" directory
@@ -74,10 +74,6 @@ def __get_page_component_filename_from_page_data(page_data):
 
 def __get_page_component_classname_from_page_data(page_data):
     """Return a generated page component classname from json page data."""
-
-    if page_data.get("start_page", False):
-        return "StartPage"
-
     return "{}{}".format(
         page_data["style"].capitalize(),
         str(page_data["id"]).zfill(2)
@@ -106,7 +102,7 @@ def __gen_markdown(markdown_data):
 
 def __gen_button(button_data):
     """Generate a button block inside a page."""
-    pressImpl = "this.props.navigator.push(this.props.getRoute({}))".format(
+    pressImpl = 'this.props.navigator.push(this.props.getRoute("{}"))'.format(
         button_data["link"]
         )
 
@@ -202,40 +198,27 @@ def __gen_navigation():
         pages_data = json.load(f)
 
     # iterate over json pages and build react-native navigation routes
-    initial_route_id = -1
     routes_list = []
     for page_data in pages_data:
-        # store initial route id for later use
-        if page_data.get('start_page', False):
-            initial_route_id = page_data["id"]
-
         # compute navigation component (e.g. "pages.Glossary")
         comp_class = __get_page_component_classname_from_page_data(page_data)
-        comp_class = 'pages.{}'.format(comp_class)
+        comp_class = 'pages.generated.{}'.format(comp_class)
 
         # store route code
-        routes_list.append("{}: {{ title: '{}', component: {} }}".format(
-            page_data['id'],
+        routes_list.append("'{}': {{ title: '{}', component: {} }}".format(
+            '#{}'.format(page_data['id']),
             page_data.get('title', ''),
             comp_class
             ))
 
     # assemble routes data
-    routes_code = 'const routes = {{\n  {},\n}};'.format(
-        ',\n  '.join(routes_list))
-
-    # stop generation if initial route is not found
-    if initial_route_id < 0:
-        print 'Initial route not found!'
-        return False
-
-    # generate initial route code
-    initial_route_code = 'const initialRouteId = {};'.format(initial_route_id)
+    routes_code = 'const generatedRoutes = {{\n  {},\n}};'.format(
+        ',\n  '.join(routes_list)
+        )
 
     # compute jinja template replacements
     replacements = {
-        "routes": routes_code,
-        "initialRouteId": initial_route_code
+        "generatedRoutes": routes_code
     }
 
     # generate navigator_data.js file

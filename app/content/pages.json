@@ -1,14 +1,13 @@
 [
-    {
-    "id": 9,
+{
+    "id": "9",
     "style": "test",
-    "start_page": true,
     "title": "My Start Page",
     "content": {
         "testButton": {
             "type": "button",
             "text": "Generated Text",
-            "link": 7
+            "link": "glossary"
         },
         "testMarkdown": {
             "type": "markdown",
@@ -21,12 +20,12 @@
                 {
                     "type": "button",
                     "text": "Btn 1",
-                    "link": 7
+                    "link": "glossary"
                 },
                 {
                     "type": "button",
                     "text": "Btn 2",
-                    "link": 7
+                    "link": "#7"
                 },
                 {
                     "type": "array",
@@ -34,8 +33,8 @@
                     "items": [
                         {
                             "type": "button",
-                            "text": "Btn 1",
-                            "link": 7
+                            "text": "Custom Test",
+                            "link": "test"
                         },
                         {
                             "type": "markdown",
@@ -48,8 +47,15 @@
     }
 },
 {
-    "id": 7,
-    "title": "Glossary",
-    "style": "glossary"
+    "id": "7",
+    "style": "test2",
+    "title": "Full Button",
+    "content": {
+        "centralButton": {
+            "type": "button",
+            "text": "Press Me!",
+            "link": "#9"
+        }
+    }
 }
 ]
