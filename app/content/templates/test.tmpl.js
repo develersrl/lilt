@@ -3,8 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView, Image, ActionSheetIOS } from 'react-native';
 
-import * as style from '../style';
-import * as blocks from '../blocks';
+import * as style from '../../style';
+import * as blocks from '../../blocks';
 
 
 export default class Test extends Component {

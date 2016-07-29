@@ -7,7 +7,7 @@ import { View } from 'react-native';
 import SearchBar from 'react-native-search-bar';
 import TableView from 'react-native-tableview';
 
-import * as style from '../style';
+import * as style from '../../style';
 
 
 export default class Glossary extends Component {

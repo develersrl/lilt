@@ -31,7 +31,7 @@ def __init():
     __pages_json_fn = os.path.join(__content_dir, 'pages.json')
     __templates_dir = os.path.join(__content_dir, 'templates')
     __markdown_dir = os.path.join(__content_dir, 'markdown')
-    __target_pages_dir = os.path.join(app_dir, 'js', 'pages')
+    __target_pages_dir = os.path.join(app_dir, 'js', 'pages', 'generated')
     __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
 
     # initialize Jinja environment to work on "templates" directory
@@ -211,7 +211,7 @@ def __gen_navigation():
 
         # compute navigation component (e.g. "pages.Glossary")
         comp_class = __get_page_component_classname_from_page_data(page_data)
-        comp_class = 'pages.{}'.format(comp_class)
+        comp_class = 'pages.generated.{}'.format(comp_class)
 
         # store route code
         routes_list.append("{}: {{ title: '{}', component: {} }}".format(

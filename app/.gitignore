@@ -42,7 +42,7 @@ android/keystores/debug.keystore
 
 # custom
 js/markdown/
-js/pages/
+js/pages/generated/
 js/navigation/navigator_data.js
 *.pyc
 content/images/downloaded/
