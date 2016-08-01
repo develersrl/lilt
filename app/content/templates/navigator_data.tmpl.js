@@ -12,6 +12,7 @@ import * as pages from '../pages';
 
 /* eslint-disable quote-props */
 const customRoutes = {
+  'home': { title: 'LILT App', component: pages.custom.Home },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
 };
@@ -21,7 +22,7 @@ const customRoutes = {
 const routes = { ...generatedRoutes, ... customRoutes };
 
 // the start route key
-const initialRouteId = "#9";
+const initialRouteId = "home";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in
