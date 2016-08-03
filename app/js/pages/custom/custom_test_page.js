@@ -5,8 +5,10 @@ import { View, ActionSheetIOS } from 'react-native';
 
 import { common } from '../../style';
 import { Button } from '../../blocks';
+import { api as stateApi } from '../../state';
 
 
+/* eslint-disable no-console */
 export default class CustomTestPage extends Component {
   testShareSheet() {
     ActionSheetIOS.showShareActionSheetWithOptions({
@@ -24,13 +26,16 @@ export default class CustomTestPage extends Component {
     });
   }
 
+
   render() {
     const { flexible } = common;
 
     return (
       <View style={[flexible]}>
         <Button text="Open Sharesheet" onPress={this.testShareSheet} />
+        <Button text="Test Services" onPress={stateApi.test} />
       </View>
       );
   }
 }
+/* eslint-enable no-console */

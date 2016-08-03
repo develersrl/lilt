@@ -1,6 +1,7 @@
 'use strict';
 
 import { init as mpInit, test as mpTest } from './mixpanel';
+import { test as usersTest } from './users';
 
 
 /* ---------------- state definition ---------------------------------------- */
@@ -16,18 +17,21 @@ const state = { ...initialState };
 // initialize application state
 const init = () => {
   if (!state.initialized) {
-
-    // initialize and test Mixpanel
-    mpInit();
-    mpTest();
-
+    mpInit();  // initialize mixpanel
     state.initialized = true;
   }
 };
 
 
+const test = () => {
+  mpTest();
+  usersTest();
+};
+
+
 const api = {
   init,
+  test,
 };
 /* -------------------------------------------------------------------------- */
 

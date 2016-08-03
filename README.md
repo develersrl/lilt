@@ -17,6 +17,7 @@ Lilt Breast App Repo.
 
 * [Markdown Supported Syntax](#markdown-supported-syntax)
 
+* [Users Spreadsheet](#users-spreadsheet)
 
 ## [Mac Dev Environment Setup](#index)
 
@@ -247,3 +248,32 @@ The markdown syntax that is currently supported is a subset of gfm (Github Flavo
   In case of local images the markdown renderer "requires" (in react-native sense) that image from the `app/content/images/static` folder;
   * "remote" image example: `![remote-image](http://www.mysite.com/img.png)`
   In case of "remote" image, the markdown renderer downloads the image and put it into the `app/content/images/downloaded` directory. Once the download is finished, the renderer "requires" the downloaded image from the `downloaded` folder.
+
+
+## [Users Spreadsheet](#index)
+
+The mobile app sends registered users data to a Google Spreadsheet, available at this link (only to collaborators):
+
+https://docs.google.com/a/develer.com/spreadsheets/d/1nAjN9vGYAPilzWVlCfcxcUG_ux_bbJgHeSdrbATWQ4M/edit?usp=sharing
+
+The spreadsheet is accessed through a Google Apps Script, that exposes a POST endpoint to the mobile app.
+The Google Apps Script can be found in `users-backend` directory.
+
+A development version of the webapp exposed by the script is available at this address:
+
+https://script.google.com/macros/s/AKfycbx6BxoBZuWC9CkQvkfnythFSp2nIIi3TGezCLM0K058l_h_BQQ/exec
+
+If you want to deploy the webapp elsewhere in order to use another spreadsheet, follow these steps:
+
+* create the Google Spreadsheet and identify its "spreadsheet id".
+  The spreadsheet id is part of the spreadsheet url:
+  `https://docs.google.com/spreadsheets/d/<spreadsheet-id>/edit#gid=0`
+* annotate the name of the sheet where you want to store users data (this will be referred as `sheet-id`);
+* create a new Google Apps Script project, then copy and paste the code from `users_manager.gs` into an empty `gs` file;
+* In the "Main Variables" section fill the `spreadsheetId` variable with the spreadsheet id and the `usersSheetName` variable with `sheet-id`;
+* deploy the script as a webapp:
+  * Menu "Pubblica -> Distribuisci come applicazione web.."
+  * in "Versione del progetto" selezionare "Nuovo"
+  * "Esegui l'applicazione come": selezionare "Io" o comunque un account che ha i diritti necessari in lettura/scrittura sullo spreadsheet;
+  * In "Chi accede all'applicazione" selezionare "Chiunque, inclusi utenti anonimi";
+  * premere "Implementa" ed accettare eventuali richieste di autorizzazioni.

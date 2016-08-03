@@ -2,6 +2,7 @@
 
 import Mixpanel from 'react-native-mixpanel';
 
+import { enableApi } from '../misc';
 import config from './config';
 
 
@@ -9,13 +10,13 @@ import config from './config';
 const init = () => {
   // initialize mixpanel with project token
   console.log('initializing mixpanel');
-  Mixpanel.sharedInstanceWithToken('41130295cdda0093d7540ae45a7388f6');
+  Mixpanel.sharedInstanceWithToken(config.mixpanel.token);
 };
 
 
 // disable eslint quote-props because of Mixpanel usage of quoted properties
 // like "$email"
-/* eslint-disable quote-props */
+/* eslint-disable quote-props, no-console*/
 const test = () => {
   console.log('testing mixpanel');
 
@@ -43,28 +44,14 @@ const test = () => {
   // "track"-related methods are used to track events
   Mixpanel.trackWithProperties(
     'Test Track',
-    { prop1: 'hello', prop2: 'world'},
+    { prop1: 'hello', prop2: 'world' },
     );
 };
-/* eslint-enable quote-props */
+/* eslint-enable quote-props, no-console */
 
 
-// build the exported api based on mixpanel config flag
-let api = {
+const api = {
   init, test,
 };
 
-if (!config.mixpanel) {
-  const emptyApi = {};
-
-  for (const k of Object.keys(api)) {
-    emptyApi[k] = (...args) => {
-      args;
-    };
-  }
-
-  api = emptyApi;
-}
-
-
-module.exports = api;
+module.exports = enableApi(api, config.mixpanel.enabled);

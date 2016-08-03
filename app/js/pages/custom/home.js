@@ -19,10 +19,13 @@ export default class Home extends Component {
 
     return (
       <View style={[flexible, centeredChildren]}>
-        <View>
+        <View style={centeredChildren}>
           <Text style={{marginBottom: 10}}>Hello Home!</Text>
-          <Button text="Press Me!"
+          <Button text="Go to Generated Page"
                   onPress={() => navigator.push(getRoute('#9'))} />
+          <View style={{height: 10}} />
+          <Button text="Go to Test Page"
+                  onPress={() => navigator.push(getRoute('test'))} />
         </View>
       </View>
       );
