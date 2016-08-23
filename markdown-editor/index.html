@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>LILT App Content Editor</title>
+
+    <!-- stylesheets -->
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap-treeview/dist/bootstrap-treeview.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- scripts -->
+    <script>
+      // http://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined
+      if (typeof module === 'object') {
+        window.module = module;
+        module = undefined;  // eslint-disable-line no-native-reassign
+      }
+    </script>
+
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./node_modules/bootstrap-treeview/dist/bootstrap-treeview.min.js"></script>
+    <script src="./ckeditor/ckeditor.js"></script>
+    <script src="index.js"></script>
+
+    <script>
+      // http://stackoverflow.com/questions/32621988/electron-jquery-is-not-defined
+      if (window.module) module = window.module;  // eslint-disable-line no-native-reassign
+    </script>
+  </head>
+  <body>
+    <div class="viewport flexible">
+      <div id="tree" class="tree"></div>
+      <div class="editor-column">
+          <div id="overlay" class="overlay" style="visibility:hidden">
+            Loading..
+          </div>
+          <div id="editor-div" class="editor">
+            <textarea name="editor1" id="editor1" rows="10"></textarea>
+            <script>
+              ckeditorInit();  // eslint-disable-line no-undef
+            </script>
+          </div>
+          <div id="below-editor">
+            <button id="savebtn" type="button" class="btn btn-primary">Save</button>
+          </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="confirmModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <p>Do you want to save the current changes?</p>
+          </div>
+          <div class="modal-footer modal-buttons">
+            <button id="save-yes" type="button" class="btn btn-default" data-dismiss="modal">Yes</button>
+            <button id="save-no" type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

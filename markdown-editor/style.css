@@ -1,0 +1,60 @@
+
+html, body, .viewport { width: 100%; height: 100%; margin: 0; }
+.debug { border: 1px solid red; }
+.debug2 { border: 1px solid green; }
+.flexible { display: flex; flex-direction: row; }
+
+.tree {
+    width: 250px;
+    overflow: auto;
+}
+
+.editor-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.editor {
+    position: relative;
+    display: flex;
+    flex: 1;
+    border: 1px solid #CCCCCC;
+}
+
+#cke_1_contents {
+    position: absolute;
+    left: 0px;
+    top: 42px;
+    right: 0px;
+    bottom: 0px;
+    height: auto !important;
+}
+
+.overlay {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  padding: 30px;
+  z-index: 1000;
+  background-color: #FFFFFF;
+}
+
+#below-editor {
+    display: flex;
+    justify-content: center;
+}
+
+#savebtn {
+    width: 100%;
+    border-radius: 0;
+    font-size: 16pt;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+}
