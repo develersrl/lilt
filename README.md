@@ -19,6 +19,8 @@ Lilt Breast App Repo.
 
 * [Users Spreadsheet](#users-spreadsheet)
 
+* [App Content Editor](#app-content-editor)
+
 ## [Mac Dev Environment Setup](#index)
 
 The following guide assumes that `node` and `npm` commands are available in the system, and Xcode is installed.
@@ -277,3 +279,40 @@ If you want to deploy the webapp elsewhere in order to use another spreadsheet, 
   * "Esegui l'applicazione come": selezionare "Io" o comunque un account che ha i diritti necessari in lettura/scrittura sullo spreadsheet;
   * In "Chi accede all'applicazione" selezionare "Chiunque, inclusi utenti anonimi";
   * premere "Implementa" ed accettare eventuali richieste di autorizzazioni.
+
+
+## [App Content Editor](#index)
+
+The repository contains a simple markdown editor based on [electron](http://electron.atom.io/) inside the `markdown-editor` folder.
+
+To launch the editor from scratch:
+
+```bash
+cd markdown-editor
+npm install
+npm start
+```
+
+Next time you will use the `npm start` command only.
+
+The markdown editor allows you to edit `md` documents inside a folder.
+By default, the `./markdown` folder is used (relative to the app directory), but you can pass another folder via command-line (if you take a look at the `package.json` file you will see that `npm start` executes the editor passing the `./testdir` directory).
+
+Optionally you can show the developer tools specifying the `LILT_EDITOR_SHOW_DEVTOOLS` environment variable, and setting its value to 1.
+
+To deploy a new editor version from a Mac, make sure you have `electron-packager` installed globally:
+
+```bash
+npm install -g electron-packager
+```
+
+The `wine` command must be available too, because we are going to generate a Windows executable.
+
+At this point:
+
+* adjust the editor version in `package.json` file
+* run the `deploy.sh` script
+
+The `deploy.sh` script packages the app for mac (x64) and Windows platform.
+If everything goes well an `out` folder containing two zip files (one per platform) will be created.
+You can now git-tag the new version and upload the new release on github.

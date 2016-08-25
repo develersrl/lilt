@@ -1,8 +1,11 @@
 const fs = require('fs');
-const marked = require('./ckeditor/plugins/markdown/js/marked');
-
+const marked = require('marked');
+const remote = require('electron').remote;
 
 /* ---------------- state --------------------------------------------------- */
+// default markdown directory
+const defaultMarkdownDir = './markdown';
+
 // when the overlay text is specified the editor is hidden
 let overlayText = 'Please select a document.';
 
@@ -35,13 +38,45 @@ let tree = null;
 // timer id for same tree node reselection upon multiple clicks
 let reselectTimerId = -1;
 
+// remote process variable
+const remoteProcess = remote.getGlobal('sharedArgs').proc;
+
 // shortcut method to obtain the ckeditor instance
 const editor = () => CKEDITOR.instances.editor1;
+
+// app environment detection (https://github.com/electron/electron/pull/5421)
+const isProdEnvironment = () => (remoteProcess.defaultApp === undefined);
+
+
+// return the markdown directory
+const getMarkdownDir = () => {
+  // obtain command line arguments
+  const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
+
+  if (args.length === 0) {
+    if (args.length > 1)
+      console.error('wrong arguments');  // eslint-disable-line no-console
+    return defaultMarkdownDir;
+  }
+
+  // we expect the markdown dir as the only parameter
+  return args[0];
+};
+
 
 // walk through a directory tree and return a JS object that will be used to
 // initialize the treeview sidebar
 const walk = (dir) => {
   const tree = [];
+
+  try {
+    fs.statSync(dir).isDirectory();
+  }
+  catch (err) {
+    overlayText = 'Cannot find markdown directory';
+    return tree;
+  }
+
   fs.readdirSync(dir).forEach((f) => {
     const path = dir + '/' + f;
     if (fs.statSync(path).isDirectory())
@@ -194,7 +229,7 @@ $(document).ready(() => {
     color: "#428BCA",
     expandIcon: 'glyphicon glyphicon-folder-close',
     collapseIcon: 'glyphicon glyphicon-folder-open',
-    data: walk('./testdir'),
+    data: walk(getMarkdownDir()),
     onNodeSelected,
     onNodeUnselected,
     onNodeCollapsed: update,
