@@ -96,6 +96,49 @@ const blocks = {
     height: 100,
     width: 150,
   },
+  linkListItem: {
+    container: {
+      height: 150,
+    },
+    body: {
+      flex: 1,
+      paddingTop: 20,
+      paddingBottom: 20,
+    },
+    separator: {
+      borderTopWidth: 1,
+      borderTopColor: '#D0D0D0',
+      backgroundColor: '#A0A0A0',
+      borderBottomWidth: 1,
+      borderBottomColor: '#D0D0D0',
+      height: 3,
+    },
+    row: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingLeft: 50,
+    },
+    captionRow: {
+      paddingLeft: 55,
+    },
+    title: {
+      color: '#EB8478',
+      fontWeight: 'bold',
+      fontSize: 20,
+    },
+    caption: {
+      color: '#7B7A7A',
+      fontWeight: '600',
+      fontSize: 18,
+    },
+    linkView: {
+      alignSelf: 'stretch',
+      width: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  },
 };
 
 

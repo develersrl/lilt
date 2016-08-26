@@ -4,10 +4,12 @@ import * as pages from '../pages';
 
 // -----------------------------------------------------------------------------
 /*
-    Warning: this code section is generated.
+    Warning: this file is generated. If you need to change it please edit
+    navigator_data.tmpl.js inside content/templates folder.
  */
-{{generatedRoutes}}
 // -----------------------------------------------------------------------------
+
+{{generatedRoutes}}
 
 
 /* eslint-disable quote-props */
@@ -15,6 +17,7 @@ const customRoutes = {
   'home': { title: 'LILT App', component: pages.custom.Home },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
+  'link-list': { title: 'Link List', component: pages.custom.LinkList },
 };
 /* eslint-enable quote-props */
 

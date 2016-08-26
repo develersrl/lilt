@@ -2,5 +2,6 @@
 'use strict';
 
 import Button from './button';
+import LinkListItem from './link_list_item';
 
-module.exports = { Button };
+module.exports = { Button, LinkListItem };

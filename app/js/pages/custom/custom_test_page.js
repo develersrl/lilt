@@ -29,9 +29,12 @@ export default class CustomTestPage extends Component {
 
   render() {
     const { flexible } = common;
+    const { navigator, getRoute } = this.props;
 
     return (
       <View style={[flexible]}>
+        <Button text="Open Link List"
+                onPress={() => navigator.push(getRoute('link-list'))} />
         <Button text="Open Sharesheet" onPress={this.testShareSheet} />
         <Button text="Test Services" onPress={stateApi.test} />
       </View>
