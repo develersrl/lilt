@@ -151,6 +151,42 @@ const pages = {
       marginTop: 44,  // navigation bar height
     },
   },
+  content: {
+    header: {
+      container: {
+        height: 200,
+      },
+      footer: {
+        height: 50,
+        flexDirection: 'row',
+      },
+      separator: {
+        flex: 1,
+        borderTopWidth: 1,
+        borderColor: '#FFFFFF',
+        borderBottomWidth: 1,
+        borderBottomColor: '#FFFFFF',
+      },
+      actionView: {
+        borderWidth: 1,
+        borderColor: '#FFFFFF',
+        width: 70,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      text: {
+        backgroundColor: 'transparent',
+        color: '#FFFFFF',
+      },
+      titleText: {
+        fontWeight: 'bold',
+        fontSize: 20,
+      },
+    },
+    body: {
+      flex: 1,
+    },
+  },
 };
 
 

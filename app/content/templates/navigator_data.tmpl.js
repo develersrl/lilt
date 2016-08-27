@@ -18,6 +18,7 @@ const customRoutes = {
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
   'link-list': { title: 'Link List', component: pages.custom.LinkList },
+  'content': { 'title': 'Content', component: pages.custom.Content },
 };
 /* eslint-enable quote-props */
 

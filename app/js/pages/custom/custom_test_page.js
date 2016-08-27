@@ -35,6 +35,8 @@ export default class CustomTestPage extends Component {
       <View style={[flexible]}>
         <Button text="Open Link List"
                 onPress={() => navigator.push(getRoute('link-list'))} />
+        <Button text="Open Content"
+                onPress={() => navigator.push(getRoute('content'))} />
         <Button text="Open Sharesheet" onPress={this.testShareSheet} />
         <Button text="Test Services" onPress={stateApi.test} />
       </View>
