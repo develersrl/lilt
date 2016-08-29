@@ -53,11 +53,10 @@ const getMarkdownDir = () => {
   // obtain command line arguments
   const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
 
-  if (args.length === 0) {
-    if (args.length > 1)
-      console.error('wrong arguments');  // eslint-disable-line no-console
+  if (args.length === 0)
     return defaultMarkdownDir;
-  }
+  else
+    console.error('wrong arguments');  // eslint-disable-line no-console
 
   // we expect the markdown dir as the only parameter
   return args[0];
