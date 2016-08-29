@@ -76,19 +76,42 @@ const walk = (dir) => {
     return tree;
   }
 
-  fs.readdirSync(dir).forEach((f) => {
-    const path = dir + '/' + f;
-    if (fs.statSync(path).isDirectory())
-      tree.push({ text: f, selectable: false, nodes: walk(path) });
-    else if (f.endsWith('.md'))
-      tree.push({
-        text: f,  // tree node shown text
-        orgText: f,  // original text (e.g. test.md)
-        path,  // full path to markdown document
-        icon: 'glyphicon glyphicon-file'
-      });
-  });
+  const contentDirName = 'Contenuti'
+  const contentDirPath = dir + '/' + contentDirName
+  const glossaryDirName = 'Glossario'
+  const glossaryDirPath = dir + '/' + glossaryDirName
+  // We know we have 2 top level nodes: Contents and Glossary
+  tree.push({
+    text: contentDirName,
+    selectable: false,
+    nodes: getTreeNodes(contentDirPath)
+  })
+
+  tree.push({
+    text: glossaryDirName,
+    selectable: false,
+    nodes: {}
+  })
+
   return tree;
+};
+
+const getTreeNodes = (dir) => {
+  const nodes = [];
+  const pageDirs = fs.readdirSync(dir);
+
+  pageDirs.forEach((pageDir) => {
+    const fullDirPath = dir + '/' + pageDir;
+    const jsonObj = require(fullDirPath + '/page.json');
+    nodes.push({
+      text: jsonObj.title,
+      orgText: jsonObj.title,
+      path: fullDirPath + '/content.md',
+      icon: 'glyphicon glyphicon-file'
+    });
+  });
+
+  return nodes;
 };
 
 // obtain jQuery tree node object by node id
