@@ -107,6 +107,11 @@ const getTreeNodes = (dir) => {
       text: jsonObj.title,
       orgText: jsonObj.title,
       path: fullDirPath + '/content.md',
+      formData: {
+        title: jsonObj.title,
+        headerImage: jsonObj.header_image,
+        sharedText: jsonObj.shared_text
+      },
       icon: 'glyphicon glyphicon-file'
     });
   });
@@ -141,6 +146,13 @@ const loadMarkdown = (fn) => {
     });
 };
 
+// load title, shared text and header image info inside form
+const loadFormData = (formData) => {
+  $('#title').val(formData.title);
+  $('#shared_text').val(formData.sharedText);
+  // TODO find a way to show header image
+};
+
 // save the current editor markdown content to file
 const saveMarkdown = () => {
   if (currentMdFile !== '') {
@@ -173,6 +185,7 @@ const switchDocument = (nodeData) => {
   prevNodeId = selNodeId;
   selNodeId = nodeData.nodeId;
   loadMarkdown(nodeData.path);  // calls the update() method
+  loadFormData(nodeData.formData);
 };
 /* -------------------------------------------------------------------------- */
 

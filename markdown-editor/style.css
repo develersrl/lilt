@@ -9,6 +9,10 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
     overflow: auto;
 }
 
+.form {
+    border: 1px solid #CCCCCC;
+}
+
 .editor-column {
     flex: 1;
     display: flex;
