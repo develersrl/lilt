@@ -41,9 +41,17 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 #content-form input,
 #content-form textarea {
   width: 100%;
+  border: 1px solid #CCCCCC;
 }
 
-#header-image {
+#content-form .nolabel a {
+  width: 100%;
+  min-height: 35px;
+  margin: auto;
+}
+
+#header-image,
+#pdf-input {
     position: absolute;
     z-index: -1;
     width: 0.1px;
@@ -54,12 +62,14 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 
 #header-image-container {
     position: relative;
+    cursor: pointer;
     border: 1px solid #CCCCCC;
+    border-radius: 3px;
     min-height: 35px;
 }
 
 #header-image-container:hover #select-image-overlay {
-    opacity: 0.65;
+    opacity: 1;
 }
 
 #select-image-overlay {
@@ -67,14 +77,10 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
     left: 0;
     right: 0;
     bottom: 0;
+    border-radius: 3px;
     height: 35px;
     background-color: black;
     opacity: 0;
-}
-
-#select-image-overlay p {
-    color: white;
-    margin: auto;
 }
 
 .editor-column {
