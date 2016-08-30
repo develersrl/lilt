@@ -109,8 +109,8 @@ const getTreeNodes = (dir) => {
       path: fullDirPath + '/content.md',
       formData: {
         title: jsonObj.title,
-        headerImage: jsonObj.header_image,
-        sharedText: jsonObj.shared_text
+        headerImage: jsonObj.headerImage,
+        sharedText: jsonObj.sharedText
       },
       icon: 'glyphicon glyphicon-file'
     });
@@ -149,7 +149,7 @@ const loadMarkdown = (fn) => {
 // load title, shared text and header image info inside form
 const loadFormData = (formData) => {
   $('#title').val(formData.title);
-  $('#shared_text').val(formData.sharedText);
+  $('#shared-text').val(formData.sharedText);
   // TODO find a way to show header image
 };
 
@@ -277,8 +277,8 @@ $(document).ready(() => {
   $('#save-yes').click(onSaveYes);
   $('#save-no').click(onSaveNo);
   $('#title').on('input', onDocumentChanged);
-  $('#shared_text').on('input', onDocumentChanged);
-  $('#header_image').on('change', onDocumentChanged);
+  $('#shared-text').on('input', onDocumentChanged);
+  $('#header-image').on('change', onDocumentChanged);
   update();
 });
 /* -------------------------------------------------------------------------- */
