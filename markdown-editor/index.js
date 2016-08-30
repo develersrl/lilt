@@ -179,7 +179,9 @@ const savePage = () => {
           headerImage: $('#header-pic').attr('src') || 'no-header.png'
         };
         fs.writeFileSync(pageDir + '/page.json', JSON.stringify(jsonObj));
-        tree.treeview('getNode', selNodeId).orgText = jsonObj.title;
+        const treeNode = tree.treeview('getNode', selNodeId);
+        treeNode.orgText = jsonObj.title;
+        treeNode.formData.title = jsonObj.title;
       })
       .then(wait)
       .then(() => editor().setMode('wysiwyg'))
