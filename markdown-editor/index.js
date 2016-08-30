@@ -126,6 +126,7 @@ const saveMarkdown = () => {
       .then(() => {
         overlayText = 'Saving..';
         editor().setMode('markdown');
+        update();
       })
       .then(wait)
       .then(() => {
