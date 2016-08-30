@@ -156,7 +156,7 @@ const loadFormData = (formData) => {
 };
 
 // save the current editor markdown content to file
-const saveMarkdown = () => {
+const savePage = () => {
   if (currentMdFile !== '') {
     return Promise.resolve()
       .then(() => {
@@ -206,7 +206,7 @@ const onHeaderImageChanged = () => {
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
-const onSaveYes = () => saveMarkdown().then(onSaveNo);
+const onSaveYes = () => savePage ().then(onSaveNo);
 
 const onNodeSelected = (ev, data) => {
   // do nothing if node is a directory
@@ -280,7 +280,7 @@ $(document).ready(() => {
     selectedColor: "#428BCA",
     selectedBackColor: "#F5F5F5",
   });
-  $('#savebtn').click(saveMarkdown);
+  $('#savebtn').click(savePage);
   $('#save-yes').click(onSaveYes);
   $('#save-no').click(onSaveNo);
   $('#title').on('input', onDocumentChanged);
