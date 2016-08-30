@@ -150,9 +150,7 @@ const loadMarkdown = (fn) => {
 const loadFormData = (formData) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
-
-  if (formData.headerImage)
-    $('#header-image').attr('src', formData.headerImage);
+  $('#header-pic').attr('src', formData.headerImage || 'no-header.png');
 };
 
 // save the current editor markdown content to file
@@ -167,10 +165,21 @@ const savePage = () => {
       .then(wait)
       .then(() => {
         // http://stackoverflow.com/questions/18106164
+        // Write the markdown file
         const div = document.createElement('div');
         div.innerHTML = editor().getData();
         const unescapedData = (div.innerText || div.textContent || "");
         fs.writeFileSync(currentMdFile, unescapedData);
+
+        // Write page.json
+        const pageDir = currentMdFile.slice(0, currentMdFile.lastIndexOf('/'));
+        const jsonObj = {
+          title: $('#title').val(),
+          sharedText: $('#shared-text').val(),
+          headerImage: $('#header-pic').attr('src') || 'no-header.png'
+        };
+        fs.writeFileSync(pageDir + '/page.json', JSON.stringify(jsonObj));
+        tree.treeview('getNode', selNodeId).orgText = jsonObj.title;
       })
       .then(wait)
       .then(() => editor().setMode('wysiwyg'))

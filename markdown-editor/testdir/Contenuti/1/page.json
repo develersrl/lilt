@@ -1,5 +1,1 @@
-{
-  "title": "Foo",
-  "headerImage": "img1.png",
-  "sharedText": "Guarda quanto è bello questo Foo"
-}
+{"title":"Foo","sharedText":"Guarda quanto è bello questo Foo","headerImage":"no-header.png"}
