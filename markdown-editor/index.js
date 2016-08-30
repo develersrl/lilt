@@ -150,7 +150,9 @@ const loadMarkdown = (fn) => {
 const loadFormData = (formData) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
-  // TODO find a way to show header image
+
+  if (formData.headerImage)
+    $('#header-image').attr('src', formData.headerImage);
 };
 
 // save the current editor markdown content to file
@@ -196,6 +198,11 @@ const onDocumentChanged = () => {
     documentChanged = true;
     update();
   }
+};
+
+const onHeaderImageChanged = () => {
+    const selectedImage = $('#header-image')[0].files[0];
+    $('#header-pic').attr('src', selectedImage.path);
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
@@ -279,6 +286,7 @@ $(document).ready(() => {
   $('#title').on('input', onDocumentChanged);
   $('#shared-text').on('input', onDocumentChanged);
   $('#header-image').on('change', onDocumentChanged);
+  $('#header-image').on('change', onHeaderImageChanged);
   update();
 });
 /* -------------------------------------------------------------------------- */
