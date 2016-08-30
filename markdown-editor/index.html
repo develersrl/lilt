@@ -36,21 +36,20 @@
             Loading..
           </div>
           <form id="content-form">
-            <div class="left">
-              <div>
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required />
-              </div>
-              <div>
-                <label for="shared-text">Shared text:</label>
-                <textarea id="shared-text"></textarea>
-              </div>
+            <div>
+              <label for="title">Title:</label>
+              <input type="text" id="title" name="title" required />
             </div>
             <div>
+              <label for="shared-text">Shared text:</label>
+              <textarea id="shared-text"></textarea>
+            </div>
+            <div>
+              <label>Header image:</label>
               <input type="file" id="header-image" name="header-image" accept=".png" required />
-              <label for="header-image">
+              <label for="header-image" class="nolabel">
                 <div id="header-image-container">
-                  <img src="no-header.png"></img>
+                  <img id="header-pic" src="no-header.png"></img>
                   <div id="select-image-overlay">
                     <p>Select image</p>
                   </div>

@@ -10,31 +10,37 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 }
 
 #content-form {
-    display: flex;
-    border: 1px solid #CCCCCC;
-    padding: 1em;
+  padding: 0.5em;
+  border: 1px solid #CCCCCC;
+  display: flex;
+  flex-direction: column;
+}
+
+#content-form label:not(.nolabel) {
+  min-width: 100px;
+}
+
+#content-form .nolabel {
+  width: 100%;
+}
+
+#header-pic {
+  max-width: 100%;
+  max-height: 300px;
+  margin: auto;
 }
 
 #content-form div {
-    margin: auto;
+  display: flex;
 }
 
-#content-form .left label {
-    width: 85px;
-    text-align: right;
+#content-form div:not(:last-child) {
+  margin-bottom: 0.5em;
 }
 
-#content-form .left input,
-#content-form .left textarea {
-    border: 1px solid #CCCCCC;
-    font: 1em sans-serif;
-    width: 400px;
-}
-
-#content-form .left textarea {
-    resize: none;
-    height: 12em;
-    vertical-align: top;
+#content-form input,
+#content-form textarea {
+  width: 100%;
 }
 
 #header-image {
@@ -48,14 +54,8 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 
 #header-image-container {
     position: relative;
-    width: 200px;
-    height: 200px;
     border: 1px solid #CCCCCC;
-}
-
-#header-image-container img {
-    max-width: 100%;
-    max-height: 100%;
+    min-height: 35px;
 }
 
 #header-image-container:hover #select-image-overlay {
@@ -64,9 +64,9 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 
 #select-image-overlay {
     position: absolute;
+    left: 0;
+    right: 0;
     bottom: 0;
-    display: flex;
-    width: 100%;
     height: 35px;
     background-color: black;
     opacity: 0;
@@ -78,10 +78,11 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 }
 
 .editor-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .editor {
