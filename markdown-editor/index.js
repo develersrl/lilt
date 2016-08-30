@@ -110,6 +110,7 @@ const getTreeNodes = (dir) => {
       formData: {
         title: jsonObj.title,
         headerImage: jsonObj.headerImage,
+        pdfFile: jsonObj.pdfFile,
         sharedText: jsonObj.sharedText
       },
       icon: 'glyphicon glyphicon-file'
@@ -150,6 +151,7 @@ const loadMarkdown = (fn) => {
 const loadFormData = (formData) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
+  // TODO style pdf input and show value
   $('#header-pic').attr('src', formData.headerImage || 'no-header.png');
 };
 
@@ -176,6 +178,7 @@ const savePage = () => {
         const jsonObj = {
           title: $('#title').val(),
           sharedText: $('#shared-text').val(),
+          pdfFile: $('#pdf-input').val(),
           headerImage: $('#header-pic').attr('src') || 'no-header.png'
         };
         fs.writeFileSync(pageDir + '/page.json', JSON.stringify(jsonObj));
@@ -297,6 +300,7 @@ $(document).ready(() => {
   $('#title').on('input', onDocumentChanged);
   $('#shared-text').on('input', onDocumentChanged);
   $('#header-image').on('change', onDocumentChanged);
+  $('#pdf-input').on('change', onDocumentChanged);
   $('#header-image').on('change', onHeaderImageChanged);
   update();
 });
