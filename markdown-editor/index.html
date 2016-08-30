@@ -35,6 +35,22 @@
           <div id="overlay" class="overlay" style="visibility:hidden">
             Loading..
           </div>
+          <div id="form-area" class="form">
+            <form>
+              <div>
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required />
+              </div>
+              <div>
+                <label for="shared_text">Shared text:</label>
+                <textarea id="shared_text"></textarea>
+              </div>
+              <div>
+                <label for="header_image">Header image:</label>
+                <input type="file" id="header_image" name="header_image" accept=".png" required />
+              </div>
+            </form>
+          </div>
           <div id="editor-div" class="editor">
             <textarea name="editor1" id="editor1" rows="10"></textarea>
             <script>

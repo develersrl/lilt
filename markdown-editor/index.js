@@ -263,6 +263,9 @@ $(document).ready(() => {
   $('#savebtn').click(saveMarkdown);
   $('#save-yes').click(onSaveYes);
   $('#save-no').click(onSaveNo);
+  $('#title').on('input', onDocumentChanged);
+  $('#shared_text').on('input', onDocumentChanged);
+  $('#header_image').on('change', onDocumentChanged);
   update();
 });
 /* -------------------------------------------------------------------------- */
