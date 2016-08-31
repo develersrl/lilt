@@ -150,7 +150,7 @@ const loadMarkdown = (fn) => {
 const loadFormData = (formData) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
-  // TODO style pdf input and show value
+  $('#pdf-input-button').text(path.basename(formData.pdfFile) || 'Choose pdf');
   $('#header-pic').attr('src', formData.headerImage || 'no-header.png');
 };
 
@@ -177,7 +177,7 @@ const savePage = () => {
         const jsonObj = {
           title: $('#title').val(),
           sharedText: $('#shared-text').val(),
-          pdfFile: $('#pdf-input').val(),
+          pdfFile: $('#pdf-input')[0].files[0].path,
           headerImage: $('#header-pic').attr('src') || 'no-header.png'
         };
         fs.writeFileSync(path.join(pageDir, 'page.json'), JSON.stringify(jsonObj));
@@ -204,6 +204,7 @@ const updateNodeData = (obj) => {
     const treeNode = tree.treeview('getNode', selNodeId);
     treeNode.orgText = obj.title;
     treeNode.formData.title = obj.title;
+    treeNode.formData.pdfFile = obj.pdfFile;
     treeNode.formData.headerImage = obj.headerImage;
 };
 
@@ -227,6 +228,12 @@ const onDocumentChanged = () => {
 const onHeaderImageChanged = () => {
   const selectedImage = $('#header-image')[0].files[0];
   $('#header-pic').attr('src', selectedImage.path);
+};
+
+const onPdfChanged = () => {
+  const pdfPath = $('#pdf-input')[0].files[0].path;
+  const pdfName = path.basename(pdfPath);
+  $('#pdf-input-button').text(pdfName);
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
@@ -316,6 +323,7 @@ const connectEvents = () => {
   $('#shared-text').on('input', onDocumentChanged);
   $('#header-image').on('change', onDocumentChanged);
   $('#pdf-input').on('change', onDocumentChanged);
+  $('#pdf-input').on('change', onPdfChanged);
   $('#header-image').on('change', onHeaderImageChanged);
 };
 /* -------------------------------------------------------------------------- */
