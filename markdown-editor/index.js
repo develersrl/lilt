@@ -304,6 +304,11 @@ $(document).ready(() => {
     selectedColor: "#428BCA",
     selectedBackColor: "#F5F5F5",
   });
+  connectEvents();
+  update();
+});
+
+const connectEvents = () => {
   $('#savebtn').click(savePage);
   $('#save-yes').click(onSaveYes);
   $('#save-no').click(onSaveNo);
@@ -312,8 +317,7 @@ $(document).ready(() => {
   $('#header-image').on('change', onDocumentChanged);
   $('#pdf-input').on('change', onDocumentChanged);
   $('#header-image').on('change', onHeaderImageChanged);
-  update();
-});
+};
 /* -------------------------------------------------------------------------- */
 
 
