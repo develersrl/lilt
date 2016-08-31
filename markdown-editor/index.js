@@ -1,10 +1,11 @@
 const fs = require('fs');
+const path = require('path');
 const marked = require('marked');
 const remote = require('electron').remote;
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
-const defaultMarkdownDir = './markdown';
+const defaultMarkdownDir = 'markdown';
 
 // when the overlay text is specified the editor is hidden
 let overlayText = 'Please select a document.';
@@ -76,19 +77,17 @@ const walk = (dir) => {
     return tree;
   }
 
-  const contentDirName = 'Contenuti'
-  const contentDirPath = dir + '/' + contentDirName
-  const glossaryDirName = 'Glossario'
-  const glossaryDirPath = dir + '/' + glossaryDirName
+  const contentDirPath = path.join(dir, 'Contenuti');
+  const glossaryDirPath = path.join(dir, 'Glossario');
   // We know we have 2 top level nodes: Contents and Glossary
   tree.push({
-    text: contentDirName,
+    text: path.basename(contentDirPath),
     selectable: false,
     nodes: getTreeNodes(contentDirPath)
   })
 
   tree.push({
-    text: glossaryDirName,
+    text: path.basename(glossaryDirPath),
     selectable: false,
     nodes: {}
   })
@@ -101,12 +100,12 @@ const getTreeNodes = (dir) => {
   const pageDirs = fs.readdirSync(dir);
 
   pageDirs.forEach((pageDir) => {
-    const fullDirPath = dir + '/' + pageDir;
-    const jsonObj = require(fullDirPath + '/page.json');
+    const fullDirPath = path.join(dir, pageDir);
+    const jsonObj = require(path.resolve(path.join(fullDirPath, 'page.json')));
     nodes.push({
       text: jsonObj.title,
       orgText: jsonObj.title,
-      path: fullDirPath + '/content.md',
+      path: path.join(fullDirPath, 'content.md'),
       formData: {
         title: jsonObj.title,
         headerImage: jsonObj.headerImage,
@@ -174,14 +173,14 @@ const savePage = () => {
         fs.writeFileSync(currentMdFile, unescapedData);
 
         // Write page.json
-        const pageDir = currentMdFile.slice(0, currentMdFile.lastIndexOf('/'));
+        const pageDir = path.dirname(currentMdFile);
         const jsonObj = {
           title: $('#title').val(),
           sharedText: $('#shared-text').val(),
           pdfFile: $('#pdf-input').val(),
           headerImage: $('#header-pic').attr('src') || 'no-header.png'
         };
-        fs.writeFileSync(pageDir + '/page.json', JSON.stringify(jsonObj));
+        fs.writeFileSync(path.join(pageDir, 'page.json'), JSON.stringify(jsonObj));
         updateNodeData(jsonObj);
       })
       .then(wait)
