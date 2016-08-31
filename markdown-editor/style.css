@@ -1,58 +1,62 @@
-
 html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 .debug { border: 1px solid red; }
 .debug2 { border: 1px solid green; }
 .flexible { display: flex; flex-direction: row; }
 
+body {
+  overflow: hidden;
+}
+
 .tree {
-    width: 250px;
+    min-width: 200px;
     overflow: auto;
 }
 
+.editor-column {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 #content-form {
-  padding: 0.5em;
-  border: 1px solid #CCCCCC;
-  display: flex;
-  flex-direction: column;
-}
-
-#content-form label:not(.nolabel) {
-  min-width: 100px;
-  text-align: right;
-  margin-right: 0.5em;
-}
-
-#content-form .nolabel {
-  width: 100%;
-}
-
-#header-pic {
-  max-width: 100%;
-  max-height: 300px;
-  margin: auto;
-}
-
-#content-form div {
-  display: flex;
-}
-
-#content-form div:not(:last-child) {
-  margin-bottom: 0.5em;
+  padding: 3em;
+  overflow: overlay;
 }
 
 #content-form input,
 #content-form textarea {
-  width: 100%;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #cccccc;
+  min-width: 100%;
 }
 
-#content-form .nolabel a {
-  min-height: 35px;
+#content-form textarea {
+  resize: vertical;
+  min-height: 10em;
 }
 
-#content-form .nolabel label {
-  text-align: left;
-  margin-left: 0.5em;
+#content-form > div {
+  display: flex;
+  flex-direction: column;
+  border-radius 3px;
+  background-color: #f5f5f5;
+  padding: 1em;
+}
+
+#content-form > div:not(:last-child) {
+  margin-bottom: 1.5em;
+}
+
+#content-form > div > label {
+  text-align: center;
+}
+
+#content-form > div .btn-label {
+  margin: auto;
+}
+
+#content-form > div > label:not(.btn-label) {
+  margin-bottom: 1em;
 }
 
 #header-image,
@@ -65,77 +69,29 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
     overflow: hidden;
 }
 
-#header-image-container {
-    position: relative;
-    cursor: pointer;
-    border: 1px solid #CCCCCC;
-    border-radius: 3px;
-    min-height: 35px;
-}
-
-#header-image-container:hover #select-image-overlay {
-    opacity: 1;
-}
-
-#select-image-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 3px;
-    height: 35px;
-    background-color: black;
-    opacity: 0;
-}
-
-#select-image-overlay a {
-    width: 100%;
-}
-
-.editor-column {
-    position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.editor {
-    position: relative;
-    display: flex;
-    flex: 1;
-    border: 1px solid #CCCCCC;
-}
-
-#cke_1_contents {
-    position: absolute;
-    left: 0px;
-    top: 42px;
-    right: 0px;
-    bottom: 0px;
-    height: auto !important;
-}
-
-.overlay {
+#content-form #overlay {
   position: absolute;
-  left: 0px;
+  left: 200px;
   top: 0px;
   right: 0px;
   bottom: 0px;
-  padding: 30px;
   z-index: 1000;
-  background-color: #FFFFFF;
+
+  margin: 0px;
+  padding: 30px;
+  background-color: #ffffff;
 }
 
 #below-editor {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  align-items: stretch;
+  margin: 1.5em 3em;
+  min-height: 45px;
 }
 
 #savebtn {
-    width: 100%;
-    border-radius: 0;
-    font-size: 16pt;
+  font-size: 16pt;
+  flex: 1;
 }
 
 .modal-buttons {
