@@ -150,7 +150,7 @@ const loadMarkdown = (fn) => {
 const loadFormData = (formData, pageDir) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
-  $('#pdf-input-button').text(path.basename(formData.pdfFile) || 'Choose pdf');
+  $('#pdf-name').text(path.basename(formData.pdfFile));
   if (formData.headerImage) {
     $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
     $('#header-pic').show();
@@ -194,7 +194,7 @@ const savePage = () => {
         const jsonObj = {
           title: $('#title').val(),
           sharedText: $('#shared-text').val(),
-          pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-input-button').text(),
+          pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-name').text(),
           headerImage: path.basename(headerPath)
         };
         fs.writeFileSync(path.join(pageDir, 'page.json'), JSON.stringify(jsonObj));
@@ -271,7 +271,7 @@ const onHeaderImageChanged = () => {
 const onPdfChanged = () => {
   const pdfPath = $('#pdf-input')[0].files[0].path;
   const pdfName = path.basename(pdfPath);
-  $('#pdf-input-button').text(pdfName);
+  $('#pdf-name').text(pdfName);
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
