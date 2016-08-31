@@ -76,14 +76,6 @@ body {
   margin-bottom: 1.5em;
 }
 
-#content-form > div > label {
-  text-align: center;
-}
-
-#content-form > div .btn-label {
-  margin: auto;
-}
-
 #content-form > div > label:not(.btn-label) {
   margin-bottom: 1em;
 }
