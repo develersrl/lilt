@@ -56,7 +56,7 @@ const getMarkdownDir = () => {
 
   if (args.length === 0)
     return defaultMarkdownDir;
-  else
+  else if (args.length > 1)
     console.error('wrong arguments');  // eslint-disable-line no-console
 
   // we expect the markdown dir as the only parameter
