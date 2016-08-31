@@ -237,7 +237,7 @@ const onPdfChanged = () => {
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
-const onSaveYes = () => savePage ().then(onSaveNo);
+const onSaveYes = () => savePage().then(onSaveNo);
 
 const onNodeSelected = (ev, data) => {
   // do nothing if node is a directory
