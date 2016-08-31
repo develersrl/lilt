@@ -225,8 +225,8 @@ const onDocumentChanged = () => {
 };
 
 const onHeaderImageChanged = () => {
-    const selectedImage = $('#header-image')[0].files[0];
-    $('#header-pic').attr('src', selectedImage.path);
+  const selectedImage = $('#header-image')[0].files[0];
+  $('#header-pic').attr('src', selectedImage.path);
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
