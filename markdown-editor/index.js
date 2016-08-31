@@ -153,7 +153,7 @@ const loadFormData = (formData, pageDir) => {
 
   if (formData.pdfFile) {
     $('#pdf-name').text(path.basename(formData.pdfFile));
-    $('#pdf-name').attr('class', ''); // remove the hidden class
+    $('#pdf-name').removeClass('hidden');
   }
 
   if (formData.headerImage) {
@@ -287,7 +287,7 @@ const onPdfChanged = () => {
   const pdfPath = $('#pdf-input')[0].files[0].path;
   const pdfName = path.basename(pdfPath);
   $('#pdf-name').text(pdfName);
-  $('#pdf-name').attr('class', ''); // remove the hidden class
+  $('#pdf-name').removeClass('hidden');
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
