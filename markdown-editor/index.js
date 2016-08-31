@@ -147,11 +147,17 @@ const loadMarkdown = (fn) => {
 };
 
 // load title, shared text and header image info inside form
-const loadFormData = (formData) => {
+const loadFormData = (formData, pageDir) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
   $('#pdf-input-button').text(path.basename(formData.pdfFile) || 'Choose pdf');
-  $('#header-pic').attr('src', formData.headerImage || 'no-header.png');
+  if (formData.headerImage) {
+    $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
+    $('#header-pic').show();
+  } else {
+    $('#header-pic').attr('src', '');
+    $('#header-pic').hide();
+  }
 };
 
 // save the current editor markdown content to file
@@ -172,13 +178,24 @@ const savePage = () => {
         const unescapedData = (div.innerText || div.textContent || "");
         fs.writeFileSync(currentMdFile, unescapedData);
 
-        // Write page.json
+        // First, copy header image and pdf in page dir
         const pageDir = path.dirname(currentMdFile);
+        const headerPath = $('#header-pic').attr('src');
+        const pdfFile = $('#pdf-input')[0].files[0];
+
+        if (headerPath) {
+          copyToDir(headerPath, pageDir);
+        }
+        if (pdfFile) {
+          copyToDir(pdfFile.path, pageDir);
+        }
+
+        // Then, write page.json
         const jsonObj = {
           title: $('#title').val(),
           sharedText: $('#shared-text').val(),
-          pdfFile: $('#pdf-input')[0].files[0].path,
-          headerImage: $('#header-pic').attr('src') || 'no-header.png'
+          pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-input-button').text(),
+          headerImage: path.basename(headerPath)
         };
         fs.writeFileSync(path.join(pageDir, 'page.json'), JSON.stringify(jsonObj));
         updateNodeData(jsonObj);
@@ -192,6 +209,26 @@ const savePage = () => {
         update();
       });
   }
+};
+
+const copyToDir = (sourceFile, targetDir) => {
+  const sourceName = path.basename(sourceFile);
+  const targetFile = path.join(path.resolve(targetDir), sourceName);
+
+  const inStream = fs.createReadStream(sourceFile);
+  const outStream = fs.createWriteStream(targetFile);
+
+  inStream.on('error', () => {
+    // TODO missing proper error handling
+    console.error("Error reading file", sourceFile);
+  });
+
+  outStream.on('error', () => {
+    // TODO missing proper error handling
+    console.error("Error writing file", targetFile);
+  });
+
+  inStream.pipe(outStream);
 };
 
 /* When clicking on a node in the tree, the info to display is fetched from the
@@ -212,7 +249,7 @@ const switchDocument = (nodeData) => {
   prevNodeId = selNodeId;
   selNodeId = nodeData.nodeId;
   loadMarkdown(nodeData.path);  // calls the update() method
-  loadFormData(nodeData.formData);
+  loadFormData(nodeData.formData, path.dirname(nodeData.path));
 };
 /* -------------------------------------------------------------------------- */
 
@@ -226,8 +263,9 @@ const onDocumentChanged = () => {
 };
 
 const onHeaderImageChanged = () => {
-  const selectedImage = $('#header-image')[0].files[0];
-  $('#header-pic').attr('src', selectedImage.path);
+  const selectedImage = $('#header-image')[0].files[0].path;
+  $('#header-pic').attr('src', selectedImage);
+  $('#header-pic').show();
 };
 
 const onPdfChanged = () => {
