@@ -212,7 +212,10 @@ const savePage = () => {
           pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-name').text(),
           headerImage: path.basename(headerPath)
         };
-        fs.writeFileSync(path.join(pageDir, 'page.json'), JSON.stringify(jsonObj));
+        fs.writeFileSync(
+          path.join(pageDir, 'page.json'),
+          JSON.stringify(jsonObj, null, '\t')
+        );
         updateNodeData(jsonObj);
       })
       .then(wait)
