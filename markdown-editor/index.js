@@ -158,10 +158,10 @@ const loadFormData = (formData, pageDir) => {
 
   if (formData.headerImage) {
     $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
-    $('#header-pic').show();
+    $('#header-image-container').removeClass('hidden');
   } else {
     $('#header-pic').attr('src', '');
-    $('#header-pic').hide();
+    $('#header-image-container').addClass('hidden');
   }
 };
 
@@ -280,7 +280,7 @@ const onDocumentChanged = () => {
 const onHeaderImageChanged = () => {
   const selectedImage = $('#header-image')[0].files[0].path;
   $('#header-pic').attr('src', selectedImage);
-  $('#header-pic').show();
+  $('#header-image-container').removeClass('hidden');
 };
 
 const onPdfChanged = () => {
