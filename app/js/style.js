@@ -139,6 +139,14 @@ const blocks = {
       justifyContent: 'center',
     },
   },
+  stripe: {
+    height: 150,
+    spacing: 10,
+    footerHeight: 24,
+    circleSpacing: 5,
+    circleSelected: '#EB8478',
+    circleUnselected: '#B6CFE9',
+  },
 };
 
 

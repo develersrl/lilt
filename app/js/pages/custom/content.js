@@ -2,12 +2,14 @@
 
 import React, { Component } from 'react';
 import { View, Image, Text } from 'react-native';
+
+import { Stripe } from '../../blocks';
 import { common, pages } from '../../style';
 
 
 export default class Content extends Component {
   render() {
-    const { flexible, centeredChildren, debug, debug1, debug2 } = common;
+    const { flexible, centeredChildren, debug2 } = common;
     const { content } = pages;
 
     return (
@@ -32,6 +34,18 @@ export default class Content extends Component {
         <View style={[content.body, centeredChildren, debug2]}>
           <Text>Hello Text + Images!</Text>
         </View>
+        <Stripe
+          imageSize={[800, 600]}
+          sources={[
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+            require('../../../images/test.png'),
+          ]} />
       </View>
       );
   }
