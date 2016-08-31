@@ -195,6 +195,12 @@ const savePage = () => {
   }
 };
 
+/* When clicking on a node in the tree, the info to display is fetched from the
+ * node itself, not from the disk. Info is fetched from disk only at startup.
+ * For this reason, when we modify something in the form, we must also update
+ * the selected tree node with the new info, to avoid having to reread the full
+ * tree from disk.
+ */
 const updateNodeData = (obj) => {
     const treeNode = tree.treeview('getNode', selNodeId);
     treeNode.orgText = obj.title;
