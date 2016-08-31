@@ -150,7 +150,12 @@ const loadMarkdown = (fn) => {
 const loadFormData = (formData, pageDir) => {
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
-  $('#pdf-name').text(path.basename(formData.pdfFile));
+
+  if (formData.pdfFile) {
+    $('#pdf-name').text(path.basename(formData.pdfFile));
+    $('#pdf-name').attr('class', ''); // remove the hidden class
+  }
+
   if (formData.headerImage) {
     $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
     $('#header-pic').show();
@@ -282,6 +287,7 @@ const onPdfChanged = () => {
   const pdfPath = $('#pdf-input')[0].files[0].path;
   const pdfName = path.basename(pdfPath);
   $('#pdf-name').text(pdfName);
+  $('#pdf-name').attr('class', ''); // remove the hidden class
 };
 
 const onSaveNo = () => switchDocument(selectedNodeData);
