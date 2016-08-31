@@ -184,10 +184,20 @@ const savePage = () => {
         const pdfFile = $('#pdf-input')[0].files[0];
 
         if (headerPath) {
-          copyToDir(headerPath, pageDir);
+          // We need to check if the header image is the same. If it
+          const currJson = require(path.resolve(path.join(pageDir, 'page.json')));
+          const currImagePath = path.resolve(path.join(pageDir, currJson.headerImage));
+          const newImagePath = path.resolve(headerPath);
+
+          if (currImagePath !== newImagePath) {
+            copyToDir(headerPath, pageDir);
+          }
         }
+
         if (pdfFile) {
           copyToDir(pdfFile.path, pageDir);
+          $('#pdf-input').val(''); // Reset the input field to avod copying the
+                                   // same file every time save is clicked
         }
 
         // Then, write page.json
