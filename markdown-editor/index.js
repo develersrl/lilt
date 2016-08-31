@@ -182,9 +182,7 @@ const savePage = () => {
           headerImage: $('#header-pic').attr('src') || 'no-header.png'
         };
         fs.writeFileSync(pageDir + '/page.json', JSON.stringify(jsonObj));
-        const treeNode = tree.treeview('getNode', selNodeId);
-        treeNode.orgText = jsonObj.title;
-        treeNode.formData.title = jsonObj.title;
+        updateNodeData(jsonObj);
       })
       .then(wait)
       .then(() => editor().setMode('wysiwyg'))
@@ -195,6 +193,13 @@ const savePage = () => {
         update();
       });
   }
+};
+
+const updateNodeData = (obj) => {
+    const treeNode = tree.treeview('getNode', selNodeId);
+    treeNode.orgText = obj.title;
+    treeNode.formData.title = obj.title;
+    treeNode.formData.headerImage = obj.headerImage;
 };
 
 const switchDocument = (nodeData) => {
