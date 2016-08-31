@@ -47,9 +47,7 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
 }
 
 #content-form .nolabel a {
-  width: 100%;
   min-height: 35px;
-  margin: auto;
 }
 
 #header-image,
@@ -83,6 +81,10 @@ html, body, .viewport { width: 100%; height: 100%; margin: 0; }
     height: 35px;
     background-color: black;
     opacity: 0;
+}
+
+#select-image-overlay a {
+    width: 100%;
 }
 
 .editor-column {
