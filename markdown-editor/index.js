@@ -349,7 +349,7 @@ const ckeditorInit = () => {
     format_tags: 'p;h1;h2;h3;pre',  // eslint-disable-line camelcase
     removeDialogTabs: 'image:advanced;link:advanced',
     width: '100%',
-    removePlugins: 'elementspath,resize',
+    removePlugins: 'elementspath',
   })
   .on('change', onDocumentChanged);
 };
