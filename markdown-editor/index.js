@@ -1,10 +1,11 @@
 const fs = require('fs');
+const path = require('path');
 const marked = require('marked');
 const remote = require('electron').remote;
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
-const defaultMarkdownDir = './markdown';
+const defaultMarkdownDir = 'markdown';
 
 // when the overlay text is specified the editor is hidden
 let overlayText = 'Please select a document.';
@@ -19,6 +20,9 @@ let selNodeId = -1000;
 let documentChanged = false;
 let ignoreChangedEvent = false;
 let selectedNodeData = null;
+
+// Used to append info to window title
+const baseWindowTitle = remote.getCurrentWindow().getTitle();
 /* -------------------------------------------------------------------------- */
 
 
@@ -53,11 +57,10 @@ const getMarkdownDir = () => {
   // obtain command line arguments
   const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
 
-  if (args.length === 0) {
-    if (args.length > 1)
-      console.error('wrong arguments');  // eslint-disable-line no-console
+  if (args.length === 0)
     return defaultMarkdownDir;
-  }
+  else if (args.length > 1)
+    console.error('wrong arguments');  // eslint-disable-line no-console
 
   // we expect the markdown dir as the only parameter
   return args[0];
@@ -77,19 +80,46 @@ const walk = (dir) => {
     return tree;
   }
 
-  fs.readdirSync(dir).forEach((f) => {
-    const path = dir + '/' + f;
-    if (fs.statSync(path).isDirectory())
-      tree.push({ text: f, selectable: false, nodes: walk(path) });
-    else if (f.endsWith('.md'))
-      tree.push({
-        text: f,  // tree node shown text
-        orgText: f,  // original text (e.g. test.md)
-        path,  // full path to markdown document
-        icon: 'glyphicon glyphicon-file'
-      });
-  });
+  const contentDirPath = path.join(dir, 'Contenuti');
+  const glossaryDirPath = path.join(dir, 'Glossario');
+  // We know we have 2 top level nodes: Contents and Glossary
+  tree.push({
+    text: path.basename(contentDirPath),
+    selectable: false,
+    nodes: getTreeNodes(contentDirPath)
+  })
+
+  tree.push({
+    text: path.basename(glossaryDirPath),
+    selectable: false,
+    nodes: {}
+  })
+
   return tree;
+};
+
+const getTreeNodes = (dir) => {
+  const nodes = [];
+  const pageDirs = fs.readdirSync(dir);
+
+  pageDirs.forEach((pageDir) => {
+    const fullDirPath = path.join(dir, pageDir);
+    const jsonObj = require(path.resolve(path.join(fullDirPath, 'page.json')));
+    nodes.push({
+      text: jsonObj.title,
+      orgText: jsonObj.title,
+      path: path.join(fullDirPath, 'content.md'),
+      formData: {
+        title: jsonObj.title,
+        headerImage: jsonObj.headerImage,
+        pdfFile: jsonObj.pdfFile,
+        sharedText: jsonObj.sharedText
+      },
+      icon: 'glyphicon glyphicon-file'
+    });
+  });
+
+  return nodes;
 };
 
 // obtain jQuery tree node object by node id
@@ -119,8 +149,30 @@ const loadMarkdown = (fn) => {
     });
 };
 
+// load title, shared text and header image info inside form
+const loadFormData = (formData, pageDir) => {
+  document.title = baseWindowTitle + ' — ' + formData.title;
+  $('#title').val(formData.title);
+  $('#shared-text').val(formData.sharedText);
+
+  if (formData.pdfFile) {
+    $('#pdf-name').text(path.basename(formData.pdfFile));
+    $('#pdf-name').removeClass('hidden');
+  } else {
+    $('#pdf-name').addClass('hidden');
+  }
+
+  if (formData.headerImage) {
+    $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
+    $('#header-image-container').removeClass('hidden');
+  } else {
+    $('#header-pic').attr('src', '');
+    $('#header-image-container').addClass('hidden');
+  }
+};
+
 // save the current editor markdown content to file
-const saveMarkdown = () => {
+const savePage = () => {
   if (currentMdFile !== '') {
     return Promise.resolve()
       .then(() => {
@@ -131,10 +183,43 @@ const saveMarkdown = () => {
       .then(wait)
       .then(() => {
         // http://stackoverflow.com/questions/18106164
+        // Write the markdown file
         const div = document.createElement('div');
         div.innerHTML = editor().getData();
         const unescapedData = (div.innerText || div.textContent || "");
         fs.writeFileSync(currentMdFile, unescapedData);
+
+        // First, copy header image and pdf in page dir
+        const pageDir = path.dirname(currentMdFile);
+        const headerFile = $('#header-image')[0].files[0];
+        const pdfFile = $('#pdf-input')[0].files[0];
+
+        if (headerFile) {
+          copyToDir(headerFile.path, pageDir);
+          // Reset the input field to avoid copying the file at every save
+          // if it didn't change
+          $('#header-image').val('');
+        }
+
+        if (pdfFile) {
+          copyToDir(pdfFile.path, pageDir);
+          // Reset the input field to avoid copying the file at every save
+          // if it didn't change
+          $('#pdf-input').val('');
+        }
+
+        // Then, write page.json
+        const jsonObj = {
+          title: $('#title').val(),
+          sharedText: $('#shared-text').val(),
+          pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-name').text(),
+          headerImage: (headerFile) ? path.basename(headerFile.path) : path.basename($('#header-pic').attr('src'))
+        };
+        fs.writeFileSync(
+          path.join(pageDir, 'page.json'),
+          JSON.stringify(jsonObj, null, '\t')
+        );
+        updateNodeData(jsonObj);
       })
       .then(wait)
       .then(() => editor().setMode('wysiwyg'))
@@ -147,10 +232,45 @@ const saveMarkdown = () => {
   }
 };
 
+const copyToDir = (sourceFile, targetDir) => {
+  const sourceName = path.basename(sourceFile);
+  const targetFile = path.join(path.resolve(targetDir), sourceName);
+
+  const inStream = fs.createReadStream(sourceFile);
+  const outStream = fs.createWriteStream(targetFile);
+
+  inStream.on('error', () => {
+    // TODO missing proper error handling
+    console.error("Error reading file", sourceFile);
+  });
+
+  outStream.on('error', () => {
+    // TODO missing proper error handling
+    console.error("Error writing file", targetFile);
+  });
+
+  inStream.pipe(outStream);
+};
+
+/* When clicking on a node in the tree, the info to display is fetched from the
+ * node itself, not from the disk. Info is fetched from disk only at startup.
+ * For this reason, when we modify something in the form, we must also update
+ * the selected tree node with the new info, to avoid having to reread the full
+ * tree from disk.
+ */
+const updateNodeData = (obj) => {
+    const treeNode = tree.treeview('getNode', selNodeId);
+    treeNode.orgText = obj.title;
+    treeNode.formData.title = obj.title;
+    treeNode.formData.pdfFile = obj.pdfFile;
+    treeNode.formData.headerImage = obj.headerImage;
+};
+
 const switchDocument = (nodeData) => {
   prevNodeId = selNodeId;
   selNodeId = nodeData.nodeId;
   loadMarkdown(nodeData.path);  // calls the update() method
+  loadFormData(nodeData.formData, path.dirname(nodeData.path));
 };
 /* -------------------------------------------------------------------------- */
 
@@ -163,8 +283,21 @@ const onDocumentChanged = () => {
   }
 };
 
+const onHeaderImageChanged = () => {
+  const selectedImage = $('#header-image')[0].files[0].path;
+  $('#header-pic').attr('src', selectedImage);
+  $('#header-image-container').removeClass('hidden');
+};
+
+const onPdfChanged = () => {
+  const pdfPath = $('#pdf-input')[0].files[0].path;
+  const pdfName = path.basename(pdfPath);
+  $('#pdf-name').text(pdfName);
+  $('#pdf-name').removeClass('hidden');
+};
+
 const onSaveNo = () => switchDocument(selectedNodeData);
-const onSaveYes = () => saveMarkdown().then(onSaveNo);
+const onSaveYes = () => savePage().then(onSaveNo);
 
 const onNodeSelected = (ev, data) => {
   // do nothing if node is a directory
@@ -216,7 +349,7 @@ const ckeditorInit = () => {
     format_tags: 'p;h1;h2;h3;pre',  // eslint-disable-line camelcase
     removeDialogTabs: 'image:advanced;link:advanced',
     width: '100%',
-    removePlugins: 'elementspath,resize',
+    removePlugins: 'elementspath',
   })
   .on('change', onDocumentChanged);
 };
@@ -238,11 +371,21 @@ $(document).ready(() => {
     selectedColor: "#428BCA",
     selectedBackColor: "#F5F5F5",
   });
-  $('#savebtn').click(saveMarkdown);
-  $('#save-yes').click(onSaveYes);
-  $('#save-no').click(onSaveNo);
+  connectEvents();
   update();
 });
+
+const connectEvents = () => {
+  $('#savebtn').click(savePage);
+  $('#save-yes').click(onSaveYes);
+  $('#save-no').click(onSaveNo);
+  $('#title').on('input', onDocumentChanged);
+  $('#shared-text').on('input', onDocumentChanged);
+  $('#header-image').on('change', onDocumentChanged);
+  $('#pdf-input').on('change', onDocumentChanged);
+  $('#pdf-input').on('change', onPdfChanged);
+  $('#header-image').on('change', onHeaderImageChanged);
+};
 /* -------------------------------------------------------------------------- */
 
 
