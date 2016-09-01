@@ -20,6 +20,9 @@ let selNodeId = -1000;
 let documentChanged = false;
 let ignoreChangedEvent = false;
 let selectedNodeData = null;
+
+// Used to append info to window title
+const baseWindowTitle = remote.getCurrentWindow().getTitle();
 /* -------------------------------------------------------------------------- */
 
 
@@ -148,6 +151,7 @@ const loadMarkdown = (fn) => {
 
 // load title, shared text and header image info inside form
 const loadFormData = (formData, pageDir) => {
+  document.title = baseWindowTitle + ' — ' + formData.title;
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
 
