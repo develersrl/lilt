@@ -191,24 +191,21 @@ const savePage = () => {
 
         // First, copy header image and pdf in page dir
         const pageDir = path.dirname(currentMdFile);
-        const headerPath = $('#header-pic').attr('src');
+        const headerFile = $('#header-image')[0].files[0];
         const pdfFile = $('#pdf-input')[0].files[0];
 
-        if (headerPath) {
-          // We need to check if the header image is the same. If it
-          const currJson = require(path.resolve(path.join(pageDir, 'page.json')));
-          const currImagePath = path.resolve(path.join(pageDir, currJson.headerImage));
-          const newImagePath = path.resolve(headerPath);
-
-          if (currImagePath !== newImagePath) {
-            copyToDir(headerPath, pageDir);
-          }
+        if (headerFile) {
+          copyToDir(headerFile.path, pageDir);
+          // Reset the input field to avoid copying the file at every save
+          // if it didn't change
+          $('#header-image').val('');
         }
 
         if (pdfFile) {
           copyToDir(pdfFile.path, pageDir);
-          $('#pdf-input').val(''); // Reset the input field to avod copying the
-                                   // same file every time save is clicked
+          // Reset the input field to avoid copying the file at every save
+          // if it didn't change
+          $('#pdf-input').val('');
         }
 
         // Then, write page.json
@@ -216,7 +213,7 @@ const savePage = () => {
           title: $('#title').val(),
           sharedText: $('#shared-text').val(),
           pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-name').text(),
-          headerImage: path.basename(headerPath)
+          headerImage: (headerFile) ? path.basename(headerFile.path) : path.basename($('#header-pic').attr('src'))
         };
         fs.writeFileSync(
           path.join(pageDir, 'page.json'),
