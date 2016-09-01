@@ -154,6 +154,8 @@ const loadFormData = (formData, pageDir) => {
   if (formData.pdfFile) {
     $('#pdf-name').text(path.basename(formData.pdfFile));
     $('#pdf-name').removeClass('hidden');
+  } else {
+    $('#pdf-name').addClass('hidden');
   }
 
   if (formData.headerImage) {
