@@ -182,44 +182,12 @@ const savePage = () => {
       })
       .then(wait)
       .then(() => {
-        // http://stackoverflow.com/questions/18106164
-        // Write the markdown file
-        const div = document.createElement('div');
-        div.innerHTML = editor().getData();
-        const unescapedData = (div.innerText || div.textContent || "");
-        fs.writeFileSync(currentMdFile, unescapedData);
-
-        // First, copy header image and pdf in page dir
-        const pageDir = path.dirname(currentMdFile);
-        const headerFile = $('#header-image')[0].files[0];
-        const pdfFile = $('#pdf-input')[0].files[0];
-
-        if (headerFile) {
-          copyToDir(headerFile.path, pageDir);
-          // Reset the input field to avoid copying the file at every save
-          // if it didn't change
-          $('#header-image').val('');
-        }
-
-        if (pdfFile) {
-          copyToDir(pdfFile.path, pageDir);
-          // Reset the input field to avoid copying the file at every save
-          // if it didn't change
-          $('#pdf-input').val('');
-        }
-
-        // Then, write page.json
-        const jsonObj = {
-          title: $('#title').val(),
-          sharedText: $('#shared-text').val(),
-          pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-name').text(),
-          headerImage: (headerFile) ? path.basename(headerFile.path) : path.basename($('#header-pic').attr('src'))
-        };
-        fs.writeFileSync(
-          path.join(pageDir, 'page.json'),
-          JSON.stringify(jsonObj, null, '\t')
-        );
-        updateNodeData(jsonObj);
+        const currDir = path.dirname(currentMdFile);
+        copyFormFiles(currDir);
+        const pageJson = writePageJson(currDir);
+        syncImages();
+        writeMarkdown();
+        updateNodeData(pageJson);
       })
       .then(wait)
       .then(() => editor().setMode('wysiwyg'))
@@ -230,6 +198,48 @@ const savePage = () => {
         update();
       });
   }
+};
+
+const copyFormFiles = (currDir) => {
+  const headerFile = $('#header-image')[0].files[0];
+  const pdfFile = $('#pdf-input')[0].files[0];
+
+  if (headerFile)
+    copyToDir(headerFile.path, currDir);
+
+  if (pdfFile)
+    copyToDir(pdfFile.path, currDir);
+
+  // Reset input fields to avoid copying the files at every save
+  $('#header-image').val('');
+  $('#pdf-input').val('');
+};
+
+const writePageJson = (currDir) => {
+  const jsonObj = {
+    title: $('#title').val(),
+    sharedText: $('#shared-text').val(),
+    pdfFile: $('#pdf-name').text(),
+    headerImage: path.basename($('#header-pic').attr('src'))
+  };
+
+  fs.writeFileSync(
+    path.join(currDir, 'page.json'),
+    JSON.stringify(jsonObj, null, '\t')
+  );
+
+  return jsonObj;
+};
+
+const syncImages = () => {
+};
+
+const writeMarkdown = () => {
+  // http://stackoverflow.com/questions/18106164
+  const div = document.createElement('div');
+  div.innerHTML = editor().getData();
+  const unescapedData = (div.innerText || div.textContent || "");
+  fs.writeFileSync(currentMdFile, unescapedData);
 };
 
 const copyToDir = (sourceFile, targetDir) => {
