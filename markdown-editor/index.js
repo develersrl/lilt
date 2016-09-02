@@ -352,6 +352,7 @@ const ckeditorInit = () => {
     removeDialogTabs: 'image:advanced;link:advanced',
     width: '100%',
     removePlugins: 'elementspath',
+    allowedContent: 'h1 h2 h3 p strong em pre; img[!src]',
   })
   .on('change', onDocumentChanged);
 };
