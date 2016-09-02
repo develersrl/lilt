@@ -341,11 +341,13 @@ const ckeditorInit = () => {
       { name: 'clipboard', groups: ['clipboard', 'undo'] },
       { name: 'basicstyles'},
       { name: 'styles', groups: ['styles'] },
+      { name: 'insert', groups: ['insert'] },
       // { name: 'others' },  // uncomment to show "Markdown" btn
     ],
     removeButtons: 'Underline,Subscript,Superscript,Strike,' +
-        'Styles,Cut,Copy,Paste,PasteText,PasteFromWord',
-    extraPlugins: 'markdown',
+        'Styles,Cut,Copy,Paste,PasteText,PasteFromWord,Table,' +
+        'HorizontalRule,SpecialChar,Image',
+    extraPlugins: 'markdown,fs-image',
     format_tags: 'p;h1;h2;h3;pre',  // eslint-disable-line camelcase
     removeDialogTabs: 'image:advanced;link:advanced',
     width: '100%',
