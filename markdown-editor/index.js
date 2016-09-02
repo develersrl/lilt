@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const marked = require('marked');
 const remote = require('electron').remote;
+const uuid = require('node-uuid');
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
@@ -177,7 +178,6 @@ const savePage = () => {
     return Promise.resolve()
       .then(() => {
         overlayText = 'Saving..';
-        editor().setMode('markdown');
         update();
       })
       .then(wait)
@@ -185,12 +185,22 @@ const savePage = () => {
         const currDir = path.dirname(currentMdFile);
         copyFormFiles(currDir);
         const pageJson = writePageJson(currDir);
-        syncImages();
-        writeMarkdown();
+        syncImages(currDir, pageJson.headerImage);
         updateNodeData(pageJson);
       })
       .then(wait)
-      .then(() => editor().setMode('wysiwyg'))
+      .then(() => {
+        editor().setMode('markdown');
+      })
+      .then(wait)
+      .then(() => {
+        writeMarkdown();
+        update();
+      })
+      .then(wait)
+      .then(() => {
+        editor().setMode('wysiwyg');
+      })
       .then(wait)
       .then(() => {
         overlayText = '';
@@ -231,7 +241,69 @@ const writePageJson = (currDir) => {
   return jsonObj;
 };
 
-const syncImages = () => {
+const syncImages = (currDir, headerImage) => {
+/* High-level overview of the process:
+ * 1: We list every image referenced in the markdown (mdImgs)
+ * 2: We differentiate and split those into two lists based on the src att
+ *    - internal: those that are inside our dir as tuples (name, index)
+ *    - external: those that come from outside our dir as tuples (path, index)
+ *    The index is the one from the original list (mdImgs). This will be needed
+ *    when we'll modify the ckeditor's html before saving it as markdown.
+ * 3: We list all the images inside our dir (currImgs)
+ * 4: Delete all the images that appear in currImgs but not in mdImgs, because
+ *    that means that they have been removed from the markdown. The header
+ *    image (fetched from page.json) is excluded, meaning we consider it as if
+ *    it were in the markdown.
+ * 5: We copy all the images in the external list in our dir, changing their
+ *    name to an uuid and at the same time replacing the src attributes of the
+ *    elements inside mdImgs to the new name.
+ * 6: We set the editor data with the data with the changed images.
+ */
+
+  // Step 1
+  const parser = document.createElement('div');
+  parser.innerHTML = editor().getData();
+  const mdImgs = parser.getElementsByTagName('img');
+  console.log("all images", mdImgs);
+
+  // Step 2
+  const external = [];
+  const internal = [];
+  for (let index = 0; index < mdImgs.length; index++) {
+    // 7 here is the length of the string 'file://'
+    const imgVal = mdImgs[index].src.substring(7);
+    // Images external to our dir have absolute paths
+    if (path.isAbsolute(imgVal))
+      external.push({ path: imgVal, originalIndex: index });
+    else
+      internal.push({ name: imgVal, originalIndex: index });
+  }
+  console.log("external", external);
+  console.log("internal", internal);
+
+  // Step 3
+  const dirFiles = fs.readdirSync(currDir);
+  const isImage = (x) => ['.png', '.jpg'].includes(path.extname(x));
+  const currImgs = dirFiles.filter(isImage);
+  console.log("inside folder", currImgs);
+
+  // Step 4
+  // We use [...] because mdImgs is not an array, but an HTMLCollection
+  const mdImgsSrcs = [...mdImgs].map((x) => x.src.substring(7));
+  mdImgsSrcs.push(headerImage);
+  const toDelete = currImgs.filter((x) => !mdImgsSrcs.includes(x));
+  console.log("need to delete", toDelete);
+
+  // Step 5
+  for (let img = 0; img < external.length; img++) {
+    const origIdx = external[img].originalIndex;
+    const newImageName = copyToDir(external[img].path, currDir);
+    mdImgs[origIdx].src = path.join(currDir, newImageName);
+  }
+
+  // Step 6
+  // mdImgs referenced the <img> tags inside parser the whole time
+  editor().setData(parser.innerHTML);
 };
 
 const writeMarkdown = () => {
@@ -244,7 +316,9 @@ const writeMarkdown = () => {
 
 const copyToDir = (sourceFile, targetDir) => {
   const sourceName = path.basename(sourceFile);
-  const targetFile = path.join(path.resolve(targetDir), sourceName);
+  const sourceExt = path.extname(sourceName);
+  const targetName = uuid.v4() + sourceExt;
+  const targetFile = path.join(path.resolve(targetDir), targetName);
 
   const inStream = fs.createReadStream(sourceFile);
   const outStream = fs.createWriteStream(targetFile);
@@ -260,6 +334,7 @@ const copyToDir = (sourceFile, targetDir) => {
   });
 
   inStream.pipe(outStream);
+  return targetName;
 };
 
 /* When clicking on a node in the tree, the info to display is fetched from the
