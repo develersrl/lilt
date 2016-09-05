@@ -531,9 +531,9 @@ const connectEvents = () => {
   $('#title').on('input', onDocumentChanged);
   $('#shared-text').on('input', onDocumentChanged);
   $('#header-image').on('change', onDocumentChanged);
+  $('#header-image').on('change', onHeaderImageChanged);
   $('#pdf-input').on('change', onDocumentChanged);
   $('#pdf-input').on('change', onPdfChanged);
-  $('#header-image').on('change', onHeaderImageChanged);
 };
 /* -------------------------------------------------------------------------- */
 
