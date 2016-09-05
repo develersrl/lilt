@@ -317,7 +317,7 @@ const syncImages = (currDir, headerImage) => {
     if (isExternal(imgVal))
       external.push({ path: imgVal, originalIndex: index });
     else
-      internal.push({ name: imgVal, originalIndex: index });
+      internal.push({ name: path.basename(imgVal), originalIndex: index });
   }
 
   // Step 3
@@ -355,7 +355,7 @@ const syncImages = (currDir, headerImage) => {
   // Step 6
   for (let img = 0; img < internal.length; img++) {
     const origIdx = internal[img].originalIndex;
-    mdImgs[origIdx].src = path.basename(internal[img].name);
+    mdImgs[origIdx].src = internal[img].name;
   }
 
   // Step 7
