@@ -251,7 +251,7 @@ const copyFormFiles = (currDir) => {
   }
 
   if (pdfFile)
-    copyToDir(pdfFile.path, currDir);
+    copyToDir(pdfFile.path, currDir, {mangle: false});
 
   // Reset input fields to avoid copying the files at every save
   $('#header-image').val('');
@@ -371,10 +371,10 @@ const writeMarkdown = () => {
   fs.writeFileSync(currentMdFile, unescapedData);
 };
 
-const copyToDir = (sourceFile, targetDir) => {
+const copyToDir = (sourceFile, targetDir, options = {mangle: true}) => {
   const sourceName = path.basename(sourceFile);
   const sourceExt = path.extname(sourceName);
-  const targetName = uuid.v4() + sourceExt;
+  const targetName = (options.mangle) ? uuid.v4() + sourceExt : sourceName;
   const targetFile = path.join(path.resolve(targetDir), targetName);
 
   const inStream = fs.createReadStream(sourceFile);
