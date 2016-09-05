@@ -1,5 +1,9 @@
 rootProject.name = 'lilt'
 
 include ':app'
+include ':react-native-file-opener'
+project(':react-native-file-opener').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-file-opener/android')
+include ':react-native-fs'
+project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
 include ':react-native-mixpanel'
 project(':react-native-mixpanel').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mixpanel/android')

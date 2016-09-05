@@ -1,6 +1,8 @@
 package com.lilt;
 
 import com.facebook.react.ReactActivity;
+import com.fileopener.FileOpenerPackage;
+import com.rnfs.RNFSPackage;
 
 public class MainActivity extends ReactActivity {
 

@@ -23,10 +23,13 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		C07A35C31D7988F7004223B4 /* pdf in Resources */ = {isa = PBXBuildFile; fileRef = C07A35C21D7988F7004223B4 /* pdf */; };
 		C08E61241D74771400C6AE57 /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0CAA7B21D4F434700F87F82 /* libRNMixpanel.a */; };
 		C08E61251D74771C00C6AE57 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C02B46F11D34F20100E11F31 /* libRNSearchBar.a */; };
 		C08E61261D74772300C6AE57 /* libRNTableView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C03081511D3788DE0044FE5C /* libRNTableView.a */; };
 		C08E61341D7478A300C6AE57 /* libPods-lilt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C08E61301D74775100C6AE57 /* libPods-lilt.a */; };
+		C0BB46AC1D79BCDC00DDB2FE /* libRNFileOpener.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0BB46A71D79BCAF00DDB2FE /* libRNFileOpener.a */; };
+		C0CC521A1D798B1000B8C7F1 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C07A35F31D798A25004223B4 /* libRNFS.a */; };
 		C0D831C21D363DB600141DDB /* glossary.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D831C11D363DB600141DDB /* glossary.json */; };
 		EE1EDD315C75E1C67C4FD662 /* libPods-liltTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA7D0AD0AF17C5EB67DB766 /* libPods-liltTests.a */; };
 /* End PBXBuildFile section */
@@ -123,6 +126,13 @@
 			remoteGlobalIDString = 873769951B7CD6E900F7C3C2;
 			remoteInfo = RNTableView;
 		};
+		C07A35F21D798A25004223B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3490A99D3C804D339D659F51 /* RNFS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
+			remoteInfo = RNFS;
+		};
 		C08E612D1D74775100C6AE57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C08E61271D74775100C6AE57 /* Pods.xcodeproj */;
@@ -144,6 +154,13 @@
 			remoteGlobalIDString = F6673F12F3C17ADB6EE3CDA5286D5486;
 			remoteInfo = "Pods-liltTests";
 		};
+		C0BB46A61D79BCAF00DDB2FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0CE93D302E304B3A87F2FB7A /* RNFileOpener.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DB8F70EF1CD3047700E71D6D;
+			remoteInfo = RNFileOpener;
+		};
 		C0CAA7B11D4F434700F87F82 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D36FF04DC4AA4FCCB1F67F82 /* RNMixpanel.xcodeproj */;
@@ -163,6 +180,7 @@
 		00E356EE1AD99517003FC87E /* liltTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = liltTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* liltTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = liltTests.m; sourceTree = "<group>"; };
+		0CE93D302E304B3A87F2FB7A /* RNFileOpener.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFileOpener.xcodeproj; path = "../node_modules/react-native-file-opener/ios/RNFileOpener.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* lilt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lilt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,12 +193,14 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1E62DC6900073840E29D7EC3 /* Pods-lilt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lilt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lilt/Pods-lilt.debug.xcconfig"; sourceTree = "<group>"; };
 		2BA7D0AD0AF17C5EB67DB766 /* libPods-liltTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-liltTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3490A99D3C804D339D659F51 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		3D4FA0EC103E4FC9977D557E /* RNSearchBar.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSearchBar.xcodeproj; path = "../node_modules/react-native-search-bar/RNSearchBar.xcodeproj"; sourceTree = "<group>"; };
 		65B2A0C1DE62357CA47E9C2D /* Pods-liltTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liltTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-liltTests/Pods-liltTests.release.xcconfig"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		804FC6D0F9A945DC806B52B7 /* RNTableView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTableView.xcodeproj; path = "../node_modules/react-native-tableview/RNTableView.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		9451514BA1CF3DCE99F6CF1F /* Pods-liltTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liltTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-liltTests/Pods-liltTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C07A35C21D7988F7004223B4 /* pdf */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pdf; path = ../content/pdf; sourceTree = "<group>"; };
 		C08E61271D74775100C6AE57 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		C0D831C11D363DB600141DDB /* glossary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = glossary.json; path = ../content/glossary.json; sourceTree = "<group>"; };
 		D36FF04DC4AA4FCCB1F67F82 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
@@ -202,6 +222,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0BB46AC1D79BCDC00DDB2FE /* libRNFileOpener.a in Frameworks */,
+				C0CC521A1D798B1000B8C7F1 /* libRNFS.a in Frameworks */,
 				C08E61341D7478A300C6AE57 /* libPods-lilt.a in Frameworks */,
 				C08E61261D74772300C6AE57 /* libRNTableView.a in Frameworks */,
 				C08E61251D74771C00C6AE57 /* libRNSearchBar.a in Frameworks */,
@@ -362,6 +384,8 @@
 				3D4FA0EC103E4FC9977D557E /* RNSearchBar.xcodeproj */,
 				804FC6D0F9A945DC806B52B7 /* RNTableView.xcodeproj */,
 				D36FF04DC4AA4FCCB1F67F82 /* RNMixpanel.xcodeproj */,
+				3490A99D3C804D339D659F51 /* RNFS.xcodeproj */,
+				0CE93D302E304B3A87F2FB7A /* RNFileOpener.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -377,6 +401,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C07A35C21D7988F7004223B4 /* pdf */,
 				C0D831C11D363DB600141DDB /* glossary.json */,
 				13B07FAE1A68108700A75B9A /* lilt */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -414,12 +439,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C07A35E21D798A25004223B4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C07A35F31D798A25004223B4 /* libRNFS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C08E61281D74775100C6AE57 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				C08E612E1D74775100C6AE57 /* libMixpanel.a */,
 				C08E61301D74775100C6AE57 /* libPods-lilt.a */,
 				C08E61321D74775100C6AE57 /* libPods-liltTests.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0BB46961D79BCAF00DDB2FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0BB46A71D79BCAF00DDB2FE /* libRNFileOpener.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -552,6 +593,14 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = C0BB46961D79BCAF00DDB2FE /* Products */;
+					ProjectRef = 0CE93D302E304B3A87F2FB7A /* RNFileOpener.xcodeproj */;
+				},
+				{
+					ProductGroup = C07A35E21D798A25004223B4 /* Products */;
+					ProjectRef = 3490A99D3C804D339D659F51 /* RNFS.xcodeproj */;
+				},
+				{
 					ProductGroup = C0CAA7A41D4F434600F87F82 /* Products */;
 					ProjectRef = D36FF04DC4AA4FCCB1F67F82 /* RNMixpanel.xcodeproj */;
 				},
@@ -657,6 +706,13 @@
 			remoteRef = C03081501D3788DE0044FE5C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C07A35F31D798A25004223B4 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = C07A35F21D798A25004223B4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C08E612E1D74775100C6AE57 /* libMixpanel.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -676,6 +732,13 @@
 			fileType = archive.ar;
 			path = "libPods-liltTests.a";
 			remoteRef = C08E61311D74775100C6AE57 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C0BB46A71D79BCAF00DDB2FE /* libRNFileOpener.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFileOpener.a;
+			remoteRef = C0BB46A61D79BCAF00DDB2FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C0CAA7B21D4F434700F87F82 /* libRNMixpanel.a */ = {
@@ -699,6 +762,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C07A35C31D7988F7004223B4 /* pdf in Resources */,
 				C0D831C21D363DB600141DDB /* glossary.json in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
@@ -871,6 +935,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -893,6 +959,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -919,8 +987,10 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-search-bar/**",
-					"$(SRCROOT)/../node_modules/react-native-tableview/RNTableView",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-tableview/RNTableView/**",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-file-opener/ios/RNFileOpener/**",
 				);
 				INFOPLIST_FILE = lilt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -947,8 +1017,10 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-search-bar/**",
-					"$(SRCROOT)/../node_modules/react-native-tableview/RNTableView",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-tableview/RNTableView/**",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel/**",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-file-opener/ios/RNFileOpener/**",
 				);
 				INFOPLIST_FILE = lilt/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1004,6 +1076,8 @@
 					"$(SRCROOT)/../node_modules/react-native-search-bar/**",
 					"$(SRCROOT)/../node_modules/react-native-tableview/RNTableView",
 					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-file-opener/ios/RNFileOpener",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1047,6 +1121,8 @@
 					"$(SRCROOT)/../node_modules/react-native-search-bar/**",
 					"$(SRCROOT)/../node_modules/react-native-tableview/RNTableView",
 					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-file-opener/ios/RNFileOpener",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

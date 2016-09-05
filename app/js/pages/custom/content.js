@@ -1,8 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, TouchableOpacity } from 'react-native';
 
+import { openPdf } from '../../misc';
 import { Stripe } from '../../blocks';
 import { common, pages } from '../../style';
 
@@ -23,7 +24,9 @@ export default class Content extends Component {
           </View>
           <View style={[content.header.footer]}>
             <View style={content.header.actionView}>
-              <Text style={content.header.text}>Dwnl</Text>
+              <TouchableOpacity onPress={() => openPdf('pdf-sample.pdf')}>
+                <Text style={content.header.text}>PDF</Text>
+              </TouchableOpacity>
             </View>
             <View style={content.header.separator} />
             <View style={content.header.actionView}>
