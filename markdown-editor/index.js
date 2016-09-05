@@ -126,6 +126,16 @@ const getTreeNodes = (dir) => {
 // obtain jQuery tree node object by node id
 const getNode = (nodeId) => $('*[data-nodeid="' + nodeId + '"]');
 
+// get current formData
+const getFormData = () => {
+  return {
+    title: $('#title').val(),
+    sharedText: $('#shared-text').val(),
+    pdfFile: $('#pdf-name').text(),
+    headerImage: path.basename($('#header-pic').attr('src'))
+  };
+};
+
 // load markdown file inside the editor
 const loadMarkdown = (mdFilePath, currDir) => {
   Promise.resolve()
@@ -207,7 +217,8 @@ const savePage = () => {
       .then(() => {
         const currDir = path.dirname(currentMdFile);
         copyFormFiles(currDir);
-        const pageJson = writePageJson(currDir);
+        writePageJson(currDir);
+        const pageJson = getFormData();
         syncImages(currDir, pageJson.headerImage);
         updateNodeData(pageJson);
       })
@@ -234,8 +245,10 @@ const copyFormFiles = (currDir) => {
   const headerFile = $('#header-image')[0].files[0];
   const pdfFile = $('#pdf-input')[0].files[0];
 
-  if (headerFile)
-    copyToDir(headerFile.path, currDir);
+  if (headerFile) {
+    const newName = copyToDir(headerFile.path, currDir);
+    $('#header-pic').attr('src', path.join(currDir, newName));
+  }
 
   if (pdfFile)
     copyToDir(pdfFile.path, currDir);
@@ -246,19 +259,10 @@ const copyFormFiles = (currDir) => {
 };
 
 const writePageJson = (currDir) => {
-  const jsonObj = {
-    title: $('#title').val(),
-    sharedText: $('#shared-text').val(),
-    pdfFile: $('#pdf-name').text(),
-    headerImage: path.basename($('#header-pic').attr('src'))
-  };
-
   fs.writeFileSync(
     path.join(currDir, 'page.json'),
-    JSON.stringify(jsonObj, null, '\t')
+    JSON.stringify(getFormData(), null, '\t')
   );
-
-  return jsonObj;
 };
 
 const syncImages = (currDir, headerImage) => {
@@ -384,6 +388,10 @@ const copyToDir = (sourceFile, targetDir) => {
   outStream.on('error', () => {
     // TODO missing proper error handling
     console.error("Error writing file", targetFile);
+  });
+
+  outStream.on('finish', () => {
+    loadFormData(getFormData(), path.dirname(currentMdFile))
   });
 
   inStream.pipe(outStream);
