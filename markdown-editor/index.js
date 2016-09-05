@@ -127,21 +127,44 @@ const getTreeNodes = (dir) => {
 const getNode = (nodeId) => $('*[data-nodeid="' + nodeId + '"]');
 
 // load markdown file inside the editor
-const loadMarkdown = (fn) => {
+const loadMarkdown = (mdFilePath, currDir) => {
   Promise.resolve()
     .then(() => {
       documentChanged = false;
       ignoreChangedEvent = true;
-      currentMdFile = fn;
+      currentMdFile = mdFilePath;
       overlayText = 'Loading..';
       editor().setMode('wysiwyg');
       update();
     })
     .then(wait)
-    .then(() => editor().setData(marked(
-      fs.readFileSync(fn, "utf-8"),
-      { langPrefix: 'language-' }  // same setting used by ckeditor
-    )))
+    .then(() => {
+      // Function to transform a relative src path to an absolute one
+      const relativeToAbsolute = (rel) => {
+        // Since we first load the raw html to a div to parse it, the browser
+        // will automatically transform any relative paths to absolute, but it
+        // will do it from the point of view of the binary executable, so the
+        // relative paths we get here are actually wrong absolute paths. Since
+        // we are really only interested in the name of the image file, we use
+        // path.basename to remove the wrong absolute portion of the path
+        return path.resolve(path.join(currDir, path.basename(rel)));
+      };
+
+      // htmlDoc is the html representation of the on-disk markdown
+      const htmlDoc = document.createElement('div');
+      htmlDoc.innerHTML = marked(
+        fs.readFileSync(mdFilePath, "utf-8"),
+        { langPrefix: 'language-' }  // same setting used by ckeditor
+      );
+
+      // We get all the img elements in the document
+      const imgs = htmlDoc.getElementsByTagName('img');
+      // And transform every src attribute from relative to absolute
+      [...imgs].map((img) => img.src = relativeToAbsolute(img.src));
+
+      // Finally we populate the editor with that data
+      editor().setData(htmlDoc.innerHTML);
+    })
     .then(wait)
     .then(() => {
       overlayText = '';
@@ -195,11 +218,8 @@ const savePage = () => {
       .then(wait)
       .then(() => {
         writeMarkdown();
-        update();
-      })
-      .then(wait)
-      .then(() => {
-        editor().setMode('wysiwyg');
+        // loadMarkdown calls update()
+        loadMarkdown(currentMdFile, path.dirname(currentMdFile));
       })
       .then(wait)
       .then(() => {
@@ -244,9 +264,8 @@ const writePageJson = (currDir) => {
 const syncImages = (currDir, headerImage) => {
 /* High-level overview of the process:
  * 1: We list every image referenced in the markdown (mdImgs)
- * 2: We differentiate and split those into two lists based on the src att
- *    - internal: those that are inside our dir as tuples (name, index)
- *    - external: those that come from outside our dir as tuples (path, index)
+ * 2: We separate those that are outside our dir in a list (external) as
+ *    tuples (path, index).
  *    The index is the one from the original list (mdImgs). This will be needed
  *    when we'll modify the ckeditor's html before saving it as markdown.
  * 3: We list all the images inside our dir (currImgs)
@@ -257,51 +276,85 @@ const syncImages = (currDir, headerImage) => {
  * 5: We copy all the images in the external list in our dir, changing their
  *    name to an uuid and at the same time replacing the src attributes of the
  *    elements inside mdImgs to the new name.
- * 6: We set the editor data with the data with the changed images.
+ * 6: We iterate over every internal image and replace the corresponding src
+ *    attribute inside mdImgs to the base name, since at this point every src
+ *    is absolute, even those that point inside our directory.
+ * 7: We set the editor data with the data with the changed images. This is
+ *    necessary because the way we convert this html to markdown is by letting
+ *    ckeditor parse and convert it. This has the side-effect of generating GET
+ *    errors in the console because the browser will try to fetch the images
+ *    with relative paths by resolving it to a (wrong) absolute path, before we
+ *    have the chance to rectify this by calling loadMarkdown, which does the
+ *    opposite conversion of relative to (correct) absolute paths.
  */
 
   // Step 1
   const parser = document.createElement('div');
   parser.innerHTML = editor().getData();
   const mdImgs = parser.getElementsByTagName('img');
-  console.log("all images", mdImgs);
 
   // Step 2
+  // Helper function to determine if a src path is internal to the current dir
+  const isExternal = (src) => {
+    // path.relative(dir, file) outputs the relative path of file from dir
+    // Example: if dir is "/home/foo" and file is "/home/foo/bar.png" then
+    // path.relative(dir, file) outputs "bar.png". If file were "/home/bar.png"
+    // path.relative(dir, file) would output "../bar.png".
+    // So anything that is "up" in the directory tree, and thus external to our
+    // currDir, inevitably starts with ".."
+    // On windows the path will be something like "..\\bar.png"
+    return path.relative(currDir, src).startsWith("..");
+  };
   const external = [];
   const internal = [];
   for (let index = 0; index < mdImgs.length; index++) {
     // 7 here is the length of the string 'file://'
     const imgVal = mdImgs[index].src.substring(7);
-    // Images external to our dir have absolute paths
-    if (path.isAbsolute(imgVal))
+    if (isExternal(imgVal))
       external.push({ path: imgVal, originalIndex: index });
     else
       internal.push({ name: imgVal, originalIndex: index });
   }
-  console.log("external", external);
-  console.log("internal", internal);
 
   // Step 3
   const dirFiles = fs.readdirSync(currDir);
   const isImage = (x) => ['.png', '.jpg'].includes(path.extname(x));
   const currImgs = dirFiles.filter(isImage);
-  console.log("inside folder", currImgs);
 
   // Step 4
   // We use [...] because mdImgs is not an array, but an HTMLCollection
-  const mdImgsSrcs = [...mdImgs].map((x) => x.src.substring(7));
+  // We use path.basename because each src attribute is an absolute path, but
+  // we are only interested in the image name
+  const mdImgsSrcs = [...mdImgs].map((x) => path.basename(x.src));
   mdImgsSrcs.push(headerImage);
   const toDelete = currImgs.filter((x) => !mdImgsSrcs.includes(x));
-  console.log("need to delete", toDelete);
+  // We map fs.unlink on every element of toDelete. Since toDelete contains
+  // image names rather than paths, we need to resolve those and unlink them.
+  // fs.unlink also takes a completion callback, which we provide.
+  toDelete.map((imgName) => {
+    const imgPath = path.resolve(path.join(currDir, imgName));
+    fs.unlink(imgPath, (err) => {
+      if (err) {
+        console.error("error deleting", imgPath + ":");
+        console.error(err);
+      }
+    });
+  });
 
   // Step 5
   for (let img = 0; img < external.length; img++) {
     const origIdx = external[img].originalIndex;
     const newImageName = copyToDir(external[img].path, currDir);
-    mdImgs[origIdx].src = path.join(currDir, newImageName);
+    mdImgs[origIdx].src = newImageName;
   }
 
   // Step 6
+  for (let img = 0; img < internal.length; img++) {
+    const origIdx = internal[img].originalIndex;
+    mdImgs[origIdx].src = path.basename(internal[img].name);
+  }
+
+  // Step 7
   // mdImgs referenced the <img> tags inside parser the whole time
   editor().setData(parser.innerHTML);
 };
@@ -354,7 +407,7 @@ const updateNodeData = (obj) => {
 const switchDocument = (nodeData) => {
   prevNodeId = selNodeId;
   selNodeId = nodeData.nodeId;
-  loadMarkdown(nodeData.path);  // calls the update() method
+  loadMarkdown(nodeData.path, path.dirname(nodeData.path)); // calls update()
   loadFormData(nodeData.formData, path.dirname(nodeData.path));
 };
 /* -------------------------------------------------------------------------- */
