@@ -1,8 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const marked = require('marked');
 const remote = require('electron').remote;
 const uuid = require('node-uuid');
+
+// Load marked.js inside ckeditor plugin 'markdown'
+CKEDITOR.scriptLoader.load(
+  path.join('ckeditor', 'plugins', 'markdown', 'js', 'marked.js')
+);
+
+// Load to-markdown.js inside ckeditor plugin 'markdown'
+CKEDITOR.scriptLoader.load(
+  path.join('ckeditor', 'plugins', 'markdown', 'js', 'to-markdown.js')
+);
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
@@ -144,11 +153,8 @@ const loadMarkdown = (mdFilePath, currDir) => {
       ignoreChangedEvent = true;
       currentMdFile = mdFilePath;
       overlayText = 'Loading..';
-      editor().setMode('wysiwyg');
       update();
-    })
-    .then(wait)
-    .then(() => {
+
       // Function to transform a relative src path to an absolute one
       const relativeToAbsolute = (rel) => {
         // Since we first load the raw html to a div to parse it, the browser
@@ -212,31 +218,27 @@ const savePage = () => {
       .then(() => {
         overlayText = 'Saving..';
         update();
-      })
-      .then(wait)
-      .then(() => {
+
         const currDir = path.dirname(currentMdFile);
         copyFormFiles(currDir);
         writePageJson(currDir);
         const pageJson = getFormData();
-        syncImages(currDir, pageJson.headerImage);
+        const finalHTML = syncImages(currDir, pageJson.headerImage);
         updateNodeData(pageJson);
+
+        writeMarkdown(finalHTML);
       })
       .then(wait)
       .then(() => {
-        editor().setMode('markdown');
-      })
-      .then(wait)
-      .then(() => {
-        writeMarkdown();
-        // loadMarkdown calls update()
-        loadMarkdown(currentMdFile, path.dirname(currentMdFile));
-      })
-      .then(wait)
-      .then(() => {
+        // We do documentChanged = false after wait because otherwise the
+        // tree will still think that it changed
         overlayText = '';
         documentChanged = false;
-        update();
+
+        // loadMarkdown calls update()
+        // We call it after wait because a corrupted image is show otherwise,
+        // even if the path is correct
+        loadMarkdown(currentMdFile, path.dirname(currentMdFile));
       });
   }
 };
@@ -293,9 +295,9 @@ const syncImages = (currDir, headerImage) => {
  */
 
   // Step 1
-  const parser = document.createElement('div');
-  parser.innerHTML = editor().getData();
-  const mdImgs = parser.getElementsByTagName('img');
+  const parser = new DOMParser;
+  const dom = parser.parseFromString(editor().getData(), 'text/html');
+  const mdImgs = dom.getElementsByTagName('img');
 
   // Step 2
   // Helper function to determine if a src path is internal to the current dir
@@ -312,8 +314,7 @@ const syncImages = (currDir, headerImage) => {
   const external = [];
   const internal = [];
   for (let index = 0; index < mdImgs.length; index++) {
-    // 7 here is the length of the string 'file://'
-    const imgVal = mdImgs[index].src.substring(7);
+    const imgVal = mdImgs[index].getAttribute('src');
     if (isExternal(imgVal))
       external.push({ path: imgVal, originalIndex: index });
     else
@@ -329,7 +330,7 @@ const syncImages = (currDir, headerImage) => {
   // We use [...] because mdImgs is not an array, but an HTMLCollection
   // We use path.basename because each src attribute is an absolute path, but
   // we are only interested in the image name
-  const mdImgsSrcs = [...mdImgs].map((x) => path.basename(x.src));
+  const mdImgsSrcs = [...mdImgs].map((x) => path.basename(x.getAttribute('src')));
   mdImgsSrcs.push(headerImage);
   const toDelete = currImgs.filter((x) => !mdImgsSrcs.includes(x));
   // We map fs.unlink on every element of toDelete. Since toDelete contains
@@ -349,24 +350,23 @@ const syncImages = (currDir, headerImage) => {
   for (let img = 0; img < external.length; img++) {
     const origIdx = external[img].originalIndex;
     const newImageName = copyToDir(external[img].path, currDir);
-    mdImgs[origIdx].src = newImageName;
+    mdImgs[origIdx].setAttribute('src', newImageName);
   }
 
   // Step 6
   for (let img = 0; img < internal.length; img++) {
     const origIdx = internal[img].originalIndex;
-    mdImgs[origIdx].src = internal[img].name;
+    mdImgs[origIdx].setAttribute('src', internal[img].name);
   }
 
   // Step 7
-  // mdImgs referenced the <img> tags inside parser the whole time
-  editor().setData(parser.innerHTML);
+  return dom.documentElement.innerHTML;
 };
 
-const writeMarkdown = () => {
+const writeMarkdown = (sourceHTML) => {
   // http://stackoverflow.com/questions/18106164
   const div = document.createElement('div');
-  div.innerHTML = editor().getData();
+  div.innerHTML = toMarkdown(sourceHTML);
   const unescapedData = (div.innerText || div.textContent || "");
   fs.writeFileSync(currentMdFile, unescapedData);
 };
