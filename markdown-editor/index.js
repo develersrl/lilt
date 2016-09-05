@@ -203,7 +203,7 @@ const loadFormData = (formData, pageDir) => {
   }
 
   if (formData.headerImage) {
-    $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
+    $('#header-pic').attr('src', path.resolve(path.join(pageDir, formData.headerImage)));
     $('#header-image-container').removeClass('hidden');
   } else {
     $('#header-pic').attr('src', '');
