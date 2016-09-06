@@ -236,7 +236,7 @@ const savePage = () => {
         documentChanged = false;
 
         // loadMarkdown calls update()
-        // We call it after wait because a corrupted image is show otherwise,
+        // We call it after wait because a corrupted image is shown otherwise,
         // even if the path is correct
         loadMarkdown(currentMdFile, path.dirname(currentMdFile));
       });
@@ -285,13 +285,8 @@ const syncImages = (currDir, headerImage) => {
  * 6: We iterate over every internal image and replace the corresponding src
  *    attribute inside mdImgs to the base name, since at this point every src
  *    is absolute, even those that point inside our directory.
- * 7: We set the editor data with the data with the changed images. This is
- *    necessary because the way we convert this html to markdown is by letting
- *    ckeditor parse and convert it. This has the side-effect of generating GET
- *    errors in the console because the browser will try to fetch the images
- *    with relative paths by resolving it to a (wrong) absolute path, before we
- *    have the chance to rectify this by calling loadMarkdown, which does the
- *    opposite conversion of relative to (correct) absolute paths.
+ * 7: We return the processed resulting html so that it can then be written to
+ *    disk.
  */
 
   // Step 1
