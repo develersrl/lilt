@@ -309,7 +309,17 @@ const syncImages = (currDir, headerImage) => {
     // So anything that is "up" in the directory tree, and thus external to our
     // currDir, inevitably starts with ".."
     // On windows the path will be something like "..\\bar.png"
-    return path.relative(currDir, src).startsWith("..");
+    const relPath = path.relative(currDir, src);
+    // But there is another case: different roots. *nix systems have a common
+    // root: /. Windows, on the other hand, can have different roots: C:, D:
+    // and so on. If src is on a different root than currDir than path.relative
+    // will output src, which will be an absolute path with a different root.
+    // For example, if currDir is somewhere on C: and is
+    // 'markdown/Contenuti/foo', and src is 'D:/images/bar.png' then
+    // path.relative(currDir, src) will output 'D:/images/bar.png', which is
+    // pretty clearly *not* a relative path, but it still means the src is
+    // external to our currDir.
+    return relPath.startsWith("..") || path.isAbsolute(relPath);
   };
   const external = [];
   const internal = [];
