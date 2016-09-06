@@ -15,7 +15,7 @@ CKEDITOR.scriptLoader.load(
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
-const defaultMarkdownDir = 'markdown';
+const defaultMarkdownDir = 'appdata';
 
 // when the overlay text is specified the editor is hidden
 let overlayText = 'Please select a document.';
@@ -86,7 +86,7 @@ const walk = (dir) => {
     fs.statSync(dir).isDirectory();
   }
   catch (err) {
-    overlayText = 'Cannot find markdown directory';
+    overlayText = 'Cannot find data directory';
     return tree;
   }
 
