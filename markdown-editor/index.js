@@ -1,7 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const marked = require('marked');
 const remote = require('electron').remote;
+const uuid = require('node-uuid');
+
+// Load marked.js inside ckeditor plugin 'markdown'
+CKEDITOR.scriptLoader.load(
+  path.join('ckeditor', 'plugins', 'markdown', 'js', 'marked.js')
+);
+
+// Load to-markdown.js inside ckeditor plugin 'markdown'
+CKEDITOR.scriptLoader.load(
+  path.join('ckeditor', 'plugins', 'markdown', 'js', 'to-markdown.js')
+);
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
@@ -125,22 +135,52 @@ const getTreeNodes = (dir) => {
 // obtain jQuery tree node object by node id
 const getNode = (nodeId) => $('*[data-nodeid="' + nodeId + '"]');
 
+// get current formData
+const getFormData = () => {
+  return {
+    title: $('#title').val(),
+    sharedText: $('#shared-text').val(),
+    pdfFile: $('#pdf-name').text(),
+    headerImage: path.basename($('#header-pic').attr('src'))
+  };
+};
+
 // load markdown file inside the editor
-const loadMarkdown = (fn) => {
+const loadMarkdown = (mdFilePath, currDir) => {
   Promise.resolve()
     .then(() => {
       documentChanged = false;
       ignoreChangedEvent = true;
-      currentMdFile = fn;
+      currentMdFile = mdFilePath;
       overlayText = 'Loading..';
-      editor().setMode('wysiwyg');
       update();
+
+      // Function to transform a relative src path to an absolute one
+      const relativeToAbsolute = (rel) => {
+        // Since we first load the raw html to a div to parse it, the browser
+        // will automatically transform any relative paths to absolute, but it
+        // will do it from the point of view of the binary executable, so the
+        // relative paths we get here are actually wrong absolute paths. Since
+        // we are really only interested in the name of the image file, we use
+        // path.basename to remove the wrong absolute portion of the path
+        return path.resolve(path.join(currDir, path.basename(rel)));
+      };
+
+      // htmlDoc is the html representation of the on-disk markdown
+      const htmlDoc = document.createElement('div');
+      htmlDoc.innerHTML = marked(
+        fs.readFileSync(mdFilePath, "utf-8"),
+        { langPrefix: 'language-' }  // same setting used by ckeditor
+      );
+
+      // We get all the img elements in the document
+      const imgs = htmlDoc.getElementsByTagName('img');
+      // And transform every src attribute from relative to absolute
+      [...imgs].map((img) => img.src = relativeToAbsolute(img.src));
+
+      // Finally we populate the editor with that data
+      editor().setData(htmlDoc.innerHTML);
     })
-    .then(wait)
-    .then(() => editor().setData(marked(
-      fs.readFileSync(fn, "utf-8"),
-      { langPrefix: 'language-' }  // same setting used by ckeditor
-    )))
     .then(wait)
     .then(() => {
       overlayText = '';
@@ -163,7 +203,7 @@ const loadFormData = (formData, pageDir) => {
   }
 
   if (formData.headerImage) {
-    $('#header-pic').attr('src', path.join(pageDir, formData.headerImage));
+    $('#header-pic').attr('src', path.resolve(path.join(pageDir, formData.headerImage)));
     $('#header-image-container').removeClass('hidden');
   } else {
     $('#header-pic').attr('src', '');
@@ -177,64 +217,170 @@ const savePage = () => {
     return Promise.resolve()
       .then(() => {
         overlayText = 'Saving..';
-        editor().setMode('markdown');
         update();
+
+        const currDir = path.dirname(currentMdFile);
+        copyFormFiles(currDir);
+        writePageJson(currDir);
+        const pageJson = getFormData();
+        const finalHTML = syncImages(currDir, pageJson.headerImage);
+        updateNodeData(pageJson);
+
+        writeMarkdown(finalHTML);
       })
       .then(wait)
       .then(() => {
-        // http://stackoverflow.com/questions/18106164
-        // Write the markdown file
-        const div = document.createElement('div');
-        div.innerHTML = editor().getData();
-        const unescapedData = (div.innerText || div.textContent || "");
-        fs.writeFileSync(currentMdFile, unescapedData);
-
-        // First, copy header image and pdf in page dir
-        const pageDir = path.dirname(currentMdFile);
-        const headerFile = $('#header-image')[0].files[0];
-        const pdfFile = $('#pdf-input')[0].files[0];
-
-        if (headerFile) {
-          copyToDir(headerFile.path, pageDir);
-          // Reset the input field to avoid copying the file at every save
-          // if it didn't change
-          $('#header-image').val('');
-        }
-
-        if (pdfFile) {
-          copyToDir(pdfFile.path, pageDir);
-          // Reset the input field to avoid copying the file at every save
-          // if it didn't change
-          $('#pdf-input').val('');
-        }
-
-        // Then, write page.json
-        const jsonObj = {
-          title: $('#title').val(),
-          sharedText: $('#shared-text').val(),
-          pdfFile: (pdfFile) ? path.basename(pdfFile.path) : $('#pdf-name').text(),
-          headerImage: (headerFile) ? path.basename(headerFile.path) : path.basename($('#header-pic').attr('src'))
-        };
-        fs.writeFileSync(
-          path.join(pageDir, 'page.json'),
-          JSON.stringify(jsonObj, null, '\t')
-        );
-        updateNodeData(jsonObj);
-      })
-      .then(wait)
-      .then(() => editor().setMode('wysiwyg'))
-      .then(wait)
-      .then(() => {
+        // We do documentChanged = false after wait because otherwise the
+        // tree will still think that it changed
         overlayText = '';
         documentChanged = false;
-        update();
+
+        // loadMarkdown calls update()
+        // We call it after wait because a corrupted image is shown otherwise,
+        // even if the path is correct
+        loadMarkdown(currentMdFile, path.dirname(currentMdFile));
       });
   }
 };
 
-const copyToDir = (sourceFile, targetDir) => {
+const copyFormFiles = (currDir) => {
+  const headerFile = $('#header-image')[0].files[0];
+  const pdfFile = $('#pdf-input')[0].files[0];
+
+  if (headerFile) {
+    const newName = copyToDir(headerFile.path, currDir);
+    $('#header-pic').attr('src', path.join(currDir, newName));
+  }
+
+  if (pdfFile)
+    copyToDir(pdfFile.path, currDir, {mangle: false});
+
+  // Reset input fields to avoid copying the files at every save
+  $('#header-image').val('');
+  $('#pdf-input').val('');
+};
+
+const writePageJson = (currDir) => {
+  fs.writeFileSync(
+    path.join(currDir, 'page.json'),
+    JSON.stringify(getFormData(), null, '\t')
+  );
+};
+
+const syncImages = (currDir, headerImage) => {
+/* High-level overview of the process:
+ * 1: We list every image referenced in the markdown (mdImgs)
+ * 2: We separate those that are outside our dir in a list (external) as
+ *    tuples (path, index).
+ *    The index is the one from the original list (mdImgs). This will be needed
+ *    when we'll modify the ckeditor's html before saving it as markdown.
+ * 3: We list all the images inside our dir (currImgs)
+ * 4: Delete all the images that appear in currImgs but not in mdImgs, because
+ *    that means that they have been removed from the markdown. The header
+ *    image (fetched from page.json) is excluded, meaning we consider it as if
+ *    it were in the markdown.
+ * 5: We copy all the images in the external list in our dir, changing their
+ *    name to an uuid and at the same time replacing the src attributes of the
+ *    elements inside mdImgs to the new name.
+ * 6: We iterate over every internal image and replace the corresponding src
+ *    attribute inside mdImgs to the base name, since at this point every src
+ *    is absolute, even those that point inside our directory.
+ * 7: We return the processed resulting html so that it can then be written to
+ *    disk.
+ */
+
+  // Step 1
+  const parser = new DOMParser;
+  const dom = parser.parseFromString(editor().getData(), 'text/html');
+  const mdImgs = dom.getElementsByTagName('img');
+
+  // Step 2
+  // Helper function to determine if a src path is internal to the current dir
+  const isExternal = (src) => {
+    // path.relative(dir, file) outputs the relative path of file from dir
+    // Example: if dir is "/home/foo" and file is "/home/foo/bar.png" then
+    // path.relative(dir, file) outputs "bar.png". If file were "/home/bar.png"
+    // path.relative(dir, file) would output "../bar.png".
+    // So anything that is "up" in the directory tree, and thus external to our
+    // currDir, inevitably starts with ".."
+    // On windows the path will be something like "..\\bar.png"
+    const relPath = path.relative(currDir, src);
+    // But there is another case: different roots. *nix systems have a common
+    // root: /. Windows, on the other hand, can have different roots: C:, D:
+    // and so on. If src is on a different root than currDir than path.relative
+    // will output src, which will be an absolute path with a different root.
+    // For example, if currDir is somewhere on C: and is
+    // 'markdown/Contenuti/foo', and src is 'D:/images/bar.png' then
+    // path.relative(currDir, src) will output 'D:/images/bar.png', which is
+    // pretty clearly *not* a relative path, but it still means the src is
+    // external to our currDir.
+    return relPath.startsWith("..") || path.isAbsolute(relPath);
+  };
+  const external = [];
+  const internal = [];
+  for (let index = 0; index < mdImgs.length; index++) {
+    const imgVal = mdImgs[index].getAttribute('src');
+    if (isExternal(imgVal))
+      external.push({ path: imgVal, originalIndex: index });
+    else
+      internal.push({ name: path.basename(imgVal), originalIndex: index });
+  }
+
+  // Step 3
+  const dirFiles = fs.readdirSync(currDir);
+  const isImage = (x) => ['.png', '.jpg'].includes(path.extname(x));
+  const currImgs = dirFiles.filter(isImage);
+
+  // Step 4
+  // We use [...] because mdImgs is not an array, but an HTMLCollection
+  // We use path.basename because each src attribute is an absolute path, but
+  // we are only interested in the image name
+  const mdImgsSrcs = [...mdImgs].map((x) => path.basename(x.getAttribute('src')));
+  mdImgsSrcs.push(headerImage);
+  const toDelete = currImgs.filter((x) => !mdImgsSrcs.includes(x));
+  // We map fs.unlink on every element of toDelete. Since toDelete contains
+  // image names rather than paths, we need to resolve those and unlink them.
+  // fs.unlink also takes a completion callback, which we provide.
+  toDelete.map((imgName) => {
+    const imgPath = path.resolve(path.join(currDir, imgName));
+    fs.unlink(imgPath, (err) => {
+      if (err) {
+        console.error("error deleting", imgPath + ":");
+        console.error(err);
+      }
+    });
+  });
+
+  // Step 5
+  for (let img = 0; img < external.length; img++) {
+    const origIdx = external[img].originalIndex;
+    const newImageName = copyToDir(external[img].path, currDir);
+    mdImgs[origIdx].setAttribute('src', newImageName);
+  }
+
+  // Step 6
+  for (let img = 0; img < internal.length; img++) {
+    const origIdx = internal[img].originalIndex;
+    mdImgs[origIdx].setAttribute('src', internal[img].name);
+  }
+
+  // Step 7
+  return dom.documentElement.innerHTML;
+};
+
+const writeMarkdown = (sourceHTML) => {
+  // http://stackoverflow.com/questions/18106164
+  const div = document.createElement('div');
+  div.innerHTML = toMarkdown(sourceHTML);
+  const unescapedData = (div.innerText || div.textContent || "");
+  fs.writeFileSync(currentMdFile, unescapedData);
+};
+
+const copyToDir = (sourceFile, targetDir, options = {mangle: true}) => {
   const sourceName = path.basename(sourceFile);
-  const targetFile = path.join(path.resolve(targetDir), sourceName);
+  const sourceExt = path.extname(sourceName);
+  const targetName = (options.mangle) ? uuid.v4() + sourceExt : sourceName;
+  const targetFile = path.join(path.resolve(targetDir), targetName);
 
   const inStream = fs.createReadStream(sourceFile);
   const outStream = fs.createWriteStream(targetFile);
@@ -249,7 +395,12 @@ const copyToDir = (sourceFile, targetDir) => {
     console.error("Error writing file", targetFile);
   });
 
+  outStream.on('finish', () => {
+    loadFormData(getFormData(), path.dirname(currentMdFile))
+  });
+
   inStream.pipe(outStream);
+  return targetName;
 };
 
 /* When clicking on a node in the tree, the info to display is fetched from the
@@ -269,7 +420,7 @@ const updateNodeData = (obj) => {
 const switchDocument = (nodeData) => {
   prevNodeId = selNodeId;
   selNodeId = nodeData.nodeId;
-  loadMarkdown(nodeData.path);  // calls the update() method
+  loadMarkdown(nodeData.path, path.dirname(nodeData.path)); // calls update()
   loadFormData(nodeData.formData, path.dirname(nodeData.path));
 };
 /* -------------------------------------------------------------------------- */
@@ -341,15 +492,18 @@ const ckeditorInit = () => {
       { name: 'clipboard', groups: ['clipboard', 'undo'] },
       { name: 'basicstyles'},
       { name: 'styles', groups: ['styles'] },
+      { name: 'insert', groups: ['insert'] },
       // { name: 'others' },  // uncomment to show "Markdown" btn
     ],
     removeButtons: 'Underline,Subscript,Superscript,Strike,' +
-        'Styles,Cut,Copy,Paste,PasteText,PasteFromWord',
-    extraPlugins: 'markdown',
+        'Styles,Cut,Copy,Paste,PasteText,PasteFromWord,Table,' +
+        'HorizontalRule,SpecialChar,Image',
+    extraPlugins: 'markdown,fs-image',
     format_tags: 'p;h1;h2;h3;pre',  // eslint-disable-line camelcase
     removeDialogTabs: 'image:advanced;link:advanced',
     width: '100%',
     removePlugins: 'elementspath',
+    allowedContent: 'h1 h2 h3 p strong em pre; img[!src]',
   })
   .on('change', onDocumentChanged);
 };
@@ -382,9 +536,9 @@ const connectEvents = () => {
   $('#title').on('input', onDocumentChanged);
   $('#shared-text').on('input', onDocumentChanged);
   $('#header-image').on('change', onDocumentChanged);
+  $('#header-image').on('change', onHeaderImageChanged);
   $('#pdf-input').on('change', onDocumentChanged);
   $('#pdf-input').on('change', onPdfChanged);
-  $('#header-image').on('change', onHeaderImageChanged);
 };
 /* -------------------------------------------------------------------------- */
 
