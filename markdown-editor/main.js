@@ -24,7 +24,8 @@ function createWindow() {
 
   // Open the DevTools.
   if (process.env.LILT_EDITOR_SHOW_DEVTOOLS &&
-        process.env.LILT_EDITOR_SHOW_DEVTOOLS === 1)
+        (process.env.LILT_EDITOR_SHOW_DEVTOOLS === 1 ||
+         process.env.LILT_EDITOR_SHOW_DEVTOOLS === '1'))
     win.webContents.openDevTools();
 
   // Emitted when the window is closed.
