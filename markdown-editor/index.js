@@ -15,7 +15,7 @@ CKEDITOR.scriptLoader.load(
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
-const defaultMarkdownDir = 'markdown';
+const defaultMarkdownDir = 'appdata';
 
 // when the overlay text is specified the editor is hidden
 let overlayText = 'Please select a document.';
@@ -61,15 +61,37 @@ const editor = () => CKEDITOR.instances.editor1;
 // app environment detection (https://github.com/electron/electron/pull/5421)
 const isProdEnvironment = () => (remoteProcess.defaultApp === undefined);
 
+const isMac = () => (remoteProcess.platform.startsWith('darwin'));
 
 // return the markdown directory
 const getMarkdownDir = () => {
   // obtain command line arguments
   const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
 
-  if (args.length === 0)
-    return defaultMarkdownDir;
-  else if (args.length > 1)
+  if (args.length === 0) {
+    if (isProdEnvironment()) {
+      if (isMac()) {
+        // under mac this script is inside app folder/Content/ecc...
+        // so we have to backtrack a bit to cd to the right folder
+        return path.join(
+          __dirname, '..', '..', '..', '..', '..', defaultMarkdownDir
+          );
+      }
+      else {
+        // windows
+        return path.join(
+          __dirname, '..', '..', '..', defaultMarkdownDir
+          );
+      }
+    }
+    else {
+      // in development environment the data dir must be placed inside
+      // this script's directory
+      return path.join(__dirname, defaultMarkdownDir);
+    }
+  }
+
+  if (args.length > 1)
     console.error('wrong arguments');  // eslint-disable-line no-console
 
   // we expect the markdown dir as the only parameter
@@ -86,7 +108,7 @@ const walk = (dir) => {
     fs.statSync(dir).isDirectory();
   }
   catch (err) {
-    overlayText = 'Cannot find markdown directory';
+    overlayText = 'Cannot find data directory';
     return tree;
   }
 
