@@ -1,6 +1,9 @@
+#! /usr/bin/python
 # -*- coding: utf-8 -*-
 
 import argparse
+from base64 import b32encode
+import json
 import os
 import re
 
@@ -17,38 +20,45 @@ def peekline(f):
     f.seek(pos)
     return line
 
-def change_dir(directory):
+def check_dir(directory):
+    curr_dir = os.getcwd()
     try:
         os.chdir(directory)
     except OSError as e:
-        raise SystemExit("Error navigating to {}: {}".format(directory, e.strerror))
+        raise SystemExit("Error navigating to {}: {}".format(
+                         directory, e.strerror))
+    os.chdir(curr_dir)
 
 def make_dir(directory):
     try:
-        os.mkdir(directory):
+        os.mkdir(directory)
     except OSError as e:
         if e.errno != 17: # errno == 17 means directory already existing
             raise SystemExit("Error creating directory {}: {}".format(
                              directory, e.strerror))
 
 def run(args):
-    change_dir(args.output_dir)
+    # Avoid doing any real work if there is a mistake with the output directory
+    check_dir(args.output_dir)
+
     (contents, glossary) = analyze_file(args.input_file)
     contents_subsections = get_subsections(contents)
-    glossary_subsections = get_subsections(glossary)
+    # TODO glossary has a different format
+    # glossary_subsections = get_subsections(glossary)
+
+    os.chdir(args.output_dir)
     populate(CONTENTS_DIR_NAME, contents_subsections)
-    populate(GLOSSARY_DIR_NAME, glossary_subsections)
+    # TODO glossary has a different format
+    # populate(GLOSSARY_DIR_NAME, glossary_subsections)
 
 ### Stuff needed for the first pass on the file
 def analyze_file(md_file):
     try:
-        f = open(md_file, 'r')
+        with open(md_file, 'r') as f:
+            return (read_section(f, CONTENT_SECTION_NAME),
+                    read_section(f, GLOSSARY_SECTION_NAME))
     except IOError as e:
         raise SystemExit("Error opening {}: {}".format(md_file, e.args[1]))
-    return (
-        read_section(f, CONTENT_SECTION_NAME),
-        read_section(f, GLOSSARY_SECTION_NAME)
-    )
 
 def read_section(input_file, section_name):
     section_text = ""
@@ -96,7 +106,7 @@ def get_subsections(section_str):
         -+   # One or more '-' characters (heading syntax)
         \n+  # One or more newlines at end of '---' line
     """, re.VERBOSE)
-    raw_list = re.split(r'', section_str)
+    raw_list = re.split(regex, section_str)
     not_empty = lambda x: x != ""
     final_list = filter(not_empty, raw_list)
 
@@ -123,20 +133,49 @@ def populate(directory, page_list):
     os.chdir(directory)
     for page in page_list:
         try:
-            # TODO the name does not matter but we should create an
-            # user-unfriendly name as with everything else in these dirs. We
-            # still need the user-unfriendly name to be generated in a
-            # referentially-transparent way. base32 is probably sufficient, and
-            # preferred over other base* functions because its output is
-            # single-cased, which is useful for case-insensitive filesystems
-            # (hello, Windows)
-            os.mkdir(page.name)
+            # We generate a base32 name for these reasons
+            # 1: An user-unfriendly name has less chance to catch attention by
+            #    the user, lowering the chance he'll stumble into one of these
+            #    dirs and manually change stuff.
+            # 2: We need to generate the name in a referentially-transparent
+            #    way; that is, given the same input, we get the same output.
+            #    An uuid is not the right choice here like it is for file
+            #    names inside the page directories, because in that case given
+            #    the same file name (perhaps from different directories) we
+            #    _need_ to generate unique names for the copied files. Here we
+            #    want the opposite.
+            # 4: Since we are generating directory names, it is important that
+            #    the generated name contains characters that can be used by
+            #    every filesystem, even case-insensitive ones. Base32 can do
+            #    this because its output is single-cased.
+            # 5: It's 20% smaller than the raw hex representation of the name.
+            #
+            # Also, we lower the page name because in case-insensitive
+            # filesystems we want the generated name for "foo" and "FOO" to be
+            # the same. We also lower the resulting string because I like
+            # lowercase better.
+            dirname = b32encode(page["name"].lower()).lower()
+            os.mkdir(dirname)
         except OSError as e:
             # TODO we should probably overwrite stuff in this case actually
             if e.errno == 17: continue
-        # TODO enter directory
-        # TODO create content.md with page.text
-        # TODO create page.json with page.name as "title" key
+            else: raise
+
+        os.chdir(dirname)
+        with open("content.md", 'w') as out_md:
+            out_md.write(page["text"])
+
+        json_dict = {
+            "title": page["name"],
+            "sharedText": "",
+            "pdfFile": "",
+            "headerImage": ""
+        }
+        json_str = json.dumps(json_dict, indent=4, separators=(',', ': '))
+        with open("page.json", 'w') as out_json:
+            out_json.write(json_str)
+
+        os.chdir("..")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
