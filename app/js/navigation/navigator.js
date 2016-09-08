@@ -1,14 +1,22 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Navigator, Text, TouchableHighlight } from 'react-native';
+import { Navigator } from 'react-native';
 
 import * as style from '../style';
 import { getStartRoute } from './navigator_data';
+import LeftRight from './leftright';
+import Title from './title';
 
 
 const navBarMapper = {
-  LeftButton: (route, navigator, index /* , navState */) => {
+  LeftButton: (route, navigator, index, navState) => {
+    return <LeftRight left={true}
+                      route={route}
+                      navigator={navigator}
+                      index={index}
+                      navState={navState} />;
+    /*
     return (
       <TouchableHighlight
         onPress={() => {
@@ -18,8 +26,15 @@ const navBarMapper = {
         <Text>Back</Text>
       </TouchableHighlight>
     );
+    */
   },
-  RightButton: (route, navigator /* , index, navState */) => {
+  RightButton: (route, navigator, index, navState) => {
+    return <LeftRight left={false}
+                      route={route}
+                      navigator={navigator}
+                      index={index}
+                      navState={navState} />;
+    /*
     return (
       <TouchableHighlight
         onPress={() => {
@@ -31,11 +46,13 @@ const navBarMapper = {
         <Text>Forward</Text>
       </TouchableHighlight>
     );
+    */
   },
-  Title: (route /* , navigator, index, navState */) => {
-    return (
-      <Text>{route.title}</Text>
-      );
+  Title: (route, navigator, index, navState) => {
+    return <Title route={route}
+                  navigator={navigator}
+                  index={index}
+                  navState={navState} />;
   }
 };
 
@@ -51,10 +68,8 @@ export default class AppNavigator extends Component {
         itemWrapperStyle={navigator.wrapped}
         initialRoute={getStartRoute()}
         navigationBar={
-          <Navigator.NavigationBar
-            style={navigator.nav}
-            routeMapper={navBarMapper}
-          />
+          <Navigator.NavigationBar style={navigator.nav}
+                                   routeMapper={navBarMapper} />
         }
         renderScene={(route, navigator) => {
           return (
