@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 
+import { common } from '../style';
+
 
 export default class MyTextInput extends Component {
   render() {
@@ -16,7 +18,7 @@ export default class MyTextInput extends Component {
         <View style={myStyle.inputFieldView}>
           <TextInput style={myStyle.inputField}
                      defaultValue={defaultValue}
-                     onChangeText={onChangeText}/>
+                     onChangeText={onChangeText} />
         </View>
       </View>
       );
@@ -24,10 +26,11 @@ export default class MyTextInput extends Component {
 }
 
 
+const { form } = common;
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    height: 60,
+    height: form.fieldHeight,
     borderWidth: 1,
     borderColor: '#BBBBBB',
     flexDirection: 'row',

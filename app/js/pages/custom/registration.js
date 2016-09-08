@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { TextInput } from '../../blocks';
+import { TextInput, Button2 } from '../../blocks';
 import { common, pages } from '../../style';
 
 
@@ -50,6 +50,9 @@ export default class Registration extends Component {
                      defaultValue={address}
                      onChangeText={makeCb('address')}
                      />
+          <View style={myStyle.buttonView}>
+            <Button2 />
+          </View>
         </View>
       </View>
       );
@@ -67,5 +70,8 @@ const myStyle = StyleSheet.create({
   formContainer: {
     paddingLeft: 40,
     paddingRight: 40,
+  },
+  buttonView: {
+    width: 100,
   },
 });
