@@ -19,6 +19,10 @@ const customRoutes = {
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
   'link-list': { title: 'Link List', component: pages.custom.LinkList },
   'content': { 'title': 'Content', component: pages.custom.Content },
+  'registration': {
+    'title': 'Registration',
+    component: pages.custom.Registration,
+  },
 };
 /* eslint-enable quote-props */
 
