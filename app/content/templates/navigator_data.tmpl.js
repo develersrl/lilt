@@ -20,7 +20,8 @@ const customRoutes = {
   'link-list': { title: 'Link List', component: pages.custom.LinkList },
   'content': { 'title': 'Content', component: pages.custom.Content },
   'registration': {
-    'title': 'Registration',
+    showBar: false,
+    title: 'REGISTRAZIONE',
     component: pages.custom.Registration,
   },
 };
