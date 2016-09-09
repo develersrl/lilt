@@ -4,16 +4,18 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { TextInput, Button2, PickerField } from '../../blocks';
-import { common, pages } from '../../style';
+import { common } from '../../style';
 
 
 export default class Registration extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: 'Homer',
-      surname: 'Simpson',
-      address: 'Ciao',
+      name: '',
+      surname: '',
+      address: '',
+      age: '',
+      cap: '',
     };
   }
 
@@ -24,9 +26,10 @@ export default class Registration extends Component {
 
 
   render() {
-    const { name, surname, address } = this.state;
+    const { name, surname, address, age, cap } = this.state;
     const cb = this.onChangeText.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
+    const makePickerCb = (field) => (opt) => cb(field, opt.label);
 
     const ageData = [
       { key: 0, label: 'primo' },
@@ -54,13 +57,13 @@ export default class Registration extends Component {
                      />
           <PickerField label={'età'}
                        data={ageData}
-                       selectedValue={'secondo'}
-                       onChangeSelection={(sel) => console.log(sel)}
+                       selectedValue={age}
+                       onChange={makePickerCb('age')}
                        />
           <PickerField label={'cap'}
                        data={ageData}
-                       selectedValue={'secondo'}
-                       onChangeSelection={(sel) => console.log(sel)}
+                       selectedValue={cap}
+                       onChange={makePickerCb('cap')}
                        />
           <TextInput label={'indirizzo'}
                      defaultValue={address}

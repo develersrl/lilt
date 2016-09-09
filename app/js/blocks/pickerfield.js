@@ -8,13 +8,8 @@ import { common } from '../style';
 
 
 export default class PickerField extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-
   render() {
-    const { label, data, selectedValue, onChangeSelection } = this.props;
+    const { label, data, selectedValue, onChange } = this.props;
 
     return (
       <View style={myStyle.container}>
@@ -24,11 +19,11 @@ export default class PickerField extends Component {
         <ModalPicker style={myStyle.inputFieldView}
                      data={data}
                      initValue={'select'}
-                     onChange={(opt) => console.log(opt.label)}>
+                     onChange={onChange}>
           <TextInput style={myStyle.text}
                       editable={false}
                       placeholder={"seleziona"}
-                      value={'Select Something'} />
+                      value={selectedValue} />
         </ModalPicker>
       </View>
       );
