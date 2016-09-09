@@ -259,7 +259,7 @@ function setUserData(req) {
   }
 
   // add the new user to the sheet
-  logger.log('registering new user: ' + req.email);
+  logger.log('setting data for user: ' + req.email);
   var newRange = usersSheet.getRange(userRow, 1, 1, columnsCount);
   newRange.setValues([newValues]);
 
