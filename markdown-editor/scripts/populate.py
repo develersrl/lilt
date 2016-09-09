@@ -7,6 +7,7 @@ import errno
 import json
 import os
 import re
+from shutil import rmtree
 
 CONTENT_SECTION_NAME = "SAPERNE DI PIÙ"
 GLOSSARY_SECTION_NAME = "WIKI"
@@ -158,9 +159,14 @@ def populate(directory, page_list):
             dirname = b32encode(page["name"].lower()).lower()
             os.mkdir(dirname)
         except OSError as e:
-            # TODO we should probably overwrite stuff in this case actually
-            if e.errno == EEXIST: continue
-            else: raise
+            # If the directory already exists, we overwrite everything. In
+            # truth we just delete it and make it anew, but the end effect is
+            # the same.
+            if e.errno == EEXIST:
+                rmtree(dirname)
+                os.mkdir(dirname)
+            else:
+                raise
 
         os.chdir(dirname)
         with open("content.md", 'w') as out_md:
