@@ -51,7 +51,7 @@ export default class Registration extends Component {
                      onChangeText={makeCb('address')}
                      />
           <View style={myStyle.buttonView}>
-            <Button2 />
+            <Button2 text={'INVIA'} onPress={() => console.log('press')}/>
           </View>
         </View>
       </View>
@@ -72,6 +72,7 @@ const myStyle = StyleSheet.create({
     paddingRight: 40,
   },
   buttonView: {
+    alignSelf: 'flex-end',
     width: 100,
   },
 });
