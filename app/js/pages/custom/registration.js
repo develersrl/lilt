@@ -1,8 +1,15 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  LayoutAnimation,
+} from 'react-native';
 
+import { state, api } from '../../state';
 import { TextInput, Button2, PickerField } from '../../blocks';
 import { common } from '../../style';
 
@@ -10,24 +17,45 @@ import { common } from '../../style';
 export default class Registration extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      surname: '',
-      address: '',
-      age: '',
-      cap: '',
-    };
+    this.state = { ...state.user, error: 'OK' };
   }
 
 
-  onChangeText(field, text) {
+  componentWillUpdate() {
+    LayoutAnimation.easeInEaseOut();
+  }
+
+
+  onFieldChange(field, text) {
     this.setState({ ...this.state, [field]: text });
   }
 
 
+  onSendPress() {
+    const error = api.userValidate(this.state);
+    this.setState({ ...this.state, error });
+
+    if (error === 'OK') {
+      api.userRegister(this.state);
+    }
+  }
+
+
+  renderErrorString() {
+    const { error } = this.state;
+
+    if (error === 'OK')
+      return null;
+
+    return (
+      <Text style={myStyle.errorText}>{error}</Text>
+      );
+  }
+
+
   render() {
-    const { name, surname, address, age, cap } = this.state;
-    const cb = this.onChangeText.bind(this);
+    const { email, name, surname, address, age, cap } = this.state;
+    const cb = this.onFieldChange.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
     const makePickerCb = (field) => (opt) => cb(field, opt.label);
 
@@ -55,6 +83,10 @@ export default class Registration extends Component {
           </Text>
         </View>
         <View style={myStyle.formContainer}>
+          <TextInput label={'email'}
+                     defaultValue={email}
+                     onChangeText={makeCb('email')}
+                     />
           <TextInput label={'nome'}
                      defaultValue={name}
                      onChangeText={makeCb('name')}
@@ -77,8 +109,9 @@ export default class Registration extends Component {
                      defaultValue={address}
                      onChangeText={makeCb('address')}
                      />
+          {this.renderErrorString()}
           <View style={myStyle.buttonView}>
-            <Button2 text={'INVIA'} onPress={() => console.log('press')}/>
+            <Button2 text={'INVIA'} onPress={this.onSendPress.bind(this)}/>
           </View>
         </View>
       </ScrollView>
@@ -98,6 +131,12 @@ const myStyle = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     paddingBottom: 20,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    alignSelf: 'flex-end',
+    paddingBottom: 10,
   },
   buttonView: {
     alignSelf: 'flex-end',
