@@ -17,7 +17,10 @@ import { common } from '../../style';
 export default class Registration extends Component {
   constructor(props) {
     super(props);
-    this.state = { ...state.user, error: 'OK' };
+    this.state = {
+      user: { ...state.user },
+      error: 'OK',
+    };
   }
 
 
@@ -27,16 +30,22 @@ export default class Registration extends Component {
 
 
   onFieldChange(field, text) {
-    this.setState({ ...this.state, [field]: text });
+    this.setState({
+      ...this.state,
+      user: {
+        ...this.state.user,
+        [field]: text,
+      }
+    });
   }
 
 
   onSendPress() {
-    const error = api.userValidate(this.state);
+    const error = api.userValidate(this.state.user);
     this.setState({ ...this.state, error });
 
     if (error === 'OK') {
-      api.userRegister(this.state);
+      api.userRegister(this.state.user);
     }
   }
 
@@ -54,7 +63,7 @@ export default class Registration extends Component {
 
 
   render() {
-    const { email, name, surname, address, age, cap } = this.state;
+    const { email, name, surname, address, age, cap } = this.state.user;
     const cb = this.onFieldChange.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
     const makePickerCb = (field) => (opt) => cb(field, opt.label);

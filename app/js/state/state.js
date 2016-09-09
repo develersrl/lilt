@@ -8,7 +8,6 @@ import { test as usersTest, register } from './users';
 const initialState = {
   initialized: false,
   user: {
-    loaded: false,
     email: 'ahahah@ah.com',
     name: 'Homer',
     surname: 'Simpson',
