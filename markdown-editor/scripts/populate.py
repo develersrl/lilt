@@ -15,6 +15,9 @@ GLOSSARY_SECTION_NAME = "WIKI"
 CONTENTS_DIR_NAME = "Contenuti"
 GLOSSARY_DIR_NAME = "Glossario"
 
+CONTENTS_PAGE = 0
+GLOSSARY_PAGE = 1
+
 ### Helpers
 def peekline(f):
     pos = f.tell()
@@ -45,13 +48,11 @@ def run(args):
 
     (contents, glossary) = analyze_file(args.input_file)
     contents_subsections = get_contents_subsections(contents)
-    # TODO glossary has a different format
-    # glossary_subsections = get_glossary_subsections(glossary)
+    glossary_subsections = get_glossary_subsections(glossary)
 
     os.chdir(args.output_dir)
-    populate(CONTENTS_DIR_NAME, contents_subsections)
-    # TODO glossary has a different format
-    # populate(GLOSSARY_DIR_NAME, glossary_subsections)
+    populate(CONTENTS_DIR_NAME, contents_subsections, CONTENTS_PAGE)
+    populate(GLOSSARY_DIR_NAME, glossary_subsections, GLOSSARY_PAGE)
 
 ### Stuff needed for the first pass on the file
 def analyze_file(md_file):
@@ -129,34 +130,49 @@ def get_contents_subsections(section_str):
 
     return dict_list
 
+def get_glossary_subsections(section_str):
+    regex = re.compile(r"""
+        \*\* # Glossary terms are bold, so they are enclosed in **
+        (.+) # We caputre the glossary term itself
+        \*\* # These are the ending ** that enclose the glossary term
+        \:\s # Glossary terms are followed by a colon and a space
+    """, re.VERBOSE)
+    raw_list = re.split(regex, section_str)
+    final_list = []
+
+    # Glossary terms are all-caps. To make things easy, the docx contains
+    # something that pandoc converts to **stuff** right at the start of the
+    # glossary section, but that _is not_ a glossary term. Luckily, that stuff
+    # is not all-caps like glossary terms, so we can remove it if necessary.
+    #
+    # I don't know if later versions of the docx might remove that, so instead
+    # of blindly removing the first element of raw_list I check if it's not all
+    # caps first
+    if not raw_list[0].isupper():
+        final_list = raw_list[1:]
+    else:
+        final_list = raw_list
+
+    if len(final_list) % 2 != 0:
+        raise AssertionError("Glossary list has non-even number of elements")
+
+    # We generate a list of dictionaries for ease of use later on
+    dict_list = []
+    for idx in range(len(final_list) / 2):
+        dict_list.append({
+            "term": final_list[idx*2],
+            "definition": final_list[idx*2 + 1]
+        })
+
+    return dict_list
+
 ### Stuff to actually create the directory structure and files
-def populate(directory, page_list):
+def populate(directory, page_list, page_type):
     make_dir(directory)
     os.chdir(directory)
     for page in page_list:
         try:
-            # We generate a base32 name for these reasons
-            # 1: An user-unfriendly name has less chance to catch attention by
-            #    the user, lowering the chance he'll stumble into one of these
-            #    dirs and manually change stuff.
-            # 2: We need to generate the name in a referentially-transparent
-            #    way; that is, given the same input, we get the same output.
-            #    An uuid is not the right choice here like it is for file
-            #    names inside the page directories, because in that case given
-            #    the same file name (perhaps from different directories) we
-            #    _need_ to generate unique names for the copied files. Here we
-            #    want the opposite.
-            # 4: Since we are generating directory names, it is important that
-            #    the generated name contains characters that can be used by
-            #    every filesystem, even case-insensitive ones. Base32 can do
-            #    this because its output is single-cased.
-            # 5: It's 20% smaller than the raw hex representation of the name.
-            #
-            # Also, we lower the page name because in case-insensitive
-            # filesystems we want the generated name for "foo" and "FOO" to be
-            # the same. We also lower the resulting string because I like
-            # lowercase better.
-            dirname = b32encode(page["name"].lower()).lower()
+            dirname = get_dirname(page, page_type)
             os.mkdir(dirname)
         except OSError as e:
             # If the directory already exists, we overwrite everything. In
@@ -169,20 +185,65 @@ def populate(directory, page_list):
                 raise
 
         os.chdir(dirname)
-        with open("content.md", 'w') as out_md:
+        write_content(page, page_type)
+        write_json(page, page_type)
+        os.chdir("..") # move up to CONTENTS_DIR_NAME or GLOSSARY_DIR_NAME
+    os.chdir("..") # move up to target dir
+
+def get_dirname(page, page_type):
+    base_name = ""
+    if page_type == CONTENTS_PAGE:
+        base_name = page["name"]
+    elif page_type == GLOSSARY_PAGE:
+        base_name = page["term"]
+    else:
+        raise RuntimeError("Unknown page type computing dirname")
+
+    # We generate a base32 name for these reasons
+    # 1: An user-unfriendly name has less chance to catch attention by the
+    #    user, lowering the chance he'll stumble into one of these dirs and
+    #    manually change stuff.
+    # 2: We need to generate the name in a referentially-transparent way;
+    #    that is, given the same input, we get the same output. An uuid is
+    #    not the right choice here like it is for file names inside the page
+    #    directories, because in that case given the same file name (perhaps
+    #    from different directories) we _need_ to generate unique names for the
+    #    copied files. Here we want the opposite.
+    # 4: Since we are generating directory names, it is important that the
+    #    generated name contains characters that can be used by every
+    #    filesystem, even case-insensitive ones. Base32 can do this because its
+    #    output is single-cased.
+    # 5: It's 20% smaller than the raw hex representation of the name.
+    #
+    # Also, we lower the page name because in case-insensitive filesystems we
+    # want the generated name for "foo" and "FOO" to be the same. We also lower
+    # the resulting string because I like lowercase better.
+    return b32encode(base_name.lower()).lower()
+
+def write_content(page, page_type):
+    with open("content.md", 'w') as out_md:
+        if page_type == CONTENTS_PAGE:
             out_md.write(page["text"])
+        elif page_type == GLOSSARY_PAGE:
+            out_md.write(page["definition"])
+        else:
+            raise RuntimeError("Unknown page type writing content")
 
-        json_dict = {
-            "title": page["name"],
-            "sharedText": "",
-            "pdfFile": "",
-            "headerImage": ""
-        }
-        json_str = json.dumps(json_dict, indent=4, separators=(',', ': '))
-        with open("page.json", 'w') as out_json:
-            out_json.write(json_str)
+def write_json(page, page_type):
+    json_dict = {}
+    if page_type == CONTENTS_PAGE:
+        json_dict["title"] = page["name"]
+        json_dict["sharedText"] = ""
+        json_dict["pdfFile"] = ""
+        json_dict["headerImage"] = ""
+    elif page_type == GLOSSARY_PAGE:
+        json_dict["title"] = page["term"]
+    else:
+        raise RuntimeError("Unknown page type writing json")
 
-        os.chdir("..")
+    json_str = json.dumps(json_dict, indent=4, separators=(',', ': '))
+    with open("page.json", 'w') as out_json:
+        out_json.write(json_str)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
