@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 import { TextInput, Button2, PickerField } from '../../blocks';
 import { common } from '../../style';
@@ -32,13 +32,21 @@ export default class Registration extends Component {
     const makePickerCb = (field) => (opt) => cb(field, opt.label);
 
     const ageData = [
-      { key: 0, label: 'primo' },
-      { key: 1, label: 'secondo' },
-      { key: 2, label: 'terzo' },
+      { key: 0, label: 'meno di 45 anni' },
+      { key: 1, label: '45-50 anni' },
+      { key: 2, label: '50-69 anni' },
+      { key: 3, label: '70-74 anni' },
+    ];
+
+    const capData = [
+      { key: 0, label: '50121' },
+      { key: 1, label: '50122' },
+      { key: 2, label: '50144' },
+      { key: 3, label: '50145' },
     ];
 
     return (
-      <View style={common.flexible}>
+      <ScrollView style={common.flexible} bounces={false}>
         <View>
           <Text style={myStyle.subTitle}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -61,7 +69,7 @@ export default class Registration extends Component {
                        onChange={makePickerCb('age')}
                        />
           <PickerField label={'cap'}
-                       data={ageData}
+                       data={capData}
                        selectedValue={cap}
                        onChange={makePickerCb('cap')}
                        />
@@ -73,7 +81,7 @@ export default class Registration extends Component {
             <Button2 text={'INVIA'} onPress={() => console.log('press')}/>
           </View>
         </View>
-      </View>
+      </ScrollView>
       );
   }
 }
@@ -89,6 +97,7 @@ const myStyle = StyleSheet.create({
   formContainer: {
     paddingLeft: 40,
     paddingRight: 40,
+    paddingBottom: 20,
   },
   buttonView: {
     alignSelf: 'flex-end',
