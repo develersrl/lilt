@@ -44,9 +44,9 @@ def run(args):
     check_dir(args.output_dir)
 
     (contents, glossary) = analyze_file(args.input_file)
-    contents_subsections = get_subsections(contents)
+    contents_subsections = get_contents_subsections(contents)
     # TODO glossary has a different format
-    # glossary_subsections = get_subsections(glossary)
+    # glossary_subsections = get_glossary_subsections(glossary)
 
     os.chdir(args.output_dir)
     populate(CONTENTS_DIR_NAME, contents_subsections)
@@ -100,7 +100,7 @@ def read_one_section(input_file):
     return section_text
 
 ### Stuff needed for the second pass
-def get_subsections(section_str):
+def get_contents_subsections(section_str):
     regex = re.compile(r"""
         \n*  # Zero or more newlines before subsection name
         (.+) # One or more characters captured (subsection name)
