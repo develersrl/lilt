@@ -374,6 +374,7 @@ function doPost(req) {
 
   // execute request and send response back to the client
   var response = { result: (ok ? 'OK' : 'FAIL') };
-  return ContentService.createTextOutput(JSON.stringify(response));
+  return ContentService.createTextOutput(JSON.stringify(response))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 /* -------------------------------------------------------------------------- */
