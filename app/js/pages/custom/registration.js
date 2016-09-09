@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { TextInput, Button2 } from '../../blocks';
+import { TextInput, Button2, PickerField } from '../../blocks';
 import { common, pages } from '../../style';
 
 
@@ -28,6 +28,12 @@ export default class Registration extends Component {
     const cb = this.onChangeText.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
 
+    const ageData = [
+      { key: 0, label: 'primo' },
+      { key: 1, label: 'secondo' },
+      { key: 2, label: 'terzo' },
+    ];
+
     return (
       <View style={common.flexible}>
         <View>
@@ -46,6 +52,16 @@ export default class Registration extends Component {
                      defaultValue={surname}
                      onChangeText={makeCb('surname')}
                      />
+          <PickerField label={'età'}
+                       data={ageData}
+                       selectedValue={'secondo'}
+                       onChangeSelection={(sel) => console.log(sel)}
+                       />
+          <PickerField label={'cap'}
+                       data={ageData}
+                       selectedValue={'secondo'}
+                       onChangeSelection={(sel) => console.log(sel)}
+                       />
           <TextInput label={'indirizzo'}
                      defaultValue={address}
                      onChangeText={makeCb('address')}
