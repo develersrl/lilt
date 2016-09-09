@@ -3,6 +3,7 @@
 
 import argparse
 from base64 import b32encode
+import errno
 import json
 import os
 import re
@@ -33,7 +34,7 @@ def make_dir(directory):
     try:
         os.mkdir(directory)
     except OSError as e:
-        if e.errno != 17: # errno == 17 means directory already existing
+        if e.errno != EEXIST:
             raise SystemExit("Error creating directory {}: {}".format(
                              directory, e.strerror))
 
@@ -158,7 +159,7 @@ def populate(directory, page_list):
             os.mkdir(dirname)
         except OSError as e:
             # TODO we should probably overwrite stuff in this case actually
-            if e.errno == 17: continue
+            if e.errno == EEXIST: continue
             else: raise
 
         os.chdir(dirname)
