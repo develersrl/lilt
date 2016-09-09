@@ -35,7 +35,7 @@ def make_dir(directory):
     try:
         os.mkdir(directory)
     except OSError as e:
-        if e.errno != EEXIST:
+        if e.errno != errno.EEXIST:
             raise SystemExit("Error creating directory {}: {}".format(
                              directory, e.strerror))
 
@@ -162,7 +162,7 @@ def populate(directory, page_list):
             # If the directory already exists, we overwrite everything. In
             # truth we just delete it and make it anew, but the end effect is
             # the same.
-            if e.errno == EEXIST:
+            if e.errno == errno.EEXIST:
                 rmtree(dirname)
                 os.mkdir(dirname)
             else:
