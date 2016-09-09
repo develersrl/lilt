@@ -33,6 +33,12 @@ let selectedNodeData = null;
 
 // Used to append info to window title
 const baseWindowTitle = remote.getCurrentWindow().getTitle();
+
+// constants
+const PAGE_TYPES = {
+    CONTENTS: 0,
+    GLOSSARY: 1
+};
 /* -------------------------------------------------------------------------- */
 
 
@@ -118,19 +124,19 @@ const walk = (dir) => {
   tree.push({
     text: path.basename(contentDirPath),
     selectable: false,
-    nodes: getTreeNodes(contentDirPath)
+    nodes: getTreeNodes(contentDirPath, PAGE_TYPES.CONTENTS)
   })
 
   tree.push({
     text: path.basename(glossaryDirPath),
     selectable: false,
-    nodes: {}
+    nodes: getTreeNodes(glossaryDirPath, PAGE_TYPES.GLOSSARY)
   })
 
   return tree;
 };
 
-const getTreeNodes = (dir) => {
+const getTreeNodes = (dir, pageType) => {
   const nodes = [];
   const pageDirs = fs.readdirSync(dir);
 
@@ -141,17 +147,28 @@ const getTreeNodes = (dir) => {
       text: jsonObj.title,
       orgText: jsonObj.title,
       path: path.join(fullDirPath, 'content.md'),
-      formData: {
-        title: jsonObj.title,
-        headerImage: jsonObj.headerImage,
-        pdfFile: jsonObj.pdfFile,
-        sharedText: jsonObj.sharedText
-      },
+      formData: formDataForType(jsonObj, pageType),
       icon: 'glyphicon glyphicon-file'
     });
   });
 
   return nodes;
+};
+
+const formDataForType = (jsonObj, pageType) => {
+    const formData = {
+        title: jsonObj.title
+    };
+
+    if (pageType === PAGE_TYPES.CONTENTS) {
+        formData.headerImage = jsonObj.headerImage;
+        formData.pdfFile = jsonObj.pdfFile;
+        formData.sharedText = jsonObj.sharedText;
+    } else if (pageType === PAGE_TYPES.GLOSSARY) {
+        /* Your honor, I have nothing to add */
+    }
+
+    return formData;
 };
 
 // obtain jQuery tree node object by node id
