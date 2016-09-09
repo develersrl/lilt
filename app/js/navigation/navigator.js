@@ -16,17 +16,6 @@ const navBarMapper = {
                       navigator={navigator}
                       index={index}
                       navState={navState} />;
-    /*
-    return (
-      <TouchableHighlight
-        onPress={() => {
-          if (index > 0)
-            navigator.jumpBack();
-        }}>
-        <Text>Back</Text>
-      </TouchableHighlight>
-    );
-    */
   },
   RightButton: (route, navigator, index, navState) => {
     return <LeftRight left={false}
@@ -34,19 +23,6 @@ const navBarMapper = {
                       navigator={navigator}
                       index={index}
                       navState={navState} />;
-    /*
-    return (
-      <TouchableHighlight
-        onPress={() => {
-          // if the current route is the last one, we can't jump forward
-          if (route !== navigator.getCurrentRoutes().slice(-1)[0]) {
-            navigator.jumpForward();
-          }
-        }}>
-        <Text>Forward</Text>
-      </TouchableHighlight>
-    );
-    */
   },
   Title: (route, navigator, index, navState) => {
     return <Title route={route}
