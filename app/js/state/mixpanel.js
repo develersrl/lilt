@@ -2,15 +2,14 @@
 
 import Mixpanel from 'react-native-mixpanel';
 
-import { enableApi } from '../misc';
 import config from './config';
 
 
 
 const init = () => {
   // initialize mixpanel with project token
-  console.log('initializing mixpanel');
   Mixpanel.sharedInstanceWithToken(config.mixpanel.token);
+  return Promise.resolve();  // allows promise chaining
 };
 
 
@@ -54,4 +53,9 @@ const api = {
   init, test,
 };
 
-module.exports = enableApi(api, config.mixpanel.enabled);
+const disabledApi = {
+  init: () => Promise.resolve(),
+  test: () => {},
+};
+
+module.exports = config.mixpanel.enabled ? api : disabledApi;
