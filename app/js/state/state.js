@@ -1,19 +1,23 @@
 'use strict';
 
-import { init as mpInit, test as mpTest } from './mixpanel';
+/* ---------------- imports ------------------------------------------------- */
+import { localKeyExists, saveLocal, loadLocal } from '../misc';
+import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
+import { ignoreStoredUser } from './config';
+/* -------------------------------------------------------------------------- */
 
 
 /* ---------------- state definition ---------------------------------------- */
 const initialState = {
   initialized: false,
   user: {
-    email: 'ahahah@ah.com',
-    name: 'Homer',
-    surname: 'Simpson',
-    address: 'Via Ciao 14',
-    age: '18-25 anni',
-    cap: '50121',
+    email: '',
+    name: '',
+    surname: '',
+    address: '',
+    age: '',
+    cap: '',
   }
 };
 
@@ -25,14 +29,16 @@ const state = { ...initialState };
 // initialize application state
 const init = () => {
   if (!state.initialized) {
-    mpInit();  // initialize mixpanel
-    state.initialized = true;
+    Promise.resolve()
+      .then(mixpanelInit)
+      .then(userInit)
+      .then(() => state.initialized = true);
   }
 };
 
 
 const test = () => {
-  mpTest();
+  mixpanelTest();
   usersTest();
 };
 
@@ -50,7 +56,18 @@ const userValidate = (userObj) => {
 
 
 const userRegister = (userObj) => {
-  register(userObj);
+  state.user = userObj;
+  saveLocal('liltUser', userObj)
+    .then(() => register(userObj))
+    .then(() => console.log('registered'));
+};
+
+
+const userInit = () => {
+  const initState = initialState.user;
+  return localKeyExists('liltUser')
+    .then((b) => b ? loadLocal('liltUser') : saveLocal('liltUser', initState))
+    .then((localUser) => state.user = ignoreStoredUser ? initState : localUser);
 };
 
 

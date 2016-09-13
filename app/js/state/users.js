@@ -32,9 +32,9 @@ const register = (userData) => {
     created: new Date().toISOString(),
     lastModified: new Date().toISOString(),
   };
-  sendRequest(createRequestBody('setUserData', data))
-    .then((response) => console.log(response))
-    .catch((e) => console.log(e));
+  return sendRequest(createRequestBody('setUserData', data))
+    .then((response) => response.json())
+    .then((json) => console.log(json));
 };
 
 
