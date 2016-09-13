@@ -1,5 +1,6 @@
 'use strict';
 
+import { AsyncStorage } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 
@@ -101,7 +102,80 @@ const openPdf = (pdfName) => {
 };
 
 
+export const saveLocal = (k, v) => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.setItem(k, JSON.stringify(v), (e) => {
+      if (e)
+        reject(e);
+      else
+        resolve(v);
+    });
+  });
+};
+
+
+export const loadLocal = (k) => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem(k, (e, res) => {
+      if (e)
+        reject(e);
+      else
+        resolve(JSON.parse(res));
+    });
+  });
+};
+
+
+export const removeLocal = (k) => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.removeItem(k, (e) => {
+      if (e)
+        reject(e);
+      else
+        resolve(k);
+    });
+  });
+};
+
+
+export const getStorageKeys = () => {
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getAllKeys((e, keys) => {
+      if (e)
+        reject(e);
+      else
+        resolve(keys);
+    });
+  });
+};
+
+
+export const localKeyExists = (k) => {
+  return getStorageKeys()
+    .then((keys) => keys.includes(k));
+};
+
+
+export const printStorageKeys = () => {
+  return getStorageKeys()
+    .then((k) => console.log(k));  // eslint-disable-line no-console
+};
+
+
+export const printStorageValue = (k) => {
+  return loadLocal(k)
+    .then((v) => console.log(v));  // eslint-disable-line no-console
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
+  localKeyExists,
+  saveLocal,
+  loadLocal,
+  removeLocal,
+  getStorageKeys,
+  printStorageKeys,
+  printStorageValue,
 };
