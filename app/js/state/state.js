@@ -65,19 +65,25 @@ const userValidate = (userObj) => {
 };
 
 
+const saveRegistrationResult = (ok) => {
+  state.user.sentState = ok ? SendState.SENT : SendState.NOT_SENT;
+  return Promise.all([ok, saveLocal('liltUser', state.user)]);
+};
+
+
 const userRegister = (userObj) => {
   Promise.resolve()
     .then(() => {
       state.user.data = userObj;
       state.user.sentState = SendState.SENDING;
-      return saveLocal('liltUser', state.user);
+      return register(userObj);
     })
-    .then(() => register(userObj))
-    .then((ok) => {
-      state.user.sentState = ok ? SendState.SENT : SendState.NOT_SENT;
-      return Promise.all([ok, saveLocal('liltUser', state.user)]);
-    })
-    .then((values) => console.log(values[0] ? 'ok' : 'fail'));
+    .then((ok) => saveRegistrationResult(ok))
+    .then((values) => console.log(values[0] ? 'ok' : 'fail'))
+    .catch(() => {
+      // we catch offline status here
+      saveRegistrationResult(false);
+    });
 };
 
 
