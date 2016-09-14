@@ -18,6 +18,7 @@ const SendState = {
 
 const initialState = {
   initialized: false,
+  listener: null,
   user: {
     sentState: SendState.UNKNOWN,
     data: {
@@ -31,7 +32,7 @@ const initialState = {
   },
 };
 
-const state = { ...initialState };
+let state = { ...initialState };
 /* -------------------------------------------------------------------------- */
 
 
@@ -42,7 +43,10 @@ const init = () => {
     Promise.resolve()
       .then(mixpanelInit)
       .then(userInit)
-      .then(() => {state.initialized = true; console.log(state)});
+      .then(() => {
+        _setState({...state, initialized: true });
+        console.log(state);
+      });
   }
 };
 
@@ -66,7 +70,8 @@ const userValidate = (userObj) => {
 
 
 const saveRegistrationResult = (ok) => {
-  state.user.sentState = ok ? SendState.SENT : SendState.NOT_SENT;
+  const newSentState = ok ? SendState.SENT : SendState.NOT_SENT;
+  _setState({ ...state, user: { ...state.user, sentState: newSentState }});
   return Promise.all([ok, saveLocal('liltUser', state.user)]);
 };
 
@@ -74,8 +79,14 @@ const saveRegistrationResult = (ok) => {
 const userRegister = (userObj) => {
   Promise.resolve()
     .then(() => {
-      state.user.data = userObj;
-      state.user.sentState = SendState.SENDING;
+      _setState({
+        ...state,
+        user: {
+          ...state.user,
+          sentState: SendState.SENDING,
+          data: userObj,
+        },
+      });
       return register(userObj);
     })
     .then((ok) => saveRegistrationResult(ok))
@@ -93,7 +104,19 @@ const userInit = () => {
     .then(() => removeStoredUser ? removeLocal('liltUser') : {})
     .then(() => localKeyExists('liltUser'))
     .then((b) => b ? loadLocal('liltUser') : saveLocal('liltUser', initState))
-    .then((localUser) => state.user = localUser);
+    .then((localUser) => _setState({ ...state, user: localUser }));
+};
+
+const setListener = (l) => state.listener = l;
+
+const notifyListeners = () => {
+  if (state.listener !== null)
+    state.listener.onStateChange();
+};
+
+const _setState = (s) => {
+  state = s;
+  notifyListeners();
 };
 
 
@@ -102,8 +125,10 @@ const api = {
   test,
   userValidate,
   userRegister,
+  setListener,
+  getState: () => state,
 };
 /* -------------------------------------------------------------------------- */
 
 
-module.exports = { state, api };
+module.exports = { api };

@@ -9,7 +9,7 @@ import {
   LayoutAnimation,
 } from 'react-native';
 
-import { state, api } from '../../state';
+import { api as stateApi } from '../../state';
 import { TextInput, Button2, PickerField } from '../../blocks';
 import { common } from '../../style';
 
@@ -18,14 +18,20 @@ export default class Registration extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: { ...state.user.data },
+      user: { ...stateApi.getState().user.data },
       error: 'OK',
     };
+    stateApi.setListener(this);
   }
 
 
   componentWillUpdate() {
     LayoutAnimation.easeInEaseOut();
+  }
+
+
+  onStateChange() {
+    console.log('state changed');
   }
 
 
@@ -41,11 +47,11 @@ export default class Registration extends Component {
 
 
   onSendPress() {
-    const error = api.userValidate(this.state.user);
+    const error = stateApi.userValidate(this.state.user);
     this.setState({ ...this.state, error });
 
     if (error === 'OK') {
-      api.userRegister(this.state.user);
+      stateApi.userRegister(this.state.user);
     }
   }
 
