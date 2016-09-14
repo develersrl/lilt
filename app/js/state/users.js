@@ -34,7 +34,7 @@ const register = (userData) => {
   };
   return sendRequest(createRequestBody('setUserData', data))
     .then((response) => response.json())
-    .then((json) => console.log(json));
+    .then((json) => json.result.toLowerCase() === 'ok');
 };
 
 

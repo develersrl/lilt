@@ -73,11 +73,11 @@ const userRegister = (userObj) => {
       return saveLocal('liltUser', state.user);
     })
     .then(() => register(userObj))
-    .then(() => {
-      state.user.sentState = SendState.SENT;
-      return saveLocal('liltUser', state.user);
+    .then((ok) => {
+      state.user.sentState = ok ? SendState.SENT : SendState.NOT_SENT;
+      return Promise.all([ok, saveLocal('liltUser', state.user)]);
     })
-    .then(() => console.log('registered'));
+    .then((values) => console.log(values[0] ? 'ok' : 'fail'));
 };
 
 
