@@ -11,8 +11,8 @@ export default class Button2 extends Component {
     const { text, onPress } = this.props;
 
     return (
-      <TouchableOpacity onPress={onPress}>
-        <View style={myStyle.container}>
+      <TouchableOpacity style={myStyle.container} onPress={onPress}>
+        <View>
           <Text style={myStyle.text}>{text}</Text>
         </View>
       </TouchableOpacity>

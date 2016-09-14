@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   LayoutAnimation,
+  ActivityIndicator,
 } from 'react-native';
 
 import { api as stateApi } from '../../state';
@@ -31,7 +32,7 @@ export default class Registration extends Component {
 
 
   onStateChange() {
-    console.log('state changed');
+    this.forceUpdate();
   }
 
 
@@ -65,6 +66,13 @@ export default class Registration extends Component {
     return (
       <Text style={myStyle.errorText}>{error}</Text>
       );
+  }
+
+
+  renderActivityIndicator() {
+    if (stateApi.isSendingUserData())
+      return (<ActivityIndicator size={'large'} />);
+    return null;
   }
 
 
@@ -125,8 +133,11 @@ export default class Registration extends Component {
                      onChangeText={makeCb('address')}
                      />
           {this.renderErrorString()}
-          <View style={myStyle.buttonView}>
-            <Button2 text={'INVIA'} onPress={this.onSendPress.bind(this)}/>
+          <View style={myStyle.buttonRow}>
+            <View style={myStyle.buttonView}>
+              <Button2 text={'INVIA'} onPress={this.onSendPress.bind(this)}/>
+            </View>
+            {this.renderActivityIndicator()}
           </View>
         </View>
       </ScrollView>
@@ -153,8 +164,12 @@ const myStyle = StyleSheet.create({
     alignSelf: 'flex-end',
     paddingBottom: 10,
   },
+  buttonRow: {
+    flexDirection: 'row-reverse',
+    height: common.form.fieldHeight,
+  },
   buttonView: {
-    alignSelf: 'flex-end',
     width: 100,
+    marginLeft: 10,
   },
 });

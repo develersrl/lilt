@@ -127,6 +127,7 @@ const api = {
   userRegister,
   setListener,
   getState: () => state,
+  isSendingUserData: () => state.user.sentState === SendState.SENDING,
 };
 /* -------------------------------------------------------------------------- */
 
