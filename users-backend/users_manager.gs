@@ -221,7 +221,7 @@ function setUserData(req) {
   // already registered
   var userRow = -1;
   for (var row = 0; row < emailValues.length; ++row) {
-    if (emailValues[row][0] === emailKey) {
+    if (emailValues[row][0].toLowerCase() === emailKey.toLowerCase()) {
       userRow = row + 2;  // I can understand +1.. but +2..
       break;
     }
