@@ -199,14 +199,13 @@ function initFieldMap() {
 
 
 /**
- * Register a new user in the users spreadsheet.
- * If the user is already registered nothing happens.
+ * Set user in the users spreadsheet.
  * Each user is identified by an email, which must be passed along
  * the other registration infos.
  * Column order is not important: the user may reorganize the columns in the
  * spreadsheet and the script will user infos in the appropriate columns.
  */
-function registerUser(req) {
+function setUserData(req) {
   // email is required to identify the user
   if (!req.hasOwnProperty('email')) {
     logger.log('cannot find email field, which is needed for user registration');
@@ -222,20 +221,16 @@ function registerUser(req) {
   // already registered
   var userRow = -1;
   for (var row = 0; row < emailValues.length; ++row) {
-    if (emailValues[row][0] === emailKey) {
-      userRow = row;
+    if (emailValues[row][0].toLowerCase() === emailKey.toLowerCase()) {
+      userRow = row + 2;  // I can understand +1.. but +2..
       break;
     }
   }
 
-  // do nothing if the user is already registered
-  if (userRow >= 0) {
-    logger.log('user ' + emailKey + ' is already registered - ignoring request');
-    return true;
+  if (userRow < 0) {
+    // obtain the index of row after the last row that contains data
+    userRow = usersSheet.getLastRow() + 1;
   }
-
-  // obtain the index of last row that contains data
-  var lastRow = usersSheet.getLastRow();
 
   // the number of columns to "write" is exactly the number of headers declared
   // in the first row of the sheet
@@ -264,8 +259,8 @@ function registerUser(req) {
   }
 
   // add the new user to the sheet
-  logger.log('registering new user: ' + req.email);
-  var newRange = usersSheet.getRange(lastRow + 1, 1, 1, columnsCount);
+  logger.log('setting data for user: ' + req.email);
+  var newRange = usersSheet.getRange(userRow, 1, 1, columnsCount);
   newRange.setValues([newValues]);
 
   return true;
@@ -288,8 +283,8 @@ function executeRequestObject(req) {
   }
 
   // execute the specified action (if recognized)
-  if (req.action === 'registerUser') {
-    return registerUser(req.data);
+  if (req.action === 'setUserData') {
+    return setUserData(req.data);
   }
 
   logger.log('unknown action requested: ' + req.action);
@@ -347,13 +342,12 @@ function executeRequest(requestObj) {
  */
 function doGet() {
   // uncomment the following block to execute a test user registration
-  /*
+
   // execute a test request and return html result
   var ok = executeRequest(getTestRequestObj());
   return HtmlService.createHtmlOutput(ok ? 'OK' : 'FAIL');
-  */
 
-  return HtmlService.createHtmlOutput('Hello');
+  // return HtmlService.createHtmlOutput('Hello');
 }
 
 
@@ -380,6 +374,7 @@ function doPost(req) {
 
   // execute request and send response back to the client
   var response = { result: (ok ? 'OK' : 'FAIL') };
-  return ContentService.createTextOutput(JSON.stringify(response));
+  return ContentService.createTextOutput(JSON.stringify(response))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 /* -------------------------------------------------------------------------- */

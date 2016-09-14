@@ -3,7 +3,7 @@
 import { StyleSheet } from 'react-native';
 
 
-const common = StyleSheet.create({
+const common = {
   debug: {
     borderWidth: 1,
     borderColor: '#FFFF00',
@@ -36,7 +36,10 @@ const common = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
-});
+  form: {
+    fieldHeight: 50,
+  },
+};
 
 
 const blocks = {
