@@ -42,7 +42,7 @@ const init = () => {
     Promise.resolve()
       .then(mixpanelInit)
       .then(userInit)
-      .then(() => state.initialized = true);
+      .then(() => {state.initialized = true; console.log(state)});
   }
 };
 
@@ -66,9 +66,17 @@ const userValidate = (userObj) => {
 
 
 const userRegister = (userObj) => {
-  state.user.data = userObj;
-  saveLocal('liltUser', state.user)
+  Promise.resolve()
+    .then(() => {
+      state.user.data = userObj;
+      state.user.sentState = SendState.SENDING;
+      return saveLocal('liltUser', state.user);
+    })
     .then(() => register(userObj))
+    .then(() => {
+      state.user.sentState = SendState.SENT;
+      return saveLocal('liltUser', state.user);
+    })
     .then(() => console.log('registered'));
 };
 
