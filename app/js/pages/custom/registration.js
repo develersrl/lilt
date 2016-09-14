@@ -18,7 +18,7 @@ export default class Registration extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: { ...state.user },
+      user: { ...state.user.data },
       error: 'OK',
     };
   }

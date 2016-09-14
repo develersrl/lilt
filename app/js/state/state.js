@@ -1,24 +1,34 @@
 'use strict';
 
 /* ---------------- imports ------------------------------------------------- */
-import { localKeyExists, saveLocal, loadLocal } from '../misc';
+import { localKeyExists, saveLocal, loadLocal, removeLocal } from '../misc';
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
-import { ignoreStoredUser } from './config';
+import { removeStoredUser } from './config';
 /* -------------------------------------------------------------------------- */
 
 
 /* ---------------- state definition ---------------------------------------- */
+const SendState = {
+  UNKNOWN: 0,
+  NOT_SENT: 1,
+  SENDING: 2,
+  SENT: 3,
+};
+
 const initialState = {
   initialized: false,
   user: {
-    email: '',
-    name: '',
-    surname: '',
-    address: '',
-    age: '',
-    cap: '',
-  }
+    sentState: SendState.UNKNOWN,
+    data: {
+      email: '',
+      name: '',
+      surname: '',
+      address: '',
+      age: '',
+      cap: '',
+    },
+  },
 };
 
 const state = { ...initialState };
@@ -56,8 +66,8 @@ const userValidate = (userObj) => {
 
 
 const userRegister = (userObj) => {
-  state.user = userObj;
-  saveLocal('liltUser', userObj)
+  state.user.data = userObj;
+  saveLocal('liltUser', state.user)
     .then(() => register(userObj))
     .then(() => console.log('registered'));
 };
@@ -65,9 +75,11 @@ const userRegister = (userObj) => {
 
 const userInit = () => {
   const initState = initialState.user;
-  return localKeyExists('liltUser')
+  return Promise.resolve()
+    .then(() => removeStoredUser ? removeLocal('liltUser') : {})
+    .then(() => localKeyExists('liltUser'))
     .then((b) => b ? loadLocal('liltUser') : saveLocal('liltUser', initState))
-    .then((localUser) => state.user = ignoreStoredUser ? initState : localUser);
+    .then((localUser) => state.user = localUser);
 };
 
 
