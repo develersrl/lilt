@@ -168,6 +168,13 @@ export const printStorageValue = (k) => {
 };
 
 
+// https://stackoverflow.com/questions/36147276
+const validateEmail = (email) => {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
@@ -178,4 +185,5 @@ module.exports = {
   getStorageKeys,
   printStorageKeys,
   printStorageValue,
+  validateEmail,
 };

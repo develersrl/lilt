@@ -1,7 +1,14 @@
 'use strict';
 
 /* ---------------- imports ------------------------------------------------- */
-import { localKeyExists, saveLocal, loadLocal, removeLocal } from '../misc';
+import {
+  localKeyExists,
+  saveLocal,
+  loadLocal,
+  removeLocal,
+  validateEmail,
+} from '../misc';
+
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
 import { removeStoredUser, dataSenderRetryInterval } from './config';
@@ -66,6 +73,10 @@ const userValidate = (userObj) => {
       userObj.age === '' ||
       userObj.cap === '')
     return 'campi mancanti';
+
+  if (!validateEmail(userObj.email))
+    return 'campo email non valido';
+
   return 'OK';
 };
 
