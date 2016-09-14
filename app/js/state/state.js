@@ -4,7 +4,7 @@
 import { localKeyExists, saveLocal, loadLocal, removeLocal } from '../misc';
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
-import { removeStoredUser } from './config';
+import { removeStoredUser, dataSenderRetryInterval } from './config';
 /* -------------------------------------------------------------------------- */
 
 
@@ -45,6 +45,7 @@ const init = () => {
       .then(userInit)
       .then(() => {
         _setState({...state, initialized: true });
+        setInterval(_userDataSender, dataSenderRetryInterval * 1000);
         console.log(state);
       });
   }
@@ -90,11 +91,7 @@ const userRegister = (userObj) => {
       return register(userObj);
     })
     .then((ok) => saveRegistrationResult(ok))
-    .then((values) => console.log(values[0] ? 'ok' : 'fail'))
-    .catch(() => {
-      // we catch offline status here
-      saveRegistrationResult(false);
-    });
+    .catch(() => saveRegistrationResult(false));  // catch offline status, too
 };
 
 
@@ -107,6 +104,7 @@ const userInit = () => {
     .then((localUser) => _setState({ ...state, user: localUser }));
 };
 
+
 const setListener = (l) => state.listener = l;
 
 const notifyListeners = () => {
@@ -114,9 +112,22 @@ const notifyListeners = () => {
     state.listener.onStateChange();
 };
 
+
 const _setState = (s) => {
   state = s;
   notifyListeners();
+};
+
+
+const userExists = () => state.user.data.email !== '';
+const userDataNotSent = () => state.user.sentState === SendState.NOT_SENT;
+const isSendingUserData = () => state.user.sentState === SendState.SENDING;
+
+const _userDataSender = () => {
+  if (userExists() && userDataNotSent()) {
+    console.log('retrying user registration');
+    userRegister(state.user.data);
+  }
 };
 
 
@@ -127,7 +138,8 @@ const api = {
   userRegister,
   setListener,
   getState: () => state,
-  isSendingUserData: () => state.user.sentState === SendState.SENDING,
+  isSendingUserData,
+  userExists,
 };
 /* -------------------------------------------------------------------------- */
 
