@@ -10,6 +10,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import { KeyboardAwareScrollView }
+  from 'react-native-keyboard-aware-scroll-view';
+
 import { api as stateApi } from '../../state';
 import { TextInput, Button2, PickerField } from '../../blocks';
 import { common } from '../../style';
@@ -97,7 +100,7 @@ export default class Registration extends Component {
     ];
 
     return (
-      <ScrollView style={common.flexible} bounces={false}>
+      <KeyboardAwareScrollView style={common.flexible} bounces={false}>
         <View>
           <Text style={myStyle.subTitle}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -140,7 +143,7 @@ export default class Registration extends Component {
             {this.renderActivityIndicator()}
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       );
   }
 }
