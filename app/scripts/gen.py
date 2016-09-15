@@ -112,22 +112,31 @@ def __gen_button(button_data):
         )
 
 
+def __gen_link_list_item(item_data):
+    linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
+    return ("<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
+            .format(item_data['title'], item_data['caption'], linkcode))
+
+
 def __gen_array(array_data):
     """Generate an array of elements."""
-    if array_data['orientation'] == 'vertical':
-        container_style = 'flexible'
-    else:
-        container_style = '[flexible, row]'
-
     content = []
     for item in array_data['items']:
         genfun = globals()['__gen_' + item['type']]
         content.append(genfun(item))
 
-    return '<View style={{{}}}>\n{}\n</View>'.format(
-        container_style,
-        '\n'.join(content)
-        )
+    if array_data['enclosedInView']:
+        if array_data['orientation'] == 'vertical':
+            container_style = 'flexible'
+        else:
+            container_style = '[flexible, row]'
+
+        return '<View style={{{}}}>\n{}\n</View>'.format(
+            container_style,
+            '\n'.join(content)
+            )
+
+    return '\n'.join(content)
 
 
 def __gen_page(page_data):

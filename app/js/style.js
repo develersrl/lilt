@@ -100,24 +100,16 @@ const blocks = {
     width: 150,
   },
   linkListItem: {
-    container: {
-      height: 150,
-    },
     body: {
       flex: 1,
-      paddingTop: 20,
-      paddingBottom: 20,
+      paddingTop: 15,
+      paddingBottom: 15,
     },
     separator: {
-      borderTopWidth: 1,
-      borderTopColor: '#D0D0D0',
-      backgroundColor: '#A0A0A0',
-      borderBottomWidth: 1,
-      borderBottomColor: '#D0D0D0',
-      height: 3,
+      backgroundColor: '#A7A7A7',
+      height: 1,
     },
     row: {
-      flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       paddingLeft: 50,
@@ -127,19 +119,26 @@ const blocks = {
     },
     title: {
       color: '#EB8478',
-      fontWeight: 'bold',
-      fontSize: 20,
+      fontFamily: 'GillSans-Bold',
+      fontSize: 16,
+      marginTop: 10,
     },
     caption: {
+      flex: 1,
       color: '#7B7A7A',
-      fontWeight: '600',
-      fontSize: 18,
+      fontFamily: 'GillSans',
+      fontSize: 14,
+      marginRight: 5,
     },
     linkView: {
       alignSelf: 'stretch',
       width: 50,
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    arrow: {
+      width: 45,
+      resizeMode: 'contain',
     },
   },
   stripe: {

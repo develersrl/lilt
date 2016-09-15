@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>fonts/MyriadPro-Bold.otf</string>
+		<string>fonts/GillSans-Bold.ttf</string>
+		<string>fonts/GillSans-BoldItalic.ttf</string>
+		<string>fonts/GillSans-Italic.ttf</string>
+		<string>fonts/GillSans-Light.ttf</string>
+		<string>fonts/GillSans-LightItalic.ttf</string>
+		<string>fonts/GillSans-SemiBold.ttf</string>
+		<string>fonts/GillSans-SemiBoldItalic.ttf</string>
+		<string>fonts/GillSans-UltraBold.ttf</string>
+		<string>fonts/GillSans.ttf</string>
+		<string>fonts/Lato-Regular.ttf</string>
+		<string>fonts/OpenSans-Bold.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

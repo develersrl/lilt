@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { common, blocks } from '../style';
 
 
@@ -11,17 +11,19 @@ export default class LinkListItem extends Component {
     const { linkListItem } = blocks;
 
     return (
-      <View style={linkListItem.container}>
+      <View>
         <View style={linkListItem.body}>
           <View style={linkListItem.row}>
             <Text style={linkListItem.title}>{title}</Text>
           </View>
           <View style={[linkListItem.row, linkListItem.captionRow]}>
-            <Text style={linkListItem.caption}>{caption}</Text>
-            <View style={common.flexible} />
-            <View style={[linkListItem.linkView]}>
+            <Text style={linkListItem.caption}>
+              {caption}
+            </Text>
+            <View style={linkListItem.linkView}>
               <TouchableOpacity onPress={onLinkPress}>
-                <Text>-></Text>
+                <Image style={linkListItem.arrow}
+                       source={require('../../images/arrow1.png')} />
               </TouchableOpacity>
             </View>
           </View>

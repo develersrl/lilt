@@ -15,6 +15,7 @@
         },
         "testArray": {
             "type": "array",
+            "enclosedInView": true,
             "orientation": "horizontal",
             "items": [
                 {
@@ -29,6 +30,7 @@
                 },
                 {
                     "type": "array",
+                    "enclosedInView": true,
                     "orientation": "vertical",
                     "items": [
                         {
@@ -55,6 +57,67 @@
             "type": "button",
             "text": "Press Me!",
             "link": "#9"
+        }
+    }
+},
+{
+    "id": "ll1",
+    "style": "link_list",
+    "title": "Test Link List",
+    "content": {
+        "entries": {
+            "type": "array",
+            "enclosedInView": false,
+            "items": [
+                {
+                    "type": "link_list_item",
+                    "title": "Informazioni",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Cause e Fattori",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Terapia",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Dopo la terapia",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Informazioni",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Cause e Fattori",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Terapia",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Dopo la terapia",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                }
+            ]
         }
     }
 }
