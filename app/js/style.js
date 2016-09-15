@@ -101,7 +101,7 @@ const blocks = {
   },
   linkListItem: {
     container: {
-      height: 150,
+      height: 130,
     },
     body: {
       flex: 1,
@@ -123,13 +123,13 @@ const blocks = {
     },
     title: {
       color: '#EB8478',
-      fontWeight: 'bold',
-      fontSize: 20,
+      fontFamily: 'GillSans-Bold',
+      fontSize: 16,
     },
     caption: {
       color: '#7B7A7A',
-      fontWeight: '600',
-      fontSize: 18,
+      fontFamily: 'GillSans',
+      fontSize: 16,
     },
     linkView: {
       alignSelf: 'stretch',

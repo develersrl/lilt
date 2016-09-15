@@ -17,16 +17,16 @@ export default class LinkList extends Component {
                source={require('../../../images/back1.png')} />
         <View style={myStyle.contentView}>
           <LinkListItem title={'Informazioni'}
-                        caption={'Capitolo 1 / 2'}
+                        caption={'Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
           <LinkListItem title={'Cause e Fattori'}
-                        caption={'Capitolo 1 / 2'}
+                        caption={'Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
           <LinkListItem title={'Terapia'}
-                        caption={'Capitolo 1 / 2'}
+                        caption={'Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
           <LinkListItem title={'Dopo la terapia'}
-                        caption={'Capitolo 1 / 2'}
+                        caption={'Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
         </View>
       </View>
