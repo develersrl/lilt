@@ -100,20 +100,16 @@ const blocks = {
     width: 150,
   },
   linkListItem: {
-    container: {
-      height: 130,
-    },
     body: {
       flex: 1,
-      paddingTop: 20,
-      paddingBottom: 20,
+      paddingTop: 15,
+      paddingBottom: 15,
     },
     separator: {
       backgroundColor: '#A7A7A7',
       height: 1,
     },
     row: {
-      flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       paddingLeft: 50,
@@ -125,11 +121,14 @@ const blocks = {
       color: '#EB8478',
       fontFamily: 'GillSans-Bold',
       fontSize: 16,
+      marginTop: 10,
     },
     caption: {
+      flex: 1,
       color: '#7B7A7A',
       fontFamily: 'GillSans',
-      fontSize: 16,
+      fontSize: 14,
+      marginRight: 5,
     },
     linkView: {
       alignSelf: 'stretch',

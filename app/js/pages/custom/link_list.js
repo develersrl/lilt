@@ -11,13 +11,15 @@ export default class LinkList extends Component {
     const { navigator, getRoute } = this.props;
     const { flexible } = common;
 
+    const loremIpsum = "Lorem Ipsum is simply dummy text of the printing";
+
     return (
       <View style={[flexible]}>
         <Image style={myStyle.backImg}
                source={require('../../../images/back1.png')} />
         <View style={myStyle.contentView}>
           <LinkListItem title={'Informazioni'}
-                        caption={'Capitolo 1 / Capitolo 2'}
+                        caption={loremIpsum}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
           <LinkListItem title={'Cause e Fattori'}
                         caption={'Capitolo 1 / Capitolo 2'}
@@ -26,7 +28,7 @@ export default class LinkList extends Component {
                         caption={'Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
           <LinkListItem title={'Dopo la terapia'}
-                        caption={'Capitolo 1 / Capitolo 2'}
+                        caption={'Capitolo 1 / Capitolo 2 Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
         </View>
       </View>

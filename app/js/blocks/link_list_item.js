@@ -11,14 +11,15 @@ export default class LinkListItem extends Component {
     const { linkListItem } = blocks;
 
     return (
-      <View style={linkListItem.container}>
+      <View>
         <View style={linkListItem.body}>
           <View style={linkListItem.row}>
             <Text style={linkListItem.title}>{title}</Text>
           </View>
           <View style={[linkListItem.row, linkListItem.captionRow]}>
-            <Text style={linkListItem.caption}>{caption}</Text>
-            <View style={common.flexible} />
+            <Text style={linkListItem.caption}>
+              {caption}
+            </Text>
             <View style={linkListItem.linkView}>
               <TouchableOpacity onPress={onLinkPress}>
                 <Image style={linkListItem.arrow}
