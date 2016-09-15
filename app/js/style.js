@@ -109,12 +109,8 @@ const blocks = {
       paddingBottom: 20,
     },
     separator: {
-      borderTopWidth: 1,
-      borderTopColor: '#D0D0D0',
-      backgroundColor: '#A0A0A0',
-      borderBottomWidth: 1,
-      borderBottomColor: '#D0D0D0',
-      height: 3,
+      backgroundColor: '#A7A7A7',
+      height: 1,
     },
     row: {
       flex: 1,

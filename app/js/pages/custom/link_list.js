@@ -15,18 +15,20 @@ export default class LinkList extends Component {
       <View style={[flexible]}>
         <Image style={myStyle.backImg}
                source={require('../../../images/back1.png')} />
-        <LinkListItem title={'Informazioni'}
-                      caption={'Capitolo 1 / 2'}
-                      onLinkPress={() => navigator.push(getRoute('#9'))} />
-        <LinkListItem title={'Cause e Fattori'}
-                      caption={'Capitolo 1 / 2'}
-                      onLinkPress={() => navigator.push(getRoute('#9'))} />
-        <LinkListItem title={'Terapia'}
-                      caption={'Capitolo 1 / 2'}
-                      onLinkPress={() => navigator.push(getRoute('#9'))} />
-        <LinkListItem title={'Dopo la terapia'}
-                      caption={'Capitolo 1 / 2'}
-                      onLinkPress={() => navigator.push(getRoute('#9'))} />
+        <View style={myStyle.contentView}>
+          <LinkListItem title={'Informazioni'}
+                        caption={'Capitolo 1 / 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+          <LinkListItem title={'Cause e Fattori'}
+                        caption={'Capitolo 1 / 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+          <LinkListItem title={'Terapia'}
+                        caption={'Capitolo 1 / 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+          <LinkListItem title={'Dopo la terapia'}
+                        caption={'Capitolo 1 / 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+        </View>
       </View>
       );
   }
@@ -41,6 +43,12 @@ const myStyle = StyleSheet.create({
     width: 70,
     height: Dimensions.get('window').height,
     resizeMode: 'stretch',
+  },
+  contentView: {
+    flex: 1,
+    marginLeft: 60,
+    marginRight: 20,
+    marginTop: 20,
   },
 });
 
