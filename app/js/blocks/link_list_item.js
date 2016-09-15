@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { common, blocks } from '../style';
 
 
@@ -19,9 +19,10 @@ export default class LinkListItem extends Component {
           <View style={[linkListItem.row, linkListItem.captionRow]}>
             <Text style={linkListItem.caption}>{caption}</Text>
             <View style={common.flexible} />
-            <View style={[linkListItem.linkView]}>
+            <View style={linkListItem.linkView}>
               <TouchableOpacity onPress={onLinkPress}>
-                <Text>-></Text>
+                <Image style={linkListItem.arrow}
+                       source={require('../../images/arrow1.png')} />
               </TouchableOpacity>
             </View>
           </View>

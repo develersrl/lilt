@@ -137,6 +137,10 @@ const blocks = {
       alignItems: 'center',
       justifyContent: 'center',
     },
+    arrow: {
+      width: 45,
+      resizeMode: 'contain',
+    },
   },
   stripe: {
     height: 150,
