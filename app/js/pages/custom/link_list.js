@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
 import { LinkListItem } from '../../blocks';
 import { common } from '../../style';
 
@@ -17,7 +17,9 @@ export default class LinkList extends Component {
       <View style={[flexible]}>
         <Image style={myStyle.backImg}
                source={require('../../../images/back1.png')} />
-        <View style={myStyle.contentView}>
+        <ScrollView style={myStyle.contentView}
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}>
           <LinkListItem title={'Informazioni'}
                         caption={loremIpsum}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
@@ -30,7 +32,19 @@ export default class LinkList extends Component {
           <LinkListItem title={'Dopo la terapia'}
                         caption={'Capitolo 1 / Capitolo 2 Capitolo 1 / Capitolo 2'}
                         onLinkPress={() => navigator.push(getRoute('#9'))} />
-        </View>
+          <LinkListItem title={'Informazioni'}
+                        caption={loremIpsum}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+          <LinkListItem title={'Cause e Fattori'}
+                        caption={'Capitolo 1 / Capitolo 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+          <LinkListItem title={'Terapia'}
+                        caption={'Capitolo 1 / Capitolo 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+          <LinkListItem title={'Dopo la terapia'}
+                        caption={'Capitolo 1 / Capitolo 2 Capitolo 1 / Capitolo 2'}
+                        onLinkPress={() => navigator.push(getRoute('#9'))} />
+        </ScrollView>
       </View>
       );
   }
