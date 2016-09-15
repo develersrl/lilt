@@ -20,6 +20,9 @@ Lilt Breast App Repo.
 * [Users Spreadsheet](#users-spreadsheet)
 
 * [App Content Editor](#app-content-editor)
+  * [Running the editor](#running-the-editor)
+  * [Deploying the editor](#deploying-the-editor)
+  * [Populating editor data from a docx](#populating-editor-data-from-a-docx)
 
 ## [Mac Dev Environment Setup](#index)
 
@@ -285,6 +288,8 @@ If you want to deploy the webapp elsewhere in order to use another spreadsheet, 
 
 The repository contains a simple markdown editor based on [electron](http://electron.atom.io/) inside the `markdown-editor` folder.
 
+### [Running the editor](#index)
+
 To launch the editor from scratch:
 
 ```bash
@@ -299,6 +304,35 @@ The markdown editor allows you to edit `md` documents inside a folder.
 By default, the `./markdown` folder is used (relative to the app directory), but you can pass another folder via command-line (if you take a look at the `package.json` file you will see that `npm start` executes the editor passing the `./testdir` directory).
 
 Optionally you can show the developer tools specifying the `LILT_EDITOR_SHOW_DEVTOOLS` environment variable, and setting its value to 1.
+
+### [Populating editor data from a docx](#index)
+
+The first time you launch the editor, it will be empty. The necessary directory structure to use it can (and should) be created by a script.
+You need the .docx file describing the app content and glossary.
+
+Make sure you have `pandoc`, `perl` and `gnu-sed` commands installed.
+You can install all of them via brew:
+
+```bash
+brew install pandoc perl gnu-sed
+```
+
+Now go into the `mardown-editor` directory and run:
+```bash
+npm run scrap-doc -- /path/to/docx /path/to/markdown/directory
+```
+
+As an example, let's say we have `app_data.docx` file ready in our Downloads folder, and we want the genrated content to be placed inside the `testdir` directory inside our `mardown-editor` directory.
+You would run (from inside the `markdown-editor` directory)
+```bash
+npm run scrap-doc -- ~/Downloads/app_data.docx ./testdir
+```
+
+After this, you will find two directories inside `./testdir`: `Contenuti` and `Glossario`. Right now their names determine the category names that are displayed on the left tree of the markdown editor, but this may change in the future.
+
+Inside those directories you will find other directories with base32-encoded names, with the scrapped metadata inside, ready to be displayed (and edited) in the markdown editor.
+
+### [Deploying the editor](#index)
 
 To deploy a new editor version from a Mac, make sure you have `electron-packager` installed globally:
 

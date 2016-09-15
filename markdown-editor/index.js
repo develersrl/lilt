@@ -33,6 +33,12 @@ let selectedNodeData = null;
 
 // Used to append info to window title
 const baseWindowTitle = remote.getCurrentWindow().getTitle();
+
+// constants
+const PAGE_TYPES = {
+    CONTENTS: 0,
+    GLOSSARY: 1
+};
 /* -------------------------------------------------------------------------- */
 
 
@@ -118,19 +124,19 @@ const walk = (dir) => {
   tree.push({
     text: path.basename(contentDirPath),
     selectable: false,
-    nodes: getTreeNodes(contentDirPath)
+    nodes: getTreeNodes(contentDirPath, PAGE_TYPES.CONTENTS)
   })
 
   tree.push({
     text: path.basename(glossaryDirPath),
     selectable: false,
-    nodes: {}
+    nodes: getTreeNodes(glossaryDirPath, PAGE_TYPES.GLOSSARY)
   })
 
   return tree;
 };
 
-const getTreeNodes = (dir) => {
+const getTreeNodes = (dir, pageType) => {
   const nodes = [];
   const pageDirs = fs.readdirSync(dir);
 
@@ -141,12 +147,8 @@ const getTreeNodes = (dir) => {
       text: jsonObj.title,
       orgText: jsonObj.title,
       path: path.join(fullDirPath, 'content.md'),
-      formData: {
-        title: jsonObj.title,
-        headerImage: jsonObj.headerImage,
-        pdfFile: jsonObj.pdfFile,
-        sharedText: jsonObj.sharedText
-      },
+      pageType: pageType,
+      formData: formDataForType(jsonObj, pageType),
       icon: 'glyphicon glyphicon-file'
     });
   });
@@ -154,17 +156,40 @@ const getTreeNodes = (dir) => {
   return nodes;
 };
 
+const formDataForType = (jsonObj, pageType) => {
+    const formData = {
+        title: jsonObj.title,
+        pageType: pageType
+    };
+
+    if (pageType === PAGE_TYPES.CONTENTS) {
+        formData.headerImage = jsonObj.headerImage;
+        formData.pdfFile = jsonObj.pdfFile;
+        formData.sharedText = jsonObj.sharedText;
+    } else if (pageType === PAGE_TYPES.GLOSSARY) {
+        /* Your honor, I have nothing to add */
+    }
+
+    return formData;
+};
+
 // obtain jQuery tree node object by node id
 const getNode = (nodeId) => $('*[data-nodeid="' + nodeId + '"]');
 
 // get current formData
 const getFormData = () => {
-  return {
-    title: $('#title').val(),
-    sharedText: $('#shared-text').val(),
-    pdfFile: $('#pdf-name').text(),
-    headerImage: path.basename($('#header-pic').attr('src'))
+  const pageType = currentNodePageType();
+  const formData = {
+    title: $('#title').val()
   };
+
+  if (pageType === PAGE_TYPES.CONTENTS) {
+    formData.sharedText = $('#shared-text').val();
+    formData.pdfFile = $('#pdf-name').text();
+    formData.headerImage = path.basename($('#header-pic').attr('src'));
+  };
+
+  return formData;
 };
 
 // load markdown file inside the editor
@@ -212,10 +237,20 @@ const loadMarkdown = (mdFilePath, currDir) => {
 };
 
 // load title, shared text and header image info inside form
-const loadFormData = (formData, pageDir) => {
+const loadFormData = (formData, pageDir, pageType) => {
   document.title = baseWindowTitle + ' — ' + formData.title;
   $('#title').val(formData.title);
   $('#shared-text').val(formData.sharedText);
+
+  if (pageType === PAGE_TYPES.CONTENTS) {
+    $('#shared-text-div').show();
+    $('#header-image-div').show();
+    $('#pdf-file-div').show();
+  } else if (pageType === PAGE_TYPES.GLOSSARY) {
+    $('#shared-text-div').hide();
+    $('#header-image-div').hide();
+    $('#pdf-file-div').hide();
+  }
 
   if (formData.pdfFile) {
     $('#pdf-name').text(path.basename(formData.pdfFile));
@@ -242,9 +277,13 @@ const savePage = () => {
         update();
 
         const currDir = path.dirname(currentMdFile);
-        copyFormFiles(currDir);
+        const pageType = currentNodePageType();
+
+        copyFormFiles(currDir, pageType);
         writePageJson(currDir);
         const pageJson = getFormData();
+        // pageJson.headerImage is allowed to be undefined, syncImages knows
+        // about it
         const finalHTML = syncImages(currDir, pageJson.headerImage);
         updateNodeData(pageJson);
 
@@ -265,17 +304,19 @@ const savePage = () => {
   }
 };
 
-const copyFormFiles = (currDir) => {
-  const headerFile = $('#header-image')[0].files[0];
-  const pdfFile = $('#pdf-input')[0].files[0];
+const copyFormFiles = (currDir, pageType) => {
+  if (pageType === PAGE_TYPES.CONTENTS) {
+    const headerFile = $('#header-image')[0].files[0];
+    const pdfFile = $('#pdf-input')[0].files[0];
 
-  if (headerFile) {
-    const newName = copyToDir(headerFile.path, currDir);
-    $('#header-pic').attr('src', path.join(currDir, newName));
+    if (headerFile) {
+      const newName = copyToDir(headerFile.path, currDir);
+      $('#header-pic').attr('src', path.join(currDir, newName));
+    }
+
+    if (pdfFile)
+      copyToDir(pdfFile.path, currDir, {mangle: false});
   }
-
-  if (pdfFile)
-    copyToDir(pdfFile.path, currDir, {mangle: false});
 
   // Reset input fields to avoid copying the files at every save
   $('#header-image').val('');
@@ -358,7 +399,7 @@ const syncImages = (currDir, headerImage) => {
   // We use path.basename because each src attribute is an absolute path, but
   // we are only interested in the image name
   const mdImgsSrcs = [...mdImgs].map((x) => path.basename(x.getAttribute('src')));
-  mdImgsSrcs.push(headerImage);
+  if (headerImage) mdImgsSrcs.push(headerImage);
   const toDelete = currImgs.filter((x) => !mdImgsSrcs.includes(x));
   // We map fs.unlink on every element of toDelete. Since toDelete contains
   // image names rather than paths, we need to resolve those and unlink them.
@@ -432,18 +473,26 @@ const copyToDir = (sourceFile, targetDir, options = {mangle: true}) => {
  * tree from disk.
  */
 const updateNodeData = (obj) => {
-    const treeNode = tree.treeview('getNode', selNodeId);
-    treeNode.orgText = obj.title;
-    treeNode.formData.title = obj.title;
+  const treeNode = tree.treeview('getNode', selNodeId);
+  treeNode.orgText = obj.title;
+  treeNode.formData.title = obj.title;
+
+  if (treeNode.pageType === PAGE_TYPES.CONTENTS) {
+    treeNode.formData.sharedText = obj.sharedText;
     treeNode.formData.pdfFile = obj.pdfFile;
     treeNode.formData.headerImage = obj.headerImage;
+  }
+};
+
+const currentNodePageType = () => {
+  return tree.treeview('getNode', selNodeId).pageType;
 };
 
 const switchDocument = (nodeData) => {
   prevNodeId = selNodeId;
   selNodeId = nodeData.nodeId;
   loadMarkdown(nodeData.path, path.dirname(nodeData.path)); // calls update()
-  loadFormData(nodeData.formData, path.dirname(nodeData.path));
+  loadFormData(nodeData.formData, path.dirname(nodeData.path), nodeData.pageType);
 };
 /* -------------------------------------------------------------------------- */
 
