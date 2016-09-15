@@ -30,6 +30,7 @@
 		C08E61341D7478A300C6AE57 /* libPods-lilt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C08E61301D74775100C6AE57 /* libPods-lilt.a */; };
 		C0BB46AC1D79BCDC00DDB2FE /* libRNFileOpener.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0BB46A71D79BCAF00DDB2FE /* libRNFileOpener.a */; };
 		C0CC521A1D798B1000B8C7F1 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C07A35F31D798A25004223B4 /* libRNFS.a */; };
+		C0D1F99E1D8ACB7300E9A937 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = C0D1F99D1D8ACB7300E9A937 /* fonts */; };
 		C0D831C21D363DB600141DDB /* glossary.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D831C11D363DB600141DDB /* glossary.json */; };
 		EE1EDD315C75E1C67C4FD662 /* libPods-liltTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA7D0AD0AF17C5EB67DB766 /* libPods-liltTests.a */; };
 /* End PBXBuildFile section */
@@ -202,6 +203,7 @@
 		9451514BA1CF3DCE99F6CF1F /* Pods-liltTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-liltTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-liltTests/Pods-liltTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C07A35C21D7988F7004223B4 /* pdf */ = {isa = PBXFileReference; lastKnownFileType = folder; name = pdf; path = ../content/pdf; sourceTree = "<group>"; };
 		C08E61271D74775100C6AE57 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		C0D1F99D1D8ACB7300E9A937 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = fonts; path = ../fonts; sourceTree = "<group>"; };
 		C0D831C11D363DB600141DDB /* glossary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = glossary.json; path = ../content/glossary.json; sourceTree = "<group>"; };
 		D36FF04DC4AA4FCCB1F67F82 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 		EA48E0F285C9A2133994CEF2 /* Pods-lilt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lilt.release.xcconfig"; path = "Pods/Target Support Files/Pods-lilt/Pods-lilt.release.xcconfig"; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C0D1F99D1D8ACB7300E9A937 /* fonts */,
 				C07A35C21D7988F7004223B4 /* pdf */,
 				C0D831C11D363DB600141DDB /* glossary.json */,
 				13B07FAE1A68108700A75B9A /* lilt */,
@@ -763,6 +766,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C07A35C31D7988F7004223B4 /* pdf in Resources */,
+				C0D1F99E1D8ACB7300E9A937 /* fonts in Resources */,
 				C0D831C21D363DB600141DDB /* glossary.json in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
