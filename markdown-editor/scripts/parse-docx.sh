@@ -19,7 +19,7 @@ if [[ $# -lt 2 ]] || [[ -d $1 ]] || [[ -f $2 ]]; then
 fi
 
 curr_dir="$(dirname "$BASH_SOURCE")"
-temp_file=$(tempfile)
+temp_file=$(mktemp)
 
 "$curr_dir"/clean.sh "$1" > $temp_file
 "$curr_dir"/populate.py $temp_file "$2"
