@@ -4,13 +4,13 @@
 pandoc "$1" -t markdown |
 
 # remove <span>s
-sed -e 's/<span.*\/span>//g' |
+gsed -e 's/<span.*\/span>//g' |
 
 # remove block-quotes
-sed -e 's/>\s*//g' |
+gsed -e 's/>\s*//g' |
 
 # there may be some strange *\\* tokens
-sed -e 's/\*\\\\\*//g' |
+gsed -e 's/\*\\\\\*//g' |
 
 # there are some corrupted headers in the resulting file
 # instead of looking like:
@@ -27,8 +27,8 @@ sed -e 's/\*\\\\\*//g' |
 perl -0777 -p -e 's/\*\*(.*)\\\n\*\*/### $1\n\n/g' |
 
 # remove everything after the WIKI (glossary) section
-sed -r -e '/faq.*domande.*screening.*mammografico/I,$d' |
+gsed -r -e '/faq.*domande.*screening.*mammografico/I,$d' |
 
 # remove everything before the SAPERNE DI PIÙ (content) section
-sed -r -e '1,/accesso libero/Id' |
-sed '1d'
+gsed -r -e '1,/accesso libero/Id' |
+gsed '1d'
