@@ -310,7 +310,14 @@ Optionally you can show the developer tools specifying the `LILT_EDITOR_SHOW_DEV
 The first time you launch the editor, it will be empty. The necessary directory structure to use it can (and should) be created by a script.
 You need the .docx file describing the app content and glossary.
 
-From inside the mardown-editor directory simply run
+Make sure you have `pandoc`, `perl` and `gnu-sed` commands installed.
+You can install all of them via brew:
+
+```bash
+brew install pandoc perl gnu-sed
+```
+
+Now go into the `mardown-editor` directory and run:
 ```bash
 npm run scrap-doc -- /path/to/docx /path/to/markdown/directory
 ```
