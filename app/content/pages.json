@@ -57,5 +57,11 @@
             "link": "#9"
         }
     }
+},
+{
+    "id": "ll1",
+    "style": "link_list",
+    "title": "Test Link List",
+    "content": {}
 }
 ]
