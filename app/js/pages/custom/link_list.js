@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, Image, Dimensions } from 'react-native';
 import { LinkListItem } from '../../blocks';
 import { common } from '../../style';
 
@@ -13,6 +13,8 @@ export default class LinkList extends Component {
 
     return (
       <View style={[flexible]}>
+        <Image style={myStyle.backImg}
+               source={require('../../../images/back1.png')} />
         <LinkListItem title={'Informazioni'}
                       caption={'Capitolo 1 / 2'}
                       onLinkPress={() => navigator.push(getRoute('#9'))} />
@@ -29,3 +31,16 @@ export default class LinkList extends Component {
       );
   }
 }
+
+
+const myStyle = StyleSheet.create({
+  backImg: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: 70,
+    height: Dimensions.get('window').height,
+    resizeMode: 'stretch',
+  },
+});
+
