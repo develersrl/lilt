@@ -144,6 +144,7 @@ const blocks = {
   stripe: {
     height: 150,
     spacing: 10,
+    marginTopBottom: 10,
     footerHeight: 24,
     circleSpacing: 5,
     circleSelected: '#EB8478',
@@ -195,6 +196,17 @@ const pages = {
       titleText: {
         fontFamily: 'GillSans',
         fontSize: 24,
+      },
+    },
+    body: {
+      container: {
+        padding: 10,
+      },
+      text: {
+        fontFamily: 'GillSans',
+        fontSize: 16,
+        color: '#8E8E8E',
+        lineHeight: 20,
       },
     },
   },

@@ -34,6 +34,8 @@ export default class Stripe extends Component {
     return StyleSheet.create({
       container: {
         height: stripe.height,
+        marginTop: stripe.marginTopBottom,
+        marginBottom: stripe.marginTopBottom,
       },
       scrollview: {
         height: stripe.height - stripe.footerHeight,
