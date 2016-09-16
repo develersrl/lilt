@@ -17,7 +17,6 @@ const customRoutes = {
   'home': { title: 'LILT App', component: pages.custom.Home },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
-  'link-list': { title: 'Link List', component: pages.custom.LinkList },
   'content': { 'title': 'Content', component: pages.custom.Content },
   'registration': {
     showBar: false,
