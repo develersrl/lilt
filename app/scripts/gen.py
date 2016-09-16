@@ -118,6 +118,10 @@ def __gen_link_list_item(item_data):
             .format(item_data['title'], item_data['caption'], linkcode))
 
 
+def __gen_raw_text(text_data):
+    return text_data['value']
+
+
 def __gen_array(array_data):
     """Generate an array of elements."""
     content = []
