@@ -27,7 +27,7 @@ export default class Content extends Component {
           </View>
           <View style={[content.header.footer]}>
             <View style={content.header.actionView}>
-              <TouchableOpacity onPress={() => openPdf('pdf-sample.pdf')}>
+              <TouchableOpacity onPress={() => openPdf({{pdfName}})}>
                 <Image style={content.header.actionImg}
                        source={require('../../../images/download.png')} />
               </TouchableOpacity>

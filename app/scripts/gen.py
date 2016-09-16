@@ -117,6 +117,10 @@ def __gen_image_require(page_id, image_data):
         )
 
 
+def __gen_pdf(page_id, pdf_data):
+    return "'{}_{}'".format(page_id, pdf_data['name'])
+
+
 def __gen_raw_text(page_id, text_data):
     return text_data['value']
 

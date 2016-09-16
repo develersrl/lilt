@@ -133,6 +133,10 @@
         "headerImage": {
             "type": "image_require",
             "name": "header_test.png"
+        },
+        "pdfName": {
+            "type": "pdf",
+            "name": "pdf_sample.pdf"
         }
     }
 }
