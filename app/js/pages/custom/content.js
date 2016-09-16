@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 
-import { openPdf } from '../../misc';
+import { openPdf, share } from '../../misc';
 import { Stripe } from '../../blocks';
 import { common, pages } from '../../style';
 
@@ -30,7 +30,9 @@ export default class Content extends Component {
             </View>
             <View style={content.header.separator} />
             <View style={content.header.actionView}>
-              <Text style={content.header.text}>Share</Text>
+              <TouchableOpacity onPress={() => share('sample text')}>
+                <Text style={content.header.text}>Share</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Image>

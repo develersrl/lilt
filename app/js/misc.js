@@ -1,6 +1,6 @@
 'use strict';
 
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, ActionSheetIOS } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 
@@ -175,6 +175,23 @@ const validateEmail = (email) => {
 };
 
 
+const share = (text) => {
+  const myText = 'Lorem Ipsum is simply dummy text of the printing';
+  ActionSheetIOS.showShareActionSheetWithOptions({
+    message: text,
+  },
+  (error) => console.log(error),
+  (success, method) => {
+    if (success) {
+      console.log(`Shared via ${method}`);
+    }
+    else {
+      console.log('You didn\'t share');
+    }
+  });
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
@@ -186,4 +203,5 @@ module.exports = {
   printStorageKeys,
   printStorageValue,
   validateEmail,
+  share,
 };
