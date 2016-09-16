@@ -126,6 +126,10 @@
     "style": "content",
     "title": "Test Content",
     "content": {
+        "title": {
+            "type": "raw_text",
+            "value": "Esempio Titolo"
+        }
     }
 }
 ]

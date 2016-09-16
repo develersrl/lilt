@@ -21,7 +21,7 @@ export default class Content extends Component {
                source={require('../../../images/header_test.png')}>
           <View style={[flexible, centeredChildren]}>
             <Text style={[content.header.titleText, content.header.text]}>
-              Informazioni
+              {{title}}
             </Text>
           </View>
           <View style={[content.header.footer]}>
