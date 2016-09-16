@@ -30,7 +30,7 @@ const customRoutes = {
 const routes = { ...generatedRoutes, ... customRoutes };
 
 // the start route key
-const initialRouteId = "#ll1";
+const initialRouteId = "#c1";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in

@@ -1,6 +1,6 @@
 'use strict';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 
 const common = {
@@ -165,7 +165,9 @@ const pages = {
   content: {
     header: {
       container: {
-        height: 200,
+        height: 280,
+        width: Dimensions.get('window').width,
+        resizeMode: 'stretch',
       },
       footer: {
         height: 40,

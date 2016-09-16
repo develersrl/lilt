@@ -120,5 +120,12 @@
             ]
         }
     }
+},
+{
+    "id": "c1",
+    "style": "content",
+    "title": "Test Content",
+    "content": {
+    }
 }
 ]
