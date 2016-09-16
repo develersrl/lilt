@@ -102,7 +102,7 @@ const openPdf = (pdfName) => {
 };
 
 
-export const saveLocal = (k, v) => {
+const saveLocal = (k, v) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.setItem(k, JSON.stringify(v), (e) => {
       if (e)
@@ -114,7 +114,7 @@ export const saveLocal = (k, v) => {
 };
 
 
-export const loadLocal = (k) => {
+const loadLocal = (k) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem(k, (e, res) => {
       if (e)
@@ -126,7 +126,7 @@ export const loadLocal = (k) => {
 };
 
 
-export const removeLocal = (k) => {
+const removeLocal = (k) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.removeItem(k, (e) => {
       if (e)
@@ -138,7 +138,7 @@ export const removeLocal = (k) => {
 };
 
 
-export const getStorageKeys = () => {
+const getStorageKeys = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getAllKeys((e, keys) => {
       if (e)
@@ -150,19 +150,19 @@ export const getStorageKeys = () => {
 };
 
 
-export const localKeyExists = (k) => {
+const localKeyExists = (k) => {
   return getStorageKeys()
     .then((keys) => keys.includes(k));
 };
 
 
-export const printStorageKeys = () => {
+const printStorageKeys = () => {
   return getStorageKeys()
     .then((k) => console.log(k));  // eslint-disable-line no-console
 };
 
 
-export const printStorageValue = (k) => {
+const printStorageValue = (k) => {
   return loadLocal(k)
     .then((v) => console.log(v));  // eslint-disable-line no-console
 };
