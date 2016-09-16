@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 import { openPdf, share } from '../../misc';
 import { Stripe } from '../../blocks';
@@ -14,12 +14,14 @@ export default class Content extends Component {
     const { content } = pages;
 
     return (
-      <View style={[flexible]}>
+      <ScrollView style={[flexible]}
+                  bounces={false}
+                  showsVerticalScrollIndicator={false}>
         <Image style={content.header.container}
                source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/6/67/Inside_the_Batad_rice_terraces.jpg'}}>
           <View style={[flexible, centeredChildren]}>
             <Text style={[content.header.titleText, content.header.text]}>
-              Hello Title!
+              Informazioni
             </Text>
           </View>
           <View style={[content.header.footer]}>
@@ -38,8 +40,8 @@ export default class Content extends Component {
             </View>
           </View>
         </Image>
-        <View style={[content.body, centeredChildren, debug2]}>
-          <Text>Hello Text + Images!</Text>
+        <View style={[centeredChildren]}>
+          <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
         </View>
         <Stripe
           imageSize={[800, 600]}
@@ -53,7 +55,8 @@ export default class Content extends Component {
             require('../../../images/test.png'),
             require('../../../images/test.png'),
           ]} />
-      </View>
+        <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
+      </ScrollView>
       );
   }
 }
