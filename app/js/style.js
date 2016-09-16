@@ -167,7 +167,7 @@ const pages = {
         height: 200,
       },
       footer: {
-        height: 50,
+        height: 40,
         flexDirection: 'row',
       },
       separator: {
@@ -180,9 +180,13 @@ const pages = {
       actionView: {
         borderWidth: 1,
         borderColor: '#FFFFFF',
-        width: 70,
+        width: 60,
         alignItems: 'center',
         justifyContent: 'center',
+      },
+      actionImg: {
+        width: 25,
+        resizeMode: 'contain',
       },
       text: {
         backgroundColor: 'transparent',
