@@ -1,7 +1,14 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 
 import { openPdf, share } from '../../misc';
 import { Stripe } from '../../blocks';
@@ -44,22 +51,34 @@ export default class Content extends Component {
           </View>
         </Image>
         <View style={[content.body.container]}>
-          <Text style={content.body.text}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
-          <Stripe
-            imageSize={[800, 600]}
-            sources={[
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-              require('../../../images/test.png'),
-            ]} />
-          <Text style={content.body.text}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
+          {{body}}
         </View>
       </ScrollView>
       );
   }
 }
+
+
+const markdown = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    fontFamily: 'GillSans-Bold',
+    fontSize: 18,
+    textAlign: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  paragraph: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  image: {
+    borderWidth: 1,
+    borderColor: '#0000FF',
+    resizeMode: 'contain',
+    height: 100,
+    width: 150,
+  },
+});

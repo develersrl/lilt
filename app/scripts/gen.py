@@ -80,14 +80,8 @@ def __gen_markdown(page_id, markdown_data):
     with open(os.path.join(page_dir, markdown_data["source"]), 'r') as f:
         markdown_code = f.read()
 
-    # render react-native code and enclose everything inside a ScrollView
-    # If you want explanations about contentInset etc.. see here:
-    # https://github.com/facebook/react-native/issues/2052
     return (
-        '<ScrollView style={{markdown.container}} ' +
-        'contentInset={{{{top:0}}}} ' +
-        'automaticallyAdjustContentInsets={{false}} ' +
-        '>\n{}\n</ScrollView>').format(
+        '<View style={{markdown.container}}>\n{}\n</View>').format(
         renderer(markdown_code)
         )
 

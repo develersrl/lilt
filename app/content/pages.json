@@ -141,6 +141,10 @@
         "shareText": {
             "type": "raw_text",
             "value": "Simple text to share.\\nSeconda linea."
+        },
+        "body": {
+            "type": "markdown",
+            "source": "test.md"
         }
     }
 }

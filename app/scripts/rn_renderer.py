@@ -39,6 +39,7 @@ class Wrapper(object):
         print "{}\n\tArgs: {}\n\tKwArgs: {}\n".format(methname, args, kwargs)
 
 
+
 class RNRenderer(mistune.Renderer):
     """Markdown to react-native renderer.
 
@@ -55,6 +56,7 @@ class RNRenderer(mistune.Renderer):
         # the image using the following counter as suffix
         self.__image_counter = 1
 
+
     def header(self, text, level, raw=None):
         """Render header/heading tags like ``<h1>`` ``<h2>``.
 
@@ -63,6 +65,7 @@ class RNRenderer(mistune.Renderer):
         :param raw: raw text content of the header.
         """
         return '<Text style={{markdown.header}}>{}</Text>\n'.format(raw)
+
 
     def paragraph(self, text):
         """Render a text paragraph."""
@@ -75,6 +78,7 @@ class RNRenderer(mistune.Renderer):
                 <Text>\n{}\n</Text>
             </View>
             """.format(text)
+
 
     def image(self, src, title, text):
         """Rendering a image with title and text.
@@ -106,7 +110,8 @@ class RNRenderer(mistune.Renderer):
         #
         # Note the space after the image source.
 
-        return '<Image style={{image}} source={{{}}} />\n'.format(source_value)
+        return '<Image style={{markdown.image}} source={{{}}} />\n'.format(source_value)
+
 
     def text(self, txt):
         """Rendering unformatted text.
@@ -115,9 +120,11 @@ class RNRenderer(mistune.Renderer):
         """
         return '<Text>{}</Text>'.format(txt)
 
+
     def emphasis(self, text):
         """Generate emphasized (italic) text from markdown."""
         return '<Text style={{{{fontStyle: "italic"}}}}>{}</Text>'.format(text)
+
 
     def double_emphasis(self, text):
         """Generate double-emphasized (bold) text from markdown."""
