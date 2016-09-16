@@ -10,7 +10,7 @@ import { common, pages } from '../../style';
 
 export default class Content extends Component {
   render() {
-    const { flexible, centeredChildren, debug2 } = common;
+    const { flexible, centeredChildren } = common;
     const { content } = pages;
 
     return (
