@@ -74,7 +74,7 @@ def __get_page_component_classname_from_page_data(page_data):
         )
 
 
-def __gen_markdown(markdown_data):
+def __gen_markdown(page_id, markdown_data):
     """Generate react-native code from markdown."""
     global __markdown_dir, __md_renderer
 
@@ -94,7 +94,7 @@ def __gen_markdown(markdown_data):
         )
 
 
-def __gen_button(button_data):
+def __gen_button(page_id, button_data):
     """Generate a button block inside a page."""
     pressImpl = 'this.props.navigator.push(this.props.getRoute("{}"))'.format(
         button_data["link"]
@@ -106,22 +106,22 @@ def __gen_button(button_data):
         )
 
 
-def __gen_link_list_item(item_data):
+def __gen_link_list_item(page_id, item_data):
     linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
     return ("<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
             .format(item_data['title'], item_data['caption'], linkcode))
 
 
-def __gen_raw_text(text_data):
+def __gen_raw_text(page_id, text_data):
     return text_data['value']
 
 
-def __gen_array(array_data):
+def __gen_array(page_id, array_data):
     """Generate an array of elements."""
     content = []
     for item in array_data['items']:
         genfun = globals()['__gen_' + item['type']]
-        content.append(genfun(item))
+        content.append(genfun(page_id, item))
 
     if array_data['enclosedInView']:
         if array_data['orientation'] == 'vertical':
@@ -149,7 +149,7 @@ def __gen_page(page_data):
     for (block_id, block_data) in content.iteritems():
         # use content type (e.g. "button") to call generation fun by name
         genfun = globals()["__gen_" + block_data["type"]]
-        replacements[block_id] = genfun(block_data)
+        replacements[block_id] = genfun(page_data['id'], block_data)
 
     # write output file
     target_basename = __get_page_component_filename_from_page_data(page_data)
