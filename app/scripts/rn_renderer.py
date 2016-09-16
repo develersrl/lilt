@@ -89,32 +89,8 @@ class RNRenderer(mistune.Renderer):
         if src == '':
             return ''
 
-        # this variable will hold the complete path to the local image file
-        target_image_fn = ''
-
-        if src.startswith('http://') or src.startswith('https://'):
-            # if image source is an external url we download the image and
-            # save it to the images folder
-            print '\t\tdownloading image: {}..'.format(src)
-
-            # compute the target image file basename (e.g. image_002.png)
-            image_basename = 'image_{}.png'.format(
-                str(self.__image_counter).zfill(3)
-                )
-            self.__image_counter += 1
-
-            # download image from url and save it to target image file
-            target_image_fn = os.path.join(
-                self.__images_dir,
-                'downloaded',
-                image_basename
-                )
-
-            with open(target_image_fn, 'wb') as f:
-                f.write(requests.get(src).content)
-        else:
-            # in case of local image..
-            target_image_fn = os.path.join(self.__images_dir, 'static', src)
+        # this variable holds the complete path to the local image file
+        target_image_fn = os.path.join(self.__images_dir, src)
 
         # compute the react-native require statement to use the local image
         source_value = 'require("{}")'.format(target_image_fn)

@@ -39,13 +39,7 @@ def __init():
 
     # Images used by the application are collected inside "images" folder
     # under "content" folder.
-    images_dir = os.path.join(__content_dir, 'images')
-
-    # The "downloaded" subdirectory holds the images downloaded by the
-    # react-native renderer, so we make sure that director exists.
-    downloaded_images_dir = os.path.join(images_dir, 'downloaded')
-    if not os.path.isdir(downloaded_images_dir):
-        os.makedirs(downloaded_images_dir)
+    images_dir = os.path.join(__content_dir, 'images', 'markdown')
 
     # initialize markdown-to-react-native renderer
     rn_renderer = RNRenderer(images_dir=images_dir)
