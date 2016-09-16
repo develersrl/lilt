@@ -27,7 +27,7 @@ def __init():
     app_dir = os.path.dirname(script_dir)
     __content_dir = os.path.join(app_dir, 'content')
     __pages_json_fn = os.path.join(__content_dir, 'pages.json')
-    __templates_dir = os.path.join(__content_dir, 'templates')
+    __templates_dir = os.path.join(app_dir, 'templates')
     __target_pages_dir = os.path.join(app_dir, 'js', 'pages', 'generated')
     __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
 
