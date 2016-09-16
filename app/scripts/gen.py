@@ -110,6 +110,13 @@ def __gen_link_list_item(page_id, item_data):
             .format(item_data['title'], item_data['caption'], linkcode))
 
 
+def __gen_image_require(page_id, image_data):
+    return 'require("../../../content/pages/{}/{}")'.format(
+        page_id,
+        image_data['name']
+        )
+
+
 def __gen_raw_text(page_id, text_data):
     return text_data['value']
 

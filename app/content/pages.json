@@ -129,6 +129,10 @@
         "title": {
             "type": "raw_text",
             "value": "Esempio Titolo"
+        },
+        "headerImage": {
+            "type": "image_require",
+            "name": "header_test.png"
         }
     }
 }

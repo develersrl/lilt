@@ -12,13 +12,14 @@ export default class Content extends Component {
   render() {
     const { flexible, centeredChildren } = common;
     const { content } = pages;
+    const headerImage = {{headerImage}};
 
     return (
       <ScrollView style={[flexible]}
                   bounces={false}
                   showsVerticalScrollIndicator={false}>
         <Image style={content.header.container}
-               source={require('../../../images/header_test.png')}>
+               source={headerImage}>
           <View style={[flexible, centeredChildren]}>
             <Text style={[content.header.titleText, content.header.text]}>
               {{title}}
