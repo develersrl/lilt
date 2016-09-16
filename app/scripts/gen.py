@@ -106,8 +106,13 @@ def __gen_button(page_id, button_data):
 
 def __gen_link_list_item(page_id, item_data):
     linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
-    return ("<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
-            .format(item_data['title'], item_data['caption'], linkcode))
+    return (
+        "<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
+        .format(
+            item_data['title'],
+            item_data['caption'],
+            linkcode
+            ))
 
 
 def __gen_image_require(page_id, image_data):

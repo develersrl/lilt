@@ -14,6 +14,8 @@ export default class Content extends Component {
     const { content } = pages;
     const headerImage = {{headerImage}};
 
+    const shareText = "{{shareText}}";
+
     return (
       <ScrollView style={[flexible]}
                   bounces={false}
@@ -34,7 +36,7 @@ export default class Content extends Component {
             </View>
             <View style={content.header.separator} />
             <View style={content.header.actionView}>
-              <TouchableOpacity onPress={() => share('sample text')}>
+              <TouchableOpacity onPress={() => share(shareText)}>
                 <Image style={content.header.actionImg}
                        source={require('../../../images/share.png')} />
               </TouchableOpacity>

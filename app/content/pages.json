@@ -137,6 +137,10 @@
         "pdfName": {
             "type": "pdf",
             "name": "pdf_sample.pdf"
+        },
+        "shareText": {
+            "type": "raw_text",
+            "value": "Simple text to share.\\nSeconda linea."
         }
     }
 }
