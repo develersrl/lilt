@@ -193,12 +193,9 @@ const pages = {
         color: '#FFFFFF',
       },
       titleText: {
-        fontWeight: 'bold',
-        fontSize: 20,
+        fontFamily: 'GillSans',
+        fontSize: 24,
       },
-    },
-    body: {
-      flex: 1,
     },
   },
 };
