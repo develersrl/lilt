@@ -15,39 +15,24 @@ __pages_json_fn = None  # pages.json filename
 __templates_dir = None  # js templates directory path
 __target_pages_dir = None  # generated pages directory
 __target_navigation_dir = None  # app "navigation" directory
-__markdown_dir = None  # source markdown files directory
 __j2_env = None  # jinja2 environment
-__md_renderer = None  # react-native markdown renderer
 
 
 def __init():
     """Initialize global variables."""
     global __content_dir, __pages_json_fn, __templates_dir, __target_pages_dir
-    global __target_navigation_dir, __markdown_dir, __j2_env, __md_renderer
+    global __target_navigation_dir, __j2_env
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     app_dir = os.path.dirname(script_dir)
     __content_dir = os.path.join(app_dir, 'content')
     __pages_json_fn = os.path.join(__content_dir, 'pages.json')
     __templates_dir = os.path.join(__content_dir, 'templates')
-    __markdown_dir = os.path.join(__content_dir, 'markdown')
     __target_pages_dir = os.path.join(app_dir, 'js', 'pages', 'generated')
     __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
 
     # initialize Jinja environment to work on "templates" directory
     __j2_env = Environment(loader=FileSystemLoader(__templates_dir))
-
-    # Images used by the application are collected inside "images" folder
-    # under "content" folder.
-    images_dir = os.path.join(__content_dir, 'images', 'markdown')
-
-    # initialize markdown-to-react-native renderer
-    rn_renderer = RNRenderer(images_dir=images_dir)
-
-    # Use the Wrapper class if you want to see which renderer function are
-    # called (e.g. when adding the support for new markdown tokens).
-    # __md_renderer = mistune.Markdown(renderer=Wrapper(rn_renderer))
-    __md_renderer = mistune.Markdown(renderer=rn_renderer)
 
     # create the target "pages" directory if it does not exist
     if not os.path.exists(__target_pages_dir):
@@ -56,9 +41,16 @@ def __init():
     return (os.path.isdir(__content_dir) and
             os.path.isfile(__pages_json_fn) and
             os.path.isdir(__templates_dir) and
-            os.path.isdir(__markdown_dir) and
             os.path.isdir(__target_pages_dir) and
             os.path.isdir(__target_navigation_dir))
+
+
+def __create_rn_renderer(page_dir):
+    rn_renderer = RNRenderer(images_dir=page_dir)
+    # Use the Wrapper class if you want to see which renderer function are
+    # called (e.g. when adding the support for new markdown tokens).
+    # return mistune.Markdown(renderer=Wrapper(rn_renderer))
+    return mistune.Markdown(renderer=rn_renderer)
 
 
 def __get_page_component_filename_from_page_data(page_data):
@@ -74,12 +66,18 @@ def __get_page_component_classname_from_page_data(page_data):
         )
 
 
+def __get_page_dir(page_id):
+    global __content_dir
+    return os.path.join(__content_dir, 'pages', page_id)
+
+
 def __gen_markdown(page_id, markdown_data):
     """Generate react-native code from markdown."""
-    global __markdown_dir, __md_renderer
+    page_dir = __get_page_dir(page_id)
+    renderer = __create_rn_renderer(page_dir)
 
     # read input markdown file
-    with open(os.path.join(__markdown_dir, markdown_data["source"]), 'r') as f:
+    with open(os.path.join(page_dir, markdown_data["source"]), 'r') as f:
         markdown_code = f.read()
 
     # render react-native code and enclose everything inside a ScrollView
@@ -90,7 +88,7 @@ def __gen_markdown(page_id, markdown_data):
         'contentInset={{{{top:0}}}} ' +
         'automaticallyAdjustContentInsets={{false}} ' +
         '>\n{}\n</ScrollView>').format(
-        __md_renderer(markdown_code)
+        renderer(markdown_code)
         )
 
 
