@@ -7,7 +7,8 @@ import json
 from jinja2 import Environment, FileSystemLoader
 import mistune
 
-from rn_renderer import RNRenderer, Wrapper
+from log_wrapper import LogWrapper
+from rn_renderer import RNRenderer
 
 
 __content_dir = None  # content directory path
@@ -49,7 +50,7 @@ def __create_rn_renderer(page_dir):
     rn_renderer = RNRenderer(images_dir=page_dir)
     # Use the Wrapper class if you want to see which renderer function are
     # called (e.g. when adding the support for new markdown tokens).
-    # return mistune.Markdown(renderer=Wrapper(rn_renderer))
+    # return mistune.Markdown(renderer=LogWrapper(rn_renderer))
     return mistune.Markdown(renderer=rn_renderer)
 
 
