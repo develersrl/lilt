@@ -78,7 +78,18 @@ class RNRenderer(mistune.Renderer):
 
     def image_stripe(self, images):
         # print images
-        return ''
+        image_size = '[420, 420]'  # TODO: compute image size
+
+        sources = []
+        for (imgsrc, _, _) in images:
+            imgfn = os.path.join(self.__images_dir, imgsrc)
+            sources.append("require('{}')".format(imgfn))
+        sources_code = '[{}]'.format(','.join(sources))
+
+        return '\n<Stripe imageSize={{{}}} sources={{{}}} />\n'.format(
+            image_size,
+            sources_code
+            )
 
 
     def text(self, txt):
