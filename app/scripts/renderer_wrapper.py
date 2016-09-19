@@ -14,11 +14,12 @@ class RendererWrapper(object):
         if callable(orig_attr):
             def hooked(*args, **kwargs):
                 if attr == 'image':
+                    self.log(attr + '(collected)', args, kwargs)
                     self.collected_images.append(args)
                     return ''
 
-                self.log(attr, args, kwargs)
                 result = self.flush_images()
+                self.log(attr, args, kwargs)
                 result += orig_attr(*args, **kwargs)
 
                 # prevent wrapped_class from becoming unwrapped
