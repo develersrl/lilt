@@ -119,9 +119,9 @@ class RNRenderer(mistune.Renderer):
 
     def emphasis(self, text):
         """Generate emphasized (italic) text from markdown."""
-        return '<Text style={{{{fontStyle: "italic"}}}}>{}</Text>'.format(text)
+        return '<Text style={{markdown.emphasis}}>{}</Text>'.format(text)
 
 
     def double_emphasis(self, text):
         """Generate double-emphasized (bold) text from markdown."""
-        return '<Text style={{{{fontWeight: "bold"}}}}>{}</Text>'.format(text)
+        return '<Text style={{markdown.doubleEmphasis}}>{}</Text>'.format(text)

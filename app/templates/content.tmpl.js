@@ -89,4 +89,10 @@ const markdown = StyleSheet.create({
     // this style is needed because the markdown renderer uses it internally
     // and therefore it must be defined
   },
+  emphasis: {
+    fontStyle: 'italic',
+  },
+  doubleEmphasis: {
+    fontFamily: 'GillSans-Bold',
+  },
 });
