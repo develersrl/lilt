@@ -19,9 +19,9 @@ export default class Content extends Component {
   render() {
     const { flexible, centeredChildren } = common;
     const { content } = pages;
+    const pdfName = "{{pdfName}}";
     const headerImage = {{headerImage}};
-
-    const shareText = "{{shareText}}";
+    const sharedText = "{{sharedText}}";
 
     return (
       <ScrollView style={[flexible]}
@@ -36,14 +36,14 @@ export default class Content extends Component {
           </View>
           <View style={[content.header.footer]}>
             <View style={content.header.actionView}>
-              <TouchableOpacity onPress={() => openPdf({{pdfName}})}>
+              <TouchableOpacity onPress={() => openPdf(pdfName)}>
                 <Image style={content.header.actionImg}
                        source={require('../../../images/download.png')} />
               </TouchableOpacity>
             </View>
             <View style={content.header.separator} />
             <View style={content.header.actionView}>
-              <TouchableOpacity onPress={() => share(shareText)}>
+              <TouchableOpacity onPress={() => share(sharedText)}>
                 <Image style={content.header.actionImg}
                        source={require('../../../images/share.png')} />
               </TouchableOpacity>

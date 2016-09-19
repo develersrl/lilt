@@ -113,6 +113,9 @@ def __gen_link_list_item(page_id, item_data):
 
 
 def __gen_image_require(page_id, image_data):
+    if image_data['name'] == '':
+        return 'require("../../../images/header_fallback.png")'
+
     return 'require("../../../content/pages/{}/{}")'.format(
         page_id,
         image_data['name']
@@ -120,6 +123,9 @@ def __gen_image_require(page_id, image_data):
 
 
 def __gen_pdf(page_id, pdf_data):
+    if pdf_data['name']:
+        return ''
+
     return "'{}_{}'".format(page_id, pdf_data['name'])
 
 

@@ -48,6 +48,10 @@ const enableApi = (api, enabled) => {
  * otherwise the pdf is natively opened with its default application.
  */
 const openPdf = (pdfName) => {
+  // Nothing to do if pdf name is empty
+  if (pdfName === '')
+    return;
+
   RNFS.readDir(RNFS.MainBundlePath)
     .then((result) => {
       // search pdf dir in application bundle (the pdf directory name is
@@ -176,7 +180,10 @@ const validateEmail = (email) => {
 
 
 const share = (text) => {
-  const myText = 'Lorem Ipsum is simply dummy text of the printing';
+  // Nothing to do if there is nothing to share
+  if (text === '')
+    return;
+
   ActionSheetIOS.showShareActionSheetWithOptions({
     message: text,
   },
