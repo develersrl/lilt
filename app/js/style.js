@@ -90,6 +90,10 @@ const blocks = {
     paragraph: {
       marginTop: 10,
       marginBottom: 10,
+      fontFamily: 'GillSans',
+      fontSize: 16,
+      color: '#8E8E8E',
+      lineHeight: 20,
     },
   }),
   image: {

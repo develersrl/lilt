@@ -35,12 +35,10 @@ class RNRenderer(mistune.Renderer):
 
 
     def paragraph(self, text):
-        """Render a text paragraph."""
+        """Render a paragraph."""
         # We enclose everything inside a View component to apply paragraph
-        # margins (see markdown.paragraph style). The paragraph body is
-        # enclosed in a Text, too. In this wary we can emphasize wingle words
-        # on the same line (see http://stackoverflow.com/questions/35718143)
-        return '<Text style={{markdown.paragraph}}>{}</Text>'.format(text)
+        # margins (see markdown.paragraph style).
+        return '<View style={{markdown.paragraph}}>{}</View>'.format(text)
 
 
     def image(self, src, title, text):
@@ -51,29 +49,8 @@ class RNRenderer(mistune.Renderer):
         :param text: alt text of the image.
         """
 
-        # TODO: (3) [MD Image] Add support to alt text and image title.
-
-        if src == '':
-            return ''
-
-        # this variable holds the complete path to the local image file
-        target_image_fn = os.path.join(self.__images_dir, src)
-
-        # compute the react-native require statement to use the local image
-        source_value = 'require("{}")'.format(target_image_fn)
-
-        # NOTE: (0) Image size from markdown is not currently supported.
-        # But it should be, otherwise there is no easy way to generate a
-        # resized image.
-        # Unfortunately image size support in gfm is defunct, but we could
-        # implement it for our renderer (we should also make sure that such
-        # syntax is supported in the user editor):
-        #
-        #   ![alt-text](logo.png =200x200)
-        #
-        # Note the space after the image source.
-
-        return '<Image style={{markdown.image}} source={{{}}} />\n'.format(source_value)
+        # Return nothing since images are always rendered as image stripes
+        return ''
 
 
     def image_stripe(self, images):
@@ -97,7 +74,7 @@ class RNRenderer(mistune.Renderer):
 
         :param text: text content.
         """
-        return '<Text>{}</Text>'.format(txt)
+        return '<Text style={{markdown.text}}>{}</Text>'.format(txt)
 
 
     def emphasis(self, text):
