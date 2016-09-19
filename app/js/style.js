@@ -146,7 +146,6 @@ const blocks = {
     },
   },
   stripe: {
-    height: 150,
     spacing: 10,
     marginTopBottom: 10,
     footerHeight: 24,
