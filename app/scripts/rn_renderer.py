@@ -76,6 +76,11 @@ class RNRenderer(mistune.Renderer):
         return '<Image style={{markdown.image}} source={{{}}} />\n'.format(source_value)
 
 
+    def image_stripe(self, images):
+        # print images
+        return ''
+
+
     def text(self, txt):
         """Rendering unformatted text.
 
