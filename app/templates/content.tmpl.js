@@ -69,6 +69,7 @@ const markdown = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
     marginBottom: 10,
+    color: '#494949',
   },
   paragraph: {
     marginTop: 10,
