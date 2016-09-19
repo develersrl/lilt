@@ -46,13 +46,6 @@ def __init():
             os.path.isdir(__target_navigation_dir))
 
 
-def __create_rn_renderer(page_dir):
-    rn_renderer = RNRenderer(images_dir=page_dir)
-    # Use log=True to print the actual renderer calls from mistune engine
-    wrapper = RendererWrapper(rn_renderer, log=False)
-    return mistune.Markdown(renderer=wrapper)
-
-
 def __get_page_component_filename_from_page_data(page_data):
     """Return a generated page component filename from json page data."""
     return "{}_{}.js".format(page_data["style"], str(page_data["id"]).zfill(2))
@@ -74,15 +67,25 @@ def __get_page_dir(page_id):
 def __gen_markdown(page_id, markdown_data):
     """Generate react-native code from markdown."""
     page_dir = __get_page_dir(page_id)
-    renderer = __create_rn_renderer(page_dir)
+    rn_renderer = RNRenderer(images_dir=page_dir)
+    # Use log=True to print the actual renderer calls from mistune engine
+    wrapper = RendererWrapper(rn_renderer, log=True)
+    renderer = mistune.Markdown(renderer=wrapper)
 
     # read input markdown file
     with open(os.path.join(page_dir, markdown_data["source"]), 'r') as f:
         markdown_code = f.read()
 
+    react_native_code = renderer(markdown_code)
+
+    # The following line ensures that all react native code related to images
+    # is flushed from the renderer wrapper (e.g. when a markdown document
+    # terminates with an image stripe with no following text)
+    react_native_code += wrapper.flush_images()
+
     return (
         '<View style={{markdown.container}}>\n{}\n</View>').format(
-        renderer(markdown_code)
+        react_native_code
         )
 
 
