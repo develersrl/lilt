@@ -73,6 +73,10 @@ const markdown = StyleSheet.create({
   paragraph: {
     marginTop: 10,
     marginBottom: 10,
+    fontFamily: 'GillSans',
+    fontSize: 16,
+    color: '#8E8E8E',
+    lineHeight: 20,
   },
   image: {
     borderWidth: 1,
@@ -80,5 +84,9 @@ const markdown = StyleSheet.create({
     resizeMode: 'contain',
     height: 100,
     width: 150,
+  },
+  text: {
+    // this style is needed because the markdown renderer uses it internally
+    // and therefore it must be defined
   },
 });

@@ -73,11 +73,7 @@ class RNRenderer(mistune.Renderer):
         # margins (see markdown.paragraph style). The paragraph body is
         # enclosed in a Text, too. In this wary we can emphasize wingle words
         # on the same line (see http://stackoverflow.com/questions/35718143)
-        return """
-            <View style={{markdown.paragraph}}>
-                <Text>\n{}\n</Text>
-            </View>
-            """.format(text)
+        return '<Text style={{markdown.paragraph}}>{}</Text>'.format(text)
 
 
     def image(self, src, title, text):
