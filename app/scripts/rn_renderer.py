@@ -3,7 +3,7 @@
 
 import os
 import mistune
-import requests
+from PIL import Image
 
 
 
@@ -54,15 +54,25 @@ class RNRenderer(mistune.Renderer):
 
 
     def image_stripe(self, images):
-        # print images
-        image_size = '[420, 420]'  # TODO: compute image size
+        # This shouldn't be possible..
+        if len(images) == 0:
+            return ''
 
+        # All images in the stripe must have the same size.
+        # Such size must be passed as property to the Stripe component, so
+        # we read the size of the first image.
+        first_img_fn = os.path.join(self.__images_dir, images[0][0])
+        im = Image.open(first_img_fn)
+        image_size = '[{}, {}]'.format(im.size[0], im.size[1])
+
+        # Generate a list of "require" statement for the stripe images
         sources = []
         for (imgsrc, _, _) in images:
             imgfn = os.path.join(self.__images_dir, imgsrc)
             sources.append("require('{}')".format(imgfn))
         sources_code = '[{}]'.format(','.join(sources))
 
+        # Assemble the generated code
         return '\n<Stripe imageSize={{{}}} sources={{{}}} />\n'.format(
             image_size,
             sources_code

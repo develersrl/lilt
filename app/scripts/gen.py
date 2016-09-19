@@ -69,7 +69,7 @@ def __gen_markdown(page_id, markdown_data):
     page_dir = __get_page_dir(page_id)
     rn_renderer = RNRenderer(images_dir=page_dir)
     # Use log=True to print the actual renderer calls from mistune engine
-    wrapper = RendererWrapper(rn_renderer, log=True)
+    wrapper = RendererWrapper(rn_renderer, log=False)
     renderer = mistune.Markdown(renderer=wrapper)
 
     # read input markdown file
