@@ -192,9 +192,28 @@ def __gen_page(page_data):
     return True
 
 
+def clean_pdf_dir():
+    """Clean the pdf directory which is populated later."""
+    mypath = os.path.dirname(os.path.realpath(__file__))  # "scripts" dir
+    appdir = os.path.dirname(mypath)
+    pdf_dir = os.path.join(appdir, 'content', 'pdf')
+
+    # Create the pdf directory if it does not exist
+    if not os.path.isdir(pdf_dir):
+        os.makedirs(pdf_dir)
+
+    # Get the pdf files list and remove them
+    pdf_files = [f for f in os.listdir(pdf_dir) if f.lower().endswith('pdf')]
+    for pdf_name in pdf_files:
+        os.remove(os.path.join(pdf_dir, pdf_name))
+
+
 def __gen_pages():
     """Generate application pages."""
     global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
+
+    # Clean the pdf directory
+    clean_pdf_dir()
 
     # load source json file
     with open(__pages_json_fn, 'r') as f:
