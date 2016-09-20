@@ -9,6 +9,7 @@ import mistune
 
 from renderer_wrapper import RendererWrapper
 from rn_renderer import RNRenderer
+from editor_data_importer import *
 
 
 __content_dir = None  # content directory path
@@ -201,6 +202,9 @@ def __gen_pages():
     # load source json file
     with open(__pages_json_fn, 'r') as f:
         pages_data = json.load(f)
+
+    # Enrich json pages with data imported from editor
+    pages_data += import_editor_data()
 
     # generate pages components (exit as soon as one page generation fails)
     index_imports, index_exports = [], []
