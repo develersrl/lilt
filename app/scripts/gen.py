@@ -4,6 +4,7 @@
 import sys
 import os
 import json
+import shutil
 from jinja2 import Environment, FileSystemLoader
 import mistune
 
@@ -124,10 +125,7 @@ def __gen_image_require(page_id, image_data):
 
 
 def __gen_pdf(page_id, pdf_data):
-    if pdf_data['name']:
-        return ''
-
-    return "'{}_{}'".format(page_id, pdf_data['name'])
+    return pdf_data['name']
 
 
 def __gen_raw_text(page_id, text_data):
@@ -159,7 +157,7 @@ def __gen_page(page_data):
     """Generate a page component."""
     global __templates_dir, __target_pages_dir, __j2_env
 
-    print "Generating page {}..".format(page_data["id"])
+    print "\tGenerating page {}".format(page_data["id"])
     content = page_data.get("content", {})
 
     # Each template is instantiated with a replacement dict
@@ -183,7 +181,6 @@ def __gen_page(page_data):
     target_basename = __get_page_component_filename_from_page_data(page_data)
     target_fn = os.path.join(__target_pages_dir, target_basename)
     template_name = page_data["style"] + ".tmpl.js"
-
     with open(target_fn, 'w') as f:
         tmpl = __j2_env.get_template(template_name)
         rendered_tmpl = tmpl.render(**replacements)
@@ -207,6 +204,15 @@ def __gen_pages():
     pages_data += import_editor_data()
 
     # generate pages components (exit as soon as one page generation fails)
+    print 'Generating app code from app data..\n'
+
+    # delete and recreate target pages directory
+    print 'Cleaning generated pages directory'
+    if os.path.isdir(__target_pages_dir):
+        shutil.rmtree(__target_pages_dir)
+    os.mkdir(__target_pages_dir)
+
+    print 'Generating code for {} pages..'.format(len(pages_data))
     index_imports, index_exports = [], []
     for page_data in pages_data:
         # generate page component file
@@ -228,6 +234,8 @@ def __gen_pages():
             imports='\n'.join(index_imports),
             exports=', '.join(index_exports)
             ))
+
+    print '-----'
 
     return True
 
