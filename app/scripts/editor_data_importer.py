@@ -49,10 +49,11 @@ def import_editor_data():
         return []
 
     # Generate pages from editor data
-    print '-----\nGenerating app data from editor data..'
-    print 'Editor data directory: {}\n'.format(editor_data_dir)
+    print '***** Generating app data from editor data *****'
+    print 'Editor data directory: {}'.format(editor_data_dir)
     generated_pages = []
     generated_pages += generate_content_pages(editor_data_dir)
-    print '-----'
+
+    print
 
     return generated_pages

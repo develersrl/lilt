@@ -19,6 +19,7 @@ __templates_dir = None  # js templates directory path
 __target_pages_dir = None  # generated pages directory
 __target_navigation_dir = None  # app "navigation" directory
 __j2_env = None  # jinja2 environment
+__pages_obj = {}
 
 
 def __init():
@@ -211,6 +212,7 @@ def clean_pdf_dir():
 def __gen_pages():
     """Generate application pages."""
     global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
+    global __pages_obj
 
     # Clean the pdf directory
     clean_pdf_dir()
@@ -221,11 +223,10 @@ def __gen_pages():
 
     # Enrich json pages with data imported from editor
     pages_data += import_editor_data()
-
-    # generate pages components (exit as soon as one page generation fails)
-    print 'Generating app code from app data..\n'
+    __pages_obj = pages_data
 
     # delete and recreate target pages directory
+    print '***** Generating app code from app data *****'
     print 'Cleaning generated pages directory'
     if os.path.isdir(__target_pages_dir):
         shutil.rmtree(__target_pages_dir)
@@ -254,23 +255,18 @@ def __gen_pages():
             exports=', '.join(index_exports)
             ))
 
-    print '-----'
-
     return True
 
 
 def __gen_navigation():
     """Generate app navigation code."""
     global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
-    global __target_navigation_dir
-
-    # load source json file
-    with open(__pages_json_fn, 'r') as f:
-        pages_data = json.load(f)
+    global __target_navigation_dir, __pages_obj
+    print 'Generating navigation'
 
     # iterate over json pages and build react-native navigation routes
     routes_list = []
-    for page_data in pages_data:
+    for page_data in __pages_obj:
         # compute navigation component (e.g. "pages.Glossary")
         comp_class = __get_page_component_classname_from_page_data(page_data)
         comp_class = 'pages.generated.{}'.format(comp_class)
@@ -299,6 +295,7 @@ def __gen_navigation():
             **replacements
             ))
 
+    print '\nDone!'
     return True
 
 
