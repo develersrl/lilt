@@ -120,32 +120,5 @@
             ]
         }
     }
-},
-{
-    "id": "c1",
-    "style": "content",
-    "title": "Test Content",
-    "content": {
-        "title": {
-            "type": "raw_text",
-            "value": "Esempio Titolo"
-        },
-        "headerImage": {
-            "type": "image_require",
-            "name": "header_test.png"
-        },
-        "pdfName": {
-            "type": "pdf",
-            "name": "pdf_sample.pdf"
-        },
-        "sharedText": {
-            "type": "raw_text",
-            "value": "Simple text to share.\\nSeconda linea."
-        },
-        "body": {
-            "type": "markdown",
-            "source": "test.md"
-        }
-    }
 }
 ]

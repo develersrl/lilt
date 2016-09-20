@@ -17,7 +17,6 @@ const customRoutes = {
   'home': { title: 'LILT App', component: pages.custom.Home },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
-  'content': { 'title': 'Content', component: pages.custom.Content },
   'registration': {
     showBar: false,
     title: 'REGISTRAZIONE',
@@ -30,7 +29,7 @@ const customRoutes = {
 const routes = { ...generatedRoutes, ... customRoutes };
 
 // the start route key
-const initialRouteId = "#c1";
+const initialRouteId = "#ll1";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in
