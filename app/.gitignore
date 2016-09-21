@@ -48,3 +48,4 @@ js/navigation/navigator_data.js
 content/images/downloaded/
 ios/Pods/
 content/pdf
+content/pages/*gen*
