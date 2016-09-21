@@ -215,6 +215,14 @@ const pages = {
       },
     },
   },
+  glossaryWord: {
+    backgroundColor: '#C1DBF8',
+    titleHeight: 100,
+    titleColor: '#FFFFFF',
+    titleFont: 'GillSans-Bold',
+    titleFontSize: 16,
+    bodyPadding: 10,
+  },
 };
 
 
