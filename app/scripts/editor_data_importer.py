@@ -10,11 +10,11 @@ def get_editor_data_dir():
     """Return the editor data directory."""
 
     # Read editor data directory from environment variable
-    editor_data_dir = os.environ.get('EDITOR_DATA_DIR')
+    editor_data_dir = os.environ.get('LILT_EDITOR_DATA_DIR')
     if editor_data_dir is None:
         print(
             'Warning: editor data directory is not set.\n'
-            'You can specify it through the EDITOR_DATA_DIR environment '
+            'You can specify it through the LILT_EDITOR_DATA_DIR environment '
             'variable.\n'
             )
         return ''
