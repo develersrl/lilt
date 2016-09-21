@@ -218,8 +218,7 @@ def __gen_pages():
         pages_data = json.load(f)
 
     # Enrich json pages with data imported from editor
-    pages_data += import_editor_data()
-    __pages_obj = pages_data
+    __pages_obj = pages_data + import_editor_data()
 
     # delete and recreate target pages directory
     print '***** Generating app code from app data *****'
@@ -228,9 +227,9 @@ def __gen_pages():
         shutil.rmtree(__target_pages_dir)
     os.mkdir(__target_pages_dir)
 
-    print 'Generating code for {} pages..'.format(len(pages_data))
+    print 'Generating code for {} pages..'.format(len(__pages_obj))
     index_imports, index_exports = [], []
-    for page_data in pages_data:
+    for page_data in __pages_obj:
         # generate page component file
         if not __gen_page(page_data):
             return False
@@ -271,13 +270,11 @@ def __gen_navigation():
         routes_list.append("'{}': {{ title: '{}', component: {} }}".format(
             '#{}'.format(page_data['id']),
             page_data.get('title', ''),
-            comp_class
-            ))
+            comp_class))
 
     # assemble routes data
     routes_code = 'const generatedRoutes = {{\n  {},\n}};'.format(
-        ',\n  '.join(routes_list)
-        )
+        ',\n  '.join(routes_list))
 
     # compute jinja template replacements
     replacements = {
@@ -291,10 +288,37 @@ def __gen_navigation():
             **replacements
             ))
 
+    return True
+
+
+def __finalcleanup():
+    global __content_dir, __pages_obj
+    print 'Final cleanup'
+
+    # This is the list of generated pages id
+    generated_pages = [descriptor['id'] for descriptor in __pages_obj]
+
+    # Get directory names inside "content/pages" folder
+    pages_data_dir = os.path.join(__content_dir, 'pages')
+    data_dirs = [d for d in os.listdir(pages_data_dir) if d[0] != '.']
+
+    # Compute "dead" directories inside "content/pages" folder
+    dirs_to_delete = []
+    for data_dir in data_dirs:
+        if data_dir not in generated_pages:
+            dirs_to_delete.append(data_dir)
+
+    # Remove "dead" directories
+    for d in dirs_to_delete:
+        shutil.rmtree(os.path.join(pages_data_dir, d))
+
+    if len(dirs_to_delete) > 0:
+        print '\tRemoved {} "dead" directories'.format(len(dirs_to_delete))
+
     print '\nDone!'
     return True
 
 
 if __name__ == '__main__':
-    ok = __init() and __gen_pages() and __gen_navigation()
+    ok = __init() and __gen_pages() and __gen_navigation() and __finalcleanup()
     sys.exit(0 if ok else 1)
