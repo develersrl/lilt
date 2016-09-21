@@ -313,7 +313,11 @@ npm start
 Next time you will use the `npm start` command only.
 
 The markdown editor allows you to edit `md` documents inside a folder.
-By default, the `./markdown` folder is used (relative to the app directory), but you can pass another folder via command-line (if you take a look at the `package.json` file you will see that `npm start` executes the editor passing the `./testdir` directory).
+By default, the `./markdown` folder is used (relative to the app directory), but you can pass another folder:
+
+* With the `LILT_EDITOR_DATA_DIR` environment variable
+* Via command-line as the first (and only) parameter (in this case the
+command-line argument has priority over the environment variable)
 
 Optionally you can show the developer tools specifying the `LILT_EDITOR_SHOW_DEVTOOLS` environment variable, and setting its value to 1.
 

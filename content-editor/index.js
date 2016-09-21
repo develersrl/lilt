@@ -75,6 +75,13 @@ const getMarkdownDir = () => {
   const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
 
   if (args.length === 0) {
+    // Try to read the input directory from environment
+    const envdir = remoteProcess.env.LILT_EDITOR_DATA_DIR;
+    if (envdir !== undefined) {
+      console.info('Reading markdown directory from environment variable');
+      return envdir;
+    }
+
     if (isProdEnvironment()) {
       if (isMac()) {
         // under mac this script is inside app folder/Content/ecc...
@@ -108,6 +115,7 @@ const getMarkdownDir = () => {
 // walk through a directory tree and return a JS object that will be used to
 // initialize the treeview sidebar
 const walk = (dir) => {
+  console.info('Walking dir: ' + dir);
   const tree = [];
 
   try {
