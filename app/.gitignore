@@ -47,3 +47,4 @@ js/navigation/navigator_data.js
 *.pyc
 content/images/downloaded/
 ios/Pods/
+content/pdf
