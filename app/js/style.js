@@ -85,15 +85,35 @@ const blocks = {
       flex: 1,
     },
     header: {
-      fontWeight: 'bold',
+      fontFamily: 'GillSans-Bold',
+      fontSize: 18,
+      textAlign: 'center',
+      marginTop: 10,
+      marginBottom: 10,
+      color: '#494949',
     },
     paragraph: {
       marginTop: 10,
       marginBottom: 10,
+    },
+    image: {
+      borderWidth: 1,
+      borderColor: '#0000FF',
+      resizeMode: 'contain',
+      height: 100,
+      width: 150,
+    },
+    text: {
       fontFamily: 'GillSans',
       fontSize: 16,
       color: '#8E8E8E',
       lineHeight: 20,
+    },
+    emphasis: {
+      fontStyle: 'italic',
+    },
+    doubleEmphasis: {
+      fontFamily: 'GillSans-Bold',
     },
   }),
   image: {
