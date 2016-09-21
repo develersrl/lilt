@@ -8,45 +8,37 @@ import shutil
 from jinja2 import Environment, FileSystemLoader
 import mistune
 
+import common
 from renderer_wrapper import RendererWrapper
 from rn_renderer import RNRenderer
 from editor_data_importer import *
 
 
-__content_dir = None  # content directory path
 __pages_json_fn = None  # pages.json filename
-__templates_dir = None  # js templates directory path
-__target_pages_dir = None  # generated pages directory
-__target_navigation_dir = None  # app "navigation" directory
 __j2_env = None  # jinja2 environment
 __pages_obj = {}
 
 
 def __init():
     """Initialize global variables."""
-    global __content_dir, __pages_json_fn, __templates_dir, __target_pages_dir
-    global __target_navigation_dir, __j2_env
+    global __pages_json_fn
+    global __j2_env
 
-    script_dir = os.path.dirname(os.path.realpath(__file__))
-    app_dir = os.path.dirname(script_dir)
-    __content_dir = os.path.join(app_dir, 'content')
-    __pages_json_fn = os.path.join(__content_dir, 'pages.json')
-    __templates_dir = os.path.join(app_dir, 'templates')
-    __target_pages_dir = os.path.join(app_dir, 'js', 'pages', 'generated')
-    __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
+    app_dir = os.path.dirname(common.scripts_dir)
+    __pages_json_fn = os.path.join(common.content_dir, 'pages.json')
 
     # initialize Jinja environment to work on "templates" directory
-    __j2_env = Environment(loader=FileSystemLoader(__templates_dir))
+    __j2_env = Environment(loader=FileSystemLoader(common.templates_dir))
 
     # create the target "pages" directory if it does not exist
-    if not os.path.exists(__target_pages_dir):
-        os.makedirs(__target_pages_dir)
+    if not os.path.exists(common.target_pages_dir):
+        os.makedirs(common.target_pages_dir)
 
-    return (os.path.isdir(__content_dir) and
+    return (os.path.isdir(common.content_dir) and
             os.path.isfile(__pages_json_fn) and
-            os.path.isdir(__templates_dir) and
-            os.path.isdir(__target_pages_dir) and
-            os.path.isdir(__target_navigation_dir))
+            os.path.isdir(common.templates_dir) and
+            os.path.isdir(common.target_pages_dir) and
+            os.path.isdir(common.target_navigation_dir))
 
 
 def __get_page_component_filename_from_page_data(page_data):
@@ -63,8 +55,7 @@ def __get_page_component_classname_from_page_data(page_data):
 
 
 def __get_page_dir(page_id):
-    global __content_dir
-    return os.path.join(__content_dir, 'pages', page_id)
+    return os.path.join(common.content_dir, 'pages', page_id)
 
 
 def __gen_markdown(page_id, markdown_data):
@@ -152,7 +143,7 @@ def __gen_array(page_id, array_data):
 
 def __gen_page(page_data):
     """Generate a page component."""
-    global __templates_dir, __target_pages_dir, __j2_env
+    global __j2_env
 
     print "\tGenerating page {}".format(page_data["id"])
     content = page_data.get("content", {})
@@ -176,7 +167,7 @@ def __gen_page(page_data):
 
     # Write the instantiated component to file
     target_basename = __get_page_component_filename_from_page_data(page_data)
-    target_fn = os.path.join(__target_pages_dir, target_basename)
+    target_fn = os.path.join(common.target_pages_dir, target_basename)
     template_name = page_data["style"] + ".tmpl.js"
     with open(target_fn, 'w') as f:
         tmpl = __j2_env.get_template(template_name)
@@ -207,7 +198,7 @@ def clean_pdf_dir():
 
 def __gen_pages():
     """Generate application pages."""
-    global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
+    global __pages_json_fn, __j2_env
     global __pages_obj
 
     # Clean the pdf directory
@@ -223,9 +214,9 @@ def __gen_pages():
     # delete and recreate target pages directory
     print '***** Generating app code from app data *****'
     print 'Cleaning generated pages directory'
-    if os.path.isdir(__target_pages_dir):
-        shutil.rmtree(__target_pages_dir)
-    os.mkdir(__target_pages_dir)
+    if os.path.isdir(common.target_pages_dir):
+        shutil.rmtree(common.target_pages_dir)
+    os.mkdir(common.target_pages_dir)
 
     print 'Generating code for {} pages..'.format(len(__pages_obj))
     index_imports, index_exports = [], []
@@ -242,9 +233,9 @@ def __gen_pages():
         index_exports.append(comp_name)
 
     # generate index.js file
-    pages_index_fn = os.path.join(__target_pages_dir, 'index.js')
+    pages_index_fn = os.path.join(common.target_pages_dir, 'index.js')
 
-    with open(os.path.join(__target_pages_dir, 'index.js'), 'w') as indexf:
+    with open(os.path.join(common.target_pages_dir, 'index.js'), 'w') as indexf:
         indexf.write(__j2_env.get_template('index.tmpl.js').render(
             imports='\n'.join(index_imports),
             exports=', '.join(index_exports)
@@ -255,8 +246,8 @@ def __gen_pages():
 
 def __gen_navigation():
     """Generate app navigation code."""
-    global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
-    global __target_navigation_dir, __pages_obj
+    global __pages_json_fn, __j2_env
+    global __pages_obj
     print 'Generating navigation'
 
     # iterate over json pages and build react-native navigation routes
@@ -282,7 +273,10 @@ def __gen_navigation():
     }
 
     # generate navigator_data.js file
-    target_file = os.path.join(__target_navigation_dir, 'navigator_data.js')
+    target_file = os.path.join(
+        common.target_navigation_dir,
+        'navigator_data.js')
+
     with open(target_file, 'w') as f:
         f.write(__j2_env.get_template('navigator_data.tmpl.js').render(
             **replacements
@@ -292,14 +286,14 @@ def __gen_navigation():
 
 
 def __finalcleanup():
-    global __content_dir, __pages_obj
+    global __pages_obj
     print 'Final cleanup'
 
     # This is the list of generated pages id
     generated_pages = [descriptor['id'] for descriptor in __pages_obj]
 
     # Get directory names inside "content/pages" folder
-    pages_data_dir = os.path.join(__content_dir, 'pages')
+    pages_data_dir = os.path.join(common.content_dir, 'pages')
     data_dirs = [d for d in os.listdir(pages_data_dir) if d[0] != '.']
 
     # Compute "dead" directories inside "content/pages" folder

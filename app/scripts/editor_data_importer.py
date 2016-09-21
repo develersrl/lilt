@@ -2,6 +2,7 @@
 
 import os
 
+import common
 from contents_importer import *
 
 

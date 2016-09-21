@@ -4,9 +4,10 @@ import os
 import shutil
 import json
 
+import common
 
-mypath = os.path.dirname(os.path.realpath(__file__))  # "scripts" dir
-appdir = os.path.dirname(mypath)
+
+appdir = os.path.dirname(common.scripts_dir)
 pages_dir = os.path.join(appdir, 'content', 'pages')
 pdf_dir = os.path.join(appdir, 'content', 'pdf')
 
