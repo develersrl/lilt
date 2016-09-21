@@ -70,7 +70,7 @@ def __get_page_dir(page_id):
 def __gen_markdown(page_id, markdown_data):
     """Generate react-native code from markdown."""
     page_dir = __get_page_dir(page_id)
-    rn_renderer = RNRenderer(images_dir=page_dir)
+    rn_renderer = RNRenderer(images_dir=page_dir, warning_prefix='\t\t')
     # Use log=True to print the actual renderer calls from mistune engine
     wrapper = RendererWrapper(rn_renderer, log=False)
     renderer = mistune.Markdown(renderer=wrapper)
@@ -95,13 +95,11 @@ def __gen_markdown(page_id, markdown_data):
 def __gen_button(page_id, button_data):
     """Generate a button block inside a page."""
     pressImpl = 'this.props.navigator.push(this.props.getRoute("{}"))'.format(
-        button_data["link"]
-        )
+        button_data["link"])
 
     return "<Button text={{'{}'}} onPress={{() => {}}} />".format(
         button_data["text"],
-        pressImpl
-        )
+        pressImpl)
 
 
 def __gen_link_list_item(page_id, item_data):
@@ -111,8 +109,7 @@ def __gen_link_list_item(page_id, item_data):
         .format(
             item_data['title'],
             item_data['caption'],
-            linkcode
-            ))
+            linkcode))
 
 
 def __gen_image_require(page_id, image_data):
@@ -121,8 +118,7 @@ def __gen_image_require(page_id, image_data):
 
     return 'require("../../../content/pages/{}/{}")'.format(
         page_id,
-        image_data['name']
-        )
+        image_data['name'])
 
 
 def __gen_pdf(page_id, pdf_data):
