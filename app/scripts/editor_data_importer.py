@@ -42,6 +42,8 @@ def generate_content_pages(editor_data_dir):
 def import_editor_data():
     """Read the editor output data and generate the corresponding app pages."""
 
+    print '***** Generating app data from editor data *****'
+
     # If editor data directory is empty it means that something is wrong, so
     # we do not generate any page
     editor_data_dir = get_editor_data_dir()
@@ -49,7 +51,6 @@ def import_editor_data():
         return []
 
     # Generate pages from editor data
-    print '***** Generating app data from editor data *****'
     print 'Editor data directory: {}'.format(editor_data_dir)
     generated_pages = []
     generated_pages += generate_content_pages(editor_data_dir)
