@@ -1,6 +1,6 @@
 'use strict';
 
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 
 const common = {
@@ -90,6 +90,10 @@ const blocks = {
     paragraph: {
       marginTop: 10,
       marginBottom: 10,
+      fontFamily: 'GillSans',
+      fontSize: 16,
+      color: '#8E8E8E',
+      lineHeight: 20,
     },
   }),
   image: {
@@ -142,8 +146,8 @@ const blocks = {
     },
   },
   stripe: {
-    height: 150,
     spacing: 10,
+    marginTopBottom: 10,
     footerHeight: 24,
     circleSpacing: 5,
     circleSelected: '#EB8478',
@@ -164,10 +168,12 @@ const pages = {
   content: {
     header: {
       container: {
-        height: 200,
+        height: 280,
+        width: Dimensions.get('window').width,
+        resizeMode: 'stretch',
       },
       footer: {
-        height: 50,
+        height: 40,
         flexDirection: 'row',
       },
       separator: {
@@ -180,21 +186,33 @@ const pages = {
       actionView: {
         borderWidth: 1,
         borderColor: '#FFFFFF',
-        width: 70,
+        width: 60,
         alignItems: 'center',
         justifyContent: 'center',
+      },
+      actionImg: {
+        width: 25,
+        resizeMode: 'contain',
       },
       text: {
         backgroundColor: 'transparent',
         color: '#FFFFFF',
       },
       titleText: {
-        fontWeight: 'bold',
-        fontSize: 20,
+        fontFamily: 'GillSans',
+        fontSize: 24,
       },
     },
     body: {
-      flex: 1,
+      container: {
+        padding: 10,
+      },
+      text: {
+        fontFamily: 'GillSans',
+        fontSize: 16,
+        color: '#8E8E8E',
+        lineHeight: 20,
+      },
     },
   },
 };

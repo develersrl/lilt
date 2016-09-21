@@ -4,10 +4,13 @@
 import sys
 import os
 import json
+import shutil
 from jinja2 import Environment, FileSystemLoader
 import mistune
 
-from rn_renderer import RNRenderer, Wrapper
+from renderer_wrapper import RendererWrapper
+from rn_renderer import RNRenderer
+from editor_data_importer import *
 
 
 __content_dir = None  # content directory path
@@ -15,45 +18,25 @@ __pages_json_fn = None  # pages.json filename
 __templates_dir = None  # js templates directory path
 __target_pages_dir = None  # generated pages directory
 __target_navigation_dir = None  # app "navigation" directory
-__markdown_dir = None  # source markdown files directory
 __j2_env = None  # jinja2 environment
-__md_renderer = None  # react-native markdown renderer
+__pages_obj = {}
 
 
 def __init():
     """Initialize global variables."""
     global __content_dir, __pages_json_fn, __templates_dir, __target_pages_dir
-    global __target_navigation_dir, __markdown_dir, __j2_env, __md_renderer
+    global __target_navigation_dir, __j2_env
 
     script_dir = os.path.dirname(os.path.realpath(__file__))
     app_dir = os.path.dirname(script_dir)
     __content_dir = os.path.join(app_dir, 'content')
     __pages_json_fn = os.path.join(__content_dir, 'pages.json')
-    __templates_dir = os.path.join(__content_dir, 'templates')
-    __markdown_dir = os.path.join(__content_dir, 'markdown')
+    __templates_dir = os.path.join(app_dir, 'templates')
     __target_pages_dir = os.path.join(app_dir, 'js', 'pages', 'generated')
     __target_navigation_dir = os.path.join(app_dir, 'js', 'navigation')
 
     # initialize Jinja environment to work on "templates" directory
     __j2_env = Environment(loader=FileSystemLoader(__templates_dir))
-
-    # Images used by the application are collected inside "images" folder
-    # under "content" folder.
-    images_dir = os.path.join(__content_dir, 'images')
-
-    # The "downloaded" subdirectory holds the images downloaded by the
-    # react-native renderer, so we make sure that director exists.
-    downloaded_images_dir = os.path.join(images_dir, 'downloaded')
-    if not os.path.isdir(downloaded_images_dir):
-        os.makedirs(downloaded_images_dir)
-
-    # initialize markdown-to-react-native renderer
-    rn_renderer = RNRenderer(images_dir=images_dir)
-
-    # Use the Wrapper class if you want to see which renderer function are
-    # called (e.g. when adding the support for new markdown tokens).
-    # __md_renderer = mistune.Markdown(renderer=Wrapper(rn_renderer))
-    __md_renderer = mistune.Markdown(renderer=rn_renderer)
 
     # create the target "pages" directory if it does not exist
     if not os.path.exists(__target_pages_dir):
@@ -62,7 +45,6 @@ def __init():
     return (os.path.isdir(__content_dir) and
             os.path.isfile(__pages_json_fn) and
             os.path.isdir(__templates_dir) and
-            os.path.isdir(__markdown_dir) and
             os.path.isdir(__target_pages_dir) and
             os.path.isdir(__target_navigation_dir))
 
@@ -80,50 +62,79 @@ def __get_page_component_classname_from_page_data(page_data):
         )
 
 
-def __gen_markdown(markdown_data):
+def __get_page_dir(page_id):
+    global __content_dir
+    return os.path.join(__content_dir, 'pages', page_id)
+
+
+def __gen_markdown(page_id, markdown_data):
     """Generate react-native code from markdown."""
-    global __markdown_dir, __md_renderer
+    page_dir = __get_page_dir(page_id)
+    rn_renderer = RNRenderer(images_dir=page_dir, warning_prefix='\t\t')
+    # Use log=True to print the actual renderer calls from mistune engine
+    wrapper = RendererWrapper(rn_renderer, log=False)
+    renderer = mistune.Markdown(renderer=wrapper)
 
     # read input markdown file
-    with open(os.path.join(__markdown_dir, markdown_data["source"]), 'r') as f:
+    with open(os.path.join(page_dir, markdown_data["source"]), 'r') as f:
         markdown_code = f.read()
 
-    # render react-native code and enclose everything inside a ScrollView
-    # If you want explanations about contentInset etc.. see here:
-    # https://github.com/facebook/react-native/issues/2052
+    react_native_code = renderer(markdown_code)
+
+    # The following line ensures that all react native code related to images
+    # is flushed from the renderer wrapper (e.g. when a markdown document
+    # terminates with an image stripe with no following text)
+    react_native_code += wrapper.flush_images()
+
     return (
-        '<ScrollView style={{markdown.container}} ' +
-        'contentInset={{{{top:0}}}} ' +
-        'automaticallyAdjustContentInsets={{false}} ' +
-        '>\n{}\n</ScrollView>').format(
-        __md_renderer(markdown_code)
+        '<View style={{markdown.container}}>\n{}\n</View>').format(
+        react_native_code
         )
 
 
-def __gen_button(button_data):
+def __gen_button(page_id, button_data):
     """Generate a button block inside a page."""
     pressImpl = 'this.props.navigator.push(this.props.getRoute("{}"))'.format(
-        button_data["link"]
-        )
+        button_data["link"])
 
     return "<Button text={{'{}'}} onPress={{() => {}}} />".format(
         button_data["text"],
-        pressImpl
-        )
+        pressImpl)
 
 
-def __gen_link_list_item(item_data):
+def __gen_link_list_item(page_id, item_data):
     linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
-    return ("<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
-            .format(item_data['title'], item_data['caption'], linkcode))
+    return (
+        "<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
+        .format(
+            item_data['title'],
+            item_data['caption'],
+            linkcode))
 
 
-def __gen_array(array_data):
+def __gen_image_require(page_id, image_data):
+    if image_data['name'] == '':
+        return 'require("../../../images/header_fallback.png")'
+
+    return 'require("../../../content/pages/{}/{}")'.format(
+        page_id,
+        image_data['name'])
+
+
+def __gen_pdf(page_id, pdf_data):
+    return pdf_data['name']
+
+
+def __gen_raw_text(page_id, text_data):
+    return text_data['value']
+
+
+def __gen_array(page_id, array_data):
     """Generate an array of elements."""
     content = []
     for item in array_data['items']:
         genfun = globals()['__gen_' + item['type']]
-        content.append(genfun(item))
+        content.append(genfun(page_id, item))
 
     if array_data['enclosedInView']:
         if array_data['orientation'] == 'vertical':
@@ -143,37 +154,82 @@ def __gen_page(page_data):
     """Generate a page component."""
     global __templates_dir, __target_pages_dir, __j2_env
 
-    print "Generating page {}..".format(page_data["id"])
-
-    # generate page content
+    print "\tGenerating page {}".format(page_data["id"])
     content = page_data.get("content", {})
-    replacements = {}
-    for (block_id, block_data) in content.iteritems():
-        # use content type (e.g. "button") to call generation fun by name
-        genfun = globals()["__gen_" + block_data["type"]]
-        replacements[block_id] = genfun(block_data)
 
-    # write output file
+    # Each template is instantiated with a replacement dict
+    replacements = {}
+
+    # Iterate over page content items
+    for (block_id, block_data) in content.iteritems():
+        # Use content type to call generation fun by name.
+        # For example, if "type" is "button" then the "__gen_button" function
+        # will be called to generate the react native code.
+        genfun = globals()["__gen_" + block_data["type"]]
+
+        # The react native code for the specific content item is generated by
+        # calling the generator function and decoding the result from utf-8
+        # string to Unicode, because Jinja works in "Unicode" mode when it
+        # comes to render a template.
+        react_native_code = genfun(page_data['id'], block_data).decode('utf-8')
+        replacements[block_id] = react_native_code
+
+    # Write the instantiated component to file
     target_basename = __get_page_component_filename_from_page_data(page_data)
     target_fn = os.path.join(__target_pages_dir, target_basename)
     template_name = page_data["style"] + ".tmpl.js"
     with open(target_fn, 'w') as f:
-        f.write(__j2_env.get_template(template_name).render(**replacements))
+        tmpl = __j2_env.get_template(template_name)
+        rendered_tmpl = tmpl.render(**replacements)
+
+        # Since Jinja works with Unicode we need to convert react native code
+        # back to utf-8 encoding before writing to target file.
+        f.write(rendered_tmpl.encode('utf-8'))
 
     return True
+
+
+def clean_pdf_dir():
+    """Clean the pdf directory which is populated later."""
+    mypath = os.path.dirname(os.path.realpath(__file__))  # "scripts" dir
+    appdir = os.path.dirname(mypath)
+    pdf_dir = os.path.join(appdir, 'content', 'pdf')
+
+    # Create the pdf directory if it does not exist
+    if not os.path.isdir(pdf_dir):
+        os.makedirs(pdf_dir)
+
+    # Get the pdf files list and remove them
+    pdf_files = [f for f in os.listdir(pdf_dir) if f.lower().endswith('pdf')]
+    for pdf_name in pdf_files:
+        os.remove(os.path.join(pdf_dir, pdf_name))
 
 
 def __gen_pages():
     """Generate application pages."""
     global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
+    global __pages_obj
+
+    # Clean the pdf directory
+    clean_pdf_dir()
 
     # load source json file
     with open(__pages_json_fn, 'r') as f:
         pages_data = json.load(f)
 
-    # generate pages components (exit as soon as one page generation fails)
+    # Enrich json pages with data imported from editor
+    __pages_obj = pages_data + import_editor_data()
+
+    # delete and recreate target pages directory
+    print '***** Generating app code from app data *****'
+    print 'Cleaning generated pages directory'
+    if os.path.isdir(__target_pages_dir):
+        shutil.rmtree(__target_pages_dir)
+    os.mkdir(__target_pages_dir)
+
+    print 'Generating code for {} pages..'.format(len(__pages_obj))
     index_imports, index_exports = [], []
-    for page_data in pages_data:
+    for page_data in __pages_obj:
         # generate page component file
         if not __gen_page(page_data):
             return False
@@ -200,15 +256,12 @@ def __gen_pages():
 def __gen_navigation():
     """Generate app navigation code."""
     global __content_dir, __pages_json_fn, __target_pages_dir, __j2_env
-    global __target_navigation_dir
-
-    # load source json file
-    with open(__pages_json_fn, 'r') as f:
-        pages_data = json.load(f)
+    global __target_navigation_dir, __pages_obj
+    print 'Generating navigation'
 
     # iterate over json pages and build react-native navigation routes
     routes_list = []
-    for page_data in pages_data:
+    for page_data in __pages_obj:
         # compute navigation component (e.g. "pages.Glossary")
         comp_class = __get_page_component_classname_from_page_data(page_data)
         comp_class = 'pages.generated.{}'.format(comp_class)
@@ -217,13 +270,11 @@ def __gen_navigation():
         routes_list.append("'{}': {{ title: '{}', component: {} }}".format(
             '#{}'.format(page_data['id']),
             page_data.get('title', ''),
-            comp_class
-            ))
+            comp_class))
 
     # assemble routes data
     routes_code = 'const generatedRoutes = {{\n  {},\n}};'.format(
-        ',\n  '.join(routes_list)
-        )
+        ',\n  '.join(routes_list))
 
     # compute jinja template replacements
     replacements = {
@@ -240,6 +291,34 @@ def __gen_navigation():
     return True
 
 
+def __finalcleanup():
+    global __content_dir, __pages_obj
+    print 'Final cleanup'
+
+    # This is the list of generated pages id
+    generated_pages = [descriptor['id'] for descriptor in __pages_obj]
+
+    # Get directory names inside "content/pages" folder
+    pages_data_dir = os.path.join(__content_dir, 'pages')
+    data_dirs = [d for d in os.listdir(pages_data_dir) if d[0] != '.']
+
+    # Compute "dead" directories inside "content/pages" folder
+    dirs_to_delete = []
+    for data_dir in data_dirs:
+        if data_dir not in generated_pages:
+            dirs_to_delete.append(data_dir)
+
+    # Remove "dead" directories
+    for d in dirs_to_delete:
+        shutil.rmtree(os.path.join(pages_data_dir, d))
+
+    if len(dirs_to_delete) > 0:
+        print '\tRemoved {} "dead" directories'.format(len(dirs_to_delete))
+
+    print '\nDone!'
+    return True
+
+
 if __name__ == '__main__':
-    ok = __init() and __gen_pages() and __gen_navigation()
+    ok = __init() and __gen_pages() and __gen_navigation() and __finalcleanup()
     sys.exit(0 if ok else 1)

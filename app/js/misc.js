@@ -1,6 +1,6 @@
 'use strict';
 
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, ActionSheetIOS } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 
@@ -48,6 +48,10 @@ const enableApi = (api, enabled) => {
  * otherwise the pdf is natively opened with its default application.
  */
 const openPdf = (pdfName) => {
+  // Nothing to do if pdf name is empty
+  if (pdfName === '')
+    return;
+
   RNFS.readDir(RNFS.MainBundlePath)
     .then((result) => {
       // search pdf dir in application bundle (the pdf directory name is
@@ -102,7 +106,7 @@ const openPdf = (pdfName) => {
 };
 
 
-export const saveLocal = (k, v) => {
+const saveLocal = (k, v) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.setItem(k, JSON.stringify(v), (e) => {
       if (e)
@@ -114,7 +118,7 @@ export const saveLocal = (k, v) => {
 };
 
 
-export const loadLocal = (k) => {
+const loadLocal = (k) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem(k, (e, res) => {
       if (e)
@@ -126,7 +130,7 @@ export const loadLocal = (k) => {
 };
 
 
-export const removeLocal = (k) => {
+const removeLocal = (k) => {
   return new Promise((resolve, reject) => {
     AsyncStorage.removeItem(k, (e) => {
       if (e)
@@ -138,7 +142,7 @@ export const removeLocal = (k) => {
 };
 
 
-export const getStorageKeys = () => {
+const getStorageKeys = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getAllKeys((e, keys) => {
       if (e)
@@ -150,19 +154,19 @@ export const getStorageKeys = () => {
 };
 
 
-export const localKeyExists = (k) => {
+const localKeyExists = (k) => {
   return getStorageKeys()
     .then((keys) => keys.includes(k));
 };
 
 
-export const printStorageKeys = () => {
+const printStorageKeys = () => {
   return getStorageKeys()
     .then((k) => console.log(k));  // eslint-disable-line no-console
 };
 
 
-export const printStorageValue = (k) => {
+const printStorageValue = (k) => {
   return loadLocal(k)
     .then((v) => console.log(v));  // eslint-disable-line no-console
 };
@@ -172,6 +176,26 @@ export const printStorageValue = (k) => {
 const validateEmail = (email) => {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
+};
+
+
+const share = (text) => {
+  // Nothing to do if there is nothing to share
+  if (text === '')
+    return;
+
+  ActionSheetIOS.showShareActionSheetWithOptions({
+    message: text,
+  },
+  (error) => console.log(error),
+  (success, method) => {
+    if (success) {
+      console.log(`Shared via ${method}`);
+    }
+    else {
+      console.log('You didn\'t share');
+    }
+  });
 };
 
 
@@ -186,4 +210,5 @@ module.exports = {
   printStorageKeys,
   printStorageValue,
   validateEmail,
+  share,
 };

@@ -21,26 +21,25 @@ export default class Stripe extends Component {
 
   computePageWidth() {
     const { imageSize } = this.props;
-    const imageHeight = stripe.height - stripe.footerHeight;
-    const imageWidth = Math.floor(imageSize[0] * imageHeight / imageSize[1]);
-    return imageWidth + stripe.spacing;
+    return imageSize[0] + stripe.spacing;
   }
 
 
   computeStyleSheet() {
     const { imageSize } = this.props;
-    const imageHeight = stripe.height - stripe.footerHeight;
 
     return StyleSheet.create({
       container: {
-        height: stripe.height,
+        height: imageSize[1] + stripe.footerHeight,
+        marginTop: stripe.marginTopBottom,
+        marginBottom: stripe.marginTopBottom,
       },
       scrollview: {
-        height: stripe.height - stripe.footerHeight,
+        height: imageSize[1],
       },
       image: {
-        width: Math.floor(imageSize[0] * imageHeight / imageSize[1]),
-        height: imageHeight,
+        width: imageSize[0],
+        height: imageSize[1],
         resizeMode: 'contain',
       },
       imageSpace: {

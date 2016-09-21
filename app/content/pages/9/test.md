@@ -13,6 +13,3 @@ on purpose (injected humour and the like).
 
 Local image example:
 ![alt text](test.png)
-
-Image from url example:
-![img2](https://lh4.ggpht.com/wKrDLLmmxjfRG2-E-k5L5BUuHWpCOe4lWRF7oVs1Gzdn5e5yvr8fj-ORTlBF43U47yI=w300)

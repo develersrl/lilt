@@ -141,6 +141,9 @@ const getTreeNodes = (dir, pageType) => {
   const pageDirs = fs.readdirSync(dir);
 
   pageDirs.forEach((pageDir) => {
+    if (pageDir[0] == '.')
+      return;
+
     const fullDirPath = path.join(dir, pageDir);
     const jsonObj = require(path.resolve(path.join(fullDirPath, 'page.json')));
     nodes.push({
