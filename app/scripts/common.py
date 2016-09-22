@@ -20,6 +20,9 @@ content_pages_dir = os.path.join(content_dir, 'pages')
 # Full path to json file containing pages description
 content_json_fn = os.path.join(content_dir, 'pages.json')
 
+# Full path to glossary json file
+content_glossary_fn = os.path.join(content_dir, 'glossary.json')
+
 # Pdf files used by app pages are located inside this folder
 pdf_dir = os.path.join(content_dir, 'pdf')
 

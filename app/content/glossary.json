@@ -1,165 +1,249 @@
 [
-{
-    "label": "A",
-    "items": [
-        {
-            "value": "AF",
-            "label": "Afghanistan"
-        },
-        {
-            "value": "AZ",
-            "label": "Azerbaijan"
-        }
-    ]
-},
-{
-    "label": "B",
-    "items": [
-        {"value":"AF","label":"BBB"}
-    ]
-},
-{
-    "label": "C",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "D",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "E",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "F",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "G",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "H",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "I",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "J",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "K",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "L",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "M",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "N",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "O",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "P",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "Q",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "R",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "S",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "T",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "U",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "V",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "W",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "X",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "Y",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-},
-{
-    "label": "Z",
-    "items": [
-        {"value":"AF","label":"Afghanistan"}
-    ]
-}
+    {
+        "items": [
+            {
+                "label": "ADENOCARCINOMA",
+                "value": "ADENOCARCINOMA"
+            },
+            {
+                "label": "ADENOMA",
+                "value": "ADENOMA"
+            },
+            {
+                "label": "AGOASPIRAZIONE",
+                "value": "AGOASPIRAZIONE"
+            },
+            {
+                "label": "ASINTOMATICO",
+                "value": "ASINTOMATICO"
+            },
+            {
+                "label": "AUTOPALPAZIONE",
+                "value": "AUTOPALPAZIONE"
+            }
+        ],
+        "label": "A"
+    },
+    {
+        "items": [
+            {
+                "label": "CANCEROGENO",
+                "value": "CANCEROGENO"
+            },
+            {
+                "label": "CANCRO",
+                "value": "CANCRO"
+            },
+            {
+                "label": "CARCINOMA",
+                "value": "CARCINOMA"
+            },
+            {
+                "label": "CERVICE UTERINA",
+                "value": "CERVICE UTERINA"
+            },
+            {
+                "label": "COLON-RETTO",
+                "value": "COLON-RETTO"
+            },
+            {
+                "label": "COLONSCOPIA",
+                "value": "COLONSCOPIA"
+            },
+            {
+                "label": "COLPOSCOPLA",
+                "value": "COLPOSCOPLA"
+            }
+        ],
+        "label": "C"
+    },
+    {
+        "items": [
+            {
+                "label": "BIOPSIA",
+                "value": "BIOPSIA"
+            }
+        ],
+        "label": "B"
+    },
+    {
+        "items": [
+            {
+                "label": "ECOGRAFIA",
+                "value": "ECOGRAFIA"
+            },
+            {
+                "label": "EPIDEMIOLOGIA",
+                "value": "EPIDEMIOLOGIA"
+            },
+            {
+                "label": "ESAME CITOLOGICO",
+                "value": "ESAME CITOLOGICO"
+            },
+            {
+                "label": "ESAME CLINICO",
+                "value": "ESAME CLINICO"
+            },
+            {
+                "label": "ESAME ISTOLOGICO",
+                "value": "ESAME ISTOLOGICO"
+            },
+            {
+                "label": "ESAME RADIOGRAFICO",
+                "value": "ESAME RADIOGRAFICO"
+            }
+        ],
+        "label": "E"
+    },
+    {
+        "items": [
+            {
+                "label": "DIAGNOSI",
+                "value": "DIAGNOSI"
+            },
+            {
+                "label": "DIAGNOSI PRECOCE",
+                "value": "DIAGNOSI PRECOCE"
+            },
+            {
+                "label": "DUTTOGRAFIA",
+                "value": "DUTTOGRAFIA"
+            }
+        ],
+        "label": "D"
+    },
+    {
+        "items": [
+            {
+                "label": "FIBROMA",
+                "value": "FIBROMA"
+            }
+        ],
+        "label": "F"
+    },
+    {
+        "items": [
+            {
+                "label": "ISTEROSCOPIA",
+                "value": "ISTEROSCOPIA"
+            }
+        ],
+        "label": "I"
+    },
+    {
+        "items": [
+            {
+                "label": "HPV",
+                "value": "HPV"
+            }
+        ],
+        "label": "H"
+    },
+    {
+        "items": [
+            {
+                "label": "MAMMOGRAFIA",
+                "value": "MAMMOGRAFIA"
+            },
+            {
+                "label": "MELANOMA",
+                "value": "MELANOMA"
+            },
+            {
+                "label": "MESOTELIOMA",
+                "value": "MESOTELIOMA"
+            },
+            {
+                "label": "METASTASI",
+                "value": "METASTASI"
+            }
+        ],
+        "label": "M"
+    },
+    {
+        "items": [
+            {
+                "label": "ONCOLOGIA",
+                "value": "ONCOLOGIA"
+            },
+            {
+                "label": "OSTEOPOROSI",
+                "value": "OSTEOPOROSI"
+            }
+        ],
+        "label": "O"
+    },
+    {
+        "items": [
+            {
+                "label": "NEOPLASIA",
+                "value": "NEOPLASIA"
+            }
+        ],
+        "label": "N"
+    },
+    {
+        "items": [
+            {
+                "label": "PAP TEST",
+                "value": "PAP TEST"
+            },
+            {
+                "label": "PAPILLOMA VIRUS UMANO O HPV",
+                "value": "PAPILLOMA VIRUS UMANO O HPV"
+            },
+            {
+                "label": "POLIPO",
+                "value": "POLIPO"
+            },
+            {
+                "label": "PREVALENZA (DI UNA MALATTIA)",
+                "value": "PREVALENZA (DI UNA MALATTIA)"
+            }
+        ],
+        "label": "P"
+    },
+    {
+        "items": [
+            {
+                "label": "SCREENING",
+                "value": "SCREENING"
+            },
+            {
+                "label": "SIGMOIDOSCOPIA",
+                "value": "SIGMOIDOSCOPIA"
+            },
+            {
+                "label": "SINTOMATICO",
+                "value": "SINTOMATICO"
+            },
+            {
+                "label": "STOMIA",
+                "value": "STOMIA"
+            }
+        ],
+        "label": "S"
+    },
+    {
+        "items": [
+            {
+                "label": "RICERCA DEL SANGUE OCCULTO NELLE FECI",
+                "value": "RICERCA DEL SANGUE OCCULTO NELLE FECI"
+            }
+        ],
+        "label": "R"
+    },
+    {
+        "items": [
+            {
+                "label": "TESSUTO",
+                "value": "TESSUTO"
+            },
+            {
+                "label": "TUMORE",
+                "value": "TUMORE"
+            }
+        ],
+        "label": "T"
+    }
 ]

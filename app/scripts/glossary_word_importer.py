@@ -2,6 +2,10 @@
 
 import os
 import shutil
+from collections import defaultdict
+import json
+
+import common
 
 
 def import_glossary_word_page(
@@ -44,3 +48,38 @@ def import_glossary_word_page(
             }
         }
     }
+
+
+def generate_glossary(glossary_words):
+    """Generate glossary.json file inside "content" directory.
+
+    The glossary_words parameter is an array of dictionaries.
+    Each dictionary describes a single glossary word.
+    The dictionary shape is the one returned by "import_glossary_word_page"
+    function in this file.
+    """
+
+    # Compute a dict where keys are uppercase letters and values are lists
+    # of words that begin with that letter
+    glossary_dict = defaultdict(list)
+    words = [d['title'].upper() for d in glossary_words]
+    for word in words:
+        if word != '':
+            glossary_dict[word[0]].append(word)
+
+    # Sort letter words
+    for (_, l) in glossary_dict.iteritems():
+        l.sort()
+
+    # Compute glossary python object that will bu dumped to json
+    glossary_array = []
+    for (letter, letterwords) in glossary_dict.iteritems():
+        letterarray = []
+        for letterword in letterwords:
+            letterarray.append({'label': letterword, 'value': letterword})
+        glossary_array.append({'label': letter, 'items': letterarray})
+
+    # Pretty prints glossary to json file
+    with open(common.content_glossary_fn, 'w') as f:
+        json.dump(glossary_array, f,
+                  sort_keys=True, indent=4, separators=(',', ': '))

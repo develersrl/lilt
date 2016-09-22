@@ -5,7 +5,7 @@ import shutil
 
 import common
 from contents_importer import import_content_page
-from glossary_word_importer import import_glossary_word_page
+from glossary_word_importer import import_glossary_word_page, generate_glossary
 
 
 # The following array describes the templates to be imported from editor dir
@@ -13,12 +13,14 @@ editor_templates_descriptors = [
     {
         'dirname': 'Contenuti',
         'genprefix': 'c_gen_',
-        'importfun': import_content_page
+        'importfun': import_content_page,
+        'endfun': None
     },
     {
         'dirname': 'Glossario',
         'genprefix': 'gw_gen_',
-        'importfun': import_glossary_word_page
+        'importfun': import_glossary_word_page,
+        'endfun': generate_glossary
     }
 ]
 
@@ -87,6 +89,10 @@ def generate_pages_data(editor_data_dir, descriptor):
         # If generated page is None then something went wrong
         if page_object is not None:
             generated_pages.append(page_object)
+
+    # Run custom "end" function if any
+    if descriptor['endfun'] is not None:
+        descriptor['endfun'](generated_pages)
 
     return generated_pages
 
