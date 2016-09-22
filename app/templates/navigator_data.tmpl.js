@@ -22,11 +22,6 @@ const customRoutes = {
     title: 'REGISTRAZIONE',
     component: pages.custom.Registration,
   },
-  'glossary_word': {
-    showBar: false,
-    title: 'TEST VOCABOLO',
-    component: pages.custom.GlossaryWord,
-  },
 };
 /* eslint-enable quote-props */
 
@@ -34,7 +29,7 @@ const customRoutes = {
 const routes = { ...generatedRoutes, ... customRoutes };
 
 // the start route key
-const initialRouteId = "#gw";
+const initialRouteId = "#c_gen_1";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in

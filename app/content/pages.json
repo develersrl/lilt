@@ -120,20 +120,5 @@
             ]
         }
     }
-},
-{
-    "id": "gw",
-    "style": "glossary_word",
-    "title": "Test Word",
-    "content": {
-        "title": {
-            "type": "raw_text",
-            "value": "TEST 2"
-        },
-        "body": {
-            "type": "markdown",
-            "source": "content.md"
-        }
-    }
 }
 ]
