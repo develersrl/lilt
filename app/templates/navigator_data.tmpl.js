@@ -34,7 +34,7 @@ const customRoutes = {
 const routes = { ...generatedRoutes, ... customRoutes };
 
 // the start route key
-const initialRouteId = "glossary_word";
+const initialRouteId = "#gw";
 
 /*
   Obtain a navigation route from route id, which corresponds to "page" id in
