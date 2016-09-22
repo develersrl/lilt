@@ -45,7 +45,7 @@ js/markdown/
 js/pages/generated/
 js/navigation/navigator_data.js
 *.pyc
-content/images/downloaded/
 ios/Pods/
 content/pdf
 content/pages/*gen*
+content/glossary.json
