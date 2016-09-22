@@ -5,6 +5,7 @@ import shutil
 
 import common
 from contents_importer import import_content_page
+from glossary_word_importer import import_glossary_word_page
 
 
 # The following array describes the templates to be imported from editor dir
@@ -13,6 +14,11 @@ editor_templates_descriptors = [
         'dirname': 'Contenuti',
         'genprefix': 'c_gen_',
         'importfun': import_content_page
+    },
+    {
+        'dirname': 'Glossario',
+        'genprefix': 'gw_gen_',
+        'importfun': import_glossary_word_page
     }
 ]
 
