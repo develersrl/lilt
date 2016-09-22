@@ -9,6 +9,9 @@ import * as pages from '../pages';
  */
 // -----------------------------------------------------------------------------
 
+{{glossaryBindings}}
+
+
 {{generatedRoutes}}
 
 
@@ -31,16 +34,33 @@ const routes = { ...generatedRoutes, ... customRoutes };
 // the start route key
 const initialRouteId = "glossary";
 
-/*
+/**
   Obtain a navigation route from route id, which corresponds to "page" id in
   pages.json.
   We pass each route a pointer to getRoute function itself so that each route
   can switch page by calling "this.props.getRoute(<route_id>)".
  */
-const getRoute = (routeId) => ({ ...routes[routeId], passProps: { getRoute } });
+const getRoute = (routeId) => {
+  return {
+    ...routes[routeId],
+    passProps: { getRoute, getRouteForGlossaryWord },
+  };
+};
 
-// Return the app start route.
+
+/**
+ * Return the app start route.
+ */
 const getStartRoute = () => getRoute(initialRouteId);
 
+/**
+ * Return app route for specific glossary word.
+ */
+const getRouteForGlossaryWord = (word) => {
+  if (glossaryBindings.hasOwnProperty(word))
+    return getRoute(glossaryBindings[word]);
+  return null;
+};
 
-module.exports = { getStartRoute, getRoute };
+
+module.exports = { getStartRoute, getRoute, getRouteForGlossaryWord };

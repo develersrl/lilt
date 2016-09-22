@@ -83,3 +83,13 @@ def generate_glossary(glossary_words):
     with open(common.content_glossary_fn, 'w') as f:
         json.dump(glossary_array, f,
                   sort_keys=True, indent=4, separators=(',', ': '))
+
+    # Compute bindings between words and corresponding page ids
+    glossary_bindings = {}
+    for d in glossary_words:
+        glossary_bindings[d['title'].upper()] = d['id']
+
+    # Save bindings to json file
+    with open(common.content_glossary_bindings_fn, 'w') as f:
+        json.dump(glossary_bindings, f,
+                  sort_keys=True, indent=4, separators=(',', ': '))

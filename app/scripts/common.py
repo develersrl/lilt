@@ -23,6 +23,12 @@ content_json_fn = os.path.join(content_dir, 'pages.json')
 # Full path to glossary json file
 content_glossary_fn = os.path.join(content_dir, 'glossary.json')
 
+# The following json file contains glossary words "bindings": it defines,
+# for each glossary word, which is the corresponding app page
+content_glossary_bindings_fn = os.path.join(
+    content_dir,
+    'glossary_bindings.json')
+
 # Pdf files used by app pages are located inside this folder
 pdf_dir = os.path.join(content_dir, 'pdf')
 

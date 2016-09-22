@@ -217,8 +217,22 @@ def __gen_navigation():
     routes_code = 'const generatedRoutes = {{\n  {},\n}};'.format(
         ',\n  '.join(routes_list))
 
+    # Load "glossary bindings" json file which contains correspondences
+    # between glossary words and app pages ids.
+    # We translate the correspondences to a Javascript object.
+    glossary_bindings = common.load_json(common.content_glossary_bindings_fn)
+    bindings = []
+    for (word, page_id) in glossary_bindings.iteritems():
+        bindings.append("  '{}': '#{}'".format(word, page_id))
+
+    bindings_code = 'const glossaryBindings = {{\n{}\n}};'.format(
+        ',\n'.join(bindings))
+
     # compute jinja template replacements
-    replacements = {"generatedRoutes": routes_code}
+    replacements = {
+        'generatedRoutes': routes_code,
+        'glossaryBindings': bindings_code
+    }
 
     # generate navigator_data.js file
     target_file = os.path.join(
