@@ -46,9 +46,8 @@ export default class Glossary extends Component {
         <TableView tableViewStyle={TableView.Consts.Style.Plain}
                    tableViewCellStyle={TableView.Consts.CellStyle.Subtitle}
                    style={flexible}
-                   detailFontSize={9}
                    showIndexList={this.state.filterArgs === null}
-                   json="glossary"
+                   json={"glossary"}
                    filter={filterStr}
                    filterArgs={this.state.filterArgs}
                    showEmptySections={false}>

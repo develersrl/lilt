@@ -4,13 +4,11 @@
     "items": [
         {
             "value": "AF",
-            "label": "Afghanistan",
-            "detail": "Mio dettaglio"
+            "label": "Afghanistan"
         },
         {
             "value": "AZ",
-            "label": "Azerbaijan",
-            "detail": "Lame"
+            "label": "Azerbaijan"
         }
     ]
 },
