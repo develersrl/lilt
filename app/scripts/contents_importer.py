@@ -4,61 +4,15 @@ import os
 import shutil
 import json
 
-
-mypath = os.path.dirname(os.path.realpath(__file__))  # "scripts" dir
-appdir = os.path.dirname(mypath)
-pages_dir = os.path.join(appdir, 'content', 'pages')
-pdf_dir = os.path.join(appdir, 'content', 'pdf')
+import common
 
 
-def get_output_page_dir(page_id):
-    """Return full path to page target directory."""
-    return os.path.join(pages_dir, page_id)
 
-
-def get_output_pdfname(pdf_name):
-    """Return bundled pdf filename, given a page id and a pdf_name."""
-
-    # Since we use the pdf name as output filename (e.g. "foo.pdf") there
-    # could be conflicts if two different generated pages have pdf files with
-    # the same name. To avoid the problem we add a suffix to the pdf name.
-    basename = os.path.splitext(pdf_name)[0]
-    same = [f for f in os.listdir(pdf_dir) if f.lower().startswith(basename)]
-    suffix = '' if len(same) == 0 else '{}'.format(len(same))
-    return basename + suffix + '.pdf'
-
-
-def import_content_page(page_id, input_page_dir):
-    print '\tGenerating page "{}"'.format(page_id)
-
-    # The editor saves a json file inside each page directory.
-    # Such file describe the various page tokens so we abort the generation
-    # if this file is not found.
-    input_json_fn = os.path.join(input_page_dir, 'page.json')
-    if not os.path.isfile(input_json_fn):
-        print '\t\tFAIL: cannot find page.json file'
-        return None
-
-    # Read page descriptor file
-    try:
-        with open(input_json_fn, 'r') as f:
-            page_descriptor = json.load(f)
-    except ValueError:
-        print '\t\tFAIL: malformed page.json file'
-        return None
-
-    # The page descriptor is a dictionary with the following entries:
-    # * title -> content page title
-    # * headerImage -> name of the image to be shown below the title
-    # * pdfFile -> name of the pdf file to be downloaded from the page
-    # * sharedText -> text to be shared from the page
-
-    # Remove and recreate output directory if exists
-    output_page_dir = get_output_page_dir(page_id)
-    if os.path.isdir(output_page_dir):
-        shutil.rmtree(output_page_dir)
-    os.mkdir(output_page_dir)
-
+def import_content_page(
+        page_id,
+        page_descriptor,
+        input_page_dir,
+        output_page_dir):
     # If a pdf file is specified in the page descriptor then copy it inside
     # the pdf directory, which is in turn bundled into the app resources.
     json_pdf_name = page_descriptor.get('pdfFile', '')
@@ -68,8 +22,8 @@ def import_content_page(page_id, input_page_dir):
         if not os.path.isfile(input_pdf_fn):
             print '\t\tWARNING: cannot find file "{}"'.format(input_pdf_fn)
         else:
-            pdf_name = get_output_pdfname(json_pdf_name)
-            output_pdf_fn = os.path.join(pdf_dir, pdf_name)
+            pdf_name = common.get_output_pdfname(json_pdf_name)
+            output_pdf_fn = os.path.join(common.pdf_dir, pdf_name)
             shutil.copy(input_pdf_fn, output_pdf_fn)
 
     # Copy source markdown file into the output page directory.
@@ -121,26 +75,3 @@ def import_content_page(page_id, input_page_dir):
             }
         }
     }
-
-
-def import_contents(contents_dir):
-    """Generate content pages from a given directory."""
-
-    # Exclude hidden folders from the list of to be processed folders
-    content_dirs = [d for d in os.listdir(contents_dir) if d[0] != '.']
-
-    print 'Generating {} content pages..'.format(len(content_dirs))
-    generated_pages = []
-    for (i, dirname) in enumerate(content_dirs):
-        # We use a prefix ("c_" in this case) for the page_id to prevent
-        # conflicts with other type of generated pages (e.g. glossary pages)
-        page_object = import_content_page(
-            'c_gen_{}'.format(i + 1),
-            os.path.join(contents_dir, dirname)
-            )
-
-        # If generated page is None then something went wrong
-        if page_object is not None:
-            generated_pages.append(page_object)
-
-    return generated_pages

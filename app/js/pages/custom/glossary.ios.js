@@ -21,6 +21,11 @@ export default class Glossary extends Component {
     this.setState({ filterArgs: text === '' ? null : [text] });
   }
 
+  onWordPress(word) {
+    const { navigator, getRouteForGlossaryWord } = this.props;
+    navigator.push(getRouteForGlossaryWord(word));
+  }
+
   clearFilter() {
     this.setState({ ...this.state, filterArgs: null });
   }
@@ -46,12 +51,12 @@ export default class Glossary extends Component {
         <TableView tableViewStyle={TableView.Consts.Style.Plain}
                    tableViewCellStyle={TableView.Consts.CellStyle.Subtitle}
                    style={flexible}
-                   detailFontSize={9}
                    showIndexList={this.state.filterArgs === null}
-                   json="glossary"
+                   json={"glossary"}
                    filter={filterStr}
                    filterArgs={this.state.filterArgs}
-                   showEmptySections={false}>
+                   showEmptySections={false}
+                   onPress={(ev) => this.onWordPress(ev.value)}>
         </TableView>
       </View>
       );
