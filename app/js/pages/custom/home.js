@@ -6,7 +6,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { api as stateApi } from '../../state';
 import { SquareMenu } from '../../blocks';
 import { pages } from '../../style';
-
 const { home } = pages;
 
 
@@ -14,6 +13,7 @@ export default class Home extends Component {
   componentWillMount() {
     stateApi.init();
   }
+
 
   renderFakeLink(txt) {
     const { navigator, getRoute } = this.props;
@@ -29,24 +29,14 @@ export default class Home extends Component {
 
   onSquareMenuPress(position) {
     const { navigator, getRoute } = this.props;
-    let targetRoute = '';
+    const routes = [
+      '#ll_menu_saperne',
+      '#ll_menu_prevenzione',
+      '#ll_menu_diagnosi',
+      'glossary',
+    ];
 
-    switch (position) {
-    case 'topleft':
-      targetRoute = '#ll_menu_topleft';
-      break;
-    case 'topright':
-      targetRoute = '#ll_menu_topright';
-      break;
-    case 'bottomleft':
-      targetRoute = '#ll_menu_bottomleft';
-      break;
-    case 'bottomright':
-      targetRoute = 'glossary';
-      break;
-    }
-
-    navigator.push(getRoute(targetRoute));
+    navigator.push(getRoute(routes[position]));
   }
 
 
@@ -70,21 +60,21 @@ export default class Home extends Component {
             <SquareMenu backgroundColor={home.menuTopLeft.background}
                         text={'Saperne di più'}
                         iconSource={icon}
-                        onPress={() => this.onSquareMenuPress('topleft')} />
+                        onPress={() => this.onSquareMenuPress(0)} />
             <SquareMenu backgroundColor={home.menuTopRight.background}
                         text={'Prevenzione'}
                         iconSource={icon}
-                        onPress={() => this.onSquareMenuPress('topright')} />
+                        onPress={() => this.onSquareMenuPress(1)} />
           </View>
           <View style={myStyle.menuRow}>
             <SquareMenu backgroundColor={home.menuBottomLeft.background}
                         text={'Diagnosi precoce'}
                         iconSource={icon}
-                        onPress={() => this.onSquareMenuPress('bottomleft')} />
+                        onPress={() => this.onSquareMenuPress(2)} />
             <SquareMenu backgroundColor={home.menuBottomRight.background}
                         text={'WikiLILT'}
                         iconSource={icon}
-                        onPress={() => this.onSquareMenuPress('bottomright')} />
+                        onPress={() => this.onSquareMenuPress(3)} />
           </View>
         </View>
         <View style={myStyle.belowMenuView}>

@@ -61,7 +61,7 @@
     }
 },
 {
-    "id": "ll_menu_topleft",
+    "id": "ll_menu_saperne",
     "style": "link_list",
     "title": "Test Link List",
     "content": {
@@ -73,32 +73,32 @@
                     "type": "link_list_item",
                     "title": "Informazioni",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_3"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cause e Fattori di rischio",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_1"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_4"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Dopo la terapia",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_2"
                 }
             ]
         }
     }
 },
 {
-    "id": "ll_menu_topright",
+    "id": "ll_menu_prevenzione",
     "style": "link_list",
     "title": "Test Link List",
     "content": {
@@ -129,7 +129,7 @@
     }
 },
 {
-    "id": "ll_menu_bottomleft",
+    "id": "ll_menu_diagnosi",
     "style": "link_list",
     "title": "Test Link List",
     "content": {
