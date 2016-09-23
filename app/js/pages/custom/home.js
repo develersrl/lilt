@@ -28,8 +28,14 @@ export default class Home extends Component {
 
 
   onSquareMenuPress(position) {
-    console.log(position);
     const { navigator, getRoute } = this.props;
+
+    // Hardcode navigation to glossary page
+    if (position === 'bottomright') {
+      navigator.push(getRoute('glossary'));
+      return;
+    }
+
     navigator.push(getRoute('#c_gen_1'));
   }
 
