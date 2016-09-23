@@ -29,14 +29,24 @@ export default class Home extends Component {
 
   onSquareMenuPress(position) {
     const { navigator, getRoute } = this.props;
+    let targetRoute = '';
 
-    // Hardcode navigation to glossary page
-    if (position === 'bottomright') {
-      navigator.push(getRoute('glossary'));
-      return;
+    switch (position) {
+    case 'topleft':
+      targetRoute = '#ll_menu_topleft';
+      break;
+    case 'topright':
+      targetRoute = '#ll_menu_topright';
+      break;
+    case 'bottomleft':
+      targetRoute = '#ll_menu_bottomleft';
+      break;
+    case 'bottomright':
+      targetRoute = 'glossary';
+      break;
     }
 
-    navigator.push(getRoute('#c_gen_1'));
+    navigator.push(getRoute(targetRoute));
   }
 
 

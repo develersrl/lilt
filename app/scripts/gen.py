@@ -65,9 +65,10 @@ def __gen_button(page_id, button_data):
 def __gen_link_list_item(page_id, item_data):
     linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
     return (
-        "<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
-        .format(item_data['title'],
-                item_data['caption'],
+        "<LinkListItem title={{\"{}\"}} caption={{\"{}\"}} "
+        "onLinkPress={{{}}} />"
+        .format(item_data['title'].encode('utf-8'),
+                item_data['caption'].encode('utf-8'),
                 linkcode))
 
 

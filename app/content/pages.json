@@ -61,7 +61,7 @@
     }
 },
 {
-    "id": "ll1",
+    "id": "ll_menu_topleft",
     "style": "link_list",
     "title": "Test Link List",
     "content": {
@@ -77,7 +77,7 @@
                 },
                 {
                     "type": "link_list_item",
-                    "title": "Cause e Fattori",
+                    "title": "Cause e Fattori di rischio",
                     "caption": "Capitolo 1 / Capitolo 2",
                     "link": "#9"
                 },
@@ -92,28 +92,78 @@
                     "title": "Dopo la terapia",
                     "caption": "Capitolo 1 / Capitolo 2",
                     "link": "#9"
-                },
+                }
+            ]
+        }
+    }
+},
+{
+    "id": "ll_menu_topright",
+    "style": "link_list",
+    "title": "Test Link List",
+    "content": {
+        "entries": {
+            "type": "array",
+            "enclosedInView": false,
+            "items": [
                 {
                     "type": "link_list_item",
-                    "title": "Informazioni",
+                    "title": "Stile di vita",
                     "caption": "Capitolo 1 / Capitolo 2",
                     "link": "#9"
                 },
                 {
                     "type": "link_list_item",
-                    "title": "Cause e Fattori",
+                    "title": "Allattamento al seno",
                     "caption": "Capitolo 1 / Capitolo 2",
                     "link": "#9"
                 },
                 {
                     "type": "link_list_item",
-                    "title": "Terapia",
+                    "title": "Terapia ormonale sostitutiva",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                }
+            ]
+        }
+    }
+},
+{
+    "id": "ll_menu_bottomleft",
+    "style": "link_list",
+    "title": "Test Link List",
+    "content": {
+        "entries": {
+            "type": "array",
+            "enclosedInView": false,
+            "items": [
+                {
+                    "type": "link_list_item",
+                    "title": "Cos'è la diagnosi precoce",
                     "caption": "Capitolo 1 / Capitolo 2",
                     "link": "#9"
                 },
                 {
                     "type": "link_list_item",
-                    "title": "Dopo la terapia",
+                    "title": "Lo screening organizzato",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Cosa fare a seconda dell'età",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Ho sentito qualcosa di diverso",
+                    "caption": "Capitolo 1 / Capitolo 2",
+                    "link": "#9"
+                },
+                {
+                    "type": "link_list_item",
+                    "title": "Approfondimenti diagnostici",
                     "caption": "Capitolo 1 / Capitolo 2",
                     "link": "#9"
                 }
