@@ -4,7 +4,10 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { api as stateApi } from '../../state';
+import { SquareMenu } from '../../blocks';
 import { pages } from '../../style';
+
+const { home } = pages;
 
 
 export default class Home extends Component {
@@ -38,16 +41,20 @@ export default class Home extends Component {
         </View>
         <View style={myStyle.menuView}>
           <View style={myStyle.menuRow}>
-            <View style={myStyle.menuCell}>
-            </View>
-            <View style={myStyle.menuCell}>
-            </View>
+            <SquareMenu backgroundColor={home.menuTopLeft.background}
+                        text={'Saperne di più'}
+                        circleSide={home.circlesSide} />
+            <SquareMenu backgroundColor={home.menuTopRight.background}
+                        text={'Prevenzione'}
+                        circleSide={home.circlesSide} />
           </View>
           <View style={myStyle.menuRow}>
-            <View style={myStyle.menuCell}>
-            </View>
-            <View style={myStyle.menuCell}>
-            </View>
+            <SquareMenu backgroundColor={home.menuBottomLeft.background}
+                        text={'Diagnosi precoce'}
+                        circleSide={home.circlesSide} />
+            <SquareMenu backgroundColor={home.menuBottomRight.background}
+                        text={'WikiLILT'}
+                        circleSide={home.circlesSide} />
           </View>
         </View>
         <View style={myStyle.belowMenuView}>
@@ -59,7 +66,6 @@ export default class Home extends Component {
 }
 
 
-const { home } = pages;
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -76,11 +82,6 @@ const myStyle = StyleSheet.create({
   menuRow: {
     flex: 1,
     flexDirection: 'row',
-  },
-  menuCell: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'blue',
   },
   belowMenuView: {
     height: home.belowMenuHeight,

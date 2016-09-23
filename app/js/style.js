@@ -247,6 +247,19 @@ const pages = {
     aboveMenuHeight: 100,
     menuHeight: 250,
     belowMenuHeight: 100,
+    circlesSide: 50,
+    menuTopLeft: {
+      background: '#FFE0D0',
+    },
+    menuTopRight: {
+      background: '#C1DBF8',
+    },
+    menuBottomLeft: {
+      background: '#74B3FA',
+    },
+    menuBottomRight: {
+      background: '#FF9C8D',
+    },
   },
 };
 
