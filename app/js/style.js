@@ -243,6 +243,11 @@ const pages = {
     titleFontSize: 16,
     bodyPadding: 10,
   },
+  home: {
+    aboveMenuHeight: 100,
+    menuHeight: 250,
+    belowMenuHeight: 100,
+  },
 };
 
 
