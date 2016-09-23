@@ -26,6 +26,14 @@ export default class Home extends Component {
       );
   }
 
+
+  onSquareMenuPress(position) {
+    console.log(position);
+    const { navigator, getRoute } = this.props;
+    navigator.push(getRoute('#c_gen_1'));
+  }
+
+
   render() {
     const labels = [
       'Il mio percorso di prevenzione',
@@ -33,6 +41,8 @@ export default class Home extends Component {
       'Ho sentito qualcosa che non va',
       'Sono in post terapia',
     ];
+
+    const icon = require('../../../images/transparent.png');
 
     return (
       <View style={myStyle.container}>
@@ -43,18 +53,22 @@ export default class Home extends Component {
           <View style={myStyle.menuRow}>
             <SquareMenu backgroundColor={home.menuTopLeft.background}
                         text={'Saperne di più'}
-                        circleSide={home.circlesSide} />
+                        iconSource={icon}
+                        onPress={() => this.onSquareMenuPress('topleft')} />
             <SquareMenu backgroundColor={home.menuTopRight.background}
                         text={'Prevenzione'}
-                        circleSide={home.circlesSide} />
+                        iconSource={icon}
+                        onPress={() => this.onSquareMenuPress('topright')} />
           </View>
           <View style={myStyle.menuRow}>
             <SquareMenu backgroundColor={home.menuBottomLeft.background}
                         text={'Diagnosi precoce'}
-                        circleSide={home.circlesSide} />
+                        iconSource={icon}
+                        onPress={() => this.onSquareMenuPress('bottomleft')} />
             <SquareMenu backgroundColor={home.menuBottomRight.background}
                         text={'WikiLILT'}
-                        circleSide={home.circlesSide} />
+                        iconSource={icon}
+                        onPress={() => this.onSquareMenuPress('bottomright')} />
           </View>
         </View>
         <View style={myStyle.belowMenuView}>

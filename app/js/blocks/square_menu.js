@@ -1,7 +1,10 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+
+import { blocks } from '../style';
+const { squareMenu } = blocks;
 
 
 export default class SquareMenu extends Component {
@@ -9,22 +12,24 @@ export default class SquareMenu extends Component {
     super(props);
 
     // Compute custom stylesheet
-    const { backgroundColor, circleSide } = this.props;
+    const { backgroundColor } = this.props;
     this.state = {
-      myStyle: styleCreator(backgroundColor, circleSide),
+      myStyle: styleCreator(backgroundColor),
     };
   }
 
   render() {
     const { myStyle } = this.state;
-    const { text } = this.props;
+    const { text, iconSource, onPress } = this.props;
 
     return (
-      <View style={myStyle.container}>
+      <TouchableOpacity style={myStyle.container}
+                        activeOpacity={squareMenu.pressedOpacity}
+                        onPress={onPress}>
         <Image style={myStyle.image}
-               source={require('../../images/transparent.png')} />
+               source={iconSource} />
         <Text style={myStyle.text}>{text}</Text>
-      </View>
+      </TouchableOpacity>
       );
   }
 }
@@ -33,11 +38,12 @@ export default class SquareMenu extends Component {
 SquareMenu.propTypes = {
   backgroundColor: React.PropTypes.string.isRequired,
   text: React.PropTypes.string.isRequired,
-  circleSide: React.PropTypes.number.isRequired,
+  iconSource: React.PropTypes.number.isRequired,
+  onPress: React.PropTypes.func.isRequired,
 };
 
 
-const styleCreator = (backgroundColor, circleSide) => StyleSheet.create({
+const styleCreator = (backgroundColor) => StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -45,13 +51,13 @@ const styleCreator = (backgroundColor, circleSide) => StyleSheet.create({
     backgroundColor,
   },
   image: {
-    borderWidth: 1.5,
+    borderWidth: squareMenu.circleBorderWidth,
     borderColor: 'white',
-    borderRadius: circleSide / 2,
-    width: circleSide,
-    height: circleSide,
+    borderRadius: squareMenu.circleSide / 2,
+    width: squareMenu.circleSide,
+    height: squareMenu.circleSide,
     resizeMode: 'contain',
-    marginBottom: 7,
+    marginBottom: squareMenu.circleTextGap,
   },
   text: {
     color: 'white',

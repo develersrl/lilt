@@ -173,6 +173,12 @@ const blocks = {
     circleSelected: '#EB8478',
     circleUnselected: '#B6CFE9',
   },
+  squareMenu: {
+    pressedOpacity: 0.8,
+    circleTextGap: 7,
+    circleBorderWidth: 1.5,
+    circleSide: 50,
+  },
 };
 
 
@@ -247,7 +253,6 @@ const pages = {
     aboveMenuHeight: 100,
     menuHeight: 250,
     belowMenuHeight: 100,
-    circlesSide: 50,
     menuTopLeft: {
       background: '#FFE0D0',
     },
