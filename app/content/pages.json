@@ -73,25 +73,25 @@
                     "type": "link_list_item",
                     "title": "Informazioni",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_3"
+                    "link": "#c_gen_8"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cause e Fattori di rischio",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_1"
+                    "link": "#c_gen_3"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_4"
+                    "link": "#c_gen_11"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Dopo la terapia",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_2"
+                    "link": "#c_gen_6"
                 }
             ]
         }
@@ -110,19 +110,19 @@
                     "type": "link_list_item",
                     "title": "Stile di vita",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_10"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Allattamento al seno",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_1"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia ormonale sostitutiva",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_12"
                 }
             ]
         }
@@ -141,31 +141,31 @@
                     "type": "link_list_item",
                     "title": "Cos'è la diagnosi precoce",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_5"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Lo screening organizzato",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_9"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cosa fare a seconda dell'età",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_4"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Ho sentito qualcosa di diverso",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_7"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Approfondimenti diagnostici",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#9"
+                    "link": "#c_gen_2"
                 }
             ]
         }
