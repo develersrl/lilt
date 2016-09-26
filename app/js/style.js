@@ -173,6 +173,12 @@ const blocks = {
     circleSelected: '#EB8478',
     circleUnselected: '#B6CFE9',
   },
+  squareMenu: {
+    pressedOpacity: 0.8,
+    circleTextGap: 7,
+    circleBorderWidth: 1.5,
+    circleSide: 50,
+  },
 };
 
 
@@ -242,6 +248,23 @@ const pages = {
     titleFont: 'GillSans-Bold',
     titleFontSize: 16,
     bodyPadding: 10,
+  },
+  home: {
+    aboveMenuHeight: 100,
+    menuHeight: 250,
+    belowMenuHeight: 100,
+    menuTopLeft: {
+      background: '#FFE0D0',
+    },
+    menuTopRight: {
+      background: '#C1DBF8',
+    },
+    menuBottomLeft: {
+      background: '#74B3FA',
+    },
+    menuBottomRight: {
+      background: '#FF9C8D',
+    },
   },
 };
 

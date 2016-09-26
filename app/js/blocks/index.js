@@ -7,6 +7,7 @@ import Stripe from './stripe';
 import TextInput from './textinput';
 import Button2 from './button2';
 import PickerField from './pickerfield';
+import SquareMenu from './square_menu';
 
 module.exports = {
   Button,
@@ -15,4 +16,5 @@ module.exports = {
   TextInput,
   Button2,
   PickerField,
+  SquareMenu,
 };

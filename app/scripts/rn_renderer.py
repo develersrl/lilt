@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import cgi
 import mistune
 from PIL import Image
 
@@ -87,7 +88,8 @@ class RNRenderer(mistune.Renderer):
 
         :param text: text content.
         """
-        return '<Text style={{markdown.text}}>{}</Text>'.format(txt)
+        return '<Text style={{markdown.text}}>{}</Text>'.format(
+            self.escape(txt))
 
 
     def emphasis(self, text):
@@ -408,5 +410,5 @@ class RNRenderer(mistune.Renderer):
         """Rendering escape sequence.
         :param text: text content.
         """
-        return escape(text)
+        return cgi.escape(text)
     # -------------------------------------------------------------------------

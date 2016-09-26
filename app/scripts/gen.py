@@ -65,9 +65,10 @@ def __gen_button(page_id, button_data):
 def __gen_link_list_item(page_id, item_data):
     linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
     return (
-        "<LinkListItem title={{'{}'}} caption={{'{}'}} onLinkPress={{{}}} />"
-        .format(item_data['title'],
-                item_data['caption'],
+        "<LinkListItem title={{\"{}\"}} caption={{\"{}\"}} "
+        "onLinkPress={{{}}} />"
+        .format(item_data['title'].encode('utf-8'),
+                item_data['caption'].encode('utf-8'),
                 linkcode))
 
 
@@ -81,11 +82,11 @@ def __gen_image_require(page_id, image_data):
 
 
 def __gen_pdf(page_id, pdf_data):
-    return pdf_data['name']
+    return pdf_data['name'].encode('utf-8')
 
 
 def __gen_raw_text(page_id, text_data):
-    return text_data['value']
+    return text_data['value'].encode('utf-8')
 
 
 def __gen_array(page_id, array_data):
@@ -210,7 +211,7 @@ def __gen_navigation():
         # store route code
         routes_list.append("'{}': {{ title: '{}', component: {} }}".format(
             '#{}'.format(page_data['id']),
-            page_data.get('title', ''),
+            page_data.get('title', '').encode('utf-8'),
             comp_class))
 
     # assemble routes data
@@ -230,8 +231,8 @@ def __gen_navigation():
 
     # compute jinja template replacements
     replacements = {
-        'generatedRoutes': routes_code,
-        'glossaryBindings': bindings_code
+        'generatedRoutes': routes_code.decode('utf-8'),
+        'glossaryBindings': bindings_code.decode('utf-8')
     }
 
     # generate navigator_data.js file
@@ -240,8 +241,9 @@ def __gen_navigation():
         'navigator_data.js')
 
     with open(target_file, 'w') as f:
-        f.write(j2_env.get_template('navigator_data.tmpl.js').render(
-            **replacements))
+        tmpl = j2_env.get_template('navigator_data.tmpl.js')
+        rendered_tmpl = tmpl.render(**replacements)
+        f.write(rendered_tmpl.encode('utf-8'))
 
     return True
 

@@ -32,7 +32,7 @@ const customRoutes = {
 const routes = { ...generatedRoutes, ... customRoutes };
 
 // the start route key
-const initialRouteId = "glossary";
+const initialRouteId = "home";
 
 /**
   Obtain a navigation route from route id, which corresponds to "page" id in
