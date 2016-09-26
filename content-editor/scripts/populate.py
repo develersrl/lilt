@@ -137,11 +137,17 @@ def get_contents_subsections(section_str):
     return dict_list
 
 def get_glossary_subsections(section_str):
+    # Replace non-breaking spaces with normal whitespace characters, otherwise
+    # glossary terms recognition could not work.
+    # See https://stackoverflow.com/questions/2594810 for further details
+    section_str = section_str.replace('\xc2\xa0', ' ')
+
     regex = re.compile(r"""
-        \*\* # Glossary terms are bold, so they are enclosed in **
-        (.+) # We caputre the glossary term itself
-        \*\* # These are the ending ** that enclose the glossary term
-        \:\s # Glossary terms are followed by a colon and a space
+        \*\*
+        ([^\*\*]+)
+        \*\*
+        (?:[\s\w\(\)]*)  # do not catch other text before the colon character
+        \:\s
     """, re.VERBOSE)
     raw_list = re.split(regex, section_str)
     final_list = []
@@ -165,9 +171,16 @@ def get_glossary_subsections(section_str):
     # We generate a list of dictionaries for ease of use later on
     dict_list = []
     for idx in range(len(final_list) / 2):
+        term = final_list[idx * 2]
+        definition = final_list[idx * 2 + 1]
+
+        # Sometimes the "term" could contain newlines (pandoc artifacts?)
+        # so we remove them
+        term = ' '.join(term.splitlines())
+
         dict_list.append({
-            "term": final_list[idx*2],
-            "definition": final_list[idx*2 + 1]
+            "term": term,
+            "definition": definition
         })
 
     return dict_list
