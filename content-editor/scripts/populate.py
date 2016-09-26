@@ -9,7 +9,11 @@ import os
 import re
 from shutil import rmtree
 
-CONTENT_SECTION_NAME = "SAPERNE DI PIÙ"
+CONTENT_SECTION_NAMES = [
+    'SAPERNE DI PIÙ',
+    'PREVENZIONE',
+    'DIAGNOSI PRECOCE'
+    ]
 GLOSSARY_SECTION_NAME = "WIKI"
 
 CONTENTS_DIR_NAME = "Contenuti"
@@ -58,8 +62,10 @@ def run(args):
 def analyze_file(md_file):
     try:
         with open(md_file, 'r') as f:
-            return (read_section(f, CONTENT_SECTION_NAME),
-                    read_section(f, GLOSSARY_SECTION_NAME))
+            contents = ''
+            for content_section_name in CONTENT_SECTION_NAMES:
+                contents += read_section(f, content_section_name)
+            return (contents, read_section(f, GLOSSARY_SECTION_NAME))
     except IOError as e:
         raise SystemExit("Error opening {}: {}".format(md_file, e.args[1]))
 
