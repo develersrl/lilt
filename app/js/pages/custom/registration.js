@@ -5,7 +5,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   LayoutAnimation,
   ActivityIndicator,
 } from 'react-native';

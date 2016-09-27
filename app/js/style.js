@@ -179,6 +179,23 @@ const blocks = {
     circleBorderWidth: 1.5,
     circleSide: 50,
   },
+  answer: {
+    circleViewWidth: 50,
+    circleWidth: 16,
+    backgroundColor: '#FF9C8D',
+    answerPadding: 10,
+    color: 'white',
+    fontSize: 14,
+    selectionUnderlay: '#FFFFFF11',
+  },
+  arrowMenu: {
+    imageWidth: 34,
+    textGap: 15,
+    textColor: '#D93D56',
+    fontSize: 14,
+    activeOpacity: 0.6,
+    textDisabledColor: '#666666',
+  },
 };
 
 
@@ -265,6 +282,18 @@ const pages = {
     menuBottomRight: {
       background: '#FF9C8D',
     },
+  },
+  question: {
+    backgroundColor: '#C1DBF8',
+    bodyPadding: 30,
+    questionPadding: 20,
+    questionFontSize: 16,
+    answersSpacing: 20,
+    circlesWidth: 8,
+    circlesSpacing: 8,
+    circlesPadding: 30,
+    circleSelectedColor: '#FF9C8D',
+    circleUnselectedColor: '#A8A8A8',
   },
 };
 

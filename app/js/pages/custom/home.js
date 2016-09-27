@@ -27,6 +27,21 @@ export default class Home extends Component {
   }
 
 
+  onProfilePress() {
+    const { navigator, getRoute } = this.props;
+    navigator.push(getRoute('registration'));
+  }
+
+
+  renderProfileLink() {
+    return (
+      <TouchableOpacity onPress={this.onProfilePress.bind(this)}>
+        <Text style={myStyle.fakeLink}>Profilo</Text>
+      </TouchableOpacity>
+      );
+  }
+
+
   onSquareMenuPress(position) {
     const { navigator, getRoute } = this.props;
     const routes = [
@@ -79,6 +94,8 @@ export default class Home extends Component {
         </View>
         <View style={myStyle.belowMenuView}>
           {labels.map((l) => this.renderFakeLink(l))}
+          <View style={{height: 20}} />
+          {this.renderProfileLink()}
         </View>
       </View>
       );
