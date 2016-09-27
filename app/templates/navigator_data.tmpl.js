@@ -21,9 +21,18 @@ const customRoutes = {
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
   'registration': {
-    showBar: false,
     title: 'REGISTRAZIONE',
     component: pages.custom.Registration,
+    props: { mode: 'Registration' },
+  },
+  'editProfile': {
+    title: 'MODIFICA DATI',
+    component: pages.custom.Registration,
+    props: { mode: 'Edit' },
+  },
+  'profile': {
+    title: 'PROFILO',
+    component: pages.custom.Profile,
   },
 };
 /* eslint-enable quote-props */
@@ -40,10 +49,20 @@ const initialRouteId = "home";
   We pass each route a pointer to getRoute function itself so that each route
   can switch page by calling "this.props.getRoute(<route_id>)".
  */
-const getRoute = (routeId) => {
+const getRoute = (routeId, customProps) => {
+  const targetRoute = routes[routeId];
+
+  const props = {
+    getRoute,
+    getRouteForGlossaryWord,
+    ...targetRoute.props,
+    ...customProps,
+  };
+
   return {
-    ...routes[routeId],
-    passProps: { getRoute, getRouteForGlossaryWord },
+    title: targetRoute.title,
+    component: targetRoute.component,
+    passProps: props,
   };
 };
 

@@ -142,6 +142,14 @@ const _userDataSender = () => {
 };
 
 
+const userData = (standard) => {
+  if (standard)
+    return state.user.data;
+  else
+    return null;  // should return questionnaire data
+};
+
+
 const api = {
   init,
   test,
@@ -151,6 +159,7 @@ const api = {
   getState: () => state,
   isSendingUserData,
   userExists,
+  userData,
 };
 /* -------------------------------------------------------------------------- */
 

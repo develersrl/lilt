@@ -29,7 +29,8 @@ export default class Home extends Component {
 
   onProfilePress() {
     const { navigator, getRoute } = this.props;
-    navigator.push(getRoute('registration'));
+    const targetRoute = stateApi.userExists() ? 'profile' : 'registration';
+    navigator.push(getRoute(targetRoute));
   }
 
 

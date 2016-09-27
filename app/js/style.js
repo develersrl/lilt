@@ -295,6 +295,23 @@ const pages = {
     circleSelectedColor: '#FF9C8D',
     circleUnselectedColor: '#A8A8A8',
   },
+  profile: {
+    bodyPadding: 20,
+    iconWidth: 100,
+    iconHeight: 120,
+    infoPaddingTopBottom: 16,
+    infoPaddingLeftRight: 10,
+    infoBackground: '#C1DBF8',
+    infoSpacing: 10,
+    textColor: 'white',
+    labelsFontSize: 16,
+    valuesFontSize: 16,
+    explanationFontSize: 14,
+    explanationColor: '#8E8E8E',
+    editBtnBackground: '#FF9C8D',
+    editBtnFontSize: 14,
+    editBtnActiveOpacity: 0.8,
+  },
 };
 
 

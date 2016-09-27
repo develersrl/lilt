@@ -79,10 +79,14 @@ export default class Registration extends Component {
 
 
   render() {
+    const { mode } = this.props;
     const { email, name, surname, address, age, cap } = this.state.user;
     const cb = this.onFieldChange.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
     const makePickerCb = (field) => (opt) => cb(field, opt.label);
+    let buttonText = 'INVIA E INIZIA QUESTIONARIO';
+    if (mode === 'Edit')
+      buttonText = 'INVIA E RIPETI QUESTIONARIO';
 
     const ageData = [
       { key: 0, label: 'meno di 45 anni' },
@@ -137,7 +141,8 @@ export default class Registration extends Component {
           {this.renderErrorString()}
           <View style={myStyle.buttonRow}>
             <View style={myStyle.buttonView}>
-              <Button2 text={'INVIA'} onPress={this.onSendPress.bind(this)}/>
+              <Button2 text={buttonText}
+                       onPress={this.onSendPress.bind(this)}/>
             </View>
             {this.renderActivityIndicator()}
           </View>
@@ -146,6 +151,11 @@ export default class Registration extends Component {
       );
   }
 }
+
+
+Registration.propTypes = {
+  mode: React.PropTypes.oneOf(['Registration', 'Edit']).isRequired,
+};
 
 
 const myStyle = StyleSheet.create({
@@ -171,7 +181,6 @@ const myStyle = StyleSheet.create({
     height: common.form.fieldHeight,
   },
   buttonView: {
-    width: 100,
     marginLeft: 10,
   },
 });

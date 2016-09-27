@@ -26,12 +26,13 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#C1DBF8',
-    height: form.fieldHeight,
+    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
     color: 'white',
-    fontWeight: 'bold',
+    fontFamily: 'GillSans',
+    fontSize: 14,
   },
 });
