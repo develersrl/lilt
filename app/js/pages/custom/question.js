@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import { api as stateApi } from '../../state';
 import { Answer, ArrowMenu } from '../../blocks';
 import { pages } from '../../style';
 const { question } = pages;
@@ -11,7 +12,20 @@ const { question } = pages;
 export default class Question extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedIndex: -1 };
+    const { targetField, answers } = this.props;
+    const answer = stateApi.getAnswer(targetField);
+    let index = -1;
+
+    if (answer !== null && answer !== '') {
+      for (let i = 0; i < answers.length; ++i) {
+        if (answers[i].value === answer) {
+          index = i;
+          break;
+        }
+      }
+    }
+
+    this.state = { selectedIndex: index };
   }
 
 
@@ -19,9 +33,7 @@ export default class Question extends Component {
     return (
       <View style={myStyle.questionView}>
         <Text style={myStyle.questionText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Nunc dapibus id orci feugiat vulputate. Fusce quis bibendum erat.
-          Donec pretium convallis consectetur.
+          {this.props.questionText}
         </Text>
       </View>
       );
@@ -30,6 +42,34 @@ export default class Question extends Component {
 
   onAnswerSelected(idx) {
     this.setState({ selectedIndex: idx });
+  }
+
+
+  onForwardPress() {
+    // Note: if this callback is fired there is always a valid selection
+    const {
+      answers,
+      targetField,
+      questionIndex,
+      questionsCount,
+      navigator,
+      getRoute,
+    } = this.props;
+    const answerValue = answers[this.state.selectedIndex].value;
+
+    // Save selected answer in answers "working copy"
+    stateApi.saveAnswer(targetField, answerValue);
+
+    if (questionIndex < questionsCount - 1) {
+      // If there is another question then switch page
+      const nextQuestionRoute = '__question' + (questionIndex + 1) + '__';
+      navigator.push(getRoute(nextQuestionRoute));
+    }
+    else {
+      // If we are on the last question page
+      stateApi.commitAnswers()
+        .then(() => navigator.popToTop());
+    }
   }
 
 
@@ -46,25 +86,20 @@ export default class Question extends Component {
 
 
   renderAnswers() {
-    const answers = [
-      'Risposta 1',
-      'Risposta 2',
-      'Risposta 3',
-      'Risposta 4',
-    ];
+    const { answers } = this.props;
 
     return (
       <View>
-        {answers.map((txt, idx) => this.renderAnswer.bind(this)(txt, idx))}
+        {answers.map((a, idx) => this.renderAnswer.bind(this)(a.text, idx))}
       </View>
       );
   }
 
 
   renderBottomBarCircle(idx) {
-    const questionIndex = 1;
-
+    const { questionIndex } = this.props;
     const circleStyle = [myStyle.circle];
+
     if (idx === questionIndex)
       circleStyle.push(myStyle.circleSelected);
     else
@@ -78,7 +113,7 @@ export default class Question extends Component {
 
 
   renderBottomBar() {
-    const questionsCount = 5;
+    const { questionsCount } = this.props;
     const circles = [];
 
     for (let i = 0; i < questionsCount; ++i)
@@ -93,8 +128,14 @@ export default class Question extends Component {
 
 
   renderArrow() {
-    const enabled = this.state.selectedIndex >= 0;
-    return <ArrowMenu text={'Avanti'} enabled={enabled} />;
+    const { questionIndex, questionsCount } = this.props;
+    const enabled = (this.state.selectedIndex >= 0);
+    const lastQuestion = (questionIndex === questionsCount - 1);
+
+    return <ArrowMenu text={lastQuestion ? 'Fine' : 'Avanti'}
+                      enabled={enabled}
+                      onPress={this.onForwardPress.bind(this)}
+                      />;
   }
 
 
@@ -109,6 +150,20 @@ export default class Question extends Component {
       );
   }
 }
+
+
+Question.propTypes = {
+  questionText: React.PropTypes.string.isRequired,
+  answers: React.PropTypes.arrayOf(React.PropTypes.shape({
+    text: React.PropTypes.string,
+    value: React.PropTypes.string,
+  })).isRequired,
+  questionsCount: React.PropTypes.number.isRequired,
+  questionIndex: React.PropTypes.number.isRequired,
+  targetField: React.PropTypes.string.isRequired,
+  navigator: React.PropTypes.object.isRequired,
+  getRoute: React.PropTypes.func.isRequired,
+};
 
 
 const myStyle = StyleSheet.create({

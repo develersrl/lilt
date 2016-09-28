@@ -6,6 +6,7 @@ import Glossary from './glossary';
 import Registration from './registration';
 import Question from './question';
 import Profile from './profile';
+import MessagePage from './message_page';
 
 module.exports = {
   Home,
@@ -14,4 +15,5 @@ module.exports = {
   Registration,
   Question,
   Profile,
+  MessagePage,
 };

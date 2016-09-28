@@ -50,11 +50,13 @@ export default class Registration extends Component {
 
 
   onSendPress() {
+    const { navigator, getRoute } = this.props;
     const error = stateApi.userValidate(this.state.user);
     this.setState({ ...this.state, error });
 
     if (error === 'OK') {
-      stateApi.userRegister(this.state.user);
+      stateApi.userRegister(this.state.user)
+        .then(() => navigator.push(getRoute('__question0__')));
     }
   }
 

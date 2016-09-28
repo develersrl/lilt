@@ -1,6 +1,8 @@
 'use strict';
 
 import * as pages from '../pages';
+import * as state from '../state';
+
 
 // -----------------------------------------------------------------------------
 /*
@@ -38,7 +40,11 @@ const customRoutes = {
 /* eslint-enable quote-props */
 
 // application routes is the union of generated routes and custom routes
-const routes = { ...generatedRoutes, ... customRoutes };
+const routes = {
+  ...generatedRoutes,
+  ...customRoutes,
+  ...state.getQuestionsRoutes(pages),
+};
 
 // the start route key
 const initialRouteId = "home";

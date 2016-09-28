@@ -1,0 +1,46 @@
+[
+  {
+    "targetField": "question0",
+    "question": "Testo domanda 1",
+    "answers": [
+      { "text": "Risposta 1", "value": "R1" },
+      { "text": "Risposta 2", "value": "R2" },
+      { "text": "Risposta 3", "value": "R3" },
+      { "text": "Risposta 4", "value": "R4" },
+      { "text": "Risposta 5", "value": "R5" },
+    ],
+  },
+  {
+    "targetField": "question1",
+    "question": "Testo domanda 2",
+    "answers": [
+      { "text": "Risposta 1", "value": "R1" },
+      { "text": "Risposta 2", "value": "R2" },
+      { "text": "Risposta 3", "value": "R3" },
+      { "text": "Risposta 4", "value": "R4" },
+      { "text": "Risposta 5", "value": "R5" },
+    ],
+  },
+  {
+    "targetField": "question2",
+    "question": "Testo domanda 3",
+    "answers": [
+      { "text": "Risposta 1", "value": "R1" },
+      { "text": "Risposta 2", "value": "R2" },
+      { "text": "Risposta 3", "value": "R3" },
+      { "text": "Risposta 4", "value": "R4" },
+      { "text": "Risposta 5", "value": "R5" },
+    ],
+  },
+  {
+    "targetField": "question3",
+    "question": "Testo domanda 4",
+    "answers": [
+      { "text": "Risposta 1", "value": "R1" },
+      { "text": "Risposta 2", "value": "R2" },
+      { "text": "Risposta 3", "value": "R3" },
+      { "text": "Risposta 4", "value": "R4" },
+      { "text": "Risposta 5", "value": "R5" },
+    ],
+  }
+];

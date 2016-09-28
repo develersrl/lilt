@@ -12,6 +12,7 @@ import {
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
 import { removeStoredUser, dataSenderRetryInterval } from './config';
+import { getAnswersInitialState } from './questions_data';
 /* -------------------------------------------------------------------------- */
 
 
@@ -36,6 +37,7 @@ const initialState = {
       age: '',
       cap: '',
     },
+    savedAnswers: getAnswersInitialState(),
   },
 };
 
@@ -89,7 +91,7 @@ const saveRegistrationResult = (ok) => {
 
 
 const userRegister = (userObj) => {
-  Promise.resolve()
+  return Promise.resolve()
     .then(() => {
       _setState({
         ...state,
@@ -112,7 +114,11 @@ const userInit = () => {
     .then(() => removeStoredUser ? removeLocal('liltUser') : {})
     .then(() => localKeyExists('liltUser'))
     .then((b) => b ? loadLocal('liltUser') : saveLocal('liltUser', initState))
-    .then((localUser) => _setState({ ...state, user: localUser }));
+    .then((localUser) => _setState({
+      ...state,
+      user: localUser,
+      answers: { ...localUser.savedAnswers },
+    }));
 };
 
 
@@ -150,6 +156,18 @@ const userData = (standard) => {
 };
 
 
+const getAnswer = (targetField) => state.answers[targetField];
+
+const saveAnswer = (targetField, answerValue) => {
+  state.answers[targetField] = answerValue;
+};
+
+const commitAnswers = () => {
+  state.user.savedAnswers = { ...state.answers };
+  return saveLocal('liltUser', state.user);
+};
+
+
 const api = {
   init,
   test,
@@ -160,6 +178,9 @@ const api = {
   isSendingUserData,
   userExists,
   userData,
+  getAnswer,
+  saveAnswer,
+  commitAnswers,
 };
 /* -------------------------------------------------------------------------- */
 
