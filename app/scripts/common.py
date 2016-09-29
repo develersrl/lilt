@@ -17,6 +17,15 @@ content_dir = os.path.join(app_dir, 'content')
 # Generation script takes pages data from this directory
 content_pages_dir = os.path.join(content_dir, 'pages')
 
+# App images dir
+app_images_dir = os.path.join(app_dir, 'images')
+
+# Where to place asset catalogs (es. app icons and launchscreens)
+asset_catalogs_dir = os.path.join(app_images_dir, 'catalogs')
+
+# Full path to the application icon
+app_icon_fn = os.path.join(app_images_dir, 'app-icon.png')
+
 # Full path to json file containing pages description
 content_json_fn = os.path.join(content_dir, 'pages.json')
 
