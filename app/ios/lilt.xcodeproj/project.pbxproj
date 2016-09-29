@@ -1003,6 +1003,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = it.legatumori.liltmobile;
 				PRODUCT_NAME = lilt;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1033,6 +1034,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = it.legatumori.liltmobile;
 				PRODUCT_NAME = lilt;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
