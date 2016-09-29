@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "flow": "./node_modules/.bin/flow check",
     "gen": "python scripts/gen.py",
-    "sync-tableview": "rsync -avh ../../../contrib/react-native-tableview/ ./node_modules/react-native-tableview/"
+    "sync-tableview": "rsync -avh ../../../contrib/react-native-tableview/ ./node_modules/react-native-tableview/",
+    "generate-asset-catalogs": "python scripts/generate_asset_catalogs.py"
   },
   "dependencies": {
     "react": "^15.3.1",
