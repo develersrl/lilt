@@ -13,6 +13,7 @@ import common
 ios_catalogs_dir = os.path.join(common.asset_catalogs_dir, 'ios')
 android_catalogs_dir = os.path.join(common.asset_catalogs_dir, 'android')
 ios_app_icons_dir = os.path.join(ios_catalogs_dir, 'app-icons')
+ios_launchscreens_dir = os.path.join(ios_catalogs_dir, 'launchscreens')
 
 # iOS app icon sizes
 ios_app_icons = [
@@ -32,6 +33,24 @@ ios_app_icons = [
     ('83-5pt-2x', [167, 167])
 ]
 
+ios_launch_images = [
+    ('iphone-portrait-1x', [320, 480]),
+    ('iphone-portrait-2x', [640, 960]),
+    ('iphone-portrait-retina-4', [640, 1136]),
+    ('ipad-portrait-no-status-bar-1x', [768, 1004]),
+    ('ipad-portrait-no-status-bar-2x', [1536, 2048]),
+    ('ipad-portrait-1x', [768, 1024]),
+    ('ipad-portrait-2x', [1536, 2048]),
+    ('ipad-landscape-no-status-bar-1x', [1024, 748]),
+    ('ipad-landscape-no-status-bar-2x', [2048, 1496]),
+    ('ipad-landscape-1x', [1024, 768]),
+    ('ipad-landscape-2x', [2048, 1536]),
+    ('iphone-portrait-retina-hd-55', [1242, 2208]),
+    ('iphone-portrait-retina-hd-47', [750, 1334]),
+    ('iphone-landscape-retina-hd-55', [2208, 1242]),
+    ('ipad-pro-12', [2048, 2732])
+]
+
 
 def prepare_folders():
     # Remove the current catalog
@@ -41,7 +60,7 @@ def prepare_folders():
     os.makedirs(common.asset_catalogs_dir)
 
     # Create needed directories
-    dirs_to_create = [ios_app_icons_dir]
+    dirs_to_create = [ios_app_icons_dir, ios_launchscreens_dir]
     for path in dirs_to_create:
         os.makedirs(path)
 
@@ -64,12 +83,39 @@ def generate_app_icons():
     generate_ios_app_icons()
 
 
+def assemble_launchscreen(size):
+    image = Image.open(common.launchscreen_base_fn)
+    return image.resize(size, Image.ANTIALIAS)
+
+
+def generate_ios_launchscreens():
+    print 'Generating iOS Launch Screens..'
+    for (desc, size) in ios_launch_images:
+        target_fn = os.path.join(ios_launchscreens_dir, desc + '.png')
+        try:
+            print '\tGenerating launchscreen size {}x{} ({})'.format(
+                size[0], size[1], desc)
+            im = assemble_launchscreen(size)
+            im.save(target_fn)
+        except IOError:
+            print 'Cannot create launchscreen "{}"'.format(desc)
+
+
+def generate_launchscreens():
+    generate_ios_launchscreens()
+
+
 if __name__ == '__main__':
     if not os.path.isfile(common.app_icon_fn):
         print 'Cannot find app icon file'
         sys.exit(1)
 
+    if not os.path.isfile(common.launchscreen_base_fn):
+        print 'Cannot find launch screen file'
+        sys.exit(1)
+
     prepare_folders()
     generate_app_icons()
+    generate_launchscreens()
 
     sys.exit(0)
