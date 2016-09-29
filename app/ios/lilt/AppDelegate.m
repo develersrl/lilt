@@ -34,28 +34,45 @@
 #if DEBUG
   
   // In debug/dev mode we retrieve the javascript bundle from packager
-  jsCodeLocation = [NSURL URLWithString:@"http://10.3.16.144:8081/index.ios.bundle?platform=ios&dev=true"];
+  
+  // fill "addr" with packager address (default is localhost:8081, otherwise
+  // it is filled from LILT_APP_PACKAGER_APP environment variable)
+  NSMutableString* addr = [NSMutableString stringWithString:@"localhost:8081"];
+  NSDictionary* envDict = [[NSProcessInfo processInfo] environment];
+  NSString* envAddr = [envDict objectForKey:@"LILT_APP_PACKAGER_ADDRESS"];
+  if (envAddr != nil)
+    [addr setString:envAddr];
+  
+  NSString* jsBundleURL = [NSString stringWithFormat:
+                           @"http://%@/index.ios.bundle?platform=ios&dev=true",
+                           addr
+                           ];
+  
+  jsCodeLocation = [NSURL URLWithString:jsBundleURL];
 
 #else
   
   // In release/production mode we use pre-bundled file from disk
-  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  jsCodeLocation = [[NSBundle mainBundle]
+                    URLForResource:@"main"
+                    withExtension:@"jsbundle"
+                    ];
 
 #endif
   
   RCTRootView *rootView = [[RCTRootView alloc]
-    initWithBundleURL:jsCodeLocation
-    moduleName:@"lilt"
-    initialProperties:nil
-    launchOptions:launchOptions
-    ];
+                           initWithBundleURL:jsCodeLocation
+                           moduleName:@"lilt"
+                           initialProperties:nil
+                           launchOptions:launchOptions
+                           ];
   
   rootView.backgroundColor = [[UIColor alloc]
-    initWithRed:1.0f
-    green:1.0f
-    blue:1.0f
-    alpha:1
-    ];
+                              initWithRed:1.0f
+                              green:1.0f
+                              blue:1.0f
+                              alpha:1
+                              ];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController* rootViewController = [UIViewController new];
