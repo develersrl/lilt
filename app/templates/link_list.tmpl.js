@@ -1,8 +1,16 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
-import { LinkListItem, Button } from '../../blocks';
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  ScrollView,
+  Text,
+} from 'react-native';
+
+import { LinkListItem } from '../../blocks';
 import { common } from '../../style';
 
 
@@ -12,6 +20,7 @@ export default class LinkList extends Component {
     const { flexible } = common;
 
     const loremIpsum = "Lorem Ipsum is simply dummy text of the printing";
+    const title = "{{title}}";
 
     return (
       <View style={[flexible]}>
@@ -20,6 +29,9 @@ export default class LinkList extends Component {
         <ScrollView style={myStyle.contentView}
                     bounces={false}
                     showsVerticalScrollIndicator={false}>
+          <View style={myStyle.titleView}>
+            <Text style={myStyle.titleText}>{title}</Text>
+          </View>
           {{entries}}
         </ScrollView>
       </View>
@@ -42,5 +54,15 @@ const myStyle = StyleSheet.create({
     marginLeft: 60,
     marginRight: 20,
     marginTop: 20,
+  },
+  titleView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  titleText: {
+    color: '#FF9C8D',
+    fontFamily: 'GillSans-Bold',
+    fontSize: 13,
   },
 });

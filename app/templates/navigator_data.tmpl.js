@@ -19,7 +19,11 @@ import * as state from '../state';
 
 /* eslint-disable quote-props */
 const customRoutes = {
-  'home': { title: 'LILT App', component: pages.custom.Home },
+  'home': {
+    title: 'LILT App',
+    component: pages.custom.Home,
+    props: { barVisible: false },
+  },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'Glossary', component: pages.custom.Glossary },
   'registration': {

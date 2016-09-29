@@ -7,10 +7,11 @@ import { View, Text } from 'react-native';
 export default class LeftRight extends Component {
   render() {
     const { route } = this.props;
-    const { showBar } = route;
-    const barVisible = (showBar === undefined || showBar);
+    const { passProps } = route;
+    const { barVisible } = passProps;
+    const showBar = (barVisible === undefined || barVisible);
 
-    if (!barVisible)
+    if (!showBar)
       return null;
 
     return (

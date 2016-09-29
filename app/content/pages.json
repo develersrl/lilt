@@ -63,8 +63,12 @@
 {
     "id": "ll_menu_saperne",
     "style": "link_list",
-    "title": "Test Link List",
+    "title": "SAPERNE DI PIU'",
     "content": {
+        "title": {
+            "type": "raw_text",
+            "value": "SAPERNE DI PIU'"
+        },
         "entries": {
             "type": "array",
             "enclosedInView": false,
@@ -100,8 +104,12 @@
 {
     "id": "ll_menu_prevenzione",
     "style": "link_list",
-    "title": "Test Link List",
+    "title": "PREVENZIONE",
     "content": {
+        "title": {
+            "type": "raw_text",
+            "value": "PREVENZIONE"
+        },
         "entries": {
             "type": "array",
             "enclosedInView": false,
@@ -131,8 +139,12 @@
 {
     "id": "ll_menu_diagnosi",
     "style": "link_list",
-    "title": "Test Link List",
+    "title": "DIAGNOSI PRECOCE",
     "content": {
+        "title": {
+            "type": "raw_text",
+            "value": "DIAGNOSI PRECOCE"
+        },
         "entries": {
             "type": "array",
             "enclosedInView": false,

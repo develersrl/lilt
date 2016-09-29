@@ -14,7 +14,8 @@ import { KeyboardAwareScrollView }
 
 import { api as stateApi } from '../../state';
 import { TextInput, Button2, PickerField } from '../../blocks';
-import { common } from '../../style';
+import { common, pages } from '../../style';
+const { registerModify } = pages;
 
 
 export default class Registration extends Component {
@@ -87,8 +88,11 @@ export default class Registration extends Component {
     const makeCb = (field) => (text) => cb(field, text);
     const makePickerCb = (field) => (opt) => cb(field, opt.label);
     let buttonText = 'INVIA E INIZIA QUESTIONARIO';
-    if (mode === 'Edit')
+    let title = 'REGISTRAZIONE';
+    if (mode === 'Edit') {
       buttonText = 'INVIA E RIPETI QUESTIONARIO';
+      title = 'MODIFICA PROFILO';
+    }
 
     const ageData = [
       { key: 0, label: 'meno di 45 anni' },
@@ -105,8 +109,12 @@ export default class Registration extends Component {
     ];
 
     return (
-      <KeyboardAwareScrollView style={common.flexible} bounces={false}>
-        <View>
+      <KeyboardAwareScrollView style={myStyle.container}
+                               bounces={false}
+                               showsVerticalScrollIndicator={false}
+                               >
+        <View style={myStyle.titleView}>
+          <Text style={myStyle.titleText}>{title}</Text>
           <Text style={myStyle.subTitle}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             Nunc dapibus id orci feugiat vulputate. Fusce quis bibendum erat.
@@ -156,20 +164,41 @@ export default class Registration extends Component {
 
 
 Registration.propTypes = {
+  navigator: React.PropTypes.object.isRequired,
+  getRoute: React.PropTypes.func.isRequired,
   mode: React.PropTypes.oneOf(['Registration', 'Edit']).isRequired,
 };
 
 
 const myStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 40,
+  },
+  titleView: {
+    paddingLeft: registerModify.paddingLeftRight,
+    paddingRight: registerModify.paddingLeftRight,
+  },
+  titleText: {
+    textAlign: 'center',
+    fontFamily: 'GillSans-Bold',
+    fontSize: 14,
+    color: '#FF9C8D',
+    padding: 20,
+  },
   subTitle: {
     textAlign: 'center',
-    padding: 40,
-    color: '#7B7A7A',
-    fontWeight: 'bold',
+    color: '#8E8E8E',
+    fontFamily: 'GillSans',
+    fontSize: 15,
+    lineHeight: 20,
+    paddingLeft: registerModify.textPaddingLeftRight,
+    paddingRight: registerModify.textPaddingLeftRight,
+    paddingBottom: 20,
   },
   formContainer: {
-    paddingLeft: 40,
-    paddingRight: 40,
+    paddingLeft: registerModify.paddingLeftRight,
+    paddingRight: registerModify.paddingLeftRight,
     paddingBottom: 20,
   },
   errorText: {

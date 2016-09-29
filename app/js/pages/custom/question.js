@@ -28,18 +28,6 @@ export default class Question extends Component {
     this.state = { selectedIndex: index };
   }
 
-
-  renderQuestion() {
-    return (
-      <View style={myStyle.questionView}>
-        <Text style={myStyle.questionText}>
-          {this.props.questionText}
-        </Text>
-      </View>
-      );
-  }
-
-
   onAnswerSelected(idx) {
     this.setState({ selectedIndex: idx });
   }
@@ -70,6 +58,20 @@ export default class Question extends Component {
       stateApi.commitAnswers()
         .then(() => navigator.popToTop());
     }
+  }
+
+
+  renderQuestion() {
+    const { questionIndex } = this.props;
+
+    return (
+      <View style={myStyle.questionView}>
+        <Text style={myStyle.questionTitle}>DOMANDA {questionIndex + 1}</Text>
+        <Text style={myStyle.questionText}>
+          {this.props.questionText}
+        </Text>
+      </View>
+      );
   }
 
 
@@ -175,6 +177,13 @@ const myStyle = StyleSheet.create({
   },
   questionView: {
     padding: question.questionPadding,
+  },
+  questionTitle: {
+    color: 'white',
+    textAlign: 'center',
+    fontFamily: 'GillSans-Bold',
+    fontSize: question.questionTitleFontSize,
+    padding: 20,
   },
   questionText: {
     color: '#8E8E8E',

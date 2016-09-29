@@ -209,7 +209,7 @@ def __gen_navigation():
         comp_class = 'pages.generated.{}'.format(comp_class)
 
         # store route code
-        routes_list.append("'{}': {{ title: '{}', component: {} }}".format(
+        routes_list.append("'{}': {{ title: \"{}\", component: {} }}".format(
             '#{}'.format(page_data['id']),
             page_data.get('title', '').encode('utf-8'),
             comp_class))
