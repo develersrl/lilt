@@ -17,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:
     (NSDictionary *)launchOptions
 {
-  NSURL *jsCodeLocation;
+  NSURL* jsCodeLocation;
 
   // uncomment the following block to print available fonts
   /*
@@ -31,10 +31,18 @@
   }
   */
 
+#if DEBUG
+  
+  // In debug/dev mode we retrieve the javascript bundle from packager
   jsCodeLocation = [NSURL URLWithString:@"http://10.3.16.144:8081/index.ios.bundle?platform=ios&dev=true"];
 
-  // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#else
+  
+  // In release/production mode we use pre-bundled file from disk
+  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
+#endif
+  
   RCTRootView *rootView = [[RCTRootView alloc]
     initWithBundleURL:jsCodeLocation
     moduleName:@"lilt"
