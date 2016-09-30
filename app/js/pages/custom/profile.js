@@ -59,6 +59,12 @@ export default class Profile extends Component {
   }
 
 
+  onForgetPress() {
+    const { navigator } = this.props;
+    stateApi.userForget().then(navigator.popToTop);
+  }
+
+
   renderEditButton() {
     return (
       <TouchableOpacity style={myStyle.editView}
@@ -66,6 +72,19 @@ export default class Profile extends Component {
                         onPress={this.onEditPress.bind(this)}>
         <View style={myStyle.editBtn}>
           <Text style={myStyle.editText}>MODIFICA PROFILO</Text>
+        </View>
+      </TouchableOpacity>
+      );
+  }
+
+
+  renderForgetButton() {
+    return (
+      <TouchableOpacity style={myStyle.editView}
+                        activeOpacity={profile.editBtnActiveOpacity}
+                        onPress={this.onForgetPress.bind(this)}>
+        <View style={myStyle.editBtn}>
+          <Text style={myStyle.editText}>DIMENTICA UTENTE (TEST ONLY)</Text>
         </View>
       </TouchableOpacity>
       );
@@ -101,6 +120,7 @@ export default class Profile extends Component {
           {standardDataRows}
           {this.renderQuestionnaireRows()}
           {this.renderEditButton()}
+          {this.renderForgetButton()}
         </View>
       </ScrollView>
       );
@@ -150,7 +170,7 @@ const myStyle = StyleSheet.create({
   },
   editView: {
     flexDirection: 'row-reverse',
-    marginTop: 20,
+    marginBottom: 10,
   },
   editBtn: {
     padding: 16,

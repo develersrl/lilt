@@ -122,6 +122,19 @@ const userInit = () => {
 };
 
 
+const userForget = () => {
+  const initState = initialState.user;
+  return Promise.resolve()
+    .then(() => removeLocal('liltUser'))
+    .then(() => saveLocal('liltUser', initState))
+    .then((localUser) => _setState({
+      ...state,
+      user: localUser,
+      answers: { ...localUser.savedAnswers },
+    }));
+};
+
+
 const setListener = (l) => state.listener = l;
 
 const notifyListeners = () => {
@@ -173,6 +186,7 @@ const api = {
   test,
   userValidate,
   userRegister,
+  userForget,
   setListener,
   getState: () => state,
   isSendingUserData,

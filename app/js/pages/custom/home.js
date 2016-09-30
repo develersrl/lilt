@@ -1,7 +1,14 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+} from 'react-native';
 
 import { api as stateApi } from '../../state';
 import { SquareMenu } from '../../blocks';
@@ -113,17 +120,8 @@ export default class Home extends Component {
 
 
   renderTestLinks() {
-    const labels = [
-      'Il mio percorso di prevenzione',
-      'Ho avuto una diagnosi positiva',
-      'Ho sentito qualcosa che non va',
-      'Sono in post terapia',
-    ];
-
     return (
       <View style={myStyle.belowMenuView}>
-        {labels.map((l) => this.renderFakeLink(l))}
-        <View style={{height: 20}} />
         {this.renderProfileLink()}
       </View>
       );
@@ -132,44 +130,48 @@ export default class Home extends Component {
 
   render() {
     return (
-      <View style={myStyle.container}>
-        <View style={myStyle.logoView}>
-          <Image style={myStyle.logoImage} source={home.logoImage} />
-          <View style={myStyle.logoParagraphView}>
-            <Text style={myStyle.logoParagraph}>
-              Lorem Ipsum is simply dummy text of the printing and
-              typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s.
-            </Text>
+      <ScrollView style={myStyle.scrollView}
+                  bounces={false}
+                  showsVerticalScrollIndicator={false}>
+        <View style={myStyle.container}>
+          <View style={myStyle.logoView}>
+            <Image style={myStyle.logoImage} source={home.logoImage} />
+            <View style={myStyle.logoParagraphView}>
+              <Text style={myStyle.logoParagraph}>
+                Lorem Ipsum is simply dummy text of the printing and
+                typesetting industry. Lorem Ipsum has been the industry's
+                standard dummy text.
+              </Text>
+            </View>
           </View>
+          <View style={myStyle.menuView}>
+            <View style={myStyle.menuRow}>
+              <SquareMenu backgroundColor={home.menuTopLeftBackground}
+                          text={'Saperne di più'}
+                          iconSource={home.menuTopLeftIcon}
+                          onPress={() => this.onSquareMenuPress(0)} />
+              <SquareMenu backgroundColor={home.menuTopRightBackground}
+                          text={'Prevenzione'}
+                          iconSource={home.menuTopRightIcon}
+                          onPress={() => this.onSquareMenuPress(1)} />
+            </View>
+            <View style={myStyle.menuRow}>
+              <SquareMenu backgroundColor={home.menuBottomLeftBackground}
+                          text={'Diagnosi precoce'}
+                          iconSource={home.menuBottomLeftIcon}
+                          onPress={() => this.onSquareMenuPress(2)} />
+              <SquareMenu backgroundColor={home.menuBottomRightBackground}
+                          text={'WikiLILT'}
+                          iconSource={home.menuBottomRightIcon}
+                          onPress={() => this.onSquareMenuPress(3)} />
+            </View>
+          </View>
+          {this.renderCustomServices()}
+          {
+            this.renderTestLinks()
+          }
         </View>
-        <View style={myStyle.menuView}>
-          <View style={myStyle.menuRow}>
-            <SquareMenu backgroundColor={home.menuTopLeftBackground}
-                        text={'Saperne di più'}
-                        iconSource={home.menuTopLeftIcon}
-                        onPress={() => this.onSquareMenuPress(0)} />
-            <SquareMenu backgroundColor={home.menuTopRightBackground}
-                        text={'Prevenzione'}
-                        iconSource={home.menuTopRightIcon}
-                        onPress={() => this.onSquareMenuPress(1)} />
-          </View>
-          <View style={myStyle.menuRow}>
-            <SquareMenu backgroundColor={home.menuBottomLeftBackground}
-                        text={'Diagnosi precoce'}
-                        iconSource={home.menuBottomLeftIcon}
-                        onPress={() => this.onSquareMenuPress(2)} />
-            <SquareMenu backgroundColor={home.menuBottomRightBackground}
-                        text={'WikiLILT'}
-                        iconSource={home.menuBottomRightIcon}
-                        onPress={() => this.onSquareMenuPress(3)} />
-          </View>
-        </View>
-        {this.renderCustomServices()}
-        {
-          // this.renderTestLinks()
-        }
-      </View>
+      </ScrollView>
       );
   }
 }
@@ -182,8 +184,10 @@ Home.propTypes = {
 
 
 const myStyle = StyleSheet.create({
-  container: {
+  scrollView: {
     flex: 1,
+  },
+  container: {
     justifyContent: 'center',
   },
   logoView: {
