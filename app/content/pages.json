@@ -63,11 +63,11 @@
 {
     "id": "ll_menu_saperne",
     "style": "link_list",
-    "title": "SAPERNE DI PIU'",
+    "title": "SAPERNE DI PIÙ",
     "content": {
         "title": {
             "type": "raw_text",
-            "value": "SAPERNE DI PIU'"
+            "value": "SAPERNE DI PIÙ"
         },
         "entries": {
             "type": "array",

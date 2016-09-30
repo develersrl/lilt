@@ -27,7 +27,9 @@ export default class Content extends Component {
     return (
       <ScrollView style={[flexible]}
                   bounces={false}
-                  showsVerticalScrollIndicator={false}>
+                  showsVerticalScrollIndicator={false}
+                  automaticallyAdjustContentInsets={false}
+                  >
         <Image style={content.header.container}
                source={headerImage}>
           <View style={[flexible, centeredChildren]}>

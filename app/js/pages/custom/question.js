@@ -65,7 +65,7 @@ export default class Question extends Component {
     const { questionIndex } = this.props;
 
     return (
-      <View style={myStyle.questionView}>
+      <View>
         <Text style={myStyle.questionTitle}>DOMANDA {questionIndex + 1}</Text>
         <Text style={myStyle.questionText}>
           {this.props.questionText}
@@ -174,9 +174,6 @@ const myStyle = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: question.backgroundColor,
     padding: question.bodyPadding,
-  },
-  questionView: {
-    padding: question.questionPadding,
   },
   questionTitle: {
     color: 'white',

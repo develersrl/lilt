@@ -112,6 +112,7 @@ export default class Registration extends Component {
       <KeyboardAwareScrollView style={myStyle.container}
                                bounces={false}
                                showsVerticalScrollIndicator={false}
+                               automaticallyAdjustContentInsets={false}
                                >
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{title}</Text>
@@ -173,7 +174,6 @@ Registration.propTypes = {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
   },
   titleView: {
     paddingLeft: registerModify.paddingLeftRight,

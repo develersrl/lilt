@@ -13,7 +13,9 @@ export default class GlossaryWord extends Component {
     return (
       <ScrollView style={myStyle.container}
                   bounces={false}
-                  showsVerticalScrollIndicator={false}>
+                  showsVerticalScrollIndicator={false}
+                  automaticallyAdjustContentInsets={false}
+                  >
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{{title}}</Text>
         </View>

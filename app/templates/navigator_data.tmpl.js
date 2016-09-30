@@ -20,19 +20,20 @@ import * as state from '../state';
 /* eslint-disable quote-props */
 const customRoutes = {
   'home': {
-    title: 'LILT App',
+    title: '',
     component: pages.custom.Home,
     props: { barVisible: false },
+    navigationBarHidden: true,
   },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
-  'glossary': { title: 'Glossary', component: pages.custom.Glossary },
+  'glossary': { title: 'GLOSSARIO', component: pages.custom.Glossary },
   'registration': {
     title: 'REGISTRAZIONE',
     component: pages.custom.Registration,
     props: { mode: 'Registration' },
   },
   'editProfile': {
-    title: 'MODIFICA DATI',
+    title: 'MODIFICA PROFILO',
     component: pages.custom.Registration,
     props: { mode: 'Edit' },
   },
@@ -70,8 +71,7 @@ const getRoute = (routeId, customProps) => {
   };
 
   return {
-    title: targetRoute.title,
-    component: targetRoute.component,
+    ...targetRoute,
     passProps: props,
   };
 };

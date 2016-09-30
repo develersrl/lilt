@@ -299,7 +299,6 @@ const pages = {
   question: {
     backgroundColor: '#C1DBF8',
     bodyPadding: 30,
-    questionPadding: 20,
     questionTitleFontSize: 14,
     questionFontSize: 16,
     answersSpacing: 20,
@@ -312,7 +311,7 @@ const pages = {
   profile: {
     bodyPadding: 20,
     iconWidth: 100,
-    iconHeight: 120,
+    iconHeight: 100,
     infoPaddingTopBottom: 16,
     infoPaddingLeftRight: 10,
     infoBackground: '#C1DBF8',

@@ -23,12 +23,14 @@ export default class LinkList extends Component {
     const title = "{{title}}";
 
     return (
-      <View style={[flexible]}>
+      <View style={myStyle.container}>
         <Image style={myStyle.backImg}
                source={require('../../../images/back1.png')} />
         <ScrollView style={myStyle.contentView}
                     bounces={false}
-                    showsVerticalScrollIndicator={false}>
+                    showsVerticalScrollIndicator={false}
+                    automaticallyAdjustContentInsets={false}
+                    >
           <View style={myStyle.titleView}>
             <Text style={myStyle.titleText}>{title}</Text>
           </View>
@@ -41,6 +43,9 @@ export default class LinkList extends Component {
 
 
 const myStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   backImg: {
     position: 'absolute',
     left: 0,
@@ -53,7 +58,6 @@ const myStyle = StyleSheet.create({
     flex: 1,
     marginLeft: 60,
     marginRight: 20,
-    marginTop: 20,
   },
   titleView: {
     alignItems: 'center',

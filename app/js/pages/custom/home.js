@@ -132,7 +132,9 @@ export default class Home extends Component {
     return (
       <ScrollView style={myStyle.scrollView}
                   bounces={false}
-                  showsVerticalScrollIndicator={false}>
+                  showsVerticalScrollIndicator={false}
+                  centerContent={true}
+                  >
         <View style={myStyle.container}>
           <View style={myStyle.logoView}>
             <Image style={myStyle.logoImage} source={home.logoImage} />

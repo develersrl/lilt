@@ -111,6 +111,7 @@ export default class Profile extends Component {
       <ScrollView style={myStyle.container}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
+                  automaticallyAdjustContentInsets={false}
                   >
         <Image style={myStyle.icon}
                source={require('../../../images/profile-icon.png')}
