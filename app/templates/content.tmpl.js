@@ -23,12 +23,14 @@ export default class Content extends Component {
     const pdfName = "{{pdfName}}";
     const headerImage = {{headerImage}};
     const sharedText = "{{sharedText}}";
+    const st = {bottom: 59};
 
     return (
       <ScrollView style={[flexible]}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
+                  contentInset={st}
                   >
         <Image style={content.header.container}
                source={headerImage}>

@@ -1,5 +1,6 @@
 'use strict';
 
 import AppNavigator from './navigator';
+import TabBar from './tabbar';
 
-export default AppNavigator;
+module.exports = { AppNavigator, TabBar };

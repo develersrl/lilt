@@ -13,8 +13,6 @@ export default class AppNavigator extends Component {
     const { flexible } = style.common;
     const { navigator } = style.pages;
 
-    console.log(navigator);
-
     return (
       <NavigatorIOS
         style={[flexible, navigator.nav]}

@@ -7,6 +7,9 @@ import Registration from './registration';
 import Question from './question';
 import Profile from './profile';
 import MessagePage from './message_page';
+import About from './about';
+import Sponsor from './sponsor';
+import Path from './path';
 
 module.exports = {
   Home,
@@ -16,4 +19,7 @@ module.exports = {
   Question,
   Profile,
   MessagePage,
+  About,
+  Sponsor,
+  Path,
 };
