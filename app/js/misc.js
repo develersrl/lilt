@@ -1,6 +1,6 @@
 'use strict';
 
-import { AsyncStorage, ActionSheetIOS } from 'react-native';
+import { AsyncStorage, ActionSheetIOS, Linking } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 
@@ -199,9 +199,24 @@ const share = (text) => {
 };
 
 
+const openURL = (url) => {
+  Linking.canOpenURL(url)
+    .then((supported) => {
+      if (supported) {
+        Linking.openURL(url);
+      }
+      else {
+        // eslint-disable-next-line no-console
+        console.warning('Cannot open URL: ' + url);
+      }
+    });
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
+  openURL,
   localKeyExists,
   saveLocal,
   loadLocal,

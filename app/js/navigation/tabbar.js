@@ -57,7 +57,7 @@ export default class TabBar extends Component {
                         selected={this.state.selectedTab === 'home'}
                         onPress={createCb('home')}
                         >
-            <AppNavigator />
+          <AppNavigator />
         </TabBarIOS.Item>
         <TabBarIOS.Item title='about LILT'
                         icon={tabbar.aboutUnselectedIcon}

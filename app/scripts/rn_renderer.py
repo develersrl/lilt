@@ -42,7 +42,10 @@ class RNRenderer(mistune.Renderer):
         """Render a paragraph."""
         # We enclose everything inside a View component to apply paragraph
         # margins (see markdown.paragraph style).
-        return '<View style={{markdown.paragraph}}>{}</View>'.format(text)
+        txt_tmpl = '<Text style={{markdown.paragraphText}}>{}</Text>'
+        txt = txt_tmpl.format(text)
+        tmpl = '<View style={{markdown.paragraph}}>{}</View>'
+        return tmpl.format(txt)
 
 
     def image(self, src, title, text):
@@ -113,6 +116,17 @@ class RNRenderer(mistune.Renderer):
         separate format like docx or pdf).
         """
         return ''
+
+
+    def link(self, link, title, text):
+        """Rendering a given link with content and title.
+        :param link: href link for ``<a>`` tag.
+        :param title: title content for `title` attribute.
+        :param text: text content for description.
+        """
+        onPressCode = '() => openURL("{}")'.format(link)
+        tmpl = '<Text style={{markdown.link}} onPress={{{}}}>{}</Text>'
+        return tmpl.format(onPressCode, text)
     # -------------------------------------------------------------------------
 
 
@@ -308,25 +322,6 @@ class RNRenderer(mistune.Renderer):
         """
 
         self.print_warning('autolink')
-        return ''
-
-
-    def link(self, link, title, text):
-        """Rendering a given link with content and title.
-        :param link: href link for ``<a>`` tag.
-        :param title: title content for `title` attribute.
-        :param text: text content for description.
-        """
-
-        """
-        link = escape_link(link)
-        if not title:
-            return '<a href="%s">%s</a>' % (link, text)
-        title = escape(title, quote=True)
-        return '<a href="%s" title="%s">%s</a>' % (link, title, text)
-        """
-
-        self.print_warning('link')
         return ''
 
 

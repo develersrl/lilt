@@ -96,6 +96,12 @@ const blocks = {
       marginTop: 10,
       marginBottom: 10,
     },
+    paragraphText: {
+      fontFamily: 'GillSans',
+      fontSize: 16,
+      color: '#8E8E8E',
+      lineHeight: 20,
+    },
     image: {
       borderWidth: 1,
       borderColor: '#0000FF',
@@ -103,11 +109,9 @@ const blocks = {
       height: 100,
       width: 150,
     },
-    text: {
-      fontFamily: 'GillSans',
-      fontSize: 16,
-      color: '#8E8E8E',
-      lineHeight: 20,
+    text: {},
+    link: {
+      color: '#74B3FA',
     },
     emphasis: {
       fontStyle: 'italic',

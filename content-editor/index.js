@@ -36,8 +36,8 @@ const baseWindowTitle = remote.getCurrentWindow().getTitle();
 
 // constants
 const PAGE_TYPES = {
-    CONTENTS: 0,
-    GLOSSARY: 1
+  CONTENTS: 0,
+  GLOSSARY: 1,
 };
 /* -------------------------------------------------------------------------- */
 
@@ -78,6 +78,7 @@ const getMarkdownDir = () => {
     // Try to read the input directory from environment
     const envdir = remoteProcess.env.LILT_EDITOR_DATA_DIR;
     if (envdir !== undefined) {
+      // eslint-disable-next-line no-console
       console.info('Reading markdown directory from environment variable');
       return envdir;
     }
@@ -115,6 +116,7 @@ const getMarkdownDir = () => {
 // walk through a directory tree and return a JS object that will be used to
 // initialize the treeview sidebar
 const walk = (dir) => {
+  // eslint-disable-next-line no-console
   console.info('Walking dir: ' + dir);
   const tree = [];
 
@@ -133,13 +135,13 @@ const walk = (dir) => {
     text: path.basename(contentDirPath),
     selectable: false,
     nodes: getTreeNodes(contentDirPath, PAGE_TYPES.CONTENTS)
-  })
+  });
 
   tree.push({
     text: path.basename(glossaryDirPath),
     selectable: false,
     nodes: getTreeNodes(glossaryDirPath, PAGE_TYPES.GLOSSARY)
-  })
+  });
 
   return tree;
 };
@@ -149,7 +151,7 @@ const getTreeNodes = (dir, pageType) => {
   const pageDirs = fs.readdirSync(dir);
 
   pageDirs.forEach((pageDir) => {
-    if (pageDir[0] == '.')
+    if (pageDir[0] === '.')
       return;
 
     const fullDirPath = path.join(dir, pageDir);
@@ -168,20 +170,21 @@ const getTreeNodes = (dir, pageType) => {
 };
 
 const formDataForType = (jsonObj, pageType) => {
-    const formData = {
-        title: jsonObj.title,
-        pageType: pageType
-    };
+  const formData = {
+    title: jsonObj.title,
+    pageType: pageType
+  };
 
-    if (pageType === PAGE_TYPES.CONTENTS) {
-        formData.headerImage = jsonObj.headerImage;
-        formData.pdfFile = jsonObj.pdfFile;
-        formData.sharedText = jsonObj.sharedText;
-    } else if (pageType === PAGE_TYPES.GLOSSARY) {
-        /* Your honor, I have nothing to add */
-    }
+  if (pageType === PAGE_TYPES.CONTENTS) {
+    formData.headerImage = jsonObj.headerImage;
+    formData.pdfFile = jsonObj.pdfFile;
+    formData.sharedText = jsonObj.sharedText;
+  }
+  else if (pageType === PAGE_TYPES.GLOSSARY) {
+      /* Your honor, I have nothing to add */
+  }
 
-    return formData;
+  return formData;
 };
 
 // obtain jQuery tree node object by node id
@@ -198,7 +201,7 @@ const getFormData = () => {
     formData.sharedText = $('#shared-text').val();
     formData.pdfFile = $('#pdf-name').text();
     formData.headerImage = path.basename($('#header-pic').attr('src'));
-  };
+  }
 
   return formData;
 };
@@ -226,6 +229,8 @@ const loadMarkdown = (mdFilePath, currDir) => {
 
       // htmlDoc is the html representation of the on-disk markdown
       const htmlDoc = document.createElement('div');
+
+      // eslint-disable-next-line no-undef
       htmlDoc.innerHTML = marked(
         fs.readFileSync(mdFilePath, "utf-8"),
         { langPrefix: 'language-' }  // same setting used by ckeditor
@@ -257,7 +262,8 @@ const loadFormData = (formData, pageDir, pageType) => {
     $('#shared-text-div').show();
     $('#header-image-div').show();
     $('#pdf-file-div').show();
-  } else if (pageType === PAGE_TYPES.GLOSSARY) {
+  }
+  else if (pageType === PAGE_TYPES.GLOSSARY) {
     $('#shared-text-div').hide();
     $('#header-image-div').hide();
     $('#pdf-file-div').hide();
@@ -266,14 +272,16 @@ const loadFormData = (formData, pageDir, pageType) => {
   if (formData.pdfFile) {
     $('#pdf-name').text(path.basename(formData.pdfFile));
     $('#pdf-name').removeClass('hidden');
-  } else {
+  }
+  else {
     $('#pdf-name').addClass('hidden');
   }
 
   if (formData.headerImage) {
     $('#header-pic').attr('src', path.resolve(path.join(pageDir, formData.headerImage)));
     $('#header-image-container').removeClass('hidden');
-  } else {
+  }
+  else {
     $('#header-pic').attr('src', '');
     $('#header-image-container').addClass('hidden');
   }
@@ -419,7 +427,9 @@ const syncImages = (currDir, headerImage) => {
     const imgPath = path.resolve(path.join(currDir, imgName));
     fs.unlink(imgPath, (err) => {
       if (err) {
+        // eslint-disable-next-line no-console
         console.error("error deleting", imgPath + ":");
+        // eslint-disable-next-line no-console
         console.error(err);
       }
     });
@@ -445,6 +455,8 @@ const syncImages = (currDir, headerImage) => {
 const writeMarkdown = (sourceHTML) => {
   // http://stackoverflow.com/questions/18106164
   const div = document.createElement('div');
+
+  // eslint-disable-next-line no-undef
   div.innerHTML = toMarkdown(sourceHTML);
   const unescapedData = (div.innerText || div.textContent || "");
   fs.writeFileSync(currentMdFile, unescapedData);
@@ -461,16 +473,18 @@ const copyToDir = (sourceFile, targetDir, options = {mangle: true}) => {
 
   inStream.on('error', () => {
     // TODO missing proper error handling
+    // eslint-disable-next-line no-console
     console.error("Error reading file", sourceFile);
   });
 
   outStream.on('error', () => {
     // TODO missing proper error handling
+    // eslint-disable-next-line no-console
     console.error("Error writing file", targetFile);
   });
 
   outStream.on('finish', () => {
-    loadFormData(getFormData(), path.dirname(currentMdFile))
+    loadFormData(getFormData(), path.dirname(currentMdFile));
   });
 
   inStream.pipe(outStream);
@@ -575,17 +589,18 @@ const ckeditorInit = () => {
       { name: 'basicstyles'},
       { name: 'styles', groups: ['styles'] },
       { name: 'insert', groups: ['insert'] },
+      { name: 'links', groups: ['links'] },
       // { name: 'others' },  // uncomment to show "Markdown" btn
     ],
     removeButtons: 'Underline,Subscript,Superscript,Strike,' +
         'Styles,Cut,Copy,Paste,PasteText,PasteFromWord,Table,' +
-        'HorizontalRule,SpecialChar,Image',
+        'HorizontalRule,SpecialChar,Image,Anchor',
     extraPlugins: 'markdown,fs-image',
     format_tags: 'p;h1;h2;h3;pre',  // eslint-disable-line camelcase
-    removeDialogTabs: 'image:advanced;link:advanced',
+    removeDialogTabs: 'image:advanced;link:advanced;link:target',
     width: '100%',
     removePlugins: 'elementspath',
-    allowedContent: 'h1 h2 h3 p strong em pre; img[!src]',
+    // allowedContent: 'h1 h2 h3 p strong em pre; img[!src]',
   })
   .on('change', onDocumentChanged);
 };

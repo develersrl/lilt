@@ -10,7 +10,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import { openPdf, share } from '../../misc';
+import { openPdf, openURL, share } from '../../misc';
 import { Stripe } from '../../blocks';
 import { common, blocks, pages } from '../../style';
 
