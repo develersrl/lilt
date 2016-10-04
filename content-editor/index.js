@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const remote = require('electron').remote;
 const uuid = require('node-uuid');
+const storage = require('electron-json-config');
 
 // Load marked.js inside ckeditor plugin 'markdown'
 CKEDITOR.scriptLoader.load(
@@ -18,7 +19,7 @@ CKEDITOR.scriptLoader.load(
 const defaultMarkdownDir = 'appdata';
 
 // when the overlay text is specified the editor is hidden
-let overlayText = 'Please select a document.';
+let overlayText = "Scegli un documento oppure";
 
 // file path of markdown file currently being edited.
 let currentMdFile = '';
@@ -59,7 +60,8 @@ let tree = null;
 let reselectTimerId = -1;
 
 // remote process variable
-const remoteProcess = remote.getGlobal('sharedArgs').proc;
+const shared = remote.getGlobal('sharedArgs');
+const remoteProcess = shared.proc;
 
 // shortcut method to obtain the ckeditor instance
 const editor = () => CKEDITOR.instances.editor1;
@@ -69,12 +71,42 @@ const isProdEnvironment = () => (remoteProcess.defaultApp === undefined);
 
 const isMac = () => (remoteProcess.platform.startsWith('darwin'));
 
+
+const getDefaultMarkdownDir = () => {
+  if (isProdEnvironment()) {
+    if (isMac()) {
+      // under mac this script is inside app folder/Content/ecc...
+      // so we have to backtrack a bit to cd to the right folder
+      return path.join(
+        __dirname, '..', '..', '..', '..', '..', defaultMarkdownDir
+        );
+    }
+    else {
+      // windows
+      return path.join(
+        __dirname, '..', '..', '..', defaultMarkdownDir
+        );
+    }
+  }
+  else {
+    // in development environment the data dir must be placed inside
+    // this script's directory
+    return path.join(__dirname, defaultMarkdownDir);
+  }
+};
+
+
 // return the markdown directory
 const getMarkdownDir = () => {
   // obtain command line arguments
   const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
 
   if (args.length === 0) {
+    // Try to read the input directory from storage
+    if (storage.has('datadir')) {
+      return storage.get('datadir', '');
+    }
+
     // Try to read the input directory from environment
     const envdir = remoteProcess.env.LILT_EDITOR_DATA_DIR;
     if (envdir !== undefined) {
@@ -83,26 +115,7 @@ const getMarkdownDir = () => {
       return envdir;
     }
 
-    if (isProdEnvironment()) {
-      if (isMac()) {
-        // under mac this script is inside app folder/Content/ecc...
-        // so we have to backtrack a bit to cd to the right folder
-        return path.join(
-          __dirname, '..', '..', '..', '..', '..', defaultMarkdownDir
-          );
-      }
-      else {
-        // windows
-        return path.join(
-          __dirname, '..', '..', '..', defaultMarkdownDir
-          );
-      }
-    }
-    else {
-      // in development environment the data dir must be placed inside
-      // this script's directory
-      return path.join(__dirname, defaultMarkdownDir);
-    }
+    return getDefaultMarkdownDir();
   }
 
   if (args.length > 1)
@@ -124,7 +137,7 @@ const walk = (dir) => {
     fs.statSync(dir).isDirectory();
   }
   catch (err) {
-    overlayText = 'Cannot find data directory';
+    overlayText = 'Directory dei dati non trovata';
     return tree;
   }
 
@@ -213,7 +226,7 @@ const loadMarkdown = (mdFilePath, currDir) => {
       documentChanged = false;
       ignoreChangedEvent = true;
       currentMdFile = mdFilePath;
-      overlayText = 'Loading..';
+      overlayText = 'Attendi..';
       update();
 
       // Function to transform a relative src path to an absolute one
@@ -574,13 +587,24 @@ const onNodeUnselected = (ev, data) => {
 };
 
 
+const onSelectDirectoryClick = () => {
+  console.log('User wants to select a directory');
+  shared.selectDirectory((result) => {
+    if (result !== undefined) {
+      overlayText = 'Scegli un documento oppure';
+      storage.set('datadir', result[0]);
+      initTree();
+    }
+  });
+};
+
+
 // eslint-disable-next-line no-unused-vars
 const ckeditorInit = () => {
   // this is a little hack: to prevent the editor to appear for an
   // instant during initialization phase we show the overlay
-  $('#overlay')
-    .html('Please select a document.')
-    .css('visibility', 'visible');
+  $('#overlay-text').html("Scegli un documento oppure");
+  $('#overlay').css('visibility', 'visible');
 
   // it must be initialized here :(
   CKEDITOR.replace('editor1', {  // eslint-disable-line no-undef
@@ -606,9 +630,7 @@ const ckeditorInit = () => {
 };
 
 
-// initialization
-$(document).ready(() => {
-  tree = $('#tree');
+const initTree = () => {
   tree.treeview({
     showBorder: false,
     color: "#428BCA",
@@ -624,12 +646,21 @@ $(document).ready(() => {
   });
   connectEvents();
   update();
+};
+
+
+// initialization
+$(document).ready(() => {
+  // storage.delete('datadir');
+  tree = $('#tree');
+  initTree();
 });
 
 const connectEvents = () => {
   $('#savebtn').click(savePage);
   $('#save-yes').click(onSaveYes);
   $('#save-no').click(onSaveNo);
+  $('#setdir-btn').click(onSelectDirectoryClick);
   $('#title').on('input', onDocumentChanged);
   $('#shared-text').on('input', onDocumentChanged);
   $('#header-image').on('change', onDocumentChanged);
@@ -661,10 +692,17 @@ const updateTree = () => {
 };
 
 const update = () => setTimeout(() => {
-  if (overlayText !== '')
-    $('#overlay').html(overlayText).css('visibility', 'visible');
-  else
+  if (overlayText !== '') {
+    $('#overlay-text').html(overlayText);
+
+    const btnVisible = (!overlayText.startsWith('Attendi'));
+    $('#setdir-btn').css('visibility', btnVisible ? 'visible' : 'hidden');
+
+    $('#overlay').css('visibility', 'visible');
+  }
+  else {
     $('#overlay').css('visibility', 'hidden');
+  }
   updateTree();
 }, 0);
 /* -------------------------------------------------------------------------- */

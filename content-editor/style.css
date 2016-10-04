@@ -119,3 +119,8 @@ body {
   display: flex;
   justify-content: center;
 }
+
+#setdir-btn {
+    margin-top: 10px;
+    width: 200px;
+}

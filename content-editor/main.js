@@ -1,14 +1,26 @@
 'use strict';
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog } = require('electron');
 
 // sharedArgs is a global object shared with browser windows
-global.sharedArgs = { proc: process };
+global.sharedArgs = {
+  proc: process,
+  selectDirectory,
+};
 
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+
+
+function selectDirectory(cb) {
+  dialog.showOpenDialog(
+    win,
+    { properties: ['openDirectory'] },
+    (result) => cb(result)
+    );
+}
 
 
 function createWindow() {
