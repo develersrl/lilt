@@ -13,13 +13,13 @@ import {
 import { common } from '../../style';
 
 
-export default class Path extends Component {
+export default class ThanksTo extends Component {
   render() {
     const { navigator, getRoute } = this.props;
     const { flexible } = common;
 
     const loremIpsum = "Lorem Ipsum is simply dummy text of the printing";
-    const title = "PERCORSO";
+    const title = "GRAZIE A";
 
     return (
       <View style={myStyle.container}>

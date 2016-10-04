@@ -52,7 +52,7 @@ const routes = {
 };
 
 // the start route key
-const initialRouteId = "#c_gen_6";
+const initialRouteId = "home";
 
 /**
   Obtain a navigation route from route id, which corresponds to "page" id in

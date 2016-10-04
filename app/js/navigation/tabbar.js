@@ -1,12 +1,12 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, TabBarIOS, StyleSheet } from 'react-native';
+import { TabBarIOS, StyleSheet } from 'react-native';
 
 import AppNavigator from './navigator';
 
 import { custom } from '../pages';
-const { About, Sponsor, Path } = custom;
+const { About, ThanksTo, Structures } = custom;
 
 import { blocks } from '../style';
 const { tabbar } = blocks;
@@ -16,7 +16,7 @@ const { tabbar } = blocks;
 export default class TabBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedTab: 'home' };
+    this.state = { selectedTab: 'path' };
   }
 
 
@@ -41,21 +41,21 @@ export default class TabBar extends Component {
                         // onPress={createCb('profile')}
                         >
         </TabBarIOS.Item>
+        <TabBarIOS.Item title='strutture'
+                        icon={tabbar.structuresUnselectedIcon}
+                        selectedIcon={tabbar.structuresSelectedIcon}
+                        renderAsOriginal={true}
+                        selected={this.state.selectedTab === 'structures'}
+                        onPress={createCb('structures')}
+                        >
+          <Structures />
+        </TabBarIOS.Item>
         <TabBarIOS.Item title='percorso'
                         icon={tabbar.pathUnselectedIcon}
                         selectedIcon={tabbar.pathSelectedIcon}
                         renderAsOriginal={true}
                         selected={this.state.selectedTab === 'path'}
                         onPress={createCb('path')}
-                        >
-          <Path />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item title='home'
-                        icon={tabbar.homeUnselectedIcon}
-                        selectedIcon={tabbar.homeSelectedIcon}
-                        renderAsOriginal={true}
-                        selected={this.state.selectedTab === 'home'}
-                        onPress={createCb('home')}
                         >
           <AppNavigator />
         </TabBarIOS.Item>
@@ -68,14 +68,14 @@ export default class TabBar extends Component {
                         >
           <About />
         </TabBarIOS.Item>
-        <TabBarIOS.Item title='sponsor'
+        <TabBarIOS.Item title='grazie a'
                         icon={tabbar.sponsorUnselectedIcon}
                         selectedIcon={tabbar.sponsorSelectedIcon}
                         renderAsOriginal={true}
                         selected={this.state.selectedTab === 'sponsor'}
                         onPress={createCb('sponsor')}
                         >
-          <Sponsor />
+          <ThanksTo />
         </TabBarIOS.Item>
       </TabBarIOS>
       );

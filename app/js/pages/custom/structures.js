@@ -6,20 +6,19 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  ScrollView,
   Text,
 } from 'react-native';
 
 import { common } from '../../style';
 
 
-export default class Sponsor extends Component {
+export default class Structures extends Component {
   render() {
     const { navigator, getRoute } = this.props;
     const { flexible } = common;
 
     const loremIpsum = "Lorem Ipsum is simply dummy text of the printing";
-    const title = "SPONSOR";
+    const title = "STRUTTURE";
 
     return (
       <View style={myStyle.container}>
