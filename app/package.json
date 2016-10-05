@@ -10,8 +10,8 @@
     "generate-asset-catalogs": "python scripts/generate_asset_catalogs.py"
   },
   "dependencies": {
-    "react": "^15.3.1",
-    "react-native": "^0.33.0",
+    "react": "^15.3.2",
+    "react-native": "^0.34.1",
     "react-native-file-opener": "^0.2.0",
     "react-native-fs": "^2.0.1-rc.2",
     "react-native-keyboard-aware-scroll-view": "^0.2.0",
@@ -21,10 +21,10 @@
     "react-native-tableview": "git@github.com:develersrl/react-native-tableview.git"
   },
   "devDependencies": {
-    "babel-eslint": "^6.1.2",
-    "eslint": "^3.4.0",
-    "eslint-plugin-react": "^6.2.0",
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",
+    "eslint-plugin-react": "^6.3.0",
     "eslint-plugin-react-native": "^2.0.0",
-    "flow-bin": "^0.32.0"
+    "flow-bin": "^0.33.0"
   }
 }

@@ -26,7 +26,7 @@ const SendState = {
 
 const initialState = {
   initialized: false,
-  listener: null,
+  listeners: [],
   user: {
     sentState: SendState.UNKNOWN,
     data: {
@@ -38,6 +38,9 @@ const initialState = {
       cap: '',
     },
     savedAnswers: getAnswersInitialState(),
+  },
+  view: {
+    selectedTab: 'path',
   },
 };
 
@@ -135,11 +138,15 @@ const userForget = () => {
 };
 
 
-const setListener = (l) => state.listener = l;
+const addListener = (l) => state.listeners.push(l);
+
+const removeListener = (l) => {
+  state.listeners = state.listeners.filter((e) => e !== l);
+};
 
 const notifyListeners = () => {
-  if (state.listener !== null)
-    state.listener.onStateChange();
+  for (let i = 0; i < state.listeners.length; ++i)
+    state.listeners[i].onStateChange();
 };
 
 
@@ -155,6 +162,7 @@ const isSendingUserData = () => state.user.sentState === SendState.SENDING;
 
 const _userDataSender = () => {
   if (userExists() && userDataNotSent()) {
+    // eslint-disable-next-line no-console
     console.log('retrying user registration');
     userRegister(state.user.data);
   }
@@ -181,13 +189,24 @@ const commitAnswers = () => {
 };
 
 
+const selectedTab = () => state.view.selectedTab;
+
+const setSelectedTab = (tabId) => {
+  if (tabId !== state.view.selectedTab) {
+    state.view.selectedTab = tabId;
+    notifyListeners();
+  }
+};
+
+
 const api = {
   init,
   test,
   userValidate,
   userRegister,
   userForget,
-  setListener,
+  addListener,
+  removeListener,
   getState: () => state,
   isSendingUserData,
   userExists,
@@ -195,6 +214,8 @@ const api = {
   getAnswer,
   saveAnswer,
   commitAnswers,
+  selectedTab,
+  setSelectedTab,
 };
 /* -------------------------------------------------------------------------- */
 

@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { TabBarIOS, StyleSheet } from 'react-native';
 
 import AppNavigator from './navigator';
+import ProfileNavigator from './profile_navigator';
+
+import { api as stateApi } from '../state';
 
 import { custom } from '../pages';
 const { About, ThanksTo, Structures } = custom;
@@ -14,19 +17,29 @@ const { tabbar } = blocks;
 
 
 export default class TabBar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { selectedTab: 'path' };
+  componentDidMount() {
+    stateApi.addListener(this);
+  }
+
+
+  componentWillUnmount() {
+    stateApi.removeListener(this);
+  }
+
+
+  onStateChange() {
+    this.forceUpdate();
   }
 
 
   onTabPress(text) {
-    this.setState({ selectedTab: text });
+    stateApi.setSelectedTab(text);
   }
 
 
   render() {
     const createCb = (text) => () => this.onTabPress.bind(this)(text);
+    const selectedTab = stateApi.selectedTab();
 
     return (
       <TabBarIOS unselectedTintColor={tabbar.textUnselectedColor}
@@ -37,15 +50,16 @@ export default class TabBar extends Component {
                         icon={tabbar.profileUnselectedIcon}
                         selectedIcon={tabbar.profileSelectedIcon}
                         renderAsOriginal={true}
-                        selected={this.state.selectedTab === 'profile'}
-                        // onPress={createCb('profile')}
+                        selected={selectedTab === 'profile'}
+                        onPress={createCb('profile')}
                         >
+          <ProfileNavigator />
         </TabBarIOS.Item>
         <TabBarIOS.Item title='strutture'
                         icon={tabbar.structuresUnselectedIcon}
                         selectedIcon={tabbar.structuresSelectedIcon}
                         renderAsOriginal={true}
-                        selected={this.state.selectedTab === 'structures'}
+                        selected={selectedTab === 'structures'}
                         onPress={createCb('structures')}
                         >
           <Structures />
@@ -54,7 +68,7 @@ export default class TabBar extends Component {
                         icon={tabbar.pathUnselectedIcon}
                         selectedIcon={tabbar.pathSelectedIcon}
                         renderAsOriginal={true}
-                        selected={this.state.selectedTab === 'path'}
+                        selected={selectedTab === 'path'}
                         onPress={createCb('path')}
                         >
           <AppNavigator />
@@ -63,7 +77,7 @@ export default class TabBar extends Component {
                         icon={tabbar.aboutUnselectedIcon}
                         selectedIcon={tabbar.aboutSelectedIcon}
                         renderAsOriginal={true}
-                        selected={this.state.selectedTab === 'about'}
+                        selected={selectedTab === 'about'}
                         onPress={createCb('about')}
                         >
           <About />
@@ -72,7 +86,7 @@ export default class TabBar extends Component {
                         icon={tabbar.sponsorUnselectedIcon}
                         selectedIcon={tabbar.sponsorSelectedIcon}
                         renderAsOriginal={true}
-                        selected={this.state.selectedTab === 'sponsor'}
+                        selected={selectedTab === 'sponsor'}
                         onPress={createCb('sponsor')}
                         >
           <ThanksTo />

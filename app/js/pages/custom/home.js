@@ -66,8 +66,8 @@ export default class Home extends Component {
   onCustomMenuPress(index) {
     const { navigator, getRoute } = this.props;
 
-    if (!stateApi.userExists()) {
-      navigator.push(getRoute('registration'));
+    if (index === 0 && !stateApi.userExists()) {
+      stateApi.setSelectedTab('profile');
     }
     else {
       // TODO: open the right page based on index and user data

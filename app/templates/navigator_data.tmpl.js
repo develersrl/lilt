@@ -1,7 +1,6 @@
 'use strict';
 
 import * as pages from '../pages';
-import * as state from '../state';
 
 
 // -----------------------------------------------------------------------------
@@ -27,20 +26,6 @@ const customRoutes = {
   },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'GLOSSARIO', component: pages.custom.Glossary },
-  'registration': {
-    title: 'REGISTRAZIONE',
-    component: pages.custom.Registration,
-    props: { mode: 'Registration' },
-  },
-  'editProfile': {
-    title: 'MODIFICA PROFILO',
-    component: pages.custom.Registration,
-    props: { mode: 'Edit' },
-  },
-  'profile': {
-    title: 'PROFILO',
-    component: pages.custom.Profile,
-  },
 };
 /* eslint-enable quote-props */
 
@@ -48,7 +33,6 @@ const customRoutes = {
 const routes = {
   ...generatedRoutes,
   ...customRoutes,
-  ...state.getQuestionsRoutes(pages),
 };
 
 // the start route key

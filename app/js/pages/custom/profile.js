@@ -60,8 +60,11 @@ export default class Profile extends Component {
 
 
   onForgetPress() {
-    const { navigator } = this.props;
-    stateApi.userForget().then(navigator.popToTop);
+    const { navigator, getRoute } = this.props;
+    stateApi.userForget().then(() => {
+      navigator.popToTop();
+      navigator.replace(getRoute('registration'));
+    });
   }
 
 
@@ -129,6 +132,11 @@ export default class Profile extends Component {
   }
 }
 
+
+Profile.propTypes = {
+  navigator: React.PropTypes.object.isRequired,
+  getRoute: React.PropTypes.func.isRequired,
+};
 
 
 const myStyle = StyleSheet.create({

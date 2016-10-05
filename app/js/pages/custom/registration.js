@@ -25,12 +25,21 @@ export default class Registration extends Component {
       user: { ...stateApi.getState().user.data },
       error: 'OK',
     };
-    stateApi.setListener(this);
+  }
+
+
+  componentDidMount() {
+    stateApi.addListener(this);
   }
 
 
   componentWillUpdate() {
     LayoutAnimation.easeInEaseOut();
+  }
+
+
+  componentWillUnmount() {
+    stateApi.removeListener(this);
   }
 
 

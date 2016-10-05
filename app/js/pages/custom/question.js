@@ -56,7 +56,7 @@ export default class Question extends Component {
     else {
       // If we are on the last question page
       stateApi.commitAnswers()
-        .then(() => navigator.popToTop());
+        .then(() => navigator.push(getRoute('answersThanks')));
     }
   }
 
