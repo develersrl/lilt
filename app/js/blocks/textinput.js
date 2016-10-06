@@ -12,7 +12,7 @@ export default class MyTextInput extends Component {
     const _keyboardType = keyboardType === undefined ? 'default' : keyboardType;
 
     return (
-      <View style={myStyle.container}>
+      <View style={[myStyle.container, this.props.style]}>
         <View style={myStyle.labelView}>
           <Text style={myStyle.label}>{label}</Text>
         </View>
@@ -34,6 +34,10 @@ MyTextInput.propTypes = {
   defaultValue: React.PropTypes.string.isRequired,
   onChangeText: React.PropTypes.func.isRequired,
   keyboardType: React.PropTypes.string,
+  style: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.number,
+  ]),
 };
 
 
@@ -45,7 +49,6 @@ const myStyle = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#BBBBBB',
     flexDirection: 'row',
-    marginBottom: 10,
   },
   labelView: {
     alignSelf: 'stretch',

@@ -125,25 +125,30 @@ export default class Registration extends Component {
                      onChangeText={makeCb('email')}
                      keyboardType={'email-address'}
                      />
-          <TextInput label={'nome*'}
+          <TextInput style={myStyle.spacing}
+                     label={'nome*'}
                      defaultValue={name}
                      onChangeText={makeCb('name')}
                      />
-          <TextInput label={'cognome*'}
+          <TextInput style={myStyle.spacing}
+                     label={'cognome*'}
                      defaultValue={surname}
                      onChangeText={makeCb('surname')}
                      />
-          <DateField label={'nata/o il*'}
+          <DateField style={myStyle.spacing}
+                     label={'nata/o il*'}
                      placeholder={'seleziona data'}
                      date={birthdate}
                      onChangeDate={makeCb('birthdate')}
                      />
-          <TextInput label={'cap*'}
+          <TextInput style={myStyle.spacing}
+                     label={'cap*'}
                      defaultValue={cap}
                      onChangeText={makeCb('cap')}
                      keyboardType={'numeric'}
                      />
-          <TextInput label={'indirizzo*'}
+          <TextInput style={myStyle.spacing}
+                     label={'indirizzo*'}
                      defaultValue={address}
                      onChangeText={makeCb('address')}
                      />

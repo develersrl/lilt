@@ -11,7 +11,7 @@ const { form } = common;
 
 export default class DateField extends Component {
   render() {
-    const { label, placeholder, date, onChangeDate } = this.props;
+    const { label, placeholder, date, onChangeDate, style } = this.props;
 
     // When placeholder prop is not defined we could use the empty string
     // as placeholder text. However, the empty string triggers a side-effect:
@@ -23,7 +23,7 @@ export default class DateField extends Component {
     const _onChangeDate = onChangeDate ? onChangeDate : null;
 
     return (
-      <View style={myStyle.container}>
+      <View style={[myStyle.container, style]}>
         <View style={myStyle.labelView}>
           <Text style={myStyle.label}>{label}</Text>
         </View>
@@ -54,6 +54,10 @@ DateField.propTypes = {
   placeholder: React.PropTypes.string,
   date: React.PropTypes.string,
   onChangeDate: React.PropTypes.func,
+  style: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.number,
+  ]),
 };
 
 
@@ -64,7 +68,6 @@ const myStyle = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#BBBBBB',
     flexDirection: 'row',
-    marginBottom: 10,
   },
   labelView: {
     alignSelf: 'stretch',
