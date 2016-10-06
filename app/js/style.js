@@ -1,6 +1,9 @@
 'use strict';
 
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
+
+
+const pr = (sz) => sz * PixelRatio.get();
 
 
 const common = {
@@ -39,6 +42,7 @@ const common = {
   form: {
     fieldHeight: 50,
   },
+  tabBarHeight: 59,
 };
 
 
@@ -317,7 +321,7 @@ const pages = {
   },
   question: {
     backgroundColor: '#C1DBF8',
-    bodyPadding: 30,
+    bodyPadding: 20,
     questionTitleFontSize: 14,
     questionFontSize: 16,
     answersSpacing: 20,

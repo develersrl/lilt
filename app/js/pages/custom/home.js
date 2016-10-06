@@ -119,21 +119,13 @@ export default class Home extends Component {
   }
 
 
-  renderTestLinks() {
-    return (
-      <View style={myStyle.belowMenuView}>
-        {this.renderProfileLink()}
-      </View>
-      );
-  }
-
-
   render() {
     return (
       <ScrollView style={myStyle.scrollView}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   centerContent={true}
+                  contentInset={{bottom: 59}}
                   >
         <View style={myStyle.container}>
           <View style={myStyle.logoView}>
@@ -169,9 +161,6 @@ export default class Home extends Component {
             </View>
           </View>
           {this.renderCustomServices()}
-          {
-            this.renderTestLinks()
-          }
         </View>
       </ScrollView>
       );

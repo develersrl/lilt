@@ -7,6 +7,7 @@ import {
   loadLocal,
   removeLocal,
   validateEmail,
+  eqSet,
 } from '../misc';
 
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
@@ -58,7 +59,7 @@ const init = () => {
       .then(() => {
         _setState({...state, initialized: true });
         setInterval(_userDataSender, dataSenderRetryInterval * 1000);
-        console.log(state);
+        console.log(state);  // eslint-disable-line no-console
       });
   }
 };
@@ -75,7 +76,7 @@ const userValidate = (userObj) => {
       userObj.name === '' ||
       userObj.surname === '' ||
       userObj.address === '' ||
-      userObj.age === '' ||
+      userObj.birthdate === '' ||
       userObj.cap === '')
     return 'campi mancanti';
 
@@ -111,16 +112,40 @@ const userRegister = (userObj) => {
 };
 
 
+const checkLoadedUser = (loadedUser) => {
+  // This is the "official" array of user fields (e.g. name, surname ecc..)
+  const userDataFields = new Set(Object.keys(initialState.user.data));
+
+  // This is the array of user fields that have been loaded from async storage.
+  // This array should contain the same set of user fields defined in user
+  // initial state, but this could not be the case when LILT decides to change
+  // the field set.. So we need to compare the two field set, and if we detect
+  // a difference we "forget" the loaded user, in order to trigger a new
+  // registration process for the missing fields.
+  const loadedDataFields = new Set(Object.keys(loadedUser.data));
+
+  // If field set is the same there is nothing to do
+  if (eqSet(userDataFields, loadedDataFields))
+    return loadedUser;
+
+  // Otherwise we "forget" the current user
+  console.warn('User field set changed. Erasing local user data.');
+  return removeLocal('liltUser')
+    .then(() => saveLocal('liltUser', initialState.user));
+};
+
+
 const userInit = () => {
   const initState = initialState.user;
   return Promise.resolve()
     .then(() => removeStoredUser ? removeLocal('liltUser') : {})
     .then(() => localKeyExists('liltUser'))
     .then((b) => b ? loadLocal('liltUser') : saveLocal('liltUser', initState))
-    .then((localUser) => _setState({
+    .then(checkLoadedUser)
+    .then((loadedUser) => _setState({
       ...state,
-      user: localUser,
-      answers: { ...localUser.savedAnswers },
+      user: loadedUser,
+      answers: { ...loadedUser.savedAnswers },
     }));
 };
 

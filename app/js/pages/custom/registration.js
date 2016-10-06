@@ -11,7 +11,6 @@ import {
 
 import { KeyboardAwareScrollView }
   from 'react-native-keyboard-aware-scroll-view';
-import DatePicker from 'react-native-datepicker';
 
 import { api as stateApi } from '../../state';
 import { TextInput, Button2, DateField } from '../../blocks';
@@ -51,7 +50,6 @@ export default class Registration extends Component {
 
 
   onFieldChange(field, text) {
-    console.log(field + ' -> ' + text);
     this.setState({
       ...this.state,
       user: {
@@ -111,6 +109,7 @@ export default class Registration extends Component {
                                bounces={false}
                                showsVerticalScrollIndicator={false}
                                automaticallyAdjustContentInsets={false}
+                               contentInset={{bottom: 59}}
                                >
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{title}</Text>

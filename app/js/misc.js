@@ -213,6 +213,13 @@ const openURL = (url) => {
 };
 
 
+const eqSet = (s1, s2) => {
+  if (s1.size !== s2.size) return false;
+  for (const a of s1) if (!s2.has(a)) return false;
+  return true;
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
@@ -226,4 +233,5 @@ module.exports = {
   printStorageValue,
   validateEmail,
   share,
+  eqSet,
 };

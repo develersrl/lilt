@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { api as stateApi } from '../../state';
 import { Answer, ArrowMenu } from '../../blocks';
-import { pages } from '../../style';
+import { pages, common } from '../../style';
 const { question } = pages;
 
 
@@ -143,12 +143,17 @@ export default class Question extends Component {
 
   render() {
     return (
-      <View style={myStyle.container}>
+      <ScrollView style={myStyle.container}
+                  bounces={false}
+                  showsVerticalScrollIndicator={false}
+                  automaticallyAdjustContentInsets={false}
+                  contentInset={{bottom: common.tabBarHeight}}
+                  >
         {this.renderQuestion()}
         {this.renderAnswers()}
         {this.renderBottomBar()}
         {this.renderArrow()}
-      </View>
+      </ScrollView>
       );
   }
 }
@@ -171,7 +176,6 @@ Question.propTypes = {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: question.backgroundColor,
     padding: question.bodyPadding,
   },
