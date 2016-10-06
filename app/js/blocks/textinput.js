@@ -8,7 +8,8 @@ import { common } from '../style';
 
 export default class MyTextInput extends Component {
   render() {
-    const { label, defaultValue, onChangeText } = this.props;
+    const { label, defaultValue, onChangeText, keyboardType } = this.props;
+    const _keyboardType = keyboardType === undefined ? 'default' : keyboardType;
 
     return (
       <View style={myStyle.container}>
@@ -18,12 +19,22 @@ export default class MyTextInput extends Component {
         <View style={myStyle.inputFieldView}>
           <TextInput style={myStyle.inputField}
                      defaultValue={defaultValue}
-                     onChangeText={onChangeText} />
+                     onChangeText={onChangeText}
+                     keyboardType={_keyboardType}
+                     />
         </View>
       </View>
       );
   }
 }
+
+
+MyTextInput.propTypes = {
+  label: React.PropTypes.string.isRequired,
+  defaultValue: React.PropTypes.string.isRequired,
+  onChangeText: React.PropTypes.func.isRequired,
+  keyboardType: React.PropTypes.string,
+};
 
 
 const { form } = common;

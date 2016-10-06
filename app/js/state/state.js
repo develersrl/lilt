@@ -34,7 +34,7 @@ const initialState = {
       name: '',
       surname: '',
       address: '',
-      age: '',
+      birthdate: '',
       cap: '',
     },
     savedAnswers: getAnswersInitialState(),

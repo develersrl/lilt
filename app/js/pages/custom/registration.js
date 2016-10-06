@@ -11,11 +11,13 @@ import {
 
 import { KeyboardAwareScrollView }
   from 'react-native-keyboard-aware-scroll-view';
+import DatePicker from 'react-native-datepicker';
 
 import { api as stateApi } from '../../state';
-import { TextInput, Button2, PickerField } from '../../blocks';
+import { TextInput, Button2, DateField } from '../../blocks';
 import { common, pages } from '../../style';
 const { registerModify } = pages;
+
 
 
 export default class Registration extends Component {
@@ -49,6 +51,7 @@ export default class Registration extends Component {
 
 
   onFieldChange(field, text) {
+    console.log(field + ' -> ' + text);
     this.setState({
       ...this.state,
       user: {
@@ -92,30 +95,16 @@ export default class Registration extends Component {
 
   render() {
     const { mode } = this.props;
-    const { email, name, surname, address, age, cap } = this.state.user;
+    const { email, name, surname, address, birthdate, cap } = this.state.user;
     const cb = this.onFieldChange.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
-    const makePickerCb = (field) => (opt) => cb(field, opt.label);
     let buttonText = 'INVIA E INIZIA QUESTIONARIO';
+
     let title = 'REGISTRAZIONE';
     if (mode === 'Edit') {
       buttonText = 'INVIA E RIPETI QUESTIONARIO';
       title = 'MODIFICA PROFILO';
     }
-
-    const ageData = [
-      { key: 0, label: 'meno di 45 anni' },
-      { key: 1, label: '45-50 anni' },
-      { key: 2, label: '50-69 anni' },
-      { key: 3, label: '70-74 anni' },
-    ];
-
-    const capData = [
-      { key: 0, label: '50121' },
-      { key: 1, label: '50122' },
-      { key: 2, label: '50144' },
-      { key: 3, label: '50145' },
-    ];
 
     return (
       <KeyboardAwareScrollView style={myStyle.container}
@@ -135,6 +124,7 @@ export default class Registration extends Component {
           <TextInput label={'email'}
                      defaultValue={email}
                      onChangeText={makeCb('email')}
+                     keyboardType={'email-address'}
                      />
           <TextInput label={'nome'}
                      defaultValue={name}
@@ -144,16 +134,16 @@ export default class Registration extends Component {
                      defaultValue={surname}
                      onChangeText={makeCb('surname')}
                      />
-          <PickerField label={'età'}
-                       data={ageData}
-                       selectedValue={age}
-                       onChange={makePickerCb('age')}
-                       />
-          <PickerField label={'cap'}
-                       data={capData}
-                       selectedValue={cap}
-                       onChange={makePickerCb('cap')}
-                       />
+          <DateField label={'nata/o il'}
+                     placeholder={'seleziona data'}
+                     date={birthdate}
+                     onChangeDate={makeCb('birthdate')}
+                     />
+          <TextInput label={'cap'}
+                     defaultValue={cap}
+                     onChangeText={makeCb('cap')}
+                     keyboardType={'numeric'}
+                     />
           <TextInput label={'indirizzo'}
                      defaultValue={address}
                      onChangeText={makeCb('address')}

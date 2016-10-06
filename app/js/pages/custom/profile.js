@@ -102,7 +102,7 @@ export default class Profile extends Component {
       name: 'Nome',
       surname: 'Cognome',
       address: 'Indirizzo',
-      age: 'Età',
+      birthdate: 'Data di Nascita',
       cap: 'CAP',
     };
 

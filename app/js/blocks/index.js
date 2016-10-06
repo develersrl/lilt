@@ -10,6 +10,7 @@ import PickerField from './pickerfield';
 import SquareMenu from './square_menu';
 import Answer from './answer';
 import ArrowMenu from './arrow_menu';
+import DateField from './datefield';
 
 module.exports = {
   Button,
@@ -21,4 +22,5 @@ module.exports = {
   SquareMenu,
   Answer,
   ArrowMenu,
+  DateField,
 };
