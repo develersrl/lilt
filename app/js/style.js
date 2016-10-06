@@ -349,7 +349,7 @@ const pages = {
     editBtnActiveOpacity: 0.8,
   },
   registerModify: {
-    paddingLeftRight: 40,
+    paddingLeftRight: 20,
     textPaddingLeftRight: 10,
   },
 };
