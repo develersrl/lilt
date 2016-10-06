@@ -1,6 +1,7 @@
 [
   {
     "targetField": "question0",
+    "fieldTranslation": "Domanda 1",
     "question": "Testo domanda 1",
     "answers": [
       { "text": "Risposta 1", "value": "R1" },
@@ -12,6 +13,7 @@
   },
   {
     "targetField": "question1",
+    "fieldTranslation": "Domanda 2",
     "question": "Testo domanda 2",
     "answers": [
       { "text": "Risposta 1", "value": "R1" },
@@ -23,6 +25,7 @@
   },
   {
     "targetField": "question2",
+    "fieldTranslation": "Domanda 3",
     "question": "Testo domanda 3",
     "answers": [
       { "text": "Risposta 1", "value": "R1" },
@@ -34,6 +37,7 @@
   },
   {
     "targetField": "question3",
+    "fieldTranslation": "Domanda 4",
     "question": "Testo domanda 4",
     "answers": [
       { "text": "Risposta 1", "value": "R1" },

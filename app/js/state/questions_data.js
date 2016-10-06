@@ -35,7 +35,18 @@ const getQuestionsRoutes = (pages) => {
 };
 
 
+const getAnswersTranslations = () => {
+  const translations = {};
+  for (let i = 0; i < questionsData.length; ++i) {
+    const data = questionsData[i];
+    translations[data.targetField] = data.fieldTranslation;
+  }
+  return translations;
+};
+
+
 module.exports = {
   getQuestionsRoutes,
   getAnswersInitialState,
+  getAnswersTranslations,
 };

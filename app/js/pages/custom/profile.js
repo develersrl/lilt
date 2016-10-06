@@ -34,13 +34,14 @@ export default class Profile extends Component {
 
   renderQuestionnaireRows() {
     const data = stateApi.userData(false);
+    const fields = stateApi.getRenderableUserAnswers();
 
-    if (data === null)
+    if (fields === null)
       return null;
 
     const rows = [];
-    for (const k in data)
-      rows.push(this.renderInfo(k, data[k]));
+    for (const k in fields)
+      rows.push(this.renderInfo(fields[k], data[k]));
 
     return (
       <View style={myStyle.questionnaireView}>
@@ -163,6 +164,7 @@ const myStyle = StyleSheet.create({
   },
   questionnaireView: {
     marginTop: 20,
+    marginBottom: 20,
   },
   explanation: {
     color: profile.explanationColor,
