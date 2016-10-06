@@ -120,30 +120,30 @@ export default class Registration extends Component {
           </Text>
         </View>
         <View style={myStyle.formContainer}>
-          <TextInput label={'email'}
+          <TextInput label={'email*'}
                      defaultValue={email}
                      onChangeText={makeCb('email')}
                      keyboardType={'email-address'}
                      />
-          <TextInput label={'nome'}
+          <TextInput label={'nome*'}
                      defaultValue={name}
                      onChangeText={makeCb('name')}
                      />
-          <TextInput label={'cognome'}
+          <TextInput label={'cognome*'}
                      defaultValue={surname}
                      onChangeText={makeCb('surname')}
                      />
-          <DateField label={'nata/o il'}
+          <DateField label={'nata/o il*'}
                      placeholder={'seleziona data'}
                      date={birthdate}
                      onChangeDate={makeCb('birthdate')}
                      />
-          <TextInput label={'cap'}
+          <TextInput label={'cap*'}
                      defaultValue={cap}
                      onChangeText={makeCb('cap')}
                      keyboardType={'numeric'}
                      />
-          <TextInput label={'indirizzo'}
+          <TextInput label={'indirizzo*'}
                      defaultValue={address}
                      onChangeText={makeCb('address')}
                      />
