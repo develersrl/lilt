@@ -37,12 +37,28 @@ const initialState = {
       address: '',
       birthdate: '',
       cap: '',
+      height: '',
+      weight: '',
     },
     savedAnswers: getAnswersInitialState(),
   },
   view: {
     selectedTab: 'path',
   },
+};
+
+const mandatoryFields = {
+  email: 'Email',
+  name: 'Nome',
+  surname: 'Cognome',
+  address: 'Indirizzo',
+  birthdate: 'Data di Nascita',
+  cap: 'CAP',
+};
+
+const optionalFields = {
+  height: 'Altezza',
+  weight: 'Peso',
 };
 
 let state = { ...initialState };
@@ -72,13 +88,10 @@ const test = () => {
 
 
 const userValidate = (userObj) => {
-  if (userObj.email === '' ||
-      userObj.name === '' ||
-      userObj.surname === '' ||
-      userObj.address === '' ||
-      userObj.birthdate === '' ||
-      userObj.cap === '')
-    return 'campi mancanti';
+  const fields = Object.keys(mandatoryFields);
+  for (let i = 0; i < fields.length; ++i)
+    if (userObj[fields[i]] === '')
+      return 'campi mancanti';
 
   if (!validateEmail(userObj.email))
     return 'campo email non valido';
@@ -129,6 +142,7 @@ const checkLoadedUser = (loadedUser) => {
     return loadedUser;
 
   // Otherwise we "forget" the current user
+  // eslint-disable-next-line no-console
   console.warn('User field set changed. Erasing local user data.');
   return removeLocal('liltUser')
     .then(() => saveLocal('liltUser', initialState.user));
@@ -224,6 +238,21 @@ const setSelectedTab = (tabId) => {
 };
 
 
+const getRenderableUserFields = () => {
+  const fields = { ...mandatoryFields };
+
+  for (const k in optionalFields) {
+    if (state.user.data[k] !== '') {
+      fields[k] = optionalFields[k];
+    }
+  }
+
+  console.log(fields);
+
+  return fields;
+};
+
+
 const api = {
   init,
   test,
@@ -241,6 +270,7 @@ const api = {
   commitAnswers,
   selectedTab,
   setSelectedTab,
+  getRenderableUserFields,
 };
 /* -------------------------------------------------------------------------- */
 

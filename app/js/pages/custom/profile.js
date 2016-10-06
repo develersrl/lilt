@@ -96,19 +96,11 @@ export default class Profile extends Component {
 
   render() {
     const data = stateApi.userData(true);
-
-    const labelMappings = {
-      email: 'Email',
-      name: 'Nome',
-      surname: 'Cognome',
-      address: 'Indirizzo',
-      birthdate: 'Data di Nascita',
-      cap: 'CAP',
-    };
+    const fields = stateApi.getRenderableUserFields();
 
     const standardDataRows = [];
-    for (const k in data)
-      standardDataRows.push(this.renderInfo(labelMappings[k], data[k]));
+    for (const k in fields)
+      standardDataRows.push(this.renderInfo(fields[k], data[k]));
 
     return (
       <ScrollView style={myStyle.container}
