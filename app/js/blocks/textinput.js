@@ -3,18 +3,32 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 
-import { common } from '../style';
+import { common, blocks } from '../style';
 
 
 export default class MyTextInput extends Component {
   render() {
-    const { label, defaultValue, onChangeText, keyboardType } = this.props;
+    const {
+      label,
+      defaultValue,
+      onChangeText,
+      keyboardType,
+      mandatory,
+    } = this.props;
+
     const _keyboardType = keyboardType === undefined ? 'default' : keyboardType;
+
+    let asterisk = null;
+    if (mandatory)
+      asterisk = (<Text style={[myStyle.label, myStyle.asterisk]}>*</Text>);
 
     return (
       <View style={[myStyle.container, this.props.style]}>
         <View style={myStyle.labelView}>
-          <Text style={myStyle.label}>{label}</Text>
+          <Text>
+            <Text style={myStyle.label}>{label}</Text>
+            {asterisk}
+          </Text>
         </View>
         <View style={myStyle.inputFieldView}>
           <TextInput style={myStyle.inputField}
@@ -34,6 +48,7 @@ MyTextInput.propTypes = {
   defaultValue: React.PropTypes.string.isRequired,
   onChangeText: React.PropTypes.func.isRequired,
   keyboardType: React.PropTypes.string,
+  mandatory: React.PropTypes.bool,
   style: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.number,
@@ -59,6 +74,9 @@ const myStyle = StyleSheet.create({
   label: {
     color: '#7B7A7A',
     fontWeight: 'bold',
+  },
+  asterisk: {
+    color: blocks.tabbar.barColor,
   },
   inputFieldView: {
     flex: 1,
