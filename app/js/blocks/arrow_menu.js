@@ -15,7 +15,7 @@ export default class ArrowMenu extends Component {
 
 
   render() {
-    const { enabled } = this.props;
+    const { enabled, style } = this.props;
     const pressCb = enabled ? this.onPress.bind(this) : null;
     let arrowImg = null;
     const textStyle = [myStyle.text];
@@ -30,7 +30,7 @@ export default class ArrowMenu extends Component {
     }
 
     return (
-      <TouchableOpacity style={myStyle.container}
+      <TouchableOpacity style={[myStyle.container, style]}
                         activeOpacity={arrowMenu.activeOpacity}
                         onPress={pressCb}>
         <View style={myStyle.textView}>
@@ -47,13 +47,16 @@ ArrowMenu.propTypes = {
   text: React.PropTypes.string.isRequired,
   onPress: React.PropTypes.func,
   enabled: React.PropTypes.bool,
+  style: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.number,
+  ]),
 };
 
 
 const myStyle = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
   arrowImage: {
     width: arrowMenu.imageWidth,

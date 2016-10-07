@@ -134,7 +134,8 @@ export default class Question extends Component {
     const enabled = (this.state.selectedIndex >= 0);
     const lastQuestion = (questionIndex === questionsCount - 1);
 
-    return <ArrowMenu text={lastQuestion ? 'Fine' : 'Avanti'}
+    return <ArrowMenu style={myStyle.arrowMenu}
+                      text={lastQuestion ? 'Fine' : 'Avanti'}
                       enabled={enabled}
                       onPress={this.onForwardPress.bind(this)}
                       />;
@@ -214,5 +215,8 @@ const myStyle = StyleSheet.create({
   },
   circleSelected: {
     backgroundColor: question.circleSelectedColor,
+  },
+  arrowMenu: {
+    justifyContent: 'flex-end',
   },
 });
