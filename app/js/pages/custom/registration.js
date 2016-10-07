@@ -93,6 +93,7 @@ export default class Registration extends Component {
 
   render() {
     const { mode } = this.props;
+
     const {
       email,
       name,
@@ -103,6 +104,7 @@ export default class Registration extends Component {
       height,
       weight,
     } = this.state.user;
+
     const cb = this.onFieldChange.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
     let buttonText = 'INVIA E INIZIA QUESTIONARIO';
