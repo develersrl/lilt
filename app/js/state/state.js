@@ -110,7 +110,12 @@ const saveRegistrationResult = (ok) => {
 };
 
 
-const userRegister = (userObj) => {
+const answersRegister = () => userRegister(state.user.data, state.answers);
+
+const userRegister = (userObj, answers) => {
+  const _answers = answers ? answers : state.user.savedAnswers;
+  const totalUserData = { ...userObj, ..._answers };
+
   return Promise.resolve()
     .then(() => {
       _setState({
@@ -119,9 +124,10 @@ const userRegister = (userObj) => {
           ...state.user,
           sentState: SendState.SENDING,
           data: userObj,
+          savedAnswers: _answers,
         },
       });
-      return register(userObj);
+      return register(totalUserData);
     })
     .then((ok) => saveRegistrationResult(ok))
     .catch(() => saveRegistrationResult(false));  // catch offline status, too
@@ -290,6 +296,7 @@ const api = {
   test,
   userValidate,
   userRegister,
+  answersRegister,
   userForget,
   addListener,
   removeListener,
