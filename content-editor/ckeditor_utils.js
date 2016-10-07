@@ -1,5 +1,3 @@
-const path = require('path');
-
 
 // Load marked.js inside ckeditor plugin 'markdown'
 CKEDITOR.scriptLoader.load(
@@ -10,7 +8,6 @@ CKEDITOR.scriptLoader.load(
 CKEDITOR.scriptLoader.load(
   path.join('ckeditor', 'plugins', 'markdown', 'js', 'to-markdown.js')
 );
-
 
 // eslint-disable-next-line no-unused-vars
 const ckInit = (onDocumentChanged) => {
@@ -37,10 +34,10 @@ const ckInit = (onDocumentChanged) => {
     removeDialogTabs: 'image:advanced;link:advanced;link:target',
     width: '100%',
     removePlugins: 'elementspath',
-    // allowedContent: 'h1 h2 h3 p strong em pre; img[!src]',
+    allowedContent: true,
+    // allowedContent: 'h1 h2 h3 p strong em pre; img[!src]; a',
   })
   .on('change', onDocumentChanged);
 };
-
 
 module.exports = { ckInit };

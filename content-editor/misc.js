@@ -5,6 +5,8 @@
 /* ---------------- Imports ------------------------------------------------- */
 const remote = require('electron').remote;
 const path = require('path');
+const uuid = require('node-uuid');
+const fse = require('fs-extra');
 /* -------------------------------------------------------------------------- */
 
 
@@ -60,6 +62,38 @@ const isMac = () => (remoteProcess.platform.startsWith('darwin'));
 const relativeToAbsolute = (currDir, rel) => {
   return path.resolve(path.join(currDir, path.basename(rel)));
 };
+
+
+const resetInput = (e) => {
+  // Reset input content
+  // https://stackoverflow.com/questions/1043957
+  e.wrap('<form>').closest('form').get(0).reset();
+  e.unwrap();
+};
+
+
+const copyFile = (sourceFile, targetDir, options = {mangle: true}) => {
+  const sourceName = path.basename(sourceFile);
+  const sourceExt = path.extname(sourceName);
+
+  if (path.join(targetDir, sourceName) === sourceFile)
+    return sourceFile;
+
+  const targetName = (options.mangle) ? uuid.v4() + sourceExt : sourceName;
+  const targetFile = path.join(path.resolve(targetDir), targetName);
+
+  /* eslint-disable no-console */
+  try {
+    fse.copySync(sourceFile, targetFile);
+    console.log(sourceFile + ' -> ' + targetFile);
+  }
+  catch (err) {
+    console.error(err);
+  }
+  /* eslint-enable no-console */
+
+  return targetFile;
+};
 /* -------------------------------------------------------------------------- */
 
 
@@ -72,5 +106,7 @@ module.exports = {
   isProdEnvironment,
   isMac,
   relativeToAbsolute,
+  resetInput,
+  copyFile,
 };
 /* -------------------------------------------------------------------------- */
