@@ -198,7 +198,7 @@ const blocks = {
   },
   arrowMenu: {
     imageWidth: 34,
-    textGap: 15,
+    textGap: 10,
     textColor: '#D93D56',
     fontSize: 14,
     activeOpacity: 0.6,
