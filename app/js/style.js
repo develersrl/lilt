@@ -198,7 +198,7 @@ const blocks = {
   },
   arrowMenu: {
     imageWidth: 34,
-    textGap: 15,
+    textGap: 10,
     textColor: '#D93D56',
     fontSize: 14,
     activeOpacity: 0.6,
@@ -349,7 +349,7 @@ const pages = {
     editBtnActiveOpacity: 0.8,
   },
   registerModify: {
-    paddingLeftRight: 40,
+    paddingLeftRight: 20,
     textPaddingLeftRight: 10,
   },
 };

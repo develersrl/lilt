@@ -14,7 +14,7 @@ import { KeyboardAwareScrollView }
 
 import { api as stateApi } from '../../state';
 import { TextInput, Button2, DateField } from '../../blocks';
-import { common, pages } from '../../style';
+import { common, pages, blocks } from '../../style';
 const { registerModify } = pages;
 
 
@@ -93,7 +93,18 @@ export default class Registration extends Component {
 
   render() {
     const { mode } = this.props;
-    const { email, name, surname, address, birthdate, cap } = this.state.user;
+
+    const {
+      email,
+      name,
+      surname,
+      address,
+      birthdate,
+      cap,
+      height,
+      weight,
+    } = this.state.user;
+
     const cb = this.onFieldChange.bind(this);
     const makeCb = (field) => (text) => cb(field, text);
     let buttonText = 'INVIA E INIZIA QUESTIONARIO';
@@ -124,29 +135,55 @@ export default class Registration extends Component {
                      defaultValue={email}
                      onChangeText={makeCb('email')}
                      keyboardType={'email-address'}
+                     mandatory={true}
                      />
-          <TextInput label={'nome'}
+          <TextInput style={myStyle.spacing}
+                     label={'nome'}
                      defaultValue={name}
                      onChangeText={makeCb('name')}
+                     mandatory={true}
                      />
-          <TextInput label={'cognome'}
+          <TextInput style={myStyle.spacing}
+                     label={'cognome'}
                      defaultValue={surname}
                      onChangeText={makeCb('surname')}
+                     mandatory={true}
                      />
-          <DateField label={'nata/o il'}
+          <DateField style={myStyle.spacing}
+                     label={'nata/o il'}
                      placeholder={'seleziona data'}
                      date={birthdate}
                      onChangeDate={makeCb('birthdate')}
+                     mandatory={true}
                      />
-          <TextInput label={'cap'}
+          <TextInput style={myStyle.spacing}
+                     label={'cap'}
                      defaultValue={cap}
                      onChangeText={makeCb('cap')}
                      keyboardType={'numeric'}
+                     mandatory={true}
                      />
-          <TextInput label={'indirizzo'}
+          <TextInput style={myStyle.spacing}
+                     label={'indirizzo'}
                      defaultValue={address}
                      onChangeText={makeCb('address')}
+                     mandatory={true}
                      />
+          <TextInput style={myStyle.spacing}
+                     label={'altezza'}
+                     defaultValue={height}
+                     onChangeText={makeCb('height')}
+                     keyboardType={'numeric'}
+                     />
+          <TextInput style={myStyle.spacing}
+                     label={'peso'}
+                     defaultValue={weight}
+                     onChangeText={makeCb('weight')}
+                     keyboardType={'numeric'}
+                     />
+          <View style={myStyle.mandatoryAdviceView}>
+            <Text style={myStyle.mandatoryAdviceText}>*campi obbligatori</Text>
+          </View>
           {this.renderErrorString()}
           <View style={myStyle.buttonRow}>
             <View style={myStyle.buttonView}>
@@ -200,7 +237,7 @@ const myStyle = StyleSheet.create({
     paddingBottom: 20,
   },
   errorText: {
-    color: 'red',
+    color: blocks.tabbar.barColor,
     fontSize: 12,
     alignSelf: 'flex-end',
     paddingBottom: 10,
@@ -211,5 +248,17 @@ const myStyle = StyleSheet.create({
   },
   buttonView: {
     marginLeft: 10,
+  },
+  mandatoryAdviceView: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  mandatoryAdviceText: {
+    fontFamily: 'GillSans',
+    fontSize: 13,
+    color: blocks.tabbar.barColor,
+  },
+  spacing: {
+    marginTop: 10,
   },
 });

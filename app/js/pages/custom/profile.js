@@ -34,13 +34,14 @@ export default class Profile extends Component {
 
   renderQuestionnaireRows() {
     const data = stateApi.userData(false);
+    const fields = stateApi.getRenderableUserAnswers();
 
-    if (data === null)
+    if (fields === null)
       return null;
 
     const rows = [];
-    for (const k in data)
-      rows.push(this.renderInfo(k, data[k]));
+    for (const k in fields)
+      rows.push(this.renderInfo(fields[k], data[k]));
 
     return (
       <View style={myStyle.questionnaireView}>
@@ -96,19 +97,11 @@ export default class Profile extends Component {
 
   render() {
     const data = stateApi.userData(true);
-
-    const labelMappings = {
-      email: 'Email',
-      name: 'Nome',
-      surname: 'Cognome',
-      address: 'Indirizzo',
-      birthdate: 'Data di Nascita',
-      cap: 'CAP',
-    };
+    const fields = stateApi.getRenderableUserFields();
 
     const standardDataRows = [];
-    for (const k in data)
-      standardDataRows.push(this.renderInfo(labelMappings[k], data[k]));
+    for (const k in fields)
+      standardDataRows.push(this.renderInfo(fields[k], data[k]));
 
     return (
       <ScrollView style={myStyle.container}
@@ -171,6 +164,7 @@ const myStyle = StyleSheet.create({
   },
   questionnaireView: {
     marginTop: 20,
+    marginBottom: 20,
   },
   explanation: {
     color: profile.explanationColor,

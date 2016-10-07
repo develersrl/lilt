@@ -13,7 +13,10 @@ import {
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
 import { removeStoredUser, dataSenderRetryInterval } from './config';
-import { getAnswersInitialState } from './questions_data';
+import {
+  getAnswersInitialState,
+  getAnswersTranslations,
+} from './questions_data';
 /* -------------------------------------------------------------------------- */
 
 
@@ -37,12 +40,28 @@ const initialState = {
       address: '',
       birthdate: '',
       cap: '',
+      height: '',
+      weight: '',
     },
     savedAnswers: getAnswersInitialState(),
   },
   view: {
     selectedTab: 'path',
   },
+};
+
+const mandatoryFields = {
+  email: 'Email',
+  name: 'Nome',
+  surname: 'Cognome',
+  address: 'Indirizzo',
+  birthdate: 'Data di Nascita',
+  cap: 'CAP',
+};
+
+const optionalFields = {
+  height: 'Altezza',
+  weight: 'Peso',
 };
 
 let state = { ...initialState };
@@ -72,13 +91,10 @@ const test = () => {
 
 
 const userValidate = (userObj) => {
-  if (userObj.email === '' ||
-      userObj.name === '' ||
-      userObj.surname === '' ||
-      userObj.address === '' ||
-      userObj.birthdate === '' ||
-      userObj.cap === '')
-    return 'campi mancanti';
+  const fields = Object.keys(mandatoryFields);
+  for (let i = 0; i < fields.length; ++i)
+    if (userObj[fields[i]] === '')
+      return 'campi mancanti';
 
   if (!validateEmail(userObj.email))
     return 'campo email non valido';
@@ -94,7 +110,12 @@ const saveRegistrationResult = (ok) => {
 };
 
 
-const userRegister = (userObj) => {
+const answersRegister = () => userRegister(state.user.data, state.answers);
+
+const userRegister = (userObj, answers) => {
+  const _answers = answers ? answers : state.user.savedAnswers;
+  const totalUserData = { ...userObj, ..._answers };
+
   return Promise.resolve()
     .then(() => {
       _setState({
@@ -103,9 +124,10 @@ const userRegister = (userObj) => {
           ...state.user,
           sentState: SendState.SENDING,
           data: userObj,
+          savedAnswers: _answers,
         },
       });
-      return register(userObj);
+      return register(totalUserData);
     })
     .then((ok) => saveRegistrationResult(ok))
     .catch(() => saveRegistrationResult(false));  // catch offline status, too
@@ -114,7 +136,11 @@ const userRegister = (userObj) => {
 
 const checkLoadedUser = (loadedUser) => {
   // This is the "official" array of user fields (e.g. name, surname ecc..)
+  // The array includes mandatory and optional fields
   const userDataFields = new Set(Object.keys(initialState.user.data));
+
+  // This is the "official" array of answers fields
+  const answersFields = new Set(Object.keys(initialState.user.savedAnswers));
 
   // This is the array of user fields that have been loaded from async storage.
   // This array should contain the same set of user fields defined in user
@@ -124,11 +150,20 @@ const checkLoadedUser = (loadedUser) => {
   // registration process for the missing fields.
   const loadedDataFields = new Set(Object.keys(loadedUser.data));
 
+  // This is the array of question fields that have been loaded from async
+  // storage. This set could be different from the initial state one for
+  // the reasons explained above.
+  const loadedAnswersFields = new Set(Object.keys(loadedUser.savedAnswers));
+
+  const fieldSetOk = eqSet(userDataFields, loadedDataFields) &&
+                      eqSet(answersFields, loadedAnswersFields);
+
   // If field set is the same there is nothing to do
-  if (eqSet(userDataFields, loadedDataFields))
+  if (fieldSetOk)
     return loadedUser;
 
   // Otherwise we "forget" the current user
+  // eslint-disable-next-line no-console
   console.warn('User field set changed. Erasing local user data.');
   return removeLocal('liltUser')
     .then(() => saveLocal('liltUser', initialState.user));
@@ -194,11 +229,30 @@ const _userDataSender = () => {
 };
 
 
+/**
+ * Tells which questionnaire answers can be rendered.
+ * It returns an object where keys are answers keys and values are answers
+ * keys translations.
+ */
+const getRenderableUserAnswers = () => {
+  // If user did not complete the questionnaire then all answers are empty
+  // so we check the first one for emptiness.
+  // If there are no answers we return null (i.e. nothing is to be rendered)
+  const allAnswers = Object.keys(state.user.savedAnswers);
+  if (allAnswers.length === 0 || !state.user.savedAnswers[allAnswers[0]])
+    return null;
+
+  // If we reach this point then the questionnaire has been done and we can
+  // render all the answers.
+  return getAnswersTranslations();
+};
+
+
 const userData = (standard) => {
   if (standard)
     return state.user.data;
   else
-    return null;  // should return questionnaire data
+    return state.user.savedAnswers;
 };
 
 
@@ -224,11 +278,25 @@ const setSelectedTab = (tabId) => {
 };
 
 
+const getRenderableUserFields = () => {
+  const fields = { ...mandatoryFields };
+
+  for (const k in optionalFields) {
+    if (state.user.data[k] !== '') {
+      fields[k] = optionalFields[k];
+    }
+  }
+
+  return fields;
+};
+
+
 const api = {
   init,
   test,
   userValidate,
   userRegister,
+  answersRegister,
   userForget,
   addListener,
   removeListener,
@@ -241,6 +309,8 @@ const api = {
   commitAnswers,
   selectedTab,
   setSelectedTab,
+  getRenderableUserFields,
+  getRenderableUserAnswers,
 };
 /* -------------------------------------------------------------------------- */
 
