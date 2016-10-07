@@ -1,7 +1,13 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 
 import { api as stateApi } from '../../state';
 import { Answer, ArrowMenu } from '../../blocks';
@@ -27,6 +33,22 @@ export default class Question extends Component {
 
     this.state = { selectedIndex: index };
   }
+
+
+  componentDidMount() {
+    stateApi.addListener(this);
+  }
+
+
+  componentWillUnmount() {
+    stateApi.removeListener(this);
+  }
+
+
+  onStateChange() {
+    this.forceUpdate();
+  }
+
 
   onAnswerSelected(idx) {
     this.setState({ selectedIndex: idx });
@@ -134,11 +156,20 @@ export default class Question extends Component {
     const enabled = (this.state.selectedIndex >= 0);
     const lastQuestion = (questionIndex === questionsCount - 1);
 
-    return <ArrowMenu style={myStyle.arrowMenu}
-                      text={lastQuestion ? 'Fine' : 'Avanti'}
-                      enabled={enabled}
-                      onPress={this.onForwardPress.bind(this)}
-                      />;
+    let indicator = null;
+    if (stateApi.isSendingUserData())
+      indicator = (<ActivityIndicator size={'large'} />);
+
+    return (
+      <View style={myStyle.arrowView}>
+        {indicator}
+        <ArrowMenu style={myStyle.arrowMenu}
+                        text={lastQuestion ? 'Fine' : 'Avanti'}
+                        enabled={enabled}
+                        onPress={this.onForwardPress.bind(this)}
+                        />
+      </View>
+    );
   }
 
 
@@ -216,7 +247,14 @@ const myStyle = StyleSheet.create({
   circleSelected: {
     backgroundColor: question.circleSelectedColor,
   },
+  arrowView: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    height: 40,
+    alignItems: 'center',
+  },
   arrowMenu: {
+    marginLeft: 10,
     justifyContent: 'flex-end',
   },
 });
