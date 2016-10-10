@@ -16,6 +16,7 @@ const init = (updateFormDataFn) => {
   $('#structure-tel-1').on('input', onPhone1Input);
   $('#structure-tel-2').on('input', onPhone2Input);
   $('#structure-tel-3').on('input', onPhone3Input);
+  $('#structure-openings').on('input', onOpeningsInput);
 };
 
 
@@ -25,6 +26,7 @@ const formDataFromJson = (jsonObj) => ({
   phone1: jsonObj.phone1,
   phone2: jsonObj.phone2,
   phone3: jsonObj.phone3,
+  openings: jsonObj.openings,
 });
 
 
@@ -34,6 +36,7 @@ const formDataToJson = (formData) => ({
   phone1: formData.phone1,
   phone2: formData.phone2,
   phone3: formData.phone3,
+  openings: formData.openings,
 });
 
 
@@ -41,6 +44,7 @@ const onShow = () => {
   $('#structure-subtitle-div').show();
   $('#structure-tel-div').show();
   $('#structure-after-editor').show();
+  $('#structure-openings-div').show();
 };
 
 
@@ -48,6 +52,7 @@ const onHide = () => {
   $('#structure-subtitle-div').hide();
   $('#structure-tel-div').hide();
   $('#structure-after-editor').hide();
+  $('#structure-openings-div').hide();
 };
 
 
@@ -71,6 +76,11 @@ const onPhone3Input = () => {
 };
 
 
+const onOpeningsInput = () => {
+  updateFormData({ openings: $('#structure-openings').val() });
+};
+
+
 const collectFormFiles = (/* formData, orgFormData, targetDir, copyFn */) => {
   // Nothing to copy for this template
 };
@@ -83,6 +93,7 @@ const render = (formData) => {
   $('#structure-tel-1').val(formData.phone1);
   $('#structure-tel-2').val(formData.phone2);
   $('#structure-tel-3').val(formData.phone3);
+  $('#structure-openings').val(formData.openings);
 };
 
 
