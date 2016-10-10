@@ -13,35 +13,61 @@ let updateFormData = null;
 const init = (updateFormDataFn) => {
   updateFormData = updateFormDataFn;
   $('#structure-subtitle').on('input', onSubtitleInput);
+  $('#structure-tel-1').on('input', onPhone1Input);
+  $('#structure-tel-2').on('input', onPhone2Input);
+  $('#structure-tel-3').on('input', onPhone3Input);
 };
 
 
 const formDataFromJson = (jsonObj) => ({
   title: jsonObj.title,
   subtitle: jsonObj.subtitle,
+  phone1: jsonObj.phone1,
+  phone2: jsonObj.phone2,
+  phone3: jsonObj.phone3,
 });
 
 
 const formDataToJson = (formData) => ({
   title: formData.title,
   subtitle: formData.subtitle,
+  phone1: formData.phone1,
+  phone2: formData.phone2,
+  phone3: formData.phone3,
 });
 
 
 const onShow = () => {
-  $('#structure-before-editor').show();
+  $('#structure-subtitle-div').show();
+  $('#structure-tel-div').show();
   $('#structure-after-editor').show();
 };
 
 
 const onHide = () => {
-  $('#structure-before-editor').hide();
+  $('#structure-subtitle-div').hide();
+  $('#structure-tel-div').hide();
   $('#structure-after-editor').hide();
 };
 
 
 const onSubtitleInput = () => {
   updateFormData({ subtitle: $('#structure-subtitle').val() });
+};
+
+
+const onPhone1Input = () => {
+  updateFormData({ phone1: $('#structure-tel-1').val() });
+};
+
+
+const onPhone2Input = () => {
+  updateFormData({ phone2: $('#structure-tel-2').val() });
+};
+
+
+const onPhone3Input = () => {
+  updateFormData({ phone3: $('#structure-tel-3').val() });
 };
 
 
@@ -54,6 +80,9 @@ const render = (formData) => {
   document.title = windowTitle + ' — ' + formData.title;
   $('#title').val(formData.title);
   $('#structure-subtitle').val(formData.subtitle);
+  $('#structure-tel-1').val(formData.phone1);
+  $('#structure-tel-2').val(formData.phone2);
+  $('#structure-tel-3').val(formData.phone3);
 };
 
 
