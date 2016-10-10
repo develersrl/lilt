@@ -17,6 +17,7 @@ const init = (updateFormDataFn) => {
   $('#structure-tel-2').on('input', onPhone2Input);
   $('#structure-tel-3').on('input', onPhone3Input);
   $('#structure-openings').on('input', onOpeningsInput);
+  $('#structure-mail').on('input', onMailInput);
 };
 
 
@@ -27,6 +28,7 @@ const formDataFromJson = (jsonObj) => ({
   phone2: jsonObj.phone2,
   phone3: jsonObj.phone3,
   openings: jsonObj.openings,
+  mail: jsonObj.mail,
 });
 
 
@@ -37,6 +39,7 @@ const formDataToJson = (formData) => ({
   phone2: formData.phone2,
   phone3: formData.phone3,
   openings: formData.openings,
+  mail: formData.mail,
 });
 
 
@@ -45,6 +48,7 @@ const onShow = () => {
   $('#structure-tel-div').show();
   $('#structure-after-editor').show();
   $('#structure-openings-div').show();
+  $('#structure-mail-div').show();
 };
 
 
@@ -53,6 +57,7 @@ const onHide = () => {
   $('#structure-tel-div').hide();
   $('#structure-after-editor').hide();
   $('#structure-openings-div').hide();
+  $('#structure-mail-div').hide();
 };
 
 
@@ -81,6 +86,11 @@ const onOpeningsInput = () => {
 };
 
 
+const onMailInput = () => {
+  updateFormData({ mail: $('#structure-mail').val() });
+};
+
+
 const collectFormFiles = (/* formData, orgFormData, targetDir, copyFn */) => {
   // Nothing to copy for this template
 };
@@ -94,6 +104,7 @@ const render = (formData) => {
   $('#structure-tel-2').val(formData.phone2);
   $('#structure-tel-3').val(formData.phone3);
   $('#structure-openings').val(formData.openings);
+  $('#structure-mail').val(formData.mail);
 };
 
 
