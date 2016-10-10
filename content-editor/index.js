@@ -39,6 +39,7 @@ let selectedNodeData = null;
 const templates = [
   require('./contents_template'),
   require('./glossary_template'),
+  require('./structure_template'),
 ];
 /* -------------------------------------------------------------------------- */
 
