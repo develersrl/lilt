@@ -40,15 +40,15 @@
             </button>
           </div>
           <div id="title-div">
-            <label for="title">Title</label>
+            <label for="title">Titolo</label>
             <input type="text" id="title" name="title" />
           </div>
           <div id="shared-text-div">
-            <label for="shared-text">Shared text</label>
+            <label for="shared-text">Testo da Condividere</label>
             <textarea id="shared-text"></textarea>
           </div>
           <div id="pdf-file-div">
-            <label>PDF file</label>
+            <label>File PDF</label>
             <input type="file" id="pdf-input" name="pdf-input" accept=".pdf" />
             <label for="pdf-input" class="btn-label">
               <a class="btn btn-primary" role="button">Choose Pdf</a>
@@ -56,7 +56,7 @@
             <label for="pdf-input" id="pdf-name" class="hidden"></label>
           </div>
           <div id="header-image-div">
-            <label>Header image</label>
+            <label>Immagine di Testa</label>
             <input type="file" id="header-image" name="header-image" accept="image/*" />
             <label for="header-image" class="btn-label">
               <a class="btn btn-primary" role="button">Select image</a>
@@ -107,14 +107,11 @@
                    />
           </div>
           <div id="editor-div" class="editor">
-            <label for="editor1">Page content</label>
+            <label id="editor1-label" for="editor1">Page content</label>
             <textarea name="editor1" id="editor1" rows="20"></textarea>
             <script>
               ckeditorInit();  // eslint-disable-line no-undef
             </script>
-          </div>
-          <div id="structure-after-editor">
-            Hello after editor
           </div>
         </div>
         <div id="below-editor">

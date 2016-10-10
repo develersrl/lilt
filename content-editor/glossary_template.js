@@ -22,7 +22,11 @@ const formDataToJson = (formData) => ({
 });
 
 
-const onShow = () => {};
+const onShow = () => {
+  $('#editor1-label').html('Testo Pagina');
+};
+
+
 const onHide = () => {};
 
 

@@ -70,6 +70,7 @@ const onShow = () => {
   $('#shared-text-div').show();
   $('#header-image-div').show();
   $('#pdf-file-div').show();
+  $('#editor1-label').html('Testo Pagina');
 };
 
 

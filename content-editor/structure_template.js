@@ -52,18 +52,17 @@ const formDataToJson = (formData) => ({
 const onShow = () => {
   $('#structure-subtitle-div').show();
   $('#structure-tel-div').show();
-  $('#structure-after-editor').show();
   $('#structure-openings-div').show();
   $('#structure-mail-div').show();
   $('#structure-web-div').show();
   $('#structure-address-div').show();
+  $('#editor1-label').html('Testo Libero');
 };
 
 
 const onHide = () => {
   $('#structure-subtitle-div').hide();
   $('#structure-tel-div').hide();
-  $('#structure-after-editor').hide();
   $('#structure-openings-div').hide();
   $('#structure-mail-div').hide();
   $('#structure-web-div').hide();
