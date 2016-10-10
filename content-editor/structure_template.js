@@ -20,6 +20,7 @@ const init = (updateFormDataFn) => {
   $('#structure-mail').on('input', onMailInput);
   $('#structure-web').on('input', onWebInput);
   $('#structure-address').on('input', onAddressInput);
+  $('#structure-type').on('change', onStructureTypeChange);
 };
 
 
@@ -33,6 +34,7 @@ const formDataFromJson = (jsonObj) => ({
   mail: jsonObj.mail,
   web: jsonObj.web,
   address: jsonObj.address,
+  structuretype: jsonObj.structuretype,
 });
 
 
@@ -46,6 +48,7 @@ const formDataToJson = (formData) => ({
   mail: formData.mail,
   web: formData.web,
   address: formData.address,
+  structuretype: formData.structuretype,
 });
 
 
@@ -56,6 +59,7 @@ const onShow = () => {
   $('#structure-mail-div').show();
   $('#structure-web-div').show();
   $('#structure-address-div').show();
+  $('#structure-type-div').show();
   $('#editor1-label').html('Testo Libero');
 };
 
@@ -67,6 +71,7 @@ const onHide = () => {
   $('#structure-mail-div').hide();
   $('#structure-web-div').hide();
   $('#structure-address-div').hide();
+  $('#structure-type-div').hide();
 };
 
 
@@ -110,6 +115,11 @@ const onAddressInput = () => {
 };
 
 
+const onStructureTypeChange = () => {
+  updateFormData({ structuretype: $('#structure-type').val() });
+};
+
+
 const collectFormFiles = (/* formData, orgFormData, targetDir, copyFn */) => {
   // Nothing to copy for this template
 };
@@ -126,6 +136,7 @@ const render = (formData) => {
   $('#structure-mail').val(formData.mail);
   $('#structure-web').val(formData.web);
   $('#structure-address').val(formData.address);
+  $('#structure-type').val(formData.structuretype);
 };
 
 
