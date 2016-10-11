@@ -7,7 +7,6 @@ import json
 import common
 
 
-
 def import_content_page(
         page_id,
         page_descriptor,
@@ -38,14 +37,25 @@ def import_content_page(
     else:
         shutil.copy(input_markdown_file, output_markdown_file)
 
-    # Copy images from source directory to destination directory.
-    # This automatically copies the page header image plus all the images
-    # referenced inside the markdown file.
+    # Copy all images from source directory to destination directory.
+    # This automatically copies the page header image.
     pngs = [f for f in os.listdir(input_page_dir) if f.lower().endswith('png')]
     for png in pngs:
         input_png_fn = os.path.join(input_page_dir, png)
         output_png_fn = os.path.join(output_page_dir, png)
         shutil.copy(input_png_fn, output_png_fn)
+
+    # Copy images referenced in markdown
+    inputMdImagesDir = os.path.join(input_page_dir, 'md-imgs')
+    outputMdImagesDir = os.path.join(output_page_dir, 'md-imgs')
+
+    # Cleanup target images directory
+    if os.path.isdir(outputMdImagesDir):
+        shutil.rmtree(outputMdImagesDir)
+
+    # Copy images dir
+    if os.path.isdir(inputMdImagesDir):
+        shutil.copytree(inputMdImagesDir, outputMdImagesDir)
 
     # Return the python dictionary that describes the generated page
     return {

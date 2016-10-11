@@ -32,6 +32,18 @@ def import_glossary_word_page(
         output_png_fn = os.path.join(output_page_dir, png)
         shutil.copy(input_png_fn, output_png_fn)
 
+    # Copy images referenced in markdown
+    inputMdImagesDir = os.path.join(input_page_dir, 'md-imgs')
+    outputMdImagesDir = os.path.join(output_page_dir, 'md-imgs')
+
+    # Cleanup target images directory
+    if os.path.isdir(outputMdImagesDir):
+        shutil.rmtree(outputMdImagesDir)
+
+    # Copy images dir
+    if os.path.isdir(inputMdImagesDir):
+        shutil.copytree(inputMdImagesDir, outputMdImagesDir)
+
     # Return the python dictionary that describes the generated page
     return {
         'id': page_id,
