@@ -135,17 +135,39 @@ const collectFormFiles = (/* formData, orgFormData, targetDir, copyFn */) => {
 
 const render = (formData) => {
   document.title = windowTitle + ' — ' + formData.title;
-  $('#title').val(formData.title);
-  $('#structure-subtitle').val(formData.subtitle);
-  $('#structure-tel-1').val(formData.phone1);
-  $('#structure-tel-2').val(formData.phone2);
-  $('#structure-tel-3').val(formData.phone3);
-  $('#structure-openings').val(formData.openings);
-  $('#structure-mail').val(formData.mail);
-  $('#structure-web-1').val(formData.web1);
-  $('#structure-web-2').val(formData.web2);
-  $('#structure-address').val(formData.address);
-  $('#structure-type').val(formData.structuretype);
+
+  if (formData.title !== $('#title').val())
+    $('#title').val(formData.title);
+
+  if (formData.subtitle !== $('#structure-subtitle').val())
+    $('#structure-subtitle').val(formData.subtitle);
+
+  if (formData.phone1 !== $('#structure-tel-1').val())
+    $('#structure-tel-1').val(formData.phone1);
+
+  if (formData.phone2 !== $('#structure-tel-2').val())
+    $('#structure-tel-2').val(formData.phone2);
+
+  if (formData.phone3 !== $('#structure-tel-3').val())
+    $('#structure-tel-3').val(formData.phone3);
+
+  if (formData.openings !== $('#structure-openings').val())
+    $('#structure-openings').val(formData.openings);
+
+  if (formData.mail !== $('#structure-mail').val())
+    $('#structure-mail').val(formData.mail);
+
+  if (formData.web1 !== $('#structure-web-1').val())
+    $('#structure-web-1').val(formData.web1);
+
+  if (formData.web2 !== $('#structure-web-2').val())
+    $('#structure-web-2').val(formData.web2);
+
+  if (formData.address !== $('#structure-address').val())
+    $('#structure-address').val(formData.address);
+
+  if (formData.structuretype !== $('#structure-type').val())
+    $('#structure-type').val(formData.structuretype);
 };
 
 
