@@ -17,7 +17,8 @@ const init = (updateFormDataFn) => {
   $('#structure-tel-2').on('input', onPhone2Input);
   $('#structure-tel-3').on('input', onPhone3Input);
   $('#structure-openings').on('input', onOpeningsInput);
-  $('#structure-mail').on('input', onMailInput);
+  $('#structure-mail-1').on('input', onMail1Input);
+  $('#structure-mail-2').on('input', onMail2Input);
   $('#structure-web-1').on('input', onWeb1Input);
   $('#structure-web-2').on('input', onWeb2Input);
   $('#structure-address').on('input', onAddressInput);
@@ -32,7 +33,8 @@ const formDataFromJson = (jsonObj) => ({
   phone2: jsonObj.phone2,
   phone3: jsonObj.phone3,
   openings: jsonObj.openings,
-  mail: jsonObj.mail,
+  mail1: jsonObj.mail1,
+  mail2: jsonObj.mail2,
   web1: jsonObj.web1,
   web2: jsonObj.web2,
   address: jsonObj.address,
@@ -47,7 +49,8 @@ const formDataToJson = (formData) => ({
   phone2: formData.phone2,
   phone3: formData.phone3,
   openings: formData.openings,
-  mail: formData.mail,
+  mail1: formData.mail1,
+  mail2: formData.mail2,
   web1: formData.web1,
   web2: formData.web2,
   address: formData.address,
@@ -103,8 +106,13 @@ const onOpeningsInput = () => {
 };
 
 
-const onMailInput = () => {
-  updateFormData({ mail: $('#structure-mail').val() });
+const onMail1Input = () => {
+  updateFormData({ mail1: $('#structure-mail-1').val() });
+};
+
+
+const onMail2Input = () => {
+  updateFormData({ mail2: $('#structure-mail-2').val() });
 };
 
 
@@ -154,8 +162,11 @@ const render = (formData) => {
   if (formData.openings !== $('#structure-openings').val())
     $('#structure-openings').val(formData.openings);
 
-  if (formData.mail !== $('#structure-mail').val())
-    $('#structure-mail').val(formData.mail);
+  if (formData.mail1 !== $('#structure-mail-1').val())
+    $('#structure-mail-1').val(formData.mail1);
+
+  if (formData.mail2 !== $('#structure-mail-2').val())
+    $('#structure-mail-2').val(formData.mail2);
 
   if (formData.web1 !== $('#structure-web-1').val())
     $('#structure-web-1').val(formData.web1);
