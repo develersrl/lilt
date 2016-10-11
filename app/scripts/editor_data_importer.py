@@ -2,10 +2,13 @@
 
 import os
 import shutil
+import json
+import codecs
 
 import common
 from contents_importer import import_content_page
 from glossary_word_importer import import_glossary_word_page, generate_glossary
+from structures_importer import import_structure_fake, import_structure_json
 
 
 # The following array describes the templates to be imported from editor dir
@@ -21,6 +24,12 @@ editor_templates_descriptors = [
         'genprefix': 'gw_gen_',
         'importfun': import_glossary_word_page,
         'endfun': generate_glossary
+    },
+    {
+        'dirname': 'Strutture',
+        'genprefix': 's_gen_',
+        'importfun': None,
+        'endfun': None
     }
 ]
 
@@ -75,20 +84,40 @@ def generate_pages_data(editor_data_dir, descriptor):
         print 'Warning: cannot find dir "{}"'.format(descriptor['dirname'])
         return []
 
-    print 'Generating pages "{}"'.format(descriptor['dirname'])
     generated_pages = []
-    dirs = common.listdir_nohidden(editor_template_dir)
-    for (i, dirname) in enumerate(dirs):
-        # We use a prefix for the page_id to prevent
-        # conflicts with other type of generated pages (e.g. glossary pages)
-        page_object = generate_page_data(
-            '{}{}'.format(descriptor['genprefix'], i + 1),
-            os.path.join(editor_template_dir, dirname),
-            descriptor)
+    if descriptor['importfun'] is not None:
+        print 'Generating pages "{}"'.format(descriptor['dirname'])
+        dirs = common.listdir_nohidden(editor_template_dir)
+        for (i, dirname) in enumerate(dirs):
+            # We use a prefix for the page_id to prevent
+            # conflicts with other type of generated pages
+            page_object = generate_page_data(
+                '{}{}'.format(descriptor['genprefix'], i + 1),
+                os.path.join(editor_template_dir, dirname),
+                descriptor)
 
-        # If generated page is None then something went wrong
-        if page_object is not None:
-            generated_pages.append(page_object)
+            # If generated page is None then something went wrong
+            if page_object is not None:
+                generated_pages.append(page_object)
+
+    # Generate structures json
+    if descriptor['dirname'] == 'Strutture':
+        print 'Generating structures data'
+        dirs = common.listdir_nohidden(editor_template_dir)
+        structures_json = {}
+        for dirname in dirs:
+            structure_dir = os.path.join(editor_template_dir, dirname)
+            import_structure_json(structure_dir, structures_json)
+        # Pretty prints structures to json file
+        with codecs.open(common.content_structures_fn,
+                         'w',
+                         encoding='utf-8') as f:
+            json.dump(structures_json, f,
+                      sort_keys=True,
+                      indent=4,
+                      separators=(',', ': '),
+                      ensure_ascii=False
+                      )
 
     # Run custom "end" function if any
     if descriptor['endfun'] is not None:
