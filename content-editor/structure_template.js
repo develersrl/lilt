@@ -18,7 +18,8 @@ const init = (updateFormDataFn) => {
   $('#structure-tel-3').on('input', onPhone3Input);
   $('#structure-openings').on('input', onOpeningsInput);
   $('#structure-mail').on('input', onMailInput);
-  $('#structure-web').on('input', onWebInput);
+  $('#structure-web-1').on('input', onWeb1Input);
+  $('#structure-web-2').on('input', onWeb2Input);
   $('#structure-address').on('input', onAddressInput);
   $('#structure-type').on('change', onStructureTypeChange);
 };
@@ -32,7 +33,8 @@ const formDataFromJson = (jsonObj) => ({
   phone3: jsonObj.phone3,
   openings: jsonObj.openings,
   mail: jsonObj.mail,
-  web: jsonObj.web,
+  web1: jsonObj.web1,
+  web2: jsonObj.web2,
   address: jsonObj.address,
   structuretype: jsonObj.structuretype,
 });
@@ -46,7 +48,8 @@ const formDataToJson = (formData) => ({
   phone3: formData.phone3,
   openings: formData.openings,
   mail: formData.mail,
-  web: formData.web,
+  web1: formData.web1,
+  web2: formData.web2,
   address: formData.address,
   structuretype: formData.structuretype,
 });
@@ -105,8 +108,13 @@ const onMailInput = () => {
 };
 
 
-const onWebInput = () => {
-  updateFormData({ web: $('#structure-web').val() });
+const onWeb1Input = () => {
+  updateFormData({ web1: $('#structure-web-1').val() });
+};
+
+
+const onWeb2Input = () => {
+  updateFormData({ web2: $('#structure-web-2').val() });
 };
 
 
@@ -134,7 +142,8 @@ const render = (formData) => {
   $('#structure-tel-3').val(formData.phone3);
   $('#structure-openings').val(formData.openings);
   $('#structure-mail').val(formData.mail);
-  $('#structure-web').val(formData.web);
+  $('#structure-web-1').val(formData.web1);
+  $('#structure-web-2').val(formData.web2);
   $('#structure-address').val(formData.address);
   $('#structure-type').val(formData.structuretype);
 };
