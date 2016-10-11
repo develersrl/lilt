@@ -1,24 +1,29 @@
 'use strict';
 
 import React, { Component } from 'react';
+
 import {
   View,
   StyleSheet,
-  Dimensions,
   Text,
 } from 'react-native';
+
+import { common } from '../../style';
 
 
 export default class Structures extends Component {
   render() {
-    const title = "STRUTTURE";
-
     return (
       <View style={myStyle.container}>
-        <View style={myStyle.contentView}>
-          <View style={myStyle.titleView}>
-            <Text style={myStyle.titleText}>{title}</Text>
-          </View>
+        <View style={myStyle.aboveView}>
+          <Text style={myStyle.titleText}>STRUTTURE</Text>
+          <Text style={myStyle.subtitleText}>
+            Lorem ipsum dolor sit amet, consectetur adipicing elit.
+            Nunc dapibus id orci feugiat vulputate.
+          </Text>
+        </View>
+        <View style={myStyle.belowView}>
+
         </View>
       </View>
       );
@@ -29,29 +34,31 @@ export default class Structures extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: common.statusBarHeight,
   },
-  backImg: {
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: 70,
-    height: Dimensions.get('window').height,
-    resizeMode: 'stretch',
-  },
-  contentView: {
-    flex: 1,
-    marginLeft: 60,
-    marginRight: 20,
+  aboveView: {
     justifyContent: 'center',
-  },
-  titleView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
   },
   titleText: {
     color: '#FF9C8D',
     fontFamily: 'GillSans-Bold',
     fontSize: 13,
+    textAlign: 'center',
+  },
+  subtitleText: {
+    color: '#8E8E8E',
+    textAlign: 'center',
+    marginTop: 10,
+    fontFamily: 'GillSans',
+    fontSize: 13,
+  },
+  belowView: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: 'blue',
   },
 });
