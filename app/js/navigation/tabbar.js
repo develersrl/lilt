@@ -11,7 +11,7 @@ import { api as stateApi } from '../state';
 import { custom } from '../pages';
 const { About, ThanksTo, Structures } = custom;
 
-import { blocks } from '../style';
+import { blocks, common } from '../style';
 const { tabbar } = blocks;
 
 
@@ -46,7 +46,8 @@ export default class TabBar extends Component {
                  tintColor={tabbar.textSelectedColor}
                  barTintColor={tabbar.barColor}
                  >
-        <TabBarIOS.Item title='profilo'
+        <TabBarIOS.Item style={myStyle.item}
+                        title={'profilo'}
                         icon={tabbar.profileUnselectedIcon}
                         selectedIcon={tabbar.profileSelectedIcon}
                         renderAsOriginal={true}
@@ -55,7 +56,8 @@ export default class TabBar extends Component {
                         >
           <ProfileNavigator />
         </TabBarIOS.Item>
-        <TabBarIOS.Item title='strutture'
+        <TabBarIOS.Item style={myStyle.item}
+                        title={'strutture'}
                         icon={tabbar.structuresUnselectedIcon}
                         selectedIcon={tabbar.structuresSelectedIcon}
                         renderAsOriginal={true}
@@ -64,7 +66,8 @@ export default class TabBar extends Component {
                         >
           <Structures />
         </TabBarIOS.Item>
-        <TabBarIOS.Item title='percorso'
+        <TabBarIOS.Item style={myStyle.item}
+                        title={'percorso'}
                         icon={tabbar.pathUnselectedIcon}
                         selectedIcon={tabbar.pathSelectedIcon}
                         renderAsOriginal={true}
@@ -73,7 +76,8 @@ export default class TabBar extends Component {
                         >
           <AppNavigator />
         </TabBarIOS.Item>
-        <TabBarIOS.Item title='about LILT'
+        <TabBarIOS.Item style={myStyle.item}
+                        title={'about LILT'}
                         icon={tabbar.aboutUnselectedIcon}
                         selectedIcon={tabbar.aboutSelectedIcon}
                         renderAsOriginal={true}
@@ -82,7 +86,8 @@ export default class TabBar extends Component {
                         >
           <About />
         </TabBarIOS.Item>
-        <TabBarIOS.Item title='grazie a'
+        <TabBarIOS.Item style={myStyle.item}
+                        title={'grazie a'}
                         icon={tabbar.sponsorUnselectedIcon}
                         selectedIcon={tabbar.sponsorSelectedIcon}
                         renderAsOriginal={true}
@@ -98,12 +103,7 @@ export default class TabBar extends Component {
 
 
 const myStyle = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  tabText: {
-    color: 'white',
-    margin: 50,
+  item: {
+    marginBottom: common.tabBarHeight,
   },
 });

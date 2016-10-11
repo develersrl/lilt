@@ -108,7 +108,6 @@ export default class Profile extends Component {
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
-                  contentInset={{bottom: 59}}
                   >
         <Image style={myStyle.icon}
                source={require('../../../images/profile-icon.png')}

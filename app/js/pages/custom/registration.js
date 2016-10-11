@@ -120,7 +120,6 @@ export default class Registration extends Component {
                                bounces={false}
                                showsVerticalScrollIndicator={false}
                                automaticallyAdjustContentInsets={false}
-                               contentInset={{bottom: 59}}
                                >
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{title}</Text>
@@ -234,7 +233,6 @@ const myStyle = StyleSheet.create({
   formContainer: {
     paddingLeft: registerModify.paddingLeftRight,
     paddingRight: registerModify.paddingLeftRight,
-    paddingBottom: 20,
   },
   errorText: {
     color: blocks.tabbar.barColor,

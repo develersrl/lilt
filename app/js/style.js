@@ -42,7 +42,7 @@ const common = {
   form: {
     fieldHeight: 50,
   },
-  tabBarHeight: 59,
+  tabBarHeight: 49,
 };
 
 

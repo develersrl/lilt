@@ -179,7 +179,6 @@ export default class Question extends Component {
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
-                  contentInset={{bottom: common.tabBarHeight}}
                   >
         {this.renderQuestion()}
         {this.renderAnswers()}
