@@ -43,6 +43,7 @@ const common = {
     fieldHeight: 50,
   },
   tabBarHeight: 49,
+  statusBarHeight: 22,
 };
 
 
