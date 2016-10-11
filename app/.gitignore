@@ -50,4 +50,5 @@ content/pdf
 content/pages/*gen*
 content/glossary.json
 content/glossary_bindings.json
+content/structures.json
 images/catalogs
