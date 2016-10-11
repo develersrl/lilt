@@ -134,11 +134,19 @@ const walk = (dir) => {
   for (let i = 0; i < templates.length; ++i) {
     const template = templates[i];
     const templateDirPath = path.join(dir, template.folderName);
-    tree.push({
-      text: path.basename(templateDirPath),
-      selectable: false,
-      nodes: getTreeNodes(templateDirPath, i),
-    });
+
+    try {
+      fs.statSync(templateDirPath).isDirectory();
+      tree.push({
+        text: path.basename(templateDirPath),
+        selectable: false,
+        nodes: getTreeNodes(templateDirPath, i),
+      });
+    }
+    catch (err) {
+      // eslint-disable-next-line no-console
+      console.warn('Cannot find "' + template.folderName + '" directory');
+    }
   }
 
   return tree;
