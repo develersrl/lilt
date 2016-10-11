@@ -72,6 +72,10 @@ body {
   padding: 1em;
 }
 
+#content-form select {
+  font-size: 18px;
+}
+
 #content-form > div:not(:last-child) {
   margin-bottom: 1.5em;
 }

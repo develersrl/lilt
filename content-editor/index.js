@@ -1,18 +1,21 @@
 const fs = require('fs');
+const fse = require('fs-extra');
 const path = require('path');
 const remote = require('electron').remote;
 const uuid = require('node-uuid');
 const storage = require('electron-json-config');
 
-// Load marked.js inside ckeditor plugin 'markdown'
-CKEDITOR.scriptLoader.load(
-  path.join('ckeditor', 'plugins', 'markdown', 'js', 'marked.js')
-);
+const {
+  wait,
+  editor,
+  isProdEnvironment,
+  isMac,
+  relativeToAbsolute,
+  copyFile,
+} = require('./misc');
 
-// Load to-markdown.js inside ckeditor plugin 'markdown'
-CKEDITOR.scriptLoader.load(
-  path.join('ckeditor', 'plugins', 'markdown', 'js', 'to-markdown.js')
-);
+const { ckInit } = require('./ckeditor_utils');
+
 
 /* ---------------- state --------------------------------------------------- */
 // default markdown directory
@@ -32,27 +35,16 @@ let documentChanged = false;
 let ignoreChangedEvent = false;
 let selectedNodeData = null;
 
-// Used to append info to window title
-const baseWindowTitle = remote.getCurrentWindow().getTitle();
-
-// constants
-const PAGE_TYPES = {
-  CONTENTS: 0,
-  GLOSSARY: 1,
-};
+// Add further templates here
+const templates = [
+  require('./contents_template'),
+  require('./glossary_template'),
+  require('./structure_template'),
+];
 /* -------------------------------------------------------------------------- */
 
 
 /* ---------------- support functions and variables ------------------------- */
-// We need to simulate ckeditor actions to load/save markdown properly.
-// These actions must be done one after another with some delay in order to
-// avoid editor errors.
-// This is a simple promise to wait for editor actions to be completed.
-// eslint-disable-next-line no-unused-vars
-const wait = () => new Promise((resolve, reject) => {
-  setTimeout(resolve, 300);
-});
-
 // treeview object
 let tree = null;
 
@@ -62,15 +54,6 @@ let reselectTimerId = -1;
 // remote process variable
 const shared = remote.getGlobal('sharedArgs');
 const remoteProcess = shared.proc;
-
-// shortcut method to obtain the ckeditor instance
-const editor = () => CKEDITOR.instances.editor1;
-
-// app environment detection (https://github.com/electron/electron/pull/5421)
-const isProdEnvironment = () => (remoteProcess.defaultApp === undefined);
-
-const isMac = () => (remoteProcess.platform.startsWith('darwin'));
-
 
 const getDefaultMarkdownDir = () => {
   if (isProdEnvironment()) {
@@ -102,19 +85,22 @@ const getMarkdownDir = () => {
   const args = remoteProcess.argv.slice(isProdEnvironment() ? 1 : 2);
 
   if (args.length === 0) {
-    // Try to read the input directory from storage
+    // Try to read the input directory from storage (application settings)
     if (storage.has('datadir')) {
+      // eslint-disable-next-line no-console
+      console.info('Reading data directory from application settings');
       return storage.get('datadir', '');
     }
 
-    // Try to read the input directory from environment
+    // Try to read the input directory from environment variable
     const envdir = remoteProcess.env.LILT_EDITOR_DATA_DIR;
     if (envdir !== undefined) {
       // eslint-disable-next-line no-console
-      console.info('Reading markdown directory from environment variable');
+      console.info('Reading data directory from environment variable');
       return envdir;
     }
 
+    // Final choice: use default data directory
     return getDefaultMarkdownDir();
   }
 
@@ -126,13 +112,16 @@ const getMarkdownDir = () => {
 };
 
 
-// walk through a directory tree and return a JS object that will be used to
-// initialize the treeview sidebar
+/**
+ * Walk through a directory tree and return a JS object that will be used to
+ * initialize the treeview sidebar
+ */
 const walk = (dir) => {
   // eslint-disable-next-line no-console
   console.info('Walking dir: ' + dir);
   const tree = [];
 
+  // Make sure that target directory exists
   try {
     fs.statSync(dir).isDirectory();
   }
@@ -141,85 +130,79 @@ const walk = (dir) => {
     return tree;
   }
 
-  const contentDirPath = path.join(dir, 'Contenuti');
-  const glossaryDirPath = path.join(dir, 'Glossario');
-  // We know we have 2 top level nodes: Contents and Glossary
-  tree.push({
-    text: path.basename(contentDirPath),
-    selectable: false,
-    nodes: getTreeNodes(contentDirPath, PAGE_TYPES.CONTENTS)
-  });
-
-  tree.push({
-    text: path.basename(glossaryDirPath),
-    selectable: false,
-    nodes: getTreeNodes(glossaryDirPath, PAGE_TYPES.GLOSSARY)
-  });
+  // Populate tree nodes from template directories
+  for (let i = 0; i < templates.length; ++i) {
+    const template = templates[i];
+    const templateDirPath = path.join(dir, template.folderName);
+    tree.push({
+      text: path.basename(templateDirPath),
+      selectable: false,
+      nodes: getTreeNodes(templateDirPath, i),
+    });
+  }
 
   return tree;
 };
 
+
+// Create tree nodes for a particular page type (e.g. glossary,...)
 const getTreeNodes = (dir, pageType) => {
   const nodes = [];
   const pageDirs = fs.readdirSync(dir);
 
+  // Iterate through subfolders
   pageDirs.forEach((pageDir) => {
+    // Skip hidden folders
     if (pageDir[0] === '.')
       return;
 
+    // Assume a page.json file exists inside the folder.
+    // This file describes the folder content
     const fullDirPath = path.join(dir, pageDir);
     const jsonObj = require(path.resolve(path.join(fullDirPath, 'page.json')));
+
     nodes.push({
       text: jsonObj.title,
       orgText: jsonObj.title,
       path: path.join(fullDirPath, 'content.md'),
       pageType: pageType,
-      formData: formDataForType(jsonObj, pageType),
-      icon: 'glyphicon glyphicon-file'
+      formData: formDataForType(fullDirPath, jsonObj, pageType),
+      orgFormData: formDataForType(fullDirPath, jsonObj, pageType),
+      icon: 'glyphicon glyphicon-file',
     });
   });
 
   return nodes;
 };
 
-const formDataForType = (jsonObj, pageType) => {
-  const formData = {
-    title: jsonObj.title,
-    pageType: pageType
-  };
 
-  if (pageType === PAGE_TYPES.CONTENTS) {
-    formData.headerImage = jsonObj.headerImage;
-    formData.pdfFile = jsonObj.pdfFile;
-    formData.sharedText = jsonObj.sharedText;
-  }
-  else if (pageType === PAGE_TYPES.GLOSSARY) {
-      /* Your honor, I have nothing to add */
-  }
+/**
+ * Creates form data for a tree node given the page json descriptor and the
+ * page type. It returns an object that will be attached to the tree node.
+ */
+const formDataForType = (dir, jsonObj, pageType) => Object.assign({ pageType },
+  templates[pageType].formDataFromJson(jsonObj, dir)
+);
 
-  return formData;
-};
 
-// obtain jQuery tree node object by node id
+/**
+ * Obtain jQuery tree node object by node id
+ */
 const getNode = (nodeId) => $('*[data-nodeid="' + nodeId + '"]');
 
-// get current formData
+
+/**
+ * Computes the form data object for the currently selected tree node.
+ */
 const getFormData = () => {
-  const pageType = currentNodePageType();
-  const formData = {
-    title: $('#title').val()
-  };
-
-  if (pageType === PAGE_TYPES.CONTENTS) {
-    formData.sharedText = $('#shared-text').val();
-    formData.pdfFile = $('#pdf-name').text();
-    formData.headerImage = path.basename($('#header-pic').attr('src'));
-  }
-
-  return formData;
+  const treeNode = tree.treeview('getNode', selNodeId);
+  return templates[treeNode.pageType].formDataToJson(treeNode.formData);
 };
 
-// load markdown file inside the editor
+
+/**
+ * Load markdown file inside the editor
+ */
 const loadMarkdown = (mdFilePath, currDir) => {
   Promise.resolve()
     .then(() => {
@@ -228,17 +211,6 @@ const loadMarkdown = (mdFilePath, currDir) => {
       currentMdFile = mdFilePath;
       overlayText = 'Attendi..';
       update();
-
-      // Function to transform a relative src path to an absolute one
-      const relativeToAbsolute = (rel) => {
-        // Since we first load the raw html to a div to parse it, the browser
-        // will automatically transform any relative paths to absolute, but it
-        // will do it from the point of view of the binary executable, so the
-        // relative paths we get here are actually wrong absolute paths. Since
-        // we are really only interested in the name of the image file, we use
-        // path.basename to remove the wrong absolute portion of the path
-        return path.resolve(path.join(currDir, path.basename(rel)));
-      };
 
       // htmlDoc is the html representation of the on-disk markdown
       const htmlDoc = document.createElement('div');
@@ -251,8 +223,10 @@ const loadMarkdown = (mdFilePath, currDir) => {
 
       // We get all the img elements in the document
       const imgs = htmlDoc.getElementsByTagName('img');
+
       // And transform every src attribute from relative to absolute
-      [...imgs].map((img) => img.src = relativeToAbsolute(img.src));
+      const mdImgsDir = path.join(currDir, 'md-imgs');
+      [...imgs].map((img) => img.src = relativeToAbsolute(mdImgsDir, img.src));
 
       // Finally we populate the editor with that data
       editor().setData(htmlDoc.innerHTML);
@@ -265,40 +239,12 @@ const loadMarkdown = (mdFilePath, currDir) => {
     });
 };
 
+
 // load title, shared text and header image info inside form
 const loadFormData = (formData, pageDir, pageType) => {
-  document.title = baseWindowTitle + ' — ' + formData.title;
-  $('#title').val(formData.title);
-  $('#shared-text').val(formData.sharedText);
-
-  if (pageType === PAGE_TYPES.CONTENTS) {
-    $('#shared-text-div').show();
-    $('#header-image-div').show();
-    $('#pdf-file-div').show();
-  }
-  else if (pageType === PAGE_TYPES.GLOSSARY) {
-    $('#shared-text-div').hide();
-    $('#header-image-div').hide();
-    $('#pdf-file-div').hide();
-  }
-
-  if (formData.pdfFile) {
-    $('#pdf-name').text(path.basename(formData.pdfFile));
-    $('#pdf-name').removeClass('hidden');
-  }
-  else {
-    $('#pdf-name').addClass('hidden');
-  }
-
-  if (formData.headerImage) {
-    $('#header-pic').attr('src', path.resolve(path.join(pageDir, formData.headerImage)));
-    $('#header-image-container').removeClass('hidden');
-  }
-  else {
-    $('#header-pic').attr('src', '');
-    $('#header-image-container').addClass('hidden');
-  }
+  templates[pageType].render(formData, pageDir);
 };
+
 
 // save the current editor markdown content to file
 const savePage = () => {
@@ -314,10 +260,8 @@ const savePage = () => {
         copyFormFiles(currDir, pageType);
         writePageJson(currDir);
         const pageJson = getFormData();
-        // pageJson.headerImage is allowed to be undefined, syncImages knows
-        // about it
-        const finalHTML = syncImages(currDir, pageJson.headerImage);
-        updateNodeData(pageJson);
+        const finalHTML = syncImages(currDir);
+        updateNodeData(pageJson, currDir);
 
         writeMarkdown(finalHTML);
       })
@@ -336,24 +280,17 @@ const savePage = () => {
   }
 };
 
+
 const copyFormFiles = (currDir, pageType) => {
-  if (pageType === PAGE_TYPES.CONTENTS) {
-    const headerFile = $('#header-image')[0].files[0];
-    const pdfFile = $('#pdf-input')[0].files[0];
-
-    if (headerFile) {
-      const newName = copyToDir(headerFile.path, currDir);
-      $('#header-pic').attr('src', path.join(currDir, newName));
-    }
-
-    if (pdfFile)
-      copyToDir(pdfFile.path, currDir, {mangle: false});
-  }
-
-  // Reset input fields to avoid copying the files at every save
-  $('#header-image').val('');
-  $('#pdf-input').val('');
+  const treeNode = tree.treeview('getNode', selNodeId);
+  templates[pageType].collectFormFiles(
+    treeNode.formData,
+    treeNode.orgFormData,
+    currDir,
+    copyToDir
+    );
 };
+
 
 const writePageJson = (currDir) => {
   fs.writeFileSync(
@@ -362,108 +299,41 @@ const writePageJson = (currDir) => {
   );
 };
 
-const syncImages = (currDir, headerImage) => {
-/* High-level overview of the process:
- * 1: We list every image referenced in the markdown (mdImgs)
- * 2: We separate those that are outside our dir in a list (external) as
- *    tuples (path, index).
- *    The index is the one from the original list (mdImgs). This will be needed
- *    when we'll modify the ckeditor's html before saving it as markdown.
- * 3: We list all the images inside our dir (currImgs)
- * 4: Delete all the images that appear in currImgs but not in mdImgs, because
- *    that means that they have been removed from the markdown. The header
- *    image (fetched from page.json) is excluded, meaning we consider it as if
- *    it were in the markdown.
- * 5: We copy all the images in the external list in our dir, changing their
- *    name to an uuid and at the same time replacing the src attributes of the
- *    elements inside mdImgs to the new name.
- * 6: We iterate over every internal image and replace the corresponding src
- *    attribute inside mdImgs to the base name, since at this point every src
- *    is absolute, even those that point inside our directory.
- * 7: We return the processed resulting html so that it can then be written to
- *    disk.
- */
 
-  // Step 1
+const syncImages = (currDir) => {
+  // Obtain all image sources referenced in the markdown editor
   const parser = new DOMParser;
   const dom = parser.parseFromString(editor().getData(), 'text/html');
   const mdImgs = dom.getElementsByTagName('img');
+  const mdImgSources = [...mdImgs].map((x) => x.getAttribute('src'));
 
-  // Step 2
-  // Helper function to determine if a src path is internal to the current dir
-  const isExternal = (src) => {
-    // path.relative(dir, file) outputs the relative path of file from dir
-    // Example: if dir is "/home/foo" and file is "/home/foo/bar.png" then
-    // path.relative(dir, file) outputs "bar.png". If file were "/home/bar.png"
-    // path.relative(dir, file) would output "../bar.png".
-    // So anything that is "up" in the directory tree, and thus external to our
-    // currDir, inevitably starts with ".."
-    // On windows the path will be something like "..\\bar.png"
-    const relPath = path.relative(currDir, src);
-    // But there is another case: different roots. *nix systems have a common
-    // root: /. Windows, on the other hand, can have different roots: C:, D:
-    // and so on. If src is on a different root than currDir than path.relative
-    // will output src, which will be an absolute path with a different root.
-    // For example, if currDir is somewhere on C: and is
-    // 'markdown/Contenuti/foo', and src is 'D:/images/bar.png' then
-    // path.relative(currDir, src) will output 'D:/images/bar.png', which is
-    // pretty clearly *not* a relative path, but it still means the src is
-    // external to our currDir.
-    return relPath.startsWith("..") || path.isAbsolute(relPath);
-  };
-  const external = [];
-  const internal = [];
-  for (let index = 0; index < mdImgs.length; index++) {
-    const imgVal = mdImgs[index].getAttribute('src');
-    if (isExternal(imgVal))
-      external.push({ path: imgVal, originalIndex: index });
-    else
-      internal.push({ name: path.basename(imgVal), originalIndex: index });
+  // Copy all images in temp dir and then rename it into 'md-imgs'
+  const tmpDir = path.join(currDir, 'tmp');
+  const mdImgsDir = path.join(currDir, 'md-imgs');
+  try {
+    fse.emptyDirSync(tmpDir);
+    for (let i = 0; i < mdImgSources.length; ++i)
+      fse.copySync(mdImgSources[i], path.join(tmpDir, '' + i + '.png'));
+    fse.emptyDirSync(mdImgsDir);
+    for (let i = 0; i < mdImgSources.length; ++i) {
+      const name = '' + i + '.png';
+      fse.copySync(path.join(tmpDir, name), path.join(mdImgsDir, name));
+    }
+    fse.removeSync(tmpDir);
+  }
+  catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
   }
 
-  // Step 3
-  const dirFiles = fs.readdirSync(currDir);
-  const isImage = (x) => ['.png', '.jpg'].includes(path.extname(x));
-  const currImgs = dirFiles.filter(isImage);
-
-  // Step 4
-  // We use [...] because mdImgs is not an array, but an HTMLCollection
-  // We use path.basename because each src attribute is an absolute path, but
-  // we are only interested in the image name
-  const mdImgsSrcs = [...mdImgs].map((x) => path.basename(x.getAttribute('src')));
-  if (headerImage) mdImgsSrcs.push(headerImage);
-  const toDelete = currImgs.filter((x) => !mdImgsSrcs.includes(x));
-  // We map fs.unlink on every element of toDelete. Since toDelete contains
-  // image names rather than paths, we need to resolve those and unlink them.
-  // fs.unlink also takes a completion callback, which we provide.
-  toDelete.map((imgName) => {
-    const imgPath = path.resolve(path.join(currDir, imgName));
-    fs.unlink(imgPath, (err) => {
-      if (err) {
-        // eslint-disable-next-line no-console
-        console.error("error deleting", imgPath + ":");
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
-    });
-  });
-
-  // Step 5
-  for (let img = 0; img < external.length; img++) {
-    const origIdx = external[img].originalIndex;
-    const newImageName = copyToDir(external[img].path, currDir);
-    mdImgs[origIdx].setAttribute('src', newImageName);
-  }
-
-  // Step 6
-  for (let img = 0; img < internal.length; img++) {
-    const origIdx = internal[img].originalIndex;
-    mdImgs[origIdx].setAttribute('src', internal[img].name);
+  for (let i = 0; i < mdImgSources.length; ++i) {
+    mdImgs[i].setAttribute('src', 'md-imgs/' + i + '.png');
   }
 
   // Step 7
   return dom.documentElement.innerHTML;
 };
+
 
 const writeMarkdown = (sourceHTML) => {
   // http://stackoverflow.com/questions/18106164
@@ -475,34 +345,21 @@ const writeMarkdown = (sourceHTML) => {
   fs.writeFileSync(currentMdFile, unescapedData);
 };
 
+
 const copyToDir = (sourceFile, targetDir, options = {mangle: true}) => {
   const sourceName = path.basename(sourceFile);
   const sourceExt = path.extname(sourceName);
   const targetName = (options.mangle) ? uuid.v4() + sourceExt : sourceName;
   const targetFile = path.join(path.resolve(targetDir), targetName);
 
-  const inStream = fs.createReadStream(sourceFile);
-  const outStream = fs.createWriteStream(targetFile);
+  copyFile(sourceFile, targetFile);
+  loadFormData(getFormData(),
+               path.dirname(currentMdFile),
+               currentNodePageType());
 
-  inStream.on('error', () => {
-    // TODO missing proper error handling
-    // eslint-disable-next-line no-console
-    console.error("Error reading file", sourceFile);
-  });
-
-  outStream.on('error', () => {
-    // TODO missing proper error handling
-    // eslint-disable-next-line no-console
-    console.error("Error writing file", targetFile);
-  });
-
-  outStream.on('finish', () => {
-    loadFormData(getFormData(), path.dirname(currentMdFile));
-  });
-
-  inStream.pipe(outStream);
   return targetName;
 };
+
 
 /* When clicking on a node in the tree, the info to display is fetched from the
  * node itself, not from the disk. Info is fetched from disk only at startup.
@@ -510,29 +367,50 @@ const copyToDir = (sourceFile, targetDir, options = {mangle: true}) => {
  * the selected tree node with the new info, to avoid having to reread the full
  * tree from disk.
  */
-const updateNodeData = (obj) => {
+const updateNodeData = (obj, dir) => {
   const treeNode = tree.treeview('getNode', selNodeId);
   treeNode.orgText = obj.title;
-  treeNode.formData.title = obj.title;
-
-  if (treeNode.pageType === PAGE_TYPES.CONTENTS) {
-    treeNode.formData.sharedText = obj.sharedText;
-    treeNode.formData.pdfFile = obj.pdfFile;
-    treeNode.formData.headerImage = obj.headerImage;
-  }
+  treeNode.formData = formDataForType(dir, obj, treeNode.pageType);
+  treeNode.orgFormData = Object.assign({}, treeNode.formData);
 };
+
 
 const currentNodePageType = () => {
   return tree.treeview('getNode', selNodeId).pageType;
 };
 
+
 const switchDocument = (nodeData) => {
+  const { nodeId, formData } = nodeData;
+
+  if (selNodeId >= 0) {
+    const treeNode = tree.treeview('getNode', selNodeId);
+    templates[treeNode.pageType].onHide();
+  }
+
   prevNodeId = selNodeId;
-  selNodeId = nodeData.nodeId;
+  selNodeId = nodeId;
+
+  if (selNodeId >= 0) {
+    const treeNode = tree.treeview('getNode', selNodeId);
+    templates[treeNode.pageType].onShow();
+  }
+
   loadMarkdown(nodeData.path, path.dirname(nodeData.path)); // calls update()
-  loadFormData(nodeData.formData, path.dirname(nodeData.path), nodeData.pageType);
+  loadFormData(formData, path.dirname(nodeData.path), nodeData.pageType);
+};
+
+
+const updateCurrentFormData = (formDataChanges) => {
+  if (selNodeId >= 0) {
+    const treeNode = tree.treeview('getNode', selNodeId);
+    treeNode.formData = Object.assign(treeNode.formData, formDataChanges);
+    documentChanged = true;
+    update();
+  }
 };
 /* -------------------------------------------------------------------------- */
+
 
 
 /* ---------------- events management --------------------------------------- */
@@ -543,21 +421,18 @@ const onDocumentChanged = () => {
   }
 };
 
-const onHeaderImageChanged = () => {
-  const selectedImage = $('#header-image')[0].files[0].path;
-  $('#header-pic').attr('src', selectedImage);
-  $('#header-image-container').removeClass('hidden');
+
+const onSaveNo = () => {
+  const treeNode = tree.treeview('getNode', selNodeId);
+  treeNode.formData = Object.assign({}, treeNode.orgFormData);
+  switchDocument(selectedNodeData);
 };
 
-const onPdfChanged = () => {
-  const pdfPath = $('#pdf-input')[0].files[0].path;
-  const pdfName = path.basename(pdfPath);
-  $('#pdf-name').text(pdfName);
-  $('#pdf-name').removeClass('hidden');
+
+const onSaveYes = () => {
+  savePage().then(() => switchDocument(selectedNodeData));
 };
 
-const onSaveNo = () => switchDocument(selectedNodeData);
-const onSaveYes = () => savePage().then(onSaveNo);
 
 const onNodeSelected = (ev, data) => {
   // do nothing if node is a directory
@@ -580,6 +455,7 @@ const onNodeSelected = (ev, data) => {
   }
 };
 
+
 const onNodeUnselected = (ev, data) => {
   // schedule a selection of same node.. this is needed to reselect the
   // current node if user clicks on the same tree node
@@ -588,7 +464,6 @@ const onNodeUnselected = (ev, data) => {
 
 
 const onSelectDirectoryClick = () => {
-  console.log('User wants to select a directory');
   shared.selectDirectory((result) => {
     if (result !== undefined) {
       overlayText = 'Scegli un documento oppure';
@@ -599,35 +474,16 @@ const onSelectDirectoryClick = () => {
 };
 
 
-// eslint-disable-next-line no-unused-vars
-const ckeditorInit = () => {
-  // this is a little hack: to prevent the editor to appear for an
-  // instant during initialization phase we show the overlay
-  $('#overlay-text').html("Scegli un documento oppure");
-  $('#overlay').css('visibility', 'visible');
-
-  // it must be initialized here :(
-  CKEDITOR.replace('editor1', {  // eslint-disable-line no-undef
-    toolbarGroups: [
-      { name: 'clipboard', groups: ['clipboard', 'undo'] },
-      { name: 'basicstyles'},
-      { name: 'styles', groups: ['styles'] },
-      { name: 'insert', groups: ['insert'] },
-      { name: 'links', groups: ['links'] },
-      // { name: 'others' },  // uncomment to show "Markdown" btn
-    ],
-    removeButtons: 'Underline,Subscript,Superscript,Strike,' +
-        'Styles,Cut,Copy,Paste,PasteText,PasteFromWord,Table,' +
-        'HorizontalRule,SpecialChar,Image,Anchor',
-    extraPlugins: 'markdown,fs-image',
-    format_tags: 'p;h1;h2;h3;pre',  // eslint-disable-line camelcase
-    removeDialogTabs: 'image:advanced;link:advanced;link:target',
-    width: '100%',
-    removePlugins: 'elementspath',
-    // allowedContent: 'h1 h2 h3 p strong em pre; img[!src]',
-  })
-  .on('change', onDocumentChanged);
+// This event must be managed here because the title is a shared field between
+// contents and glossary templates
+const onTitleInput = () => {
+  updateCurrentFormData({ title: $('#title').val() });
 };
+
+
+// Called by index.html
+// eslint-disable-next-line no-unused-vars
+const ckeditorInit = () => ckInit(onDocumentChanged);
 
 
 const initTree = () => {
@@ -654,21 +510,22 @@ $(document).ready(() => {
   // storage.delete('datadir');
   tree = $('#tree');
   initTree();
+  for (let i = 0; i < templates.length; ++i) {
+    templates[i].init(updateCurrentFormData);
+    templates[i].onHide();
+  }
 });
+
 
 const connectEvents = () => {
   $('#savebtn').click(savePage);
   $('#save-yes').click(onSaveYes);
   $('#save-no').click(onSaveNo);
   $('#setdir-btn').click(onSelectDirectoryClick);
-  $('#title').on('input', onDocumentChanged);
-  $('#shared-text').on('input', onDocumentChanged);
-  $('#header-image').on('change', onDocumentChanged);
-  $('#header-image').on('change', onHeaderImageChanged);
-  $('#pdf-input').on('change', onDocumentChanged);
-  $('#pdf-input').on('change', onPdfChanged);
+  $('#title').on('input', onTitleInput);
 };
 /* -------------------------------------------------------------------------- */
+
 
 
 /* ---------------- rendering ----------------------------------------------- */
@@ -691,16 +548,22 @@ const updateTree = () => {
   }
 };
 
+
 const update = () => setTimeout(() => {
   if (overlayText !== '') {
     $('#overlay-text').html(overlayText);
-
     const btnVisible = (!overlayText.startsWith('Attendi'));
     $('#setdir-btn').css('visibility', btnVisible ? 'visible' : 'hidden');
-
     $('#overlay').css('visibility', 'visible');
   }
   else {
+    if (selNodeId >= 0) {
+      let currPageDir = '';
+      if (currentMdFile !== '')
+        currPageDir = path.dirname(currentMdFile);
+      const treeNode = tree.treeview('getNode', selNodeId);
+      templates[treeNode.pageType].render(treeNode.formData, currPageDir);
+    }
     $('#overlay').css('visibility', 'hidden');
   }
   updateTree();
