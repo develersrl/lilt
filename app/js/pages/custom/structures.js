@@ -8,11 +8,26 @@ import {
   Text,
 } from 'react-native';
 
-import { common } from '../../style';
+import { api as stateApi } from '../../state';
+import { SegmentControl } from '../../blocks';
+
+import { common, pages } from '../../style';
+const { structures } = pages;
 
 
 export default class Structures extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedIndex: 0,
+      tabLabels: stateApi.getStructureTypes(),
+    };
+  }
+
+
   render() {
+    const { selectedIndex, tabLabels } = this.state;
+
     return (
       <View style={myStyle.container}>
         <View style={myStyle.aboveView}>
@@ -23,7 +38,13 @@ export default class Structures extends Component {
           </Text>
         </View>
         <View style={myStyle.belowView}>
+          <SegmentControl values={tabLabels}
+                          selectedIndex={selectedIndex}
+                          tintColor={structures.segmentsColor}
+                          />
+          <View style={myStyle.tabView}>
 
+          </View>
         </View>
       </View>
       );
@@ -46,17 +67,20 @@ const myStyle = StyleSheet.create({
   titleText: {
     color: '#FF9C8D',
     fontFamily: 'GillSans-Bold',
-    fontSize: 13,
+    fontSize: structures.titleFontSize,
     textAlign: 'center',
   },
   subtitleText: {
     color: '#8E8E8E',
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: structures.titleSubtitleGap,
     fontFamily: 'GillSans',
-    fontSize: 13,
+    fontSize: structures.subtitleFontSize,
   },
   belowView: {
+    flex: 1,
+  },
+  tabView: {
     flex: 1,
     borderWidth: 1,
     borderColor: 'blue',

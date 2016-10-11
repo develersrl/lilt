@@ -64,12 +64,23 @@ const optionalFields = {
   weight: 'Peso',
 };
 
+
+const structuresData = require('../../content/structures.json');
+
+
+const structuresTranslations = {
+  callcenter: 'Call Center',
+  breastunit: 'Breast Unit',
+  ispo: 'ISPO',
+  cerion: 'CeRiOn',
+};
+
+
 let state = { ...initialState };
 /* -------------------------------------------------------------------------- */
 
 
 /* ---------------- state api ----------------------------------------------- */
-// initialize application state
 const init = () => {
   if (!state.initialized) {
     Promise.resolve()
@@ -111,6 +122,7 @@ const saveRegistrationResult = (ok) => {
 
 
 const answersRegister = () => userRegister(state.user.data, state.answers);
+
 
 const userRegister = (userObj, answers) => {
   const _answers = answers ? answers : state.user.savedAnswers;
@@ -209,7 +221,6 @@ const notifyListeners = () => {
     state.listeners[i].onStateChange();
 };
 
-
 const _setState = (s) => {
   state = s;
   notifyListeners();
@@ -291,6 +302,22 @@ const getRenderableUserFields = () => {
 };
 
 
+const translateStructureType = (sType) => {
+  if (structuresTranslations.hasOwnProperty(sType))
+    return structuresTranslations[sType];
+  return sType;
+};
+
+
+const getStructureTypes = () => {
+  const sTypes = [];
+  for (let k of Object.keys(structuresData))
+    sTypes.push(translateStructureType(k));
+  sTypes.sort();
+  return sTypes;
+};
+
+
 const api = {
   init,
   test,
@@ -311,6 +338,7 @@ const api = {
   setSelectedTab,
   getRenderableUserFields,
   getRenderableUserAnswers,
+  getStructureTypes,
 };
 /* -------------------------------------------------------------------------- */
 

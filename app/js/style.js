@@ -353,6 +353,12 @@ const pages = {
     paddingLeftRight: 20,
     textPaddingLeftRight: 10,
   },
+  structures: {
+    titleFontSize: 13,
+    subtitleFontSize: 13,
+    titleSubtitleGap: 10,
+    segmentsColor: '#FF9C8D',
+  },
 };
 
 

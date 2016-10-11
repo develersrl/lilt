@@ -11,6 +11,7 @@ import SquareMenu from './square_menu';
 import Answer from './answer';
 import ArrowMenu from './arrow_menu';
 import DateField from './datefield';
+import SegmentControl from './segmentcontrol';
 
 module.exports = {
   Button,
@@ -23,4 +24,5 @@ module.exports = {
   Answer,
   ArrowMenu,
   DateField,
+  SegmentControl,
 };
