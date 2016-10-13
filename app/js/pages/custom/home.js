@@ -19,6 +19,7 @@ const { home } = pages;
 export default class Home extends Component {
   componentWillMount() {
     stateApi.init();
+    setTimeout(() => stateApi.setSelectedTab('structures'), 500);
   }
 
 

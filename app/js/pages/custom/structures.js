@@ -6,10 +6,11 @@ import {
   View,
   StyleSheet,
   Text,
+  ListView,
 } from 'react-native';
 
 import { api as stateApi } from '../../state';
-import { SegmentControl } from '../../blocks';
+import { SegmentControl, StructureItem } from '../../blocks';
 
 import { common, pages } from '../../style';
 const { structures } = pages;
@@ -18,15 +19,46 @@ const { structures } = pages;
 export default class Structures extends Component {
   constructor(props) {
     super(props);
+    const tabLabels = stateApi.getStructureTypes();
+    const dataSource = new ListView.DataSource({
+      rowHasChanged: (r1, r2) => r1 !== r2,
+    });
+
     this.state = {
       selectedIndex: 0,
-      tabLabels: stateApi.getStructureTypes(),
+      tabLabels,
+      dataSource: this.computeNewDataSource(dataSource, tabLabels[0]),
     };
   }
 
 
+  computeNewDataSource(dataSource, newSegment) {
+    const newStructures = stateApi.getStructuresForTranslatedType(newSegment);
+    return dataSource.cloneWithRows(newStructures);
+  }
+
+
+  onSegmentChange(newSegment) {
+    this.setState({
+      ...this.state,
+      dataSource: this.computeNewDataSource(this.state.dataSource, newSegment),
+    });
+  }
+
+
+  renderStructure(structureData, sectionID, rowID) {
+    let itemProps = { ...structureData };
+    if (rowID > 0)
+      itemProps = { ...itemProps, style: myStyle.listItemSpacing };
+
+    return (
+      <StructureItem {...itemProps} />
+      );
+  }
+
+
   render() {
-    const { selectedIndex, tabLabels } = this.state;
+    const { selectedIndex, tabLabels, dataSource } = this.state;
 
     return (
       <View style={myStyle.container}>
@@ -42,9 +74,14 @@ export default class Structures extends Component {
                           selectedIndex={selectedIndex}
                           tintColor={structures.segmentsColor}
                           />
-          <View style={myStyle.tabView}>
-
-          </View>
+          <ListView style={myStyle.listView}
+                    dataSource={dataSource}
+                    automaticallyAdjustContentInsets={false}
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}
+                    renderRow={this.renderStructure}
+                    contentContainerStyle={myStyle.listViewContainer}
+                    />
         </View>
       </View>
       );
@@ -80,9 +117,16 @@ const myStyle = StyleSheet.create({
   belowView: {
     flex: 1,
   },
-  tabView: {
+  listView: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'blue',
+  },
+  listViewContainer: {
+    paddingLeft: structures.listLeftRightPadding,
+    paddingRight: structures.listLeftRightPadding,
+    paddingTop: structures.listTopBottomPadding,
+    paddingBottom: structures.listTopBottomPadding,
+  },
+  listItemSpacing: {
+    marginTop: structures.listItemsSpacing,
   },
 });

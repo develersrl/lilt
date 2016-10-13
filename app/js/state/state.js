@@ -309,12 +309,26 @@ const translateStructureType = (sType) => {
 };
 
 
+const untranslateStructureType = (sTypeTranslation) => {
+  for (const sType of Object.keys(structuresTranslations))
+    if (structuresTranslations[sType] === sTypeTranslation)
+      return sType;
+  return sTypeTranslation;
+};
+
+
 const getStructureTypes = () => {
   const sTypes = [];
-  for (let k of Object.keys(structuresData))
+  for (const k of Object.keys(structuresData))
     sTypes.push(translateStructureType(k));
   sTypes.sort();
   return sTypes;
+};
+
+
+const getStructuresForTranslatedType = (translatedType) => {
+  const sType = untranslateStructureType(translatedType);
+  return structuresData[sType];
 };
 
 
@@ -339,6 +353,7 @@ const api = {
   getRenderableUserFields,
   getRenderableUserAnswers,
   getStructureTypes,
+  getStructuresForTranslatedType,
 };
 /* -------------------------------------------------------------------------- */
 

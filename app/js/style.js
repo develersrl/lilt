@@ -220,6 +220,15 @@ const blocks = {
     sponsorUnselectedIcon: require('../images/bar-sponsor-1.png'),
     sponsorSelectedIcon: require('../images/bar-sponsor-2.png'),
   },
+  structureitem: {
+    titleRowHeight: 50,
+    markerWidth: 20,
+    markerTitleGap: 10,
+    titleFontSize: 11,
+    subtitleFontSize: 12,
+    titleInfoGap: 10,
+    iconSide: 20,
+  },
 };
 
 
@@ -357,7 +366,10 @@ const pages = {
     titleFontSize: 13,
     subtitleFontSize: 13,
     titleSubtitleGap: 10,
-    segmentsColor: '#FF9C8D',
+    segmentsColor: '#93B8D8',
+    listLeftRightPadding: 20,
+    listTopBottomPadding: 10,
+    listItemsSpacing: 10,
   },
 };
 
