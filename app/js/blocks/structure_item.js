@@ -10,31 +10,23 @@ const { structureitem } = blocks;
 export default class StructureItem extends Component {
   renderInfoValue(propName, index) {
     return (
-      <Text key={index}>{this.props[propName]}</Text>
+      <Text style={myStyle.infoValueText} key={index}>
+        {this.props[propName]}
+      </Text>
       );
   }
 
 
-  renderInfo(infoPrefix, icon) {
-    // Collect the available properties with specified prefix.
-    // Example: if prefix is "phone" we search for "phone*" properties
-    // and we collect them inside the "propsToBeRendered" array.
-    const propsToBeRendered = [];
-    for (const k of Object.keys(this.props))
-      if (k.startsWith(infoPrefix) && this.props[k])
-        propsToBeRendered.push(k);
-
-    // Do not render anything if there are no valid props
-    if (propsToBeRendered.length === 0)
-      return null;
-
-    console.log(this.props);
+  renderInfo(info, idx) {
+    const infoViewStyle = [myStyle.infoView];
+    if (idx > 0)
+      infoViewStyle.push(myStyle.infoSpacing);
 
     return (
-      <View style={myStyle.infoView}>
-        <Image style={myStyle.infoIcon} source={icon} />
+      <View style={infoViewStyle} key={idx}>
+        <Image style={myStyle.infoIcon} source={info.icon} />
         <View style={myStyle.infoValuesView}>
-          {propsToBeRendered.map(this.renderInfoValue.bind(this))}
+          {info.props.map(this.renderInfoValue.bind(this))}
         </View>
       </View>
       );
@@ -43,6 +35,35 @@ export default class StructureItem extends Component {
 
   render() {
     const { style, title, subtitle } = this.props;
+    const renderInfo = this.renderInfo.bind(this);
+    const infoNames = ['phone', 'openings', 'mail', 'web'];
+    const infoIcons = [
+      require('../../images/phone.png'),
+      require('../../images/clock.png'),
+      require('../../images/mail.png'),
+      require('../../images/website.png'),
+    ];
+
+    const renderableInfos = [];
+    for (let infoIdx = 0; infoIdx < infoNames.length; ++infoIdx) {
+      const infoPrefix = infoNames[infoIdx];
+      const infoProps = [];
+
+      for (const k of Object.keys(this.props)) {
+        if (k.startsWith(infoPrefix) && this.props[k]) {
+          infoProps.push(k);
+        }
+      }
+
+      infoProps.sort();
+
+      if (infoProps.length > 0) {
+        renderableInfos.push({
+          icon: infoIcons[infoIdx],
+          props: infoProps,
+        });
+      }
+    }
 
     return (
       <View style={[myStyle.container, style]}>
@@ -56,10 +77,7 @@ export default class StructureItem extends Component {
           </View>
         </View>
         <View style={myStyle.infosView}>
-          {this.renderInfo('phone', require('../../images/phone.png'))}
-          {this.renderInfo('openings', require('../../images/clock.png'))}
-          {this.renderInfo('mail', require('../../images/mail.png'))}
-          {this.renderInfo('web', require('../../images/website.png'))}
+          {renderableInfos.map(renderInfo)}
         </View>
       </View>
       );
@@ -79,8 +97,8 @@ StructureItem.propTypes = {
 
 const myStyle = StyleSheet.create({
   container: {
-    borderWidth: 1,
-    borderColor: 'red',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   firstRow: {
     flexDirection: 'row',
@@ -95,8 +113,6 @@ const myStyle = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginLeft: structureitem.markerTitleGap,
-    borderWidth: 1,
-    borderColor: 'green',
   },
   titleText: {
     fontFamily: 'GillSans-Bold',
@@ -111,19 +127,23 @@ const myStyle = StyleSheet.create({
     marginTop: structureitem.titleInfoGap,
   },
   infoView: {
-    flex: 1,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   infoIcon: {
     width: structureitem.iconSide,
     height: structureitem.iconSide,
     resizeMode: 'contain',
-    borderWidth: 1,
-    borderColor: 'red',
+    marginRight: structureitem.iconValuesGap,
+  },
+  infoSpacing: {
+    marginTop: structureitem.infoSpacing,
   },
   infoValuesView: {
-    borderWidth: 1,
-    borderColor: 'green',
     flex: 1,
+  },
+  infoValueText: {
+    fontFamily: 'GillSans',
+    fontSize: structureitem.infoFontSize,
   },
 });
