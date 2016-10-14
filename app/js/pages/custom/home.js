@@ -82,7 +82,6 @@ export default class Home extends Component {
   renderCustomMenu(idx, text) {
     const colorKey = 'customMenu' + (idx + 1) + 'Background';
     const iconKey = 'customMenu' + (idx + 1) + 'Icon';
-    const color = home[colorKey];
     const icon = home[iconKey];
 
     return (
@@ -90,7 +89,7 @@ export default class Home extends Component {
                         style={myStyle.customMenuView}
                         onPress={() => this.onCustomMenuPress.bind(this)(idx)}
                         >
-        <Image style={[myStyle.customCircle, {borderColor: color}]}
+        <Image style={myStyle.customCircle}
                source={icon}
                />
         <View style={myStyle.customMenuTextView}>
@@ -241,8 +240,6 @@ const myStyle = StyleSheet.create({
   customCircle: {
     width: home.customMenuCircleWidth,
     height: home.customMenuCircleWidth,
-    borderWidth: 1,
-    borderColor: 'blue',
     borderRadius: home.customMenuCircleWidth / 2,
     marginBottom: home.customMenuIconTextGap,
   },
