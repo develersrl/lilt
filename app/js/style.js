@@ -309,7 +309,7 @@ const pages = {
     logoImage: require('../images/logo_home.png'),
     logoParagraphFontSize: 15,
     logoParagraphLineHeight: 20,
-    logoParagraphMargins: 40,
+    logoParagraphMargins: 30,
     menuTopLeftBackground: '#FFE0D0',
     menuTopLeftIcon: require('../images/know-more.png'),
     menuTopRightBackground: '#C1DBF8',

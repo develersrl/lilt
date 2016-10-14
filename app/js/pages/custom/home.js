@@ -132,9 +132,8 @@ export default class Home extends Component {
             <Image style={myStyle.logoImage} source={home.logoImage} />
             <View style={myStyle.logoParagraphView}>
               <Text style={myStyle.logoParagraph}>
-                Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text.
+                Parliamo di tumore al seno e prevenzione: informazioni per
+                tutti e informazioni personalizzate, proprio per te!
               </Text>
             </View>
           </View>
