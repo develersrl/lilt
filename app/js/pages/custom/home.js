@@ -18,8 +18,10 @@ const { home } = pages;
 
 export default class Home extends Component {
   componentWillMount() {
+    // const { navigator, getRoute } = this.props;
     stateApi.init();
-    setTimeout(() => stateApi.setSelectedTab('structures'), 500);
+    // setTimeout(() => stateApi.setSelectedTab('structures'), 500);
+    // setTimeout(() => navigator.push(getRoute('glossary')), 500);
   }
 
 
@@ -78,9 +80,7 @@ export default class Home extends Component {
 
 
   renderCustomMenu(idx, text) {
-    const colorKey = 'customMenu' + (idx + 1) + 'Background';
     const iconKey = 'customMenu' + (idx + 1) + 'Icon';
-    const color = home[colorKey];
     const icon = home[iconKey];
 
     return (
@@ -88,7 +88,7 @@ export default class Home extends Component {
                         style={myStyle.customMenuView}
                         onPress={() => this.onCustomMenuPress.bind(this)(idx)}
                         >
-        <Image style={[myStyle.customCircle, {borderColor: color}]}
+        <Image style={myStyle.customCircle}
                source={icon}
                />
         <View style={myStyle.customMenuTextView}>
@@ -132,9 +132,8 @@ export default class Home extends Component {
             <Image style={myStyle.logoImage} source={home.logoImage} />
             <View style={myStyle.logoParagraphView}>
               <Text style={myStyle.logoParagraph}>
-                Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text.
+                Parliamo di tumore al seno e prevenzione: informazioni per
+                tutti e informazioni personalizzate, proprio per te!
               </Text>
             </View>
           </View>
@@ -239,8 +238,6 @@ const myStyle = StyleSheet.create({
   customCircle: {
     width: home.customMenuCircleWidth,
     height: home.customMenuCircleWidth,
-    borderWidth: 1,
-    borderColor: 'blue',
     borderRadius: home.customMenuCircleWidth / 2,
     marginBottom: home.customMenuIconTextGap,
   },

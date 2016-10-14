@@ -46,7 +46,7 @@ const initialState = {
     savedAnswers: getAnswersInitialState(),
   },
   view: {
-    selectedTab: 'path',
+    selectedTab: 'home',
   },
 };
 

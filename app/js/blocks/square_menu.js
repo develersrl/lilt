@@ -51,13 +51,10 @@ const styleCreator = (backgroundColor) => StyleSheet.create({
     backgroundColor,
   },
   image: {
-    borderWidth: squareMenu.circleBorderWidth,
-    borderColor: 'white',
-    borderRadius: squareMenu.circleSide / 2,
-    width: squareMenu.circleSide,
-    height: squareMenu.circleSide,
+    width: squareMenu.side,
+    height: squareMenu.side,
     resizeMode: 'contain',
-    marginBottom: squareMenu.circleTextGap,
+    marginBottom: squareMenu.textGap,
   },
   text: {
     color: 'white',
