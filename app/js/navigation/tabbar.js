@@ -67,12 +67,12 @@ export default class TabBar extends Component {
           <Structures />
         </TabBarIOS.Item>
         <TabBarIOS.Item style={myStyle.item}
-                        title={'percorso'}
-                        icon={tabbar.pathUnselectedIcon}
-                        selectedIcon={tabbar.pathSelectedIcon}
+                        title={'home'}
+                        icon={tabbar.homeUnselectedIcon}
+                        selectedIcon={tabbar.homeSelectedIcon}
                         renderAsOriginal={true}
-                        selected={selectedTab === 'path'}
-                        onPress={createCb('path')}
+                        selected={selectedTab === 'home'}
+                        onPress={createCb('home')}
                         >
           <AppNavigator />
         </TabBarIOS.Item>
