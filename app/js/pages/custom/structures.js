@@ -73,6 +73,7 @@ export default class Structures extends Component {
           <SegmentControl values={tabLabels}
                           selectedIndex={selectedIndex}
                           tintColor={structures.segmentsColor}
+                          onValueChange={this.onSegmentChange.bind(this)}
                           />
           <ListView style={myStyle.listView}
                     dataSource={dataSource}
