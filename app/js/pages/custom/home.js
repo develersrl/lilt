@@ -80,7 +80,6 @@ export default class Home extends Component {
 
 
   renderCustomMenu(idx, text) {
-    const colorKey = 'customMenu' + (idx + 1) + 'Background';
     const iconKey = 'customMenu' + (idx + 1) + 'Icon';
     const icon = home[iconKey];
 
