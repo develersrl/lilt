@@ -19,6 +19,7 @@ const { home } = pages;
 export default class Home extends Component {
   componentWillMount() {
     stateApi.init();
+    setTimeout(() => stateApi.setSelectedTab('structures'), 500);
   }
 
 
@@ -125,7 +126,6 @@ export default class Home extends Component {
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   centerContent={true}
-                  contentInset={{bottom: 59}}
                   >
         <View style={myStyle.container}>
           <View style={myStyle.logoView}>
@@ -179,6 +179,7 @@ const myStyle = StyleSheet.create({
     flex: 1,
   },
   container: {
+    paddingBottom: 20,
     justifyContent: 'center',
   },
   logoView: {

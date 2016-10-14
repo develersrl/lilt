@@ -42,7 +42,8 @@ const common = {
   form: {
     fieldHeight: 50,
   },
-  tabBarHeight: 59,
+  tabBarHeight: 49,
+  statusBarHeight: 22,
 };
 
 
@@ -219,6 +220,19 @@ const blocks = {
     sponsorUnselectedIcon: require('../images/bar-sponsor-1.png'),
     sponsorSelectedIcon: require('../images/bar-sponsor-2.png'),
   },
+  structureitem: {
+    titleRowHeight: 40,
+    markerWidth: 15,
+    markerTitleGap: 10,
+    titleFontSize: 11,
+    subtitleFontSize: 12,
+    titleInfoGap: 5,
+    iconSide: 15,
+    iconValuesGap: 15,
+    infoSpacing: 5,
+    infoFontSize: 11,
+    fontColor: '#444444',
+  },
 };
 
 
@@ -351,6 +365,15 @@ const pages = {
   registerModify: {
     paddingLeftRight: 20,
     textPaddingLeftRight: 10,
+  },
+  structures: {
+    titleFontSize: 13,
+    subtitleFontSize: 13,
+    titleSubtitleGap: 10,
+    segmentsColor: '#93B8D8',
+    listLeftRightPadding: 20,
+    listTopBottomPadding: 10,
+    listItemsSpacing: 15,
   },
 };
 

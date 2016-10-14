@@ -35,6 +35,9 @@ content_json_fn = os.path.join(content_dir, 'pages.json')
 # Full path to glossary json file
 content_glossary_fn = os.path.join(content_dir, 'glossary.json')
 
+# Full path to structures json file
+content_structures_fn = os.path.join(content_dir, 'structures.json')
+
 # The following json file contains glossary words "bindings": it defines,
 # for each glossary word, which is the corresponding app page
 content_glossary_bindings_fn = os.path.join(
@@ -113,7 +116,7 @@ def load_json(fn):
 
     try:
         with open(fn, 'r') as f:
-            json_content = json.load(f)
+            json_content = json.loads(f.read().decode('utf-8-sig'))
     except ValueError:
         print '\t\tFAIL: malformed json file'
         return None
