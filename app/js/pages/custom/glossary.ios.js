@@ -36,7 +36,7 @@ export default class Glossary extends Component {
 
   render() {
     const { flexible } = style.common;
-    const filterStr = `label CONTAINS[d] %@`;
+    const filterStr = `label CONTAINS[cd] %@`;
 
     return (
       <View style={[flexible]}>
