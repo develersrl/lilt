@@ -231,6 +231,7 @@ const blocks = {
     iconValuesGap: 15,
     infoSpacing: 5,
     infoFontSize: 11,
+    fontColor: '#444444',
   },
 };
 

@@ -1,7 +1,9 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+
+import { openURL } from '../misc';
 
 import { blocks } from '../style';
 const { structureitem } = blocks;
@@ -9,10 +11,38 @@ const { structureitem } = blocks;
 
 export default class StructureItem extends Component {
   renderInfoValue(propName, index) {
-    return (
-      <Text style={myStyle.infoValueText} key={index}>
+    // Determine info value type (simple text, link or email)
+    let valueType = 'text';
+    if (propName.startsWith('web'))
+      valueType = 'link';
+    else if (propName.startsWith('mail'))
+      valueType = 'mail';
+
+    // Compute text style based on info type
+    const valueStyle = [myStyle.infoValueText];
+    if (valueType === 'link' || valueType === 'mail')
+      valueStyle.push(myStyle.infoLink);
+
+    const textBlock = (
+      <Text style={valueStyle} key={index}>
         {this.props[propName]}
       </Text>
+      );
+
+    // If this is a simple text info we return the text block
+    if (valueType === 'text')
+      return textBlock;
+
+    let cb = null;
+    if (valueType === 'link')
+      cb = (() => openURL(this.props[propName]));
+    else  // email address
+      cb = (() => openURL('mailto:' + this.props[propName]));
+
+    return (
+      <TouchableOpacity key={index} onPress={cb}>
+        {textBlock}
+      </TouchableOpacity>
       );
   }
 
@@ -117,10 +147,12 @@ const myStyle = StyleSheet.create({
   titleText: {
     fontFamily: 'GillSans-Bold',
     fontSize: structureitem.titleFontSize,
+    color: structureitem.fontColor,
   },
   subtitleText: {
     fontFamily: 'GillSans',
     fontSize: structureitem.subtitleFontSize,
+    color: structureitem.fontColor,
   },
   infosView: {
     marginLeft: structureitem.markerWidth + structureitem.markerTitleGap,
@@ -145,5 +177,9 @@ const myStyle = StyleSheet.create({
   infoValueText: {
     fontFamily: 'GillSans',
     fontSize: structureitem.infoFontSize,
+    color: structureitem.fontColor,
+  },
+  infoLink: {
+    color: '#74B3FA',
   },
 });
