@@ -18,8 +18,10 @@ const { home } = pages;
 
 export default class Home extends Component {
   componentWillMount() {
+    // const { navigator, getRoute } = this.props;
     stateApi.init();
-    setTimeout(() => stateApi.setSelectedTab('structures'), 500);
+    // setTimeout(() => stateApi.setSelectedTab('structures'), 500);
+    // setTimeout(() => navigator.push(getRoute('glossary')), 500);
   }
 
 
