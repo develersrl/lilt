@@ -232,6 +232,17 @@ const blocks = {
     infoFontSize: 13,
     fontColor: '#444444',
   },
+  segmentcontrolios: {
+    valuesRowHeight: 40,
+    footerHeight: 20,
+    backgroundColor: '#C9D5F1',
+    selectedBackgroundColor: '#93B8D8',
+    separatorColor: '#E5E9F1',
+    normalFontSize: 14,
+    selectedFontSize: 12,
+    fontColor: '#444444',
+    activeOpacity: 0.8,
+  },
 };
 
 
