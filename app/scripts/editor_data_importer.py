@@ -107,7 +107,8 @@ def generate_pages_data(editor_data_dir, descriptor):
         structures_json = {}
         for dirname in dirs:
             structure_dir = os.path.join(editor_template_dir, dirname)
-            import_structure_json(structure_dir, structures_json)
+            import_structure_json(dirname, structure_dir, structures_json)
+
         # Pretty prints structures to json file
         with codecs.open(common.content_structures_fn,
                          'w',
