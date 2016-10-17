@@ -66,11 +66,12 @@ export default class StructureItem extends Component {
   render() {
     const { style, title, subtitle } = this.props;
     const renderInfo = this.renderInfo.bind(this);
-    const infoNames = ['phone', 'openings', 'mail', 'web'];
+    const infoNames = ['phone', 'openings', 'mail', 'web', 'address'];
     const infoIcons = [
       require('../../images/phone.png'),
       require('../../images/clock.png'),
       require('../../images/mail.png'),
+      require('../../images/website.png'),
       require('../../images/website.png'),
     ];
 
