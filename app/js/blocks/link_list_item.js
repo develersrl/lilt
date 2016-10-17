@@ -7,8 +7,12 @@ import { common, blocks } from '../style';
 
 export default class LinkListItem extends Component {
   render() {
-    const { title, caption, onLinkPress } = this.props;
+    const { title, caption, onLinkPress, showSeparator } = this.props;
     const { linkListItem } = blocks;
+
+    let separator = null;
+    if (showSeparator)
+      separator = (<View style={linkListItem.separator} />);
 
     return (
       <View>
@@ -28,7 +32,7 @@ export default class LinkListItem extends Component {
             </View>
           </View>
         </View>
-        <View style={linkListItem.separator} />
+        {separator}
       </View>
       );
   }

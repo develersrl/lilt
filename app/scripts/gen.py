@@ -64,12 +64,16 @@ def __gen_button(page_id, button_data):
 
 def __gen_link_list_item(page_id, item_data):
     linkcode = "() => navigator.push(getRoute('{}'))".format(item_data['link'])
+
+    final_item = item_data.get('final', False)
+    show_separator = not final_item
+
     return (
         "<LinkListItem title={{\"{}\"}} caption={{\"{}\"}} "
-        "onLinkPress={{{}}} />"
+        "onLinkPress={{{}}} showSeparator={{{}}}/>"
         .format(item_data['title'].encode('utf-8'),
                 item_data['caption'].encode('utf-8'),
-                linkcode))
+                linkcode, 'true' if show_separator else 'false'))
 
 
 def __gen_image_require(page_id, image_data):

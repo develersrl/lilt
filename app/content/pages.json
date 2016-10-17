@@ -95,7 +95,8 @@
                     "type": "link_list_item",
                     "title": "Dopo la terapia",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_6"
+                    "link": "#c_gen_6",
+                    "final": true
                 }
             ]
         }
@@ -130,7 +131,8 @@
                     "type": "link_list_item",
                     "title": "Terapia ormonale sostitutiva",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_12"
+                    "link": "#c_gen_12",
+                    "final": true
                 }
             ]
         }
@@ -177,7 +179,8 @@
                     "type": "link_list_item",
                     "title": "Approfondimenti diagnostici",
                     "caption": "Capitolo 1 / Capitolo 2",
-                    "link": "#c_gen_2"
+                    "link": "#c_gen_2",
+                    "final": true
                 }
             ]
         }
