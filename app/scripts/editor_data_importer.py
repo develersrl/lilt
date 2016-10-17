@@ -103,6 +103,8 @@ def generate_pages_data(editor_data_dir, descriptor):
     # Generate structures json
     if descriptor['dirname'] == 'Strutture':
         print 'Generating structures data'
+
+        # Iterate over structures directories
         dirs = common.listdir_nohidden(editor_template_dir)
         structures_json = {}
         for dirname in dirs:

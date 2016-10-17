@@ -3,6 +3,10 @@
 import os
 import shutil
 import json
+import mistune
+
+from renderer_wrapper import RendererWrapper
+from rn_renderer import RNRenderer
 
 
 # Base assumption: this script must be placed in the "scripts" directory
@@ -122,3 +126,23 @@ def load_json(fn):
         return None
 
     return json_content
+
+
+def generate_react_native_from_markdown(mdfile, images_dir):
+    rn_renderer = RNRenderer(images_dir=images_dir, warning_prefix='\t\t')
+
+    # Use log=True to print the actual renderer calls from mistune engine
+    wrapper = RendererWrapper(rn_renderer, log=False)
+    renderer = mistune.Markdown(renderer=wrapper)
+
+    # Produce react-native code
+    react_native_code = renderer(open(mdfile, 'r').read())
+
+    # The following line ensures that all react native code related to images
+    # is flushed from the renderer wrapper (e.g. when a markdown document
+    # terminates with an image stripe with no following text)
+    react_native_code += wrapper.flush_images()
+
+    # Wrap react-native code inside a container view
+    return ('<View style={{markdown.container}}>\n{}\n</View>').format(
+        react_native_code)
