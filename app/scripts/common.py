@@ -132,6 +132,7 @@ def load_json(fn):
 
 
 def generate_react_native_from_markdown(mdfile, images_dir):
+    """Generate react-native code from markdown file."""
     rn_renderer = RNRenderer(images_dir=images_dir, warning_prefix='\t\t')
 
     # Use log=True to print the actual renderer calls from mistune engine
@@ -149,3 +150,51 @@ def generate_react_native_from_markdown(mdfile, images_dir):
     # Wrap react-native code inside a container view
     return ('<View style={{markdown.container}}>\n{}\n</View>').format(
         react_native_code)
+
+
+def import_editor_markdown_file(mdfile_dir,
+                                output_content_dir,
+                                output_dirname,
+                                create_empty_mdfile=False):
+    """Import markdown file and data from editor to app directory tree."""
+
+    # Create output directory if it does not exist
+    if not os.path.isdir(output_content_dir):
+        os.makedirs(output_content_dir)
+
+    # Make sure source directory exists
+    if not os.path.isdir(mdfile_dir):
+        print 'Cannot find directory:', mdfile_dir
+        return
+
+    # Compute output directory
+    output_markdown_dir = os.path.join(output_content_dir, output_dirname)
+
+    # Create empty target structure directory
+    if os.path.isdir(output_markdown_dir):
+        shutil.rmtree(output_markdown_dir)
+    os.makedirs(output_markdown_dir)
+
+    # We know that input directory has only one markdown file with
+    # the same name (content.md)
+    input_mdfile = os.path.join(mdfile_dir, 'content.md')
+    output_mdfile = os.path.join(output_markdown_dir, 'content.md')
+
+    # Copy markdown file or create empty one if requested
+    if os.path.isfile(input_mdfile):
+        shutil.copy(input_mdfile, output_mdfile)
+    else:
+        if create_empty_mdfile:
+            print 'Generating empty markdown file.'
+            with open(output_mdfile, 'w') as f:
+                f.write('# Empty Markdown\n')
+        else:
+            # If there is nothing to import then return
+            print 'Cannot find markdown file in {}', mdfile_dir
+            return
+
+    # Copy markdown images if needed
+    input_mdimages_dir = os.path.join(mdfile_dir, 'md-imgs')
+    if os.path.isdir(input_mdimages_dir):
+        output_mdimages_dir = os.path.join(output_markdown_dir, 'md-imgs')
+        shutil.copytree(input_mdimages_dir, output_mdimages_dir)
