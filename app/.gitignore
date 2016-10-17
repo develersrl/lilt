@@ -51,4 +51,5 @@ content/pages/*gen*
 content/glossary.json
 content/glossary_bindings.json
 content/structures.json
+content/structures
 images/catalogs
