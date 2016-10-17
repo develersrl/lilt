@@ -21,6 +21,9 @@ content_dir = os.path.join(app_dir, 'content')
 # Generation script takes pages data from this directory
 content_pages_dir = os.path.join(content_dir, 'pages')
 
+# Generation script takes structures free-text description from this dir
+content_structures_dir = os.path.join(content_dir, 'structures')
+
 # App images dir
 app_images_dir = os.path.join(app_dir, 'images')
 

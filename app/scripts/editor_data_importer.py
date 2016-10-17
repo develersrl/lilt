@@ -104,6 +104,11 @@ def generate_pages_data(editor_data_dir, descriptor):
     if descriptor['dirname'] == 'Strutture':
         print 'Generating structures data'
 
+        # Make sure target structures directory is empty
+        if os.path.isdir(common.content_structures_dir):
+            shutil.rmtree(common.content_structures_dir)
+        os.makedirs(common.content_structures_dir)
+
         # Iterate over structures directories
         dirs = common.listdir_nohidden(editor_template_dir)
         structures_json = {}
