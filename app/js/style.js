@@ -231,6 +231,7 @@ const blocks = {
     infoSpacing: 5,
     infoFontSize: 13,
     fontColor: '#444444',
+    freeTextSpacing: 15,
   },
   segmentcontrolios: {
     valuesRowHeight: 40,

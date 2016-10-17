@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 import { openURL } from '../misc';
 
+
 import { blocks } from '../style';
 const { structureitem } = blocks;
 
@@ -63,6 +64,21 @@ export default class StructureItem extends Component {
   }
 
 
+  renderDescription() {
+    const { structureid, getStructureDescription } = this.props;
+    const genComp = getStructureDescription(structureid);
+
+    if (genComp === null)
+      return null;
+
+    return (
+      <View style={myStyle.freeTextView}>
+        {genComp()}
+      </View>
+      );
+  }
+
+
   render() {
     const { style, title, subtitle } = this.props;
     const renderInfo = this.renderInfo.bind(this);
@@ -109,6 +125,7 @@ export default class StructureItem extends Component {
         </View>
         <View style={myStyle.infosView}>
           {renderableInfos.map(renderInfo)}
+          {this.renderDescription()}
         </View>
       </View>
       );
@@ -123,6 +140,8 @@ StructureItem.propTypes = {
   ]),
   title: React.PropTypes.string.isRequired,
   subtitle: React.PropTypes.string.isRequired,
+  structureid: React.PropTypes.string.isRequired,
+  getStructureDescription: React.PropTypes.func.isRequired,
 };
 
 
@@ -182,5 +201,10 @@ const myStyle = StyleSheet.create({
   },
   infoLink: {
     color: '#74B3FA',
+  },
+  freeTextView: {
+    borderWidth: 1,
+    borderColor: 'red',
+    marginTop: structureitem.freeTextSpacing,
   },
 });
