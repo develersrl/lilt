@@ -1,50 +1,59 @@
 [
   {
-    "targetField": "question0",
-    "fieldTranslation": "Domanda 1",
-    "question": "Testo domanda 1",
+    "targetField": "screening",
+    "fieldTranslation": "SCREENING",
+    "question": "Partecipi al programma di screening mammografico?",
     "answers": [
-      { "text": "Risposta 1", "value": "R1" },
-      { "text": "Risposta 2", "value": "R2" },
-      { "text": "Risposta 3", "value": "R3" },
-      { "text": "Risposta 4", "value": "R4" },
-      { "text": "Risposta 5", "value": "R5" },
+      { "text": "SI, partecipo", "value": "SI" },
+      { "text": "NO, non partecipo", "value": "NO" }
     ],
   },
   {
-    "targetField": "question1",
-    "fieldTranslation": "Domanda 2",
-    "question": "Testo domanda 2",
+    "targetField": "mammografia",
+    "fieldTranslation": "MAMMOGRAFIA",
+    "question": "Se non sei ancora stata chiamata o se non partecipi ai programmi di screening, hai mai fatto una mammografia?",
     "answers": [
-      { "text": "Risposta 1", "value": "R1" },
-      { "text": "Risposta 2", "value": "R2" },
-      { "text": "Risposta 3", "value": "R3" },
-      { "text": "Risposta 4", "value": "R4" },
-      { "text": "Risposta 5", "value": "R5" },
+      { "text": "SI", "value": "SI" },
+      { "text": "NO", "value": "NO" }
     ],
   },
   {
-    "targetField": "question2",
-    "fieldTranslation": "Domanda 3",
-    "question": "Testo domanda 3",
+    "targetField": "tumore",
+    "fieldTranslation": "TUMORE",
+    "question": "Hai avuto un tumore della mammella?",
     "answers": [
-      { "text": "Risposta 1", "value": "R1" },
-      { "text": "Risposta 2", "value": "R2" },
-      { "text": "Risposta 3", "value": "R3" },
-      { "text": "Risposta 4", "value": "R4" },
-      { "text": "Risposta 5", "value": "R5" },
+      { "text": "NO", "value": "NO" },
+      { "text": "SI", "value": "SI" }
     ],
   },
   {
-    "targetField": "question3",
-    "fieldTranslation": "Domanda 4",
-    "question": "Testo domanda 4",
+    "targetField": "fumo",
+    "fieldTranslation": "FUMO",
+    "question": "Sei una fumatrice?",
     "answers": [
-      { "text": "Risposta 1", "value": "R1" },
-      { "text": "Risposta 2", "value": "R2" },
-      { "text": "Risposta 3", "value": "R3" },
-      { "text": "Risposta 4", "value": "R4" },
-      { "text": "Risposta 5", "value": "R5" },
+      { "text": "SI", "value": "SI" },
+      { "text": "Sono stata fumatrice in passato", "value": "SI IN PASSATO" },
+      { "text": "NO", "value": "NO" }
+    ],
+  },
+  {
+    "targetField": "alcool",
+    "fieldTranslation": "ALCOOL",
+    "question": "Consumi bevande alcoliche?",
+    "answers": [
+      { "text": "NO", "value": "NO" },
+      { "text": "SI, meno di una unità alcolica al giorno", "value": "SI (< 1 unità/gg)" },
+      { "text": "SI, più di una unità alcolica al giorno", "value": "SI (> 1 unità/gg)" }
+    ],
+  },
+  {
+    "targetField": "attivita_fisica",
+    "fieldTranslation": "ATTIVITA' FISICA",
+    "question": "Svolgi attività fisica nel tempo libero?",
+    "answers": [
+      { "text": "Non svolgo attività fisica nel tempo libero, sono sedentaria", "value": "NO" },
+      { "text": "Faccio un'attività moderata di almeno 30 minuti, due o più volte alla settimana", "value": "SI (moderata)" },
+      { "text": "Mi muovo regolarmente e pratico un'attività più intensa, almeno due volte alla settimana", "value": "SI (intensa)" }
     ],
   }
 ];
