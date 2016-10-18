@@ -220,6 +220,20 @@ const eqSet = (s1, s2) => {
 };
 
 
+/**
+ * Extract a phone number from the beginning of a string.
+ * It returns an array of two elements, where the first is the phone number
+ * and the second is the text after the number.
+ * If there is no text after the number, the second array element is the
+ * empty string.
+ */
+const extractPhoneNumber = (phoneString) => {
+  const re = new RegExp('^([0-9 ]+[0-9])(.*)$');
+  const tokens = phoneString.match(re);
+  return [tokens[1].trim(), tokens[2] || ''];
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
@@ -234,4 +248,5 @@ module.exports = {
   validateEmail,
   share,
   eqSet,
+  extractPhoneNumber,
 };

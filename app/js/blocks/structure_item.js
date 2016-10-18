@@ -11,7 +11,7 @@ import {
   Platform,
 } from 'react-native';
 
-import { openURL } from '../misc';
+import { openURL, extractPhoneNumber } from '../misc';
 
 
 import { blocks } from '../style';
@@ -43,9 +43,10 @@ export default class StructureItem extends Component {
     if (valueType === 'link' || valueType === 'mail' || valueType === 'phone')
       valueStyle.push(myStyle.infoLink);
 
+    const infoText = this.props[propName].split('\\n').join('\n');
     const textBlock = (
       <Text style={valueStyle} key={index}>
-        {this.props[propName]}
+        {infoText}
       </Text>
       );
 
@@ -108,13 +109,31 @@ export default class StructureItem extends Component {
     }
 
     if (valueType === 'phone') {
-      let telLink = 'tel:' + this.props[propName];
+      // Extract phone token and text token (text may be empty)
+      const tokens = extractPhoneNumber(this.props[propName]);
+
+      // Compute telephone link
+      let telLink = 'tel:' + tokens[0];
       telLink = telLink.split(' ').join('');
 
+      // There may be extra text after the phone number.
+      // If so, we wrap it into a text element
+      let extraText = null;
+      if (tokens[1] !== '') {
+        tokens[1] = tokens[1].split('\\n').join('\n');
+        extraText = (<Text style={myStyle.infoValueText}>{tokens[1]}</Text>);
+      }
+
       return (
-        <TouchableOpacity key={index} onPress={() => openURL(telLink)}>
-          {textBlock}
-        </TouchableOpacity>
+        <View key={index}>
+          <Text>
+            <Text style={valueStyle}
+                  onPress={() => openURL(telLink)}>
+              {tokens[0]}
+            </Text>
+            {extraText}
+          </Text>
+        </View>
         );
     }
 
