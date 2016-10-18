@@ -22,6 +22,7 @@ const init = (updateFormDataFn) => {
   $('#structure-web-1').on('input', onWeb1Input);
   $('#structure-web-2').on('input', onWeb2Input);
   $('#structure-address').on('input', onAddressInput);
+  $('#structure-address-link').on('input', onAddressMapInput);
   $('#structure-type').on('change', onStructureTypeChange);
 };
 
@@ -38,6 +39,7 @@ const formDataFromJson = (jsonObj) => ({
   web1: jsonObj.web1,
   web2: jsonObj.web2,
   address: jsonObj.address,
+  addressMap: jsonObj.addressMap || '',
   structuretype: jsonObj.structuretype,
 });
 
@@ -54,6 +56,7 @@ const formDataToJson = (formData) => ({
   web1: formData.web1,
   web2: formData.web2,
   address: formData.address,
+  addressMap: formData.addressMap,
   structuretype: formData.structuretype,
 });
 
@@ -131,6 +134,11 @@ const onAddressInput = () => {
 };
 
 
+const onAddressMapInput = () => {
+  updateFormData({ addressMap: $('#structure-address-link').val() });
+};
+
+
 const onStructureTypeChange = () => {
   updateFormData({ structuretype: $('#structure-type').val() });
 };
@@ -176,6 +184,9 @@ const render = (formData) => {
 
   if (formData.address !== $('#structure-address').val())
     $('#structure-address').val(formData.address);
+
+  if (formData.addressMap !== $('#structure-address-link').val())
+    $('#structure-address-link').val(formData.addressMap);
 
   if (formData.structuretype !== $('#structure-type').val())
     $('#structure-type').val(formData.structuretype);

@@ -20,6 +20,13 @@ const { structureitem } = blocks;
 
 export default class StructureItem extends Component {
   renderInfoValue(propName, index) {
+    // There are a bunch of fields that must be ignored because they are
+    // accessory to other fields
+    const toBeIgnored = ['addressMap'];
+    for (let i = 0; i < toBeIgnored.length; ++i)
+      if (propName === toBeIgnored[i])
+        return null;
+
     // Determine info value type (simple text, link or email)
     let valueType = 'text';
     if (propName.startsWith('web'))
@@ -60,8 +67,15 @@ export default class StructureItem extends Component {
     }
 
     if (valueType === 'address') {
-      let addressLink = this.props[propName].toLowerCase();
-      addressLink = addressLink.split(' ').join('+');
+      const addressMap = propName + 'Map';
+
+      let addressLink = '';
+      if (this.props.hasOwnProperty(addressMap))
+        addressLink = this.props[addressMap];
+      else
+        addressLink = this.props[propName];
+      addressLink = addressLink.toLowerCase().split(' ').join('+');
+
       let linkPrefix = '';
       if (Platform.OS === 'ios')
         linkPrefix = 'http://maps.apple.com/?q=';
