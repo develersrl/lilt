@@ -16,7 +16,7 @@ export default class MessagePage extends Component {
   onButtonPress() {
     const { navigator, getRoute } = this.props;
     navigator.popToTop();
-    navigator.replace(getRoute('profile'));
+    setTimeout(() => navigator.replace(getRoute('profile')), 1000);
   }
 
 

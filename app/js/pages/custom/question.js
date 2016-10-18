@@ -9,9 +9,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-import { api as stateApi } from '../../state';
+import { api as stateApi, getQuestionData } from '../../state';
 import { Answer, ArrowMenu } from '../../blocks';
-import { pages, common } from '../../style';
+import { pages } from '../../style';
 const { question } = pages;
 
 
@@ -70,9 +70,19 @@ export default class Question extends Component {
     // Save selected answer in answers "working copy"
     stateApi.saveAnswer(targetField, answerValue);
 
+    let nextQuestionIndex = questionIndex + 1;
+
+    // If the woman follows screening we skip the question number 2
+    // and set question 2 answer to YES
+    if (questionIndex === 0 && answerValue === 'SÌ') {
+      const nextQuestionData = getQuestionData(questionIndex + 1);
+      stateApi.saveAnswer(nextQuestionData.targetField, 'SÌ');
+      nextQuestionIndex = questionIndex + 2;
+    }
+
     if (questionIndex < questionsCount - 1) {
       // If there is another question then switch page
-      const nextQuestionRoute = '__question' + (questionIndex + 1) + '__';
+      const nextQuestionRoute = '__question' + nextQuestionIndex + '__';
       navigator.push(getRoute(nextQuestionRoute));
     }
     else {
