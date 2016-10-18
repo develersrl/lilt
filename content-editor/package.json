@@ -1,6 +1,6 @@
 {
   "name": "lilt_app_content_editor",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "main": "main.js",
   "scripts": {
     "start": "./node_modules/.bin/electron .",
