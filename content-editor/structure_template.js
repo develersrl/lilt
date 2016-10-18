@@ -20,7 +20,9 @@ const init = (updateFormDataFn) => {
   $('#structure-mail-1').on('input', onMail1Input);
   $('#structure-mail-2').on('input', onMail2Input);
   $('#structure-web-1').on('input', onWeb1Input);
+  $('#structure-web-1-link').on('input', onWeb1LinkInput);
   $('#structure-web-2').on('input', onWeb2Input);
+  $('#structure-web-2-link').on('input', onWeb2LinkInput);
   $('#structure-address').on('input', onAddressInput);
   $('#structure-address-link').on('input', onAddressMapInput);
   $('#structure-type').on('change', onStructureTypeChange);
@@ -37,7 +39,9 @@ const formDataFromJson = (jsonObj) => ({
   mail1: jsonObj.mail1,
   mail2: jsonObj.mail2,
   web1: jsonObj.web1,
+  web1Link: jsonObj.web1Link || '',
   web2: jsonObj.web2,
+  web2Link: jsonObj.web2Link || '',
   address: jsonObj.address,
   addressMap: jsonObj.addressMap || '',
   structuretype: jsonObj.structuretype,
@@ -54,7 +58,9 @@ const formDataToJson = (formData) => ({
   mail1: formData.mail1,
   mail2: formData.mail2,
   web1: formData.web1,
+  web1Link: formData.web1Link,
   web2: formData.web2,
+  web2Link: formData.web2Link,
   address: formData.address,
   addressMap: formData.addressMap,
   structuretype: formData.structuretype,
@@ -124,8 +130,18 @@ const onWeb1Input = () => {
 };
 
 
+const onWeb1LinkInput = () => {
+  updateFormData({ web1Link: $('#structure-web-1-link').val() });
+};
+
+
 const onWeb2Input = () => {
   updateFormData({ web2: $('#structure-web-2').val() });
+};
+
+
+const onWeb2LinkInput = () => {
+  updateFormData({ web2Link: $('#structure-web-2-link').val() });
 };
 
 
@@ -179,8 +195,14 @@ const render = (formData) => {
   if (formData.web1 !== $('#structure-web-1').val())
     $('#structure-web-1').val(formData.web1);
 
+  if (formData.web1Link !== $('#structure-web-1-link').val())
+    $('#structure-web-1-link').val(formData.web1Link);
+
   if (formData.web2 !== $('#structure-web-2').val())
     $('#structure-web-2').val(formData.web2);
+
+  if (formData.web2Link !== $('#structure-web-2-link').val())
+    $('#structure-web-2-link').val(formData.web2Link);
 
   if (formData.address !== $('#structure-address').val())
     $('#structure-address').val(formData.address);

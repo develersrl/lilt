@@ -22,7 +22,7 @@ export default class StructureItem extends Component {
   renderInfoValue(propName, index) {
     // There are a bunch of fields that must be ignored because they are
     // accessory to other fields
-    const toBeIgnored = ['addressMap'];
+    const toBeIgnored = ['addressMap', 'web1Link', 'web2Link'];
     for (let i = 0; i < toBeIgnored.length; ++i)
       if (propName === toBeIgnored[i])
         return null;
@@ -54,10 +54,20 @@ export default class StructureItem extends Component {
     // Manage links and email addresses
     if (valueType === 'link' || valueType === 'mail') {
       let cb = null;
-      if (valueType === 'link')
-        cb = (() => openURL(this.props[propName]));
-      else  // email address
+      if (valueType === 'link') {
+        let linkURL = '';
+        const urlProp = propName + 'Link';
+        if (this.props.hasOwnProperty(urlProp))
+          linkURL = this.props[urlProp];
+        else
+          linkURL = this.props[propName];
+
+        cb = (() => openURL(linkURL));
+      }
+      else {
+        // email address
         cb = (() => openURL('mailto:' + this.props[propName]));
+      }
 
       return (
         <TouchableOpacity key={index} onPress={cb}>
