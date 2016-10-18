@@ -228,10 +228,12 @@ const blocks = {
     titleInfoGap: 5,
     iconSide: 15,
     iconValuesGap: 15,
-    infoSpacing: 10,
+    infoSpacing: 12,
     infoFontSize: 13,
     fontColor: '#444444',
-    freeTextSpacing: 10,
+    freeTextSpacing: 15,
+    valuesSpacing: 3,
+    valueLineHeight: 15,
   },
   segmentcontrolios: {
     valuesRowHeight: 40,
@@ -380,7 +382,7 @@ const pages = {
     segmentsColor: '#93B8D8',
     listLeftRightPadding: 20,
     listTopBottomPadding: 10,
-    listItemsSpacing: 15,
+    listItemsSpacing: 20,
   },
 };
 

@@ -45,14 +45,18 @@ export default class StructureItem extends Component {
 
     const infoText = this.props[propName].split('\\n').join('\n');
     const textBlock = (
-      <Text style={valueStyle} key={index}>
+      <Text style={valueStyle}>
         {infoText}
       </Text>
       );
 
+    const containerStyle = [];
+    if (index > 0)
+      containerStyle.push(myStyle.valueSpacing);
+
     // If this is a simple text info we return the text block
     if (valueType === 'text')
-      return textBlock;
+      return (<View key={index} style={containerStyle}>{textBlock}</View>);
 
     // Manage links and email addresses
     if (valueType === 'link' || valueType === 'mail') {
@@ -73,7 +77,7 @@ export default class StructureItem extends Component {
       }
 
       return (
-        <TouchableOpacity key={index} onPress={cb}>
+        <TouchableOpacity style={containerStyle} key={index} onPress={cb}>
           {textBlock}
         </TouchableOpacity>
         );
@@ -97,7 +101,7 @@ export default class StructureItem extends Component {
       const mapLink = linkPrefix + addressLink;
 
       return (
-        <View key={index}>
+        <View style={containerStyle} key={index}>
           {textBlock}
           <TouchableOpacity onPress={() => openURL(mapLink)}>
             <Text style={[myStyle.infoValueText, myStyle.infoLink]}>
@@ -125,7 +129,7 @@ export default class StructureItem extends Component {
       }
 
       return (
-        <View key={index}>
+        <View style={containerStyle} key={index}>
           <Text>
             <Text style={valueStyle}
                   onPress={() => openURL(telLink)}>
@@ -137,7 +141,11 @@ export default class StructureItem extends Component {
         );
     }
 
-    return textBlock;
+    return (
+      <View style={containerStyle}>
+        {textBlock}
+      </View>
+      );
   }
 
 
@@ -291,11 +299,15 @@ const myStyle = StyleSheet.create({
     fontFamily: 'GillSans',
     fontSize: structureitem.infoFontSize,
     color: structureitem.fontColor,
+    lineHeight: structureitem.valueLineHeight,
   },
   infoLink: {
     color: '#74B3FA',
   },
   freeTextView: {
     marginTop: structureitem.freeTextSpacing,
+  },
+  valueSpacing: {
+    marginTop: structureitem.valuesSpacing,
   },
 });

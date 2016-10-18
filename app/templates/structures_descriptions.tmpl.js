@@ -31,8 +31,8 @@ const markdown = StyleSheet.create({
       color: st.fontColor,
     },
     paragraph: {
-      marginTop: st.infoSpacing,
-      marginBottom: st.infoSpacing,
+      // marginTop: st.infoSpacing,
+      // marginBottom: st.infoSpacing,
     },
     paragraphText: {
       fontFamily: 'GillSans',
