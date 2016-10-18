@@ -70,7 +70,7 @@ const structuresData = require('../../content/structures.json');
 
 const structuresTranslations = {
   callcenter: 'Call Center',
-  breastunit: 'Breast Unit',
+  breastunit: 'Centro Seno',
   ispo: 'ISPO',
   cerion: 'CeRiOn',
 };
