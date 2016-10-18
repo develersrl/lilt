@@ -35,10 +35,12 @@ export default class StructureItem extends Component {
       valueType = 'mail';
     else if (propName.startsWith('address'))
       valueType = 'address';
+    else if (propName.startsWith('phone'))
+      valueType = 'phone';
 
     // Compute text style based on info type
     const valueStyle = [myStyle.infoValueText];
-    if (valueType === 'link' || valueType === 'mail')
+    if (valueType === 'link' || valueType === 'mail' || valueType === 'phone')
       valueStyle.push(myStyle.infoLink);
 
     const textBlock = (
@@ -102,6 +104,17 @@ export default class StructureItem extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+        );
+    }
+
+    if (valueType === 'phone') {
+      let telLink = 'tel:' + this.props[propName];
+      telLink = telLink.split(' ').join('');
+
+      return (
+        <TouchableOpacity key={index} onPress={() => openURL(telLink)}>
+          {textBlock}
+        </TouchableOpacity>
         );
     }
 
