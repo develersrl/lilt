@@ -1,7 +1,15 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 
 import { openURL } from '../misc';
 
@@ -18,6 +26,8 @@ export default class StructureItem extends Component {
       valueType = 'link';
     else if (propName.startsWith('mail'))
       valueType = 'mail';
+    else if (propName.startsWith('address'))
+      valueType = 'address';
 
     // Compute text style based on info type
     const valueStyle = [myStyle.infoValueText];
@@ -34,17 +44,44 @@ export default class StructureItem extends Component {
     if (valueType === 'text')
       return textBlock;
 
-    let cb = null;
-    if (valueType === 'link')
-      cb = (() => openURL(this.props[propName]));
-    else  // email address
-      cb = (() => openURL('mailto:' + this.props[propName]));
+    // Manage links and email addresses
+    if (valueType === 'link' || valueType === 'mail') {
+      let cb = null;
+      if (valueType === 'link')
+        cb = (() => openURL(this.props[propName]));
+      else  // email address
+        cb = (() => openURL('mailto:' + this.props[propName]));
 
-    return (
-      <TouchableOpacity key={index} onPress={cb}>
-        {textBlock}
-      </TouchableOpacity>
-      );
+      return (
+        <TouchableOpacity key={index} onPress={cb}>
+          {textBlock}
+        </TouchableOpacity>
+        );
+    }
+
+    if (valueType === 'address') {
+      let addressLink = this.props[propName].toLowerCase();
+      addressLink = addressLink.split(' ').join('+');
+      let linkPrefix = '';
+      if (Platform.OS === 'ios')
+        linkPrefix = 'http://maps.apple.com/?q=';
+      else
+        linkPrefix = 'http://maps.google.com/?q=';
+      const mapLink = linkPrefix + addressLink;
+
+      return (
+        <View key={index}>
+          {textBlock}
+          <TouchableOpacity onPress={() => openURL(mapLink)}>
+            <Text style={[myStyle.infoValueText, myStyle.infoLink]}>
+              vedi su mappa
+            </Text>
+          </TouchableOpacity>
+        </View>
+        );
+    }
+
+    return textBlock;
   }
 
 

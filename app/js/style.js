@@ -228,7 +228,7 @@ const blocks = {
     titleInfoGap: 5,
     iconSide: 15,
     iconValuesGap: 15,
-    infoSpacing: 5,
+    infoSpacing: 10,
     infoFontSize: 13,
     fontColor: '#444444',
     freeTextSpacing: 10,
