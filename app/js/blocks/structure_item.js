@@ -1,7 +1,15 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 
 import { openURL } from '../misc';
 
@@ -12,16 +20,27 @@ const { structureitem } = blocks;
 
 export default class StructureItem extends Component {
   renderInfoValue(propName, index) {
+    // There are a bunch of fields that must be ignored because they are
+    // accessory to other fields
+    const toBeIgnored = ['addressMap', 'web1Link', 'web2Link'];
+    for (let i = 0; i < toBeIgnored.length; ++i)
+      if (propName === toBeIgnored[i])
+        return null;
+
     // Determine info value type (simple text, link or email)
     let valueType = 'text';
     if (propName.startsWith('web'))
       valueType = 'link';
     else if (propName.startsWith('mail'))
       valueType = 'mail';
+    else if (propName.startsWith('address'))
+      valueType = 'address';
+    else if (propName.startsWith('phone'))
+      valueType = 'phone';
 
     // Compute text style based on info type
     const valueStyle = [myStyle.infoValueText];
-    if (valueType === 'link' || valueType === 'mail')
+    if (valueType === 'link' || valueType === 'mail' || valueType === 'phone')
       valueStyle.push(myStyle.infoLink);
 
     const textBlock = (
@@ -34,17 +53,72 @@ export default class StructureItem extends Component {
     if (valueType === 'text')
       return textBlock;
 
-    let cb = null;
-    if (valueType === 'link')
-      cb = (() => openURL(this.props[propName]));
-    else  // email address
-      cb = (() => openURL('mailto:' + this.props[propName]));
+    // Manage links and email addresses
+    if (valueType === 'link' || valueType === 'mail') {
+      let cb = null;
+      if (valueType === 'link') {
+        let linkURL = '';
+        const urlProp = propName + 'Link';
+        if (this.props.hasOwnProperty(urlProp))
+          linkURL = this.props[urlProp];
+        else
+          linkURL = this.props[propName];
 
-    return (
-      <TouchableOpacity key={index} onPress={cb}>
-        {textBlock}
-      </TouchableOpacity>
-      );
+        cb = (() => openURL(linkURL));
+      }
+      else {
+        // email address
+        cb = (() => openURL('mailto:' + this.props[propName]));
+      }
+
+      return (
+        <TouchableOpacity key={index} onPress={cb}>
+          {textBlock}
+        </TouchableOpacity>
+        );
+    }
+
+    if (valueType === 'address') {
+      const addressMap = propName + 'Map';
+
+      let addressLink = '';
+      if (this.props.hasOwnProperty(addressMap))
+        addressLink = this.props[addressMap];
+      else
+        addressLink = this.props[propName];
+      addressLink = addressLink.toLowerCase().split(' ').join('+');
+
+      let linkPrefix = '';
+      if (Platform.OS === 'ios')
+        linkPrefix = 'http://maps.apple.com/?q=';
+      else
+        linkPrefix = 'http://maps.google.com/?q=';
+      const mapLink = linkPrefix + addressLink;
+
+      return (
+        <View key={index}>
+          {textBlock}
+          <TouchableOpacity onPress={() => openURL(mapLink)}>
+            <Text style={[myStyle.infoValueText, myStyle.infoLink]}>
+              vedi su mappa
+            </Text>
+          </TouchableOpacity>
+        </View>
+        );
+    }
+
+    if (valueType === 'phone') {
+      let telLink = 'tel:' + this.props[propName];
+      telLink = telLink.split(' ').join('');
+
+      return (
+        <TouchableOpacity key={index} onPress={() => openURL(telLink)}>
+          {textBlock}
+        </TouchableOpacity>
+        );
+    }
+
+    return textBlock;
   }
 
 

@@ -91,6 +91,15 @@ def generate_glossary(glossary_words):
             letterarray.append({'label': letterword, 'value': letterword})
         glossary_array.append({'label': letter, 'items': letterarray})
 
+    def lettercmp(a, b):
+        if a['label'] > b['label']:
+            return 1
+        elif a['label'] == b['label']:
+            return 0
+        else:
+            return -1
+    glossary_array.sort(lettercmp)
+
     # Pretty prints glossary to json file
     with open(common.content_glossary_fn, 'w') as f:
         json.dump(glossary_array, f,
