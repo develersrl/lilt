@@ -6,12 +6,10 @@ import os
 import json
 import shutil
 from jinja2 import Environment, FileSystemLoader
-import mistune
 
 import common
-from renderer_wrapper import RendererWrapper
-from rn_renderer import RNRenderer
 from editor_data_importer import *
+
 
 # jinja2 environment
 j2_env = Environment(loader=FileSystemLoader(common.templates_dir))
@@ -32,24 +30,8 @@ def __get_page_component_classname_from_page_data(page_data):
 def __gen_markdown(page_id, markdown_data):
     """Generate react-native code from markdown."""
     page_dir = common.get_content_page_dir(page_id)
-    rn_renderer = RNRenderer(images_dir=page_dir, warning_prefix='\t\t')
-    # Use log=True to print the actual renderer calls from mistune engine
-    wrapper = RendererWrapper(rn_renderer, log=False)
-    renderer = mistune.Markdown(renderer=wrapper)
-
-    # read input markdown file
-    with open(os.path.join(page_dir, markdown_data["source"]), 'r') as f:
-        markdown_code = f.read()
-
-    react_native_code = renderer(markdown_code)
-
-    # The following line ensures that all react native code related to images
-    # is flushed from the renderer wrapper (e.g. when a markdown document
-    # terminates with an image stripe with no following text)
-    react_native_code += wrapper.flush_images()
-
-    return ('<View style={{markdown.container}}>\n{}\n</View>').format(
-        react_native_code)
+    mdfile = os.path.join(page_dir, markdown_data["source"])
+    return common.generate_react_native_from_markdown(mdfile, page_dir)
 
 
 def __gen_button(page_id, button_data):
@@ -191,12 +173,68 @@ def __gen_pages():
         index_imports.append(import_line)
         index_exports.append(comp_name)
 
+    index_imports.append(
+        "import getStructureDescription from './structures_descriptions';")
+    index_exports.append('getStructureDescription');
+
     # generate index.js file
     pages_index_fn = os.path.join(common.target_pages_dir, 'index.js')
     with open(pages_index_fn, 'w') as indexf:
         indexf.write(j2_env.get_template('index.tmpl.js').render(
             imports='\n'.join(index_imports),
             exports=', '.join(index_exports)))
+
+    return True
+
+
+def __gen_structures():
+    print 'Generating structures..'
+
+    # Simple markdown component template
+    mdComp = """
+class {} extends Component {{
+  render() {{
+    return (
+      {}
+      );
+  }}
+}}
+    """
+
+    ccodes = []
+    mappings = []
+    for struct_dir in common.listdir_nohidden(common.content_structures_dir):
+        # Nothing to generate if there is no markdown file
+        input_dir = os.path.join(common.content_structures_dir, struct_dir)
+        input_mdfile = os.path.join(input_dir, 'content.md')
+        if not os.path.isfile(input_mdfile):
+            continue
+
+        # Generate structure description code
+        component_class_name = struct_dir.strip().capitalize()
+        print 'Generating component: ' + component_class_name
+        react_native_code = common.generate_react_native_from_markdown(
+            input_mdfile, input_dir)
+
+        # Generate component descriptor
+        component_code = mdComp.format(component_class_name, react_native_code)
+        ccodes.append(component_code.decode('utf-8'))
+        mappings.append("  '{}': () => <{} />,".format(
+            struct_dir, component_class_name))
+
+    # Generate jinja replacements
+    replacements = {
+        'components': '\n\n'.join(ccodes),
+        'mappings': '\n'.join(mappings)
+    }
+
+    # Generate structures
+    target_fn = os.path.join(common.target_pages_dir,
+                             'structures_descriptions.js')
+    with open(target_fn, 'w') as f:
+        tmpl = j2_env.get_template('structures_descriptions.tmpl.js')
+        rendered_tmpl = tmpl.render(**replacements)
+        f.write(rendered_tmpl.encode('utf-8'))
 
     return True
 
@@ -271,5 +309,10 @@ def __finalcleanup():
 
 
 if __name__ == '__main__':
-    ok = __gen_pages() and __gen_navigation() and __finalcleanup()
+    ok = (
+        __gen_pages() and
+        __gen_structures() and
+        __gen_navigation() and
+        __finalcleanup()
+        )
     sys.exit(0 if ok else 1)

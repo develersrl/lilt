@@ -11,6 +11,7 @@ import {
 
 import { api as stateApi } from '../../state';
 import { SegmentControl, StructureItem } from '../../blocks';
+import { getStructureDescription } from '../generated';
 
 import { common, pages } from '../../style';
 const { structures } = pages;
@@ -47,7 +48,7 @@ export default class Structures extends Component {
 
 
   renderStructure(structureData, sectionID, rowID) {
-    let itemProps = { ...structureData };
+    let itemProps = { ...structureData, getStructureDescription };
     if (rowID > 0)
       itemProps = { ...itemProps, style: myStyle.listItemSpacing };
 

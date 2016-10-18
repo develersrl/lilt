@@ -25,17 +25,11 @@ def import_content_page(
             output_pdf_fn = os.path.join(common.pdf_dir, pdf_name)
             shutil.copy(input_pdf_fn, output_pdf_fn)
 
-    # Copy source markdown file into the output page directory.
-    # The name of input markdown file is not contained in the page descriptor
-    # and it is hardcoded to "content.md".
-    input_markdown_file = os.path.join(input_page_dir, 'content.md')
-    output_markdown_file = os.path.join(output_page_dir, 'content.md')
-    if not os.path.isfile(input_markdown_file):
-        print '\t\tWARNING: cannot find markdown file. Generating empty one.'
-        with open(output_markdown_file, 'w') as f:
-            f.write('# Empty Content Page\n')
-    else:
-        shutil.copy(input_markdown_file, output_markdown_file)
+    # Import markdown data
+    common.import_editor_markdown_file(input_page_dir,
+                                       os.path.dirname(output_page_dir),
+                                       page_id,
+                                       create_empty_mdfile=True)
 
     # Copy all images from source directory to destination directory.
     # This automatically copies the page header image.
@@ -44,18 +38,6 @@ def import_content_page(
         input_png_fn = os.path.join(input_page_dir, png)
         output_png_fn = os.path.join(output_page_dir, png)
         shutil.copy(input_png_fn, output_png_fn)
-
-    # Copy images referenced in markdown
-    inputMdImagesDir = os.path.join(input_page_dir, 'md-imgs')
-    outputMdImagesDir = os.path.join(output_page_dir, 'md-imgs')
-
-    # Cleanup target images directory
-    if os.path.isdir(outputMdImagesDir):
-        shutil.rmtree(outputMdImagesDir)
-
-    # Copy images dir
-    if os.path.isdir(inputMdImagesDir):
-        shutil.copytree(inputMdImagesDir, outputMdImagesDir)
 
     # Return the python dictionary that describes the generated page
     return {
