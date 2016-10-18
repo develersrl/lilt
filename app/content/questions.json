@@ -4,7 +4,7 @@
     "fieldTranslation": "SCREENING",
     "question": "Partecipi al programma di screening mammografico?",
     "answers": [
-      { "text": "SI, partecipo", "value": "SI" },
+      { "text": "SÌ, partecipo", "value": "SÌ" },
       { "text": "NO, non partecipo", "value": "NO" }
     ],
   },
@@ -13,17 +13,17 @@
     "fieldTranslation": "MAMMOGRAFIA",
     "question": "Se non sei ancora stata chiamata o se non partecipi ai programmi di screening, hai mai fatto una mammografia?",
     "answers": [
-      { "text": "SI", "value": "SI" },
+      { "text": "SÌ", "value": "SÌ" },
       { "text": "NO", "value": "NO" }
     ],
   },
   {
     "targetField": "tumore",
-    "fieldTranslation": "TUMORE",
+    "fieldTranslation": "TUMORE MAMMELLA",
     "question": "Hai avuto un tumore della mammella?",
     "answers": [
       { "text": "NO", "value": "NO" },
-      { "text": "SI", "value": "SI" }
+      { "text": "SÌ", "value": "SÌ" }
     ],
   },
   {
@@ -31,8 +31,8 @@
     "fieldTranslation": "FUMO",
     "question": "Sei una fumatrice?",
     "answers": [
-      { "text": "SI", "value": "SI" },
-      { "text": "Sono stata fumatrice in passato", "value": "SI IN PASSATO" },
+      { "text": "SÌ", "value": "SÌ" },
+      { "text": "Sono stata fumatrice in passato", "value": "SÌ (in passato)" },
       { "text": "NO", "value": "NO" }
     ],
   },
@@ -42,18 +42,18 @@
     "question": "Consumi bevande alcoliche?",
     "answers": [
       { "text": "NO", "value": "NO" },
-      { "text": "SI, meno di una unità alcolica al giorno", "value": "SI (< 1 unità/gg)" },
-      { "text": "SI, più di una unità alcolica al giorno", "value": "SI (> 1 unità/gg)" }
+      { "text": "SÌ, meno di una unità alcolica al giorno", "value": "SÌ (< 1 unità/gg)" },
+      { "text": "SÌ, più di una unità alcolica al giorno", "value": "SÌ (> 1 unità/gg)" }
     ],
   },
   {
     "targetField": "attivita_fisica",
-    "fieldTranslation": "ATTIVITA' FISICA",
+    "fieldTranslation": "ATTIVITÀ FISICA",
     "question": "Svolgi attività fisica nel tempo libero?",
     "answers": [
       { "text": "Non svolgo attività fisica nel tempo libero, sono sedentaria", "value": "NO" },
-      { "text": "Faccio un'attività moderata di almeno 30 minuti, due o più volte alla settimana", "value": "SI (moderata)" },
-      { "text": "Mi muovo regolarmente e pratico un'attività più intensa, almeno due volte alla settimana", "value": "SI (intensa)" }
+      { "text": "Faccio un'attività moderata di almeno 30 minuti, due o più volte alla settimana", "value": "SÌ (moderata)" },
+      { "text": "Mi muovo regolarmente e pratico un'attività più intensa, almeno due volte alla settimana", "value": "SÌ (intensa)" }
     ],
   }
 ];
