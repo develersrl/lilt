@@ -203,8 +203,6 @@ const myStyle = StyleSheet.create({
     color: '#74B3FA',
   },
   freeTextView: {
-    borderWidth: 1,
-    borderColor: 'red',
     marginTop: structureitem.freeTextSpacing,
   },
 });
