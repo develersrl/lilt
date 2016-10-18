@@ -12,6 +12,9 @@ const getAnswersInitialState = () => {
 };
 
 
+const getQuestionData = (questionIndex) => questionsData[questionIndex];
+
+
 const getQuestionsRoutes = (pages) => {
   const result = {};
 
@@ -49,4 +52,5 @@ module.exports = {
   getQuestionsRoutes,
   getAnswersInitialState,
   getAnswersTranslations,
+  getQuestionData,
 };
