@@ -11,7 +11,7 @@ import {
 
 import { api as stateApi } from '../../state';
 import { SegmentControl, StructureItem } from '../../blocks';
-import getStructureDescription from './structures_descriptions';
+import { getStructureDescription } from '../generated';
 
 import { common, pages } from '../../style';
 const { structures } = pages;

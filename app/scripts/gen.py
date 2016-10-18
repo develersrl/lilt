@@ -173,12 +173,68 @@ def __gen_pages():
         index_imports.append(import_line)
         index_exports.append(comp_name)
 
+    index_imports.append(
+        "import getStructureDescription from './structures_descriptions';")
+    index_exports.append('getStructureDescription');
+
     # generate index.js file
     pages_index_fn = os.path.join(common.target_pages_dir, 'index.js')
     with open(pages_index_fn, 'w') as indexf:
         indexf.write(j2_env.get_template('index.tmpl.js').render(
             imports='\n'.join(index_imports),
             exports=', '.join(index_exports)))
+
+    return True
+
+
+def __gen_structures():
+    print 'Generating structures..'
+
+    # Simple markdown component template
+    mdComp = """
+class {} extends Component {{
+  render() {{
+    return (
+      {}
+      );
+  }}
+}}
+    """
+
+    ccodes = []
+    mappings = []
+    for struct_dir in common.listdir_nohidden(common.content_structures_dir):
+        # Nothing to generate if there is no markdown file
+        input_dir = os.path.join(common.content_structures_dir, struct_dir)
+        input_mdfile = os.path.join(input_dir, 'content.md')
+        if not os.path.isfile(input_mdfile):
+            continue
+
+        # Generate structure description code
+        component_class_name = struct_dir.strip().capitalize()
+        print 'Generating component: ' + component_class_name
+        react_native_code = common.generate_react_native_from_markdown(
+            input_mdfile, input_dir)
+
+        # Generate component descriptor
+        component_code = mdComp.format(component_class_name, react_native_code)
+        ccodes.append(component_code.decode('utf-8'))
+        mappings.append("  '{}': () => <{} />,".format(
+            struct_dir, component_class_name))
+
+    # Generate jinja replacements
+    replacements = {
+        'components': '\n\n'.join(ccodes),
+        'mappings': '\n'.join(mappings)
+    }
+
+    # Generate structures
+    target_fn = os.path.join(common.target_pages_dir,
+                             'structures_descriptions.js')
+    with open(target_fn, 'w') as f:
+        tmpl = j2_env.get_template('structures_descriptions.tmpl.js')
+        rendered_tmpl = tmpl.render(**replacements)
+        f.write(rendered_tmpl.encode('utf-8'))
 
     return True
 
@@ -253,5 +309,10 @@ def __finalcleanup():
 
 
 if __name__ == '__main__':
-    ok = __gen_pages() and __gen_navigation() and __finalcleanup()
+    ok = (
+        __gen_pages() and
+        __gen_structures() and
+        __gen_navigation() and
+        __finalcleanup()
+        )
     sys.exit(0 if ok else 1)

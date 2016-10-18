@@ -3,28 +3,21 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
+import { blocks } from '../../style';
+const { markdown } = blocks;
+
 
 // ---------------- Generated code ---------------------------------------------
-class MyMarkdown extends Component {
-  render() {
-    return (
-      <View>
-        <Text>Hello MyMarkdown</Text>
-      </View>
-      );
-  }
-}
+{{components}}
 
 
 const idToComp = {
-  'myId': () => <MyMarkdown />,
+{{mappings}}
 };
 // -----------------------------------------------------------------------------
 
 
 const getStructureDescription = (structureId) => {
-  console.log('Retrieving description for structure: ' + structureId);
-  return idToComp['myId'];
   if (idToComp.hasOwnProperty(structureId))
     return idToComp[structureId];
   return null;
