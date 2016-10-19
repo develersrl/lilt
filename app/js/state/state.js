@@ -13,9 +13,11 @@ import {
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
 import { removeStoredUser, dataSenderRetryInterval } from './config';
+
 import {
   getAnswersInitialState,
   getAnswersTranslations,
+  getQuestionData,
 } from './questions_data';
 /* -------------------------------------------------------------------------- */
 
@@ -278,6 +280,25 @@ const commitAnswers = () => {
   return saveLocal('liltUser', state.user);
 };
 
+/**
+ * Returns true if the user has completed the questionnaire.
+ */
+const isQuestionnaireDone = () => {
+  // If there is no registered user the questionnaire cannot be completed
+  if (!userExists())
+    return false;
+
+  // We assume that the questionnaire contains at least one question, and that
+  // the questionnaire is completed when ALL questions have been answered.
+  // With this assumption the answers can be in two possible states: either
+  // all of them have been answered or none of them have been answered.
+  // So if the first answer exists (i.e. it is not null) we can say that all
+  // the questionnaire is completed.
+  const firstQuestionData = getQuestionData(0);
+  const targetField = firstQuestionData.targetField;
+  return state.user.savedAnswers[targetField] !== null;
+};
+
 
 const selectedTab = () => state.view.selectedTab;
 
@@ -332,6 +353,7 @@ const getStructuresForTranslatedType = (translatedType) => {
 };
 
 
+
 const api = {
   init,
   test,
@@ -348,6 +370,7 @@ const api = {
   getAnswer,
   saveAnswer,
   commitAnswers,
+  isQuestionnaireDone,
   selectedTab,
   setSelectedTab,
   getRenderableUserFields,
