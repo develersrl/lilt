@@ -5,6 +5,15 @@ import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 
 
+const AgeRange = {
+  LESS_THAN_45: 0,
+  FROM_45_TO_49: 1,
+  FROM_50_TO_69: 2,
+  FROM_70_TO_74: 3,
+  MORE_THAN_75: 4,
+};
+
+
 /*
   Enable or disable a given api.
   @param api Input api, represented as a javascript object of functions.
@@ -249,4 +258,5 @@ module.exports = {
   share,
   eqSet,
   extractPhoneNumber,
+  AgeRange,
 };
