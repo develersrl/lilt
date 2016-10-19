@@ -25,7 +25,7 @@ const { form } = common;
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#C1DBF8',
+    backgroundColor: '#74B3FA',
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
