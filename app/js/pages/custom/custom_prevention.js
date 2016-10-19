@@ -10,7 +10,11 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import { getQuestionsCount, getQuestionData } from '../../state';
+import {
+  api as stateApi,
+  getQuestionsCount,
+  getQuestionData,
+} from '../../state';
 
 import { common, blocks, pages } from '../../style';
 const { customPrevention: globSt } = pages;
@@ -29,14 +33,45 @@ export default class Content extends Component {
   }
 
 
-  render() {
-    const { flexible, centeredChildren } = common;
-    const { content } = pages;
-    const headerImage = require('../../../images/header_fallback.png');
+  renderQuestionnaireWarningParagraph() {
+    return (
+      <View>
+        <Text style={myStyle.parTitle}>
+          Screening, Fumo, Fitness..
+        </Text>
+        <Text style={myStyle.parText}>
+          Potrai visualizzare consigli personalizzati riguardo a questi ed
+          altri argomenti una volta completato il questionario LILT!
+        </Text>
+        <View style={{height: 5}} />
+        <Text style={myStyle.parText}>
+          Puoi accedere al questionario LILT dalla pagina del tuo profilo.
+        </Text>
+      </View>
+      );
+  }
+
+
+  renderQuestionnaireParagraphs() {
+    if (!stateApi.isQuestionnaireDone())
+      return this.renderQuestionnaireWarningParagraph();
 
     const paragraphs = [];
     for (let i = 0; i < getQuestionsCount(); ++i)
       paragraphs.push(this.renderParagraph(i));
+
+    return (
+      <View>
+        {paragraphs}
+      </View>
+      );
+  }
+
+
+  render() {
+    const { flexible, centeredChildren } = common;
+    const { content } = pages;
+    const headerImage = require('../../../images/header_fallback.png');
 
     return (
       <ScrollView style={[flexible]}
@@ -53,7 +88,7 @@ export default class Content extends Component {
           </View>
         </Image>
         <View style={[content.body.container]}>
-          {paragraphs}
+          {this.renderQuestionnaireParagraphs()}
         </View>
       </ScrollView>
       );
@@ -65,5 +100,16 @@ const myStyle = StyleSheet.create({
   parContainer: {
     borderWidth: 1,
     borderColor: 'red',
-  }
+  },
+  parTitle: {
+    fontFamily: 'GillSans-Bold',
+    fontSize: 18,
+    color: '#494949',
+    marginBottom: 10,
+  },
+  parText: {
+    fontFamily: 'GillSans',
+    fontSize: 16,
+    color: '#8E8E8E',
+  },
 });
