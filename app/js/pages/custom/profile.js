@@ -95,6 +95,25 @@ export default class Profile extends Component {
   }
 
 
+  renderQuestionnaireButton() {
+    const { navigator, getRoute } = this.props;
+    const openQuestionnaire = () => navigator.push(getRoute('__question0__'));
+
+    if (stateApi.isQuestionnaireDone())
+      return null;
+
+    return (
+      <TouchableOpacity style={myStyle.editView}
+                        activeOpacity={profile.editBtnActiveOpacity}
+                        onPress={openQuestionnaire}>
+        <View style={myStyle.editBtn}>
+          <Text style={myStyle.editText}>VAI AL QUESTIONARIO</Text>
+        </View>
+      </TouchableOpacity>
+      );
+  }
+
+
   render() {
     const data = stateApi.userData(true);
     const fields = stateApi.getRenderableUserFields();
@@ -117,6 +136,7 @@ export default class Profile extends Component {
           {standardDataRows}
           {this.renderQuestionnaireRows()}
           {this.renderEditButton()}
+          {this.renderQuestionnaireButton()}
           {this.renderForgetButton()}
         </View>
       </ScrollView>
