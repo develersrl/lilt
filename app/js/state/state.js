@@ -8,6 +8,7 @@ import {
   removeLocal,
   validateEmail,
   eqSet,
+  AgeRange,
 } from '../misc';
 
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
@@ -19,6 +20,8 @@ import {
   getAnswersTranslations,
   getQuestionData,
 } from './questions_data';
+
+import { getParagraphFromUserAnswer } from './prevention_path_data';
 /* -------------------------------------------------------------------------- */
 
 
@@ -271,6 +274,31 @@ const userData = (standard) => {
 
 const getAnswer = (targetField) => state.answers[targetField];
 
+
+const getSavedAnswerValue = (questionIndex) => {
+  const questionData = getQuestionData(questionIndex);
+  return state.user.savedAnswers[questionData.targetField];
+};
+
+
+const getSavedAnswerText = (questionIndex) => {
+  const questionData = getQuestionData(questionIndex);
+  const savedAnswerValue = state.user.savedAnswers[questionData.targetField];
+
+  if (savedAnswerValue === null)
+    return '';
+
+  for (let i = 0; i < questionData.answers.length; ++i) {
+    const answer = questionData.answers[i];
+    if (answer.value === savedAnswerValue) {
+      return answer.text;
+    }
+  }
+
+  return '';
+};
+
+
 const saveAnswer = (targetField, answerValue) => {
   state.answers[targetField] = answerValue;
 };
@@ -353,12 +381,18 @@ const getStructuresForTranslatedType = (translatedType) => {
 };
 
 
+const getUserAgeRange = () => {
+  return AgeRange.LESS_THAN_45;
+};
+
+
 
 const api = {
   init,
   test,
   userValidate,
   userRegister,
+  getUserAgeRange,
   answersRegister,
   userForget,
   addListener,
@@ -370,6 +404,8 @@ const api = {
   getAnswer,
   saveAnswer,
   commitAnswers,
+  getSavedAnswerText,
+  getSavedAnswerValue,
   isQuestionnaireDone,
   selectedTab,
   setSelectedTab,
@@ -377,6 +413,7 @@ const api = {
   getRenderableUserAnswers,
   getStructureTypes,
   getStructuresForTranslatedType,
+  getParagraphFromUserAnswer,
 };
 /* -------------------------------------------------------------------------- */
 

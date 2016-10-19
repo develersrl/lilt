@@ -114,3 +114,13 @@ const data = [
   },
 ];
 /* eslint-enable quote-props */
+
+
+const getParagraphFromUserAnswer = (questionIndex, answerValue, ageRange) => {
+  return data[questionIndex][answerValue][ageRange];
+};
+
+
+module.exports = {
+  getParagraphFromUserAnswer,
+};

@@ -385,7 +385,13 @@ const pages = {
     listItemsSpacing: 20,
   },
   customPrevention: {
-
+    headerColor: '#494949',
+    questionColor: '#666666',
+    textColor: '#8E8E8E',
+    headerFontSize: 14,
+    questionFontSize: 14,
+    textFontSize: 16,
+    paragraphSpacing: 20,
   },
 };
 

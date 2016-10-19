@@ -16,18 +16,31 @@ import {
   getQuestionData,
 } from '../../state';
 
-import { common, blocks, pages } from '../../style';
+import { common, pages } from '../../style';
 const { customPrevention: globSt } = pages;
-const { markdown } = blocks;
 
 
 export default class Content extends Component {
   renderParagraph(questionIndex) {
     const data = getQuestionData(questionIndex);
+    const questionText = data.question;
+    const answerText = stateApi.getSavedAnswerText(questionIndex);
+    const answerValue = stateApi.getSavedAnswerValue(questionIndex);
+    const ageRange = stateApi.getUserAgeRange();
+    const paragraphText = stateApi.getParagraphFromUserAnswer(
+      questionIndex, answerValue, ageRange);
+
+    const containerStyle = [myStyle.parContainer];
+    if (questionIndex > 0)
+      containerStyle.push(myStyle.parSpacing);
 
     return (
-      <View style={myStyle.parContainer} key={questionIndex}>
-        <Text>Hello Paragraph {questionIndex}</Text>
+      <View style={containerStyle} key={questionIndex}>
+        <Text style={myStyle.question}>{questionText}</Text>
+        <Text style={myStyle.answer}>{answerText}</Text>
+        <Text>
+          {paragraphText}
+        </Text>
       </View>
       );
   }
@@ -101,15 +114,30 @@ const myStyle = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'red',
   },
+  parSpacing: {
+    marginTop: globSt.paragraphSpacing,
+  },
   parTitle: {
     fontFamily: 'GillSans-Bold',
-    fontSize: 18,
-    color: '#494949',
+    fontSize: globSt.headerFontSize,
+    color: globSt.headerColor,
     marginBottom: 10,
   },
   parText: {
     fontFamily: 'GillSans',
-    fontSize: 16,
-    color: '#8E8E8E',
+    fontSize: globSt.textFontSize,
+    color: globSt.textColor,
+  },
+  question: {
+    fontFamily: 'GillSans',
+    fontSize: globSt.questionFontSize,
+    color: globSt.questionColor,
+    fontStyle: 'italic',
+  },
+  answer: {
+    fontFamily: 'GillSans-Bold',
+    fontSize: globSt.headerFontSize,
+    color: globSt.headerColor,
+    marginBottom: 10,
   },
 });
