@@ -14,9 +14,7 @@ import { Button2 } from '../../blocks';
 
 export default class MessagePage extends Component {
   onButtonPress() {
-    const { navigator, getRoute } = this.props;
-    navigator.popToTop();
-    setTimeout(() => navigator.replace(getRoute('profile')), 1000);
+    this.props.navigator.popToTop();
   }
 
 
