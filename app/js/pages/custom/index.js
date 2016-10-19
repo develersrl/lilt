@@ -10,6 +10,7 @@ import MessagePage from './message_page';
 import About from './about';
 import ThanksTo from './thanks_to';
 import Structures from './structures';
+import CustomPrevention from './custom_prevention';
 
 module.exports = {
   Home,
@@ -22,4 +23,5 @@ module.exports = {
   About,
   ThanksTo,
   Structures,
+  CustomPrevention,
 };

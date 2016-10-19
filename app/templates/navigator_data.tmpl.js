@@ -26,6 +26,10 @@ const customRoutes = {
   },
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'GLOSSARIO', component: pages.custom.Glossary },
+  'customPrevention': {
+    title: 'PREVENZIONE PERSONALE',
+    component: pages.custom.CustomPrevention,
+  },
 };
 /* eslint-enable quote-props */
 

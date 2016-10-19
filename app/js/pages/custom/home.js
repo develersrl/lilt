@@ -73,8 +73,14 @@ export default class Home extends Component {
       stateApi.setSelectedTab('profile');
     }
     else {
-      // TODO: open the right page based on index and user data
-      navigator.push(getRoute('#c_gen_1'));
+      if (index === 0) {
+        // Since the user is registered we open custom prevention page
+        navigator.push(getRoute('customPrevention'));
+      }
+      else {
+        // TODO: open the right page based on index
+        navigator.push(getRoute('#c_gen_1'));
+      }
     }
   }
 
