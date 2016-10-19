@@ -1,21 +1,42 @@
 'use strict';
 
 import React, { Component } from 'react';
+
 import {
   View,
   Image,
   Text,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 
-import { common, pages } from '../../style';
+import { getQuestionsCount, getQuestionData } from '../../state';
+
+import { common, blocks, pages } from '../../style';
+const { customPrevention: globSt } = pages;
+const { markdown } = blocks;
 
 
 export default class Content extends Component {
+  renderParagraph(questionIndex) {
+    const data = getQuestionData(questionIndex);
+
+    return (
+      <View style={myStyle.parContainer} key={questionIndex}>
+        <Text>Hello Paragraph {questionIndex}</Text>
+      </View>
+      );
+  }
+
+
   render() {
     const { flexible, centeredChildren } = common;
     const { content } = pages;
     const headerImage = require('../../../images/header_fallback.png');
+
+    const paragraphs = [];
+    for (let i = 0; i < getQuestionsCount(); ++i)
+      paragraphs.push(this.renderParagraph(i));
 
     return (
       <ScrollView style={[flexible]}
@@ -32,9 +53,17 @@ export default class Content extends Component {
           </View>
         </Image>
         <View style={[content.body.container]}>
-          <Text>Hello body!</Text>
+          {paragraphs}
         </View>
       </ScrollView>
       );
   }
 }
+
+
+const myStyle = StyleSheet.create({
+  parContainer: {
+    borderWidth: 1,
+    borderColor: 'red',
+  }
+});

@@ -384,6 +384,9 @@ const pages = {
     listTopBottomPadding: 10,
     listItemsSpacing: 20,
   },
+  customPrevention: {
+
+  },
 };
 
 
