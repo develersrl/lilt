@@ -120,6 +120,7 @@ export default class Registration extends Component {
                                bounces={false}
                                showsVerticalScrollIndicator={false}
                                automaticallyAdjustContentInsets={false}
+                               contentContainerStyle={{paddingBottom: 20}}
                                >
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{title}</Text>
