@@ -10,7 +10,7 @@ const AgeRange = {
   FROM_45_TO_49: 1,
   FROM_50_TO_69: 2,
   FROM_70_TO_74: 3,
-  MORE_THAN_75: 4,
+  MORE_THAN_74: 4,
 };
 
 
