@@ -20,7 +20,22 @@ import { common, pages } from '../../style';
 const { customPrevention: globSt } = pages;
 
 
-export default class Content extends Component {
+export default class CustomPrevention extends Component {
+  componentDidMount() {
+    stateApi.addListener(this);
+  }
+
+
+  componentWillUnmount() {
+    stateApi.removeListener(this);
+  }
+
+
+  onStateChange() {
+    this.forceUpdate();
+  }
+
+
   renderParagraph(questionIndex) {
     const data = getQuestionData(questionIndex);
     const questionText = data.question;
