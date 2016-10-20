@@ -14,6 +14,14 @@ const AgeRange = {
 };
 
 
+const BMIRange = {
+  LESS_THAN_18_5: 0,
+  FROM_18_5_TO_24_9: 1,
+  FROM_25_TO_29_9: 2,
+  MORE_THAN_29_9: 3,
+};
+
+
 /*
   Enable or disable a given api.
   @param api Input api, represented as a javascript object of functions.
@@ -259,4 +267,5 @@ module.exports = {
   eqSet,
   extractPhoneNumber,
   AgeRange,
+  BMIRange,
 };
