@@ -38,7 +38,7 @@ export default class Content extends Component {
       <View style={containerStyle} key={questionIndex}>
         <Text style={myStyle.question}>{questionText}</Text>
         <Text style={myStyle.answer}>{answerText}</Text>
-        <Text>
+        <Text style={myStyle.parText}>
           {paragraphText}
         </Text>
       </View>
@@ -111,8 +111,8 @@ export default class Content extends Component {
 
 const myStyle = StyleSheet.create({
   parContainer: {
-    borderWidth: 1,
-    borderColor: 'red',
+    // borderWidth: 1,
+    // borderColor: 'red',
   },
   parSpacing: {
     marginTop: globSt.paragraphSpacing,
