@@ -108,9 +108,9 @@ export default class Home extends Component {
   renderCustomServices() {
     const labels = [
       'Il mio percorso di prevenzione',
-      'Ho avuto una diagnosi positiva',
-      'Ho sentito qualcosa che non va',
-      'Sono in post terapia',
+      'Ho sentito qualcosa di diverso',
+      'Richiamata dopo la mammografia',
+      'Sono stata operata',
     ];
 
     return (
