@@ -38,9 +38,7 @@ export default class Content extends Component {
       <View style={containerStyle} key={questionIndex}>
         <Text style={myStyle.question}>{questionText}</Text>
         <Text style={myStyle.answer}>{answerText}</Text>
-        <Text style={myStyle.parText}>
-          {paragraphText}
-        </Text>
+        {paragraphText}
       </View>
       );
   }
@@ -108,9 +106,7 @@ export default class Content extends Component {
         <Text style={[myStyle.answer, myStyle.parSpacing]}>
           Peso e Alimentazione
         </Text>
-        <Text style={myStyle.parText}>
-          {paragraphText}
-        </Text>
+        {paragraphText}
       </View>
       );
   }

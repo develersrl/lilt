@@ -1,5 +1,20 @@
 'use strict';
 
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+import { pages } from '../style';
+const { customPrevention: globSt } = pages;
+
+
+const myStyle = StyleSheet.create({
+  parText: {
+    fontFamily: 'GillSans',
+    fontSize: globSt.textFontSize,
+    color: globSt.textColor,
+  },
+});
+
 
 /* ---------------- screening yes ------------------------------------------- */
 const screeningYesLessThan45 = `Attenzione: prima dei 45 anni non è prevista la partecipazione allo screening mammografico. Se rispondi NO avrai informazioni specifiche per la tua età.`;
@@ -199,17 +214,40 @@ Diminuisci tutte le attività sedentarie, riducendo il tempo che passi in poltro
 
 Quando sarai un po’ più allenata, aggiungendo 75 minuti alla settimana di attività più intense (palestra, esercizi di forza, attività aerobiche come ballare, correre, sciare, nuotare, ecc.) otterrai una maggior protezione dal tumore al seno e da altre malattie cronico degenerative.`;
 
-const fitnessYesIntense = `Ottimo, uno stile di vita attivo e un ridotto livello di sedentarietà riducono il rischio di cancro della mammella e ti proteggono anche da altre malattie cronico degenerative.
 
-Aiuta anche chi ti sta intorno ad assumere uno stile di vita più attivo. Puoi dare questi consigli:
+const fitnessYesIntense = (
+  <View>
+    <Text style={myStyle.parText}>{`Ottimo, uno stile di vita attivo e un ridotto livello di sedentarietà riducono il rischio di cancro della mammella e ti proteggono anche da altre malattie cronico degenerative.
 
-- stare in piedi, camminare, spostarsi in bicicletta o a piedi (anziché in auto), non prendere l’ascensore o le scale mobili, salire e scendere le scale a piedi
+    Aiuta anche chi ti sta intorno ad assumere uno stile di vita più attivo. Puoi dare questi consigli:
+    `}</Text>
 
-- ridurre le attività sedentarie, come stare in poltrona o davanti al computer o alla TV
-
-- aggiungere alle abitudini quotidiane 30 minuti di attività fisica moderata 5 volte alla settimana (ad esempio camminare a passo sostenuto, andare in bicicletta, fare la cyclette in casa, ecc.)
-
-- 75 minuti alla settimana di attività più intense (palestra, esercizi di forza, attività aerobiche come ballare, correre, sciare, nuotare, ecc.)`;
+    <View style={{flexDirection: 'row'}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`stare in piedi, camminare, spostarsi in bicicletta o a piedi (anziché in auto), non prendere l’ascensore o le scale mobili, salire e scendere le scale a piedi`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row'}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`ridurre le attività sedentarie, come stare in poltrona o davanti al computer o alla TV`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row'}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`aggiungere alle abitudini quotidiane 30 minuti di attività fisica moderata 5 volte alla settimana (ad esempio camminare a passo sostenuto, andare in bicicletta, fare la cyclette in casa, ecc.)`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row'}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`75 minuti alla settimana di attività più intense (palestra, esercizi di forza, attività aerobiche come ballare, correre, sciare, nuotare, ecc.)`}</Text>
+      </View>
+    </View>
+  </View>
+  );
 /* -------------------------------------------------------------------------- */
 
 
@@ -267,46 +305,55 @@ riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di g
 /* -------------------------------------------------------------------------- */
 
 
+const wrap = (text) => {
+  return (
+    <Text style={myStyle.parText}>
+      {text}
+    </Text>
+  );
+};
+
+
 const paragraphs = {
   // screening
-  screeningYesLessThan45,
-  screeningYesFrom45To49,
-  screeningYesFrom50To69,
-  screeningYesFrom70To74,
-  screeningYesMoreThan74,
-  screeningNoLessThan45,
-  screeningNoFrom45To74,
-  screeningNoMoreThan74,
+  screeningYesLessThan45: wrap(screeningYesLessThan45),
+  screeningYesFrom45To49: wrap(screeningYesFrom45To49),
+  screeningYesFrom50To69: wrap(screeningYesFrom50To69),
+  screeningYesFrom70To74: wrap(screeningYesFrom70To74),
+  screeningYesMoreThan74: wrap(screeningYesMoreThan74),
+  screeningNoLessThan45: wrap(screeningNoLessThan45),
+  screeningNoFrom45To74: wrap(screeningNoFrom45To74),
+  screeningNoMoreThan74: wrap(screeningNoMoreThan74),
   // mammografia
-  mammografiaYesLessThan45,
-  mammografiaYesFrom45To49,
-  mammografiaYesFrom50To69,
-  mammografiaYesFrom70To74,
-  mammografiaYesMoreThan74,
-  mammografiaNoLessThan45,
-  mammografiaNoFrom45To49,
-  mammografiaNoFrom50To74,
-  mammografiaNoMoreThan74,
+  mammografiaYesLessThan45: wrap(mammografiaYesLessThan45),
+  mammografiaYesFrom45To49: wrap(mammografiaYesFrom45To49),
+  mammografiaYesFrom50To69: wrap(mammografiaYesFrom50To69),
+  mammografiaYesFrom70To74: wrap(mammografiaYesFrom70To74),
+  mammografiaYesMoreThan74: wrap(mammografiaYesMoreThan74),
+  mammografiaNoLessThan45: wrap(mammografiaNoLessThan45),
+  mammografiaNoFrom45To49: wrap(mammografiaNoFrom45To49),
+  mammografiaNoFrom50To74: wrap(mammografiaNoFrom50To74),
+  mammografiaNoMoreThan74: wrap(mammografiaNoMoreThan74),
   // tumore
-  tumoreYes,
-  tumoreNo,
+  tumoreYes: wrap(tumoreYes),
+  tumoreNo: wrap(tumoreNo),
   // fumo
-  fumoYes,
-  fumoYesInThePast,
-  fumoNo,
+  fumoYes: wrap(fumoYes),
+  fumoYesInThePast: wrap(fumoYesInThePast),
+  fumoNo: wrap(fumoNo),
   // alcool
-  alcoolNo,
-  alcoolYesLessThan1,
-  alcoolYesMoreThan1,
+  alcoolNo: wrap(alcoolNo),
+  alcoolYesLessThan1: wrap(alcoolYesLessThan1),
+  alcoolYesMoreThan1: wrap(alcoolYesMoreThan1),
   // fitness
-  fitnessNo,
-  fitnessYesModerate,
+  fitnessNo: wrap(fitnessNo),
+  fitnessYesModerate: wrap(fitnessYesModerate),
   fitnessYesIntense,
   // bmi
-  bmiUnderweight,
-  bmiNormalweight,
-  bmiOverweight,
-  bmiObese,
+  bmiUnderweight: wrap(bmiUnderweight),
+  bmiNormalweight: wrap(bmiNormalweight),
+  bmiOverweight: wrap(bmiOverweight),
+  bmiObese: wrap(bmiObese),
 };
 
 module.exports = paragraphs;
