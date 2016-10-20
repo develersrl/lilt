@@ -220,13 +220,14 @@ const openURL = (url) => {
   Linking.canOpenURL(url)
     .then((supported) => {
       if (supported) {
-        Linking.openURL(url);
+        return Linking.openURL(url);
       }
       else {
         // eslint-disable-next-line no-console
         console.warning('Cannot open URL: ' + url);
       }
-    });
+    })
+    .catch((e) => console.warn(e));
 };
 
 
