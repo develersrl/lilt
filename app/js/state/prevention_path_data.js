@@ -135,9 +135,6 @@ const data = [
 
 
 const getParagraphFromUserAnswer = (questionIndex, answerValue, ageRange) => {
-  console.log(questionIndex);
-  console.log(answerValue);
-  console.log(ageRange);
   return data[questionIndex][answerValue][ageRange];
 };
 
