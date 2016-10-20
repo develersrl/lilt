@@ -228,19 +228,19 @@ const fitnessYesIntense = (
         <Text style={myStyle.parText}>{`stare in piedi, camminare, spostarsi in bicicletta o a piedi (anziché in auto), non prendere l’ascensore o le scale mobili, salire e scendere le scale a piedi`}</Text>
       </View>
     </View>
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row', marginTop: 5}}>
       <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
       <View style={{flex: 1}}>
         <Text style={myStyle.parText}>{`ridurre le attività sedentarie, come stare in poltrona o davanti al computer o alla TV`}</Text>
-      </View>
+        </View>
     </View>
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row', marginTop: 5}}>
       <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
       <View style={{flex: 1}}>
         <Text style={myStyle.parText}>{`aggiungere alle abitudini quotidiane 30 minuti di attività fisica moderata 5 volte alla settimana (ad esempio camminare a passo sostenuto, andare in bicicletta, fare la cyclette in casa, ecc.)`}</Text>
       </View>
     </View>
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row', marginTop: 5}}>
       <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
       <View style={{flex: 1}}>
         <Text style={myStyle.parText}>{`75 minuti alla settimana di attività più intense (palestra, esercizi di forza, attività aerobiche come ballare, correre, sciare, nuotare, ecc.)`}</Text>
@@ -263,45 +263,122 @@ Se non riesci ad aumentare di peso o se hai perso peso involontariamente, consul
 Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
 (vedi sezione "About LILT" per contatti ed email)`;
 
-const bmiNormalweight = `Bene, il tuo peso è giusto.
+
+const bmiNormalweight = (
+  <View>
+    <Text style={myStyle.parText}>{`Bene, il tuo peso è giusto.
 Per rimanere in salute, controlla periodicamente il tuo peso e cerca di mangiare in modo sano ed equilibrato: una dieta sana contribuisce, insieme agli altri componenti dello stile di vita sano, a ridurre il rischio di sviluppare i tumori.
 
 Ecco qualche consiglio:
+`}</Text>
 
-dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori. Ricorda che una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici.
+    <View style={{flexDirection: 'row'}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`stare in piedi, camminare, spostarsi in bicicletta o a piedi (anziché in auto), non prendere l’ascensore o le scale mobili, salire e scendere le scale a piedi`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row', marginTop: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori. Ricorda che una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici.`}</Text>
+        </View>
+    </View>
+    <View style={{flexDirection: 'row', marginTop: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella. Se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row', marginTop: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`tieniti sempre in movimento, come indicato nella sezione “prevenzione”`}</Text>
+      </View>
+    </View>
+  </View>
+  );
 
-riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella. Se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!
 
-tieniti sempre in movimento, come indicato nella sezione “prevenzione”.`;
-
-const bmiOverweight = `Attenzione, il tuo peso è maggiore di quello considerato normale: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
+const bmiOverweight = (
+  <View>
+    <Text style={myStyle.parText}>{`Attenzione, il tuo peso è maggiore di quello considerato normale: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
 
 Una dieta sana e attività fisica svolta regolarmente, insieme agli altri componenti dello stile di vita sano, possono aiutarti a riportare il peso nella norma e a ridurre il rischio di sviluppare i tumori.
 
 Ecco qualche consiglio:
+`}</Text>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici. Dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori.`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella.`}</Text>
+        </View>
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`muoviti regolarmente, aumentando gradualmente il livello di attività fisica.`}</Text>
+      </View>
+    </View>
+    <Text>
+      {`Segui i consigli dati nella sezione prevenzione di questa APP e se non riesci a perdere peso consulta un dietista, nutrizionista o un medico. Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
+(vedi sezione "About LILT" per contatti ed email)`}
+    </Text>
+  </View>
+  );
 
-una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici. Dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori.
 
-riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella.
-
-se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!
-
-muoviti regolarmente, aumentando gradualmente il livello di attività fisica.
-
-Segui i consigli dati nella sezione prevenzione di questa APP e se non riesci a perdere peso consulta un dietista, nutrizionista o un medico. Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
-(vedi sezione "About LILT" per contatti ed email)`;
-
-const bmiObese = `Attenzione, il tuo peso è maggiore di quello considerato normale e ti trovi attualmente in una condizione di obesità: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
+const bmiObese = (
+  <View>
+    <Text style={myStyle.parText}>{`Attenzione, il tuo peso è maggiore di quello considerato normale e ti trovi attualmente in una condizione di obesità: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
 
 Una dieta sana, insieme agli altri componenti dello stile di vita sano, può aiutarti a riportare il peso nella norma e a ridurre il rischio di sviluppare i tumori, anche se il legame diretto con il tumore della mammella non è così evidente.
 
 È importante correre ai ripari subito ed iniziare a ridurre il peso corporeo: cambiamenti graduali dello stile di vita hanno un effetto più duraturo rispetto alle diete drastiche che fanno perdere il peso velocemente, ma non determinano cambiamenti stabili dello stile di vita.
 
 Ecco qualche consiglio:
-
-una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici. Dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori.
-
-riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella.`;
+`}</Text>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici. Dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori.`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella.`}</Text>
+        </View>
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!`}</Text>
+      </View>
+    </View>
+    <View style={{flexDirection: 'row', marginBottom: 5}}>
+      <Text style={{marginLeft: 10, marginRight: 10}}>{"\u2022"}</Text>
+      <View style={{flex: 1}}>
+        <Text style={myStyle.parText}>{`muoviti regolarmente, aumentando gradualmente il livello di attività fisica.`}</Text>
+      </View>
+    </View>
+    <Text style={myStyle.parText}>
+      {`Segui i consigli dati nella sezione prevenzione di questa APP e se non riesci a perdere peso consulta un dietista, nutrizionista o un medico. Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze `}
+    </Text>
+  </View>
+  );
 /* -------------------------------------------------------------------------- */
 
 
@@ -351,9 +428,9 @@ const paragraphs = {
   fitnessYesIntense,
   // bmi
   bmiUnderweight: wrap(bmiUnderweight),
-  bmiNormalweight: wrap(bmiNormalweight),
-  bmiOverweight: wrap(bmiOverweight),
-  bmiObese: wrap(bmiObese),
+  bmiNormalweight: bmiNormalweight,
+  bmiOverweight: bmiOverweight,
+  bmiObese: bmiObese,
 };
 
 module.exports = paragraphs;
