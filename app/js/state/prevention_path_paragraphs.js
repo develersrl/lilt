@@ -214,6 +214,60 @@ Aiuta anche chi ti sta intorno ad assumere uno stile di vita più attivo. Puoi d
 /* -------------------------------------------------------------------------- */
 
 
+/* ---------------- bmi ----------------------------------------------------- */
+const bmiUnderweight = `Attenzione, il tuo peso è molto basso.
+Puoi essere sottopeso per diversi motivi, come per esempio una alimentazione insufficiente, una situazione di stress, una patologia che andrebbe diagnosticata (ad esempio la tiroide troppo attiva).
+
+Essere sottopeso può avere conseguenze anche gravi sulla tua salute: scarse difese immunitarie, ossa fragili, stanchezza.
+
+Per rimanere in salute, cerca di mantenere il peso nei limiti del normale, mangiando in modo sano ed equilibrato: una dieta sana può aiutarti a riportare il peso nella norma e, insieme agli altri componenti dello stile di vita sano, a ridurre il rischio di sviluppare i tumori.
+
+Se non riesci ad aumentare di peso o se hai perso peso involontariamente, consulta un dietista, un nutrizionista o un medico.
+Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
+link http://www.legatumorifirenze.it/   tel 055 576939`;
+
+const bmiNormalweight = `Bene, il tuo peso è giusto.
+Per rimanere in salute, controlla periodicamente il tuo peso e cerca di mangiare in modo sano ed equilibrato: una dieta sana contribuisce, insieme agli altri componenti dello stile di vita sano, a ridurre il rischio di sviluppare i tumori.
+
+Ecco qualche consiglio:
+
+dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori. Ricorda che una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici.
+
+riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella. Se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!
+
+tieniti sempre in movimento, come indicato nella sezione “prevenzione”.`;
+
+const bmiOverweight = `Attenzione, il tuo peso è maggiore di quello considerato normale: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
+
+Una dieta sana e attività fisica svolta regolarmente, insieme agli altri componenti dello stile di vita sano, possono aiutarti a riportare il peso nella norma e a ridurre il rischio di sviluppare i tumori.
+
+Ecco qualche consiglio:
+
+una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici. Dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori.
+
+riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella.
+
+se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la glassa dalla fetta di torta, non aggiungere zucchero alle bevande, bevi acqua e non bibite!
+
+muoviti regolarmente, aumentando gradualmente il livello di attività fisica.
+
+Segui i consigli dati nella sezione prevenzione di questa APP e se non riesci a perdere peso consulta un dietista, nutrizionista o un medico. Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
+link http://www.legatumorifirenze.it/   tel 055 576939`;
+
+const bmiObese = `Attenzione, il tuo peso è maggiore di quello considerato normale e ti trovi attualmente in una condizione di obesità: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
+
+Una dieta sana, insieme agli altri componenti dello stile di vita sano, può aiutarti a riportare il peso nella norma e a ridurre il rischio di sviluppare i tumori, anche se il legame diretto con il tumore della mammella non è così evidente.
+
+È importante correre ai ripari subito ed iniziare a ridurre il peso corporeo: cambiamenti graduali dello stile di vita hanno un effetto più duraturo rispetto alle diete drastiche che fanno perdere il peso velocemente, ma non determinano cambiamenti stabili dello stile di vita.
+
+Ecco qualche consiglio:
+
+una abbondante porzione di verdura fornisce pochissime calorie: se ti abitui a saziarti di verdure, potrai ridurre il consumo di alimenti più calorici. Dai la precedenza a vegetali, frutta, cereali integrali e legumi, variando più che puoi i tipi e i colori della frutta e della verdura, che segnalano i loro diversi contenuti vitaminici e di altre sostanze antiossidanti. Ortaggi, legumi e cereali integrali sono anche ricchi di fibra, una componente importante della dieta, sia per il funzionamento intestinale che per la prevenzione di diabete, malattie cardiovascolari e tumori.
+
+riduci il consumo di alimenti molto calorici, ricchi di zuccheri semplici e di grassi saturi (burro, lardo, salumi e carni grasse, olio di palma). L’eccesso di alimenti ricchi di energia, abbinato a poco movimento, porta inevitabilmente all’aumento di peso, un importante fattore di rischio per il tumore della mammella.`;
+/* -------------------------------------------------------------------------- */
+
+
 const paragraphs = {
   // screening
   screeningYesLessThan45,
@@ -249,6 +303,11 @@ const paragraphs = {
   fitnessNo,
   fitnessYesModerate,
   fitnessYesIntense,
+  // bmi
+  bmiUnderweight,
+  bmiNormalweight,
+  bmiOverweight,
+  bmiObese,
 };
 
 module.exports = paragraphs;

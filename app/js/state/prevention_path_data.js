@@ -1,6 +1,6 @@
 'use strict';
 
-import { AgeRange } from '../misc';
+import { AgeRange, BMIRange } from '../misc';
 import paragraphs from './prevention_path_paragraphs';
 
 
@@ -131,6 +131,14 @@ const data = [
     },
   },
 ];
+
+
+const bmiData = {
+  [BMIRange.LESS_THAN_18_5]: paragraphs.bmiUnderweight,
+  [BMIRange.FROM_18_5_TO_24_9]: paragraphs.bmiNormalweight,
+  [BMIRange.FROM_25_TO_29_9]: paragraphs.bmiOverweight,
+  [BMIRange.MORE_THAN_29_9]: paragraphs.bmiObese,
+};
 /* eslint-enable quote-props */
 
 
@@ -138,7 +146,10 @@ const getParagraphFromUserAnswer = (questionIndex, answerValue, ageRange) => {
   return data[questionIndex][answerValue][ageRange];
 };
 
+const getParagraphFromBMIRange = (bmiRange) => bmiData[bmiRange];
+
 
 module.exports = {
   getParagraphFromUserAnswer,
+  getParagraphFromBMIRange,
 };

@@ -9,6 +9,7 @@ import {
   validateEmail,
   eqSet,
   AgeRange,
+  BMIRange,
 } from '../misc';
 
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
@@ -21,7 +22,10 @@ import {
   getQuestionData,
 } from './questions_data';
 
-import { getParagraphFromUserAnswer } from './prevention_path_data';
+import {
+  getParagraphFromUserAnswer,
+  getParagraphFromBMIRange,
+} from './prevention_path_data';
 /* -------------------------------------------------------------------------- */
 
 
@@ -418,6 +422,37 @@ const getUserAgeRange = () => {
 };
 
 
+const isBMIAvailable = () => {
+  // BMI is not available if there is no registered user
+  if (!userExists())
+    return false;
+
+  // BMI is not available if height or weight is not available
+  const { height, weight } = state.user.data;
+  return (height !== '' && weight !== '');
+};
+
+
+const getUserBMIRange = () => {
+  const { height, weight } = state.user.data;
+  const bmi = (weight / (height * height));
+
+  if (bmi < 18.5)
+    return BMIRange.LESS_THAN_18_5;
+  else if (bmi >= 18.5 && bmi < 25)
+    return BMIRange.FROM_18_5_TO_24_9;
+  else if (bmi >= 25 && bmi < 30)
+    return BMIRange.FROM_25_TO_29_9;
+  else
+    return BMIRange.MORE_THAN_29_9;
+};
+
+
+const getParagraphForBMIRange = (bmiRange) => {
+  return getParagraphFromBMIRange(bmiRange);
+};
+
+
 
 const api = {
   init,
@@ -446,6 +481,9 @@ const api = {
   getStructureTypes,
   getStructuresForTranslatedType,
   getParagraphFromUserAnswer,
+  isBMIAvailable,
+  getUserBMIRange,
+  getParagraphForBMIRange,
 };
 /* -------------------------------------------------------------------------- */
 

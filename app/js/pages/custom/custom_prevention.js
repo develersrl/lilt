@@ -50,7 +50,7 @@ export default class Content extends Component {
     return (
       <View>
         <Text style={myStyle.parTitle}>
-          Screening, Fumo, Fitness..
+          Screening mammografico, Attività fisica..
         </Text>
         <Text style={myStyle.parText}>
           Potrai visualizzare consigli personalizzati riguardo a questi ed
@@ -58,7 +58,7 @@ export default class Content extends Component {
         </Text>
         <View style={{height: 5}} />
         <Text style={myStyle.parText}>
-          Puoi accedere al questionario LILT dalla pagina del tuo profilo.
+          Puoi accedere al questionario dal tuo profilo.
         </Text>
       </View>
       );
@@ -76,6 +76,41 @@ export default class Content extends Component {
     return (
       <View>
         {paragraphs}
+      </View>
+      );
+  }
+
+
+  renderBMIWarningParagraph() {
+    return (
+      <View>
+        <Text style={[myStyle.parTitle, myStyle.parSpacing]}>
+          Peso e Alimentazione
+        </Text>
+        <Text style={myStyle.parText}>
+          Per visualizzare consigli personalizzati su peso ed alimentazione
+          inserisci il tuo peso e la tua altezza dalla pagina di profilo.
+        </Text>
+      </View>
+      );
+  }
+
+
+  renderBMIParagraph() {
+    if (!stateApi.isBMIAvailable())
+      return this.renderBMIWarningParagraph();
+
+    const bmiRange = stateApi.getUserBMIRange();
+    const paragraphText = stateApi.getParagraphForBMIRange(bmiRange);
+
+    return (
+      <View>
+        <Text style={[myStyle.answer, myStyle.parSpacing]}>
+          Peso e Alimentazione
+        </Text>
+        <Text style={myStyle.parText}>
+          {paragraphText}
+        </Text>
       </View>
       );
   }
@@ -102,6 +137,7 @@ export default class Content extends Component {
         </Image>
         <View style={[content.body.container]}>
           {this.renderQuestionnaireParagraphs()}
+          {this.renderBMIParagraph()}
         </View>
       </ScrollView>
       );
