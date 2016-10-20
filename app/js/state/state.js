@@ -381,8 +381,40 @@ const getStructuresForTranslatedType = (translatedType) => {
 };
 
 
+/**
+ * Compute age range from user birthdate.
+ * It returns a misc.AgeRange enum value.
+ */
 const getUserAgeRange = () => {
-  return AgeRange.LESS_THAN_45;
+  // This should not happen...
+  if (!userExists())
+    return AgeRange.LESS_THAN_45;
+
+  // User birthdate is a date with format dd-mm-yyyy
+  const tokens = state.user.data.birthdate.split('-');
+  const birthdate = new Date(tokens[2], tokens[1], tokens[0]);
+
+  // Sometimes an user inserts a fake birthdate that is today or in the future.
+  // We handle these cases manually
+  const thisYear = new Date().getFullYear();
+  if (birthdate.getFullYear() >= thisYear)
+    return AgeRange.LESS_THAN_45;
+
+  // https://stackoverflow.com/questions/4060004/calculate-age-in-javascript
+  const elapsedMs = Date.now() - birthdate.getTime();
+  const elapsedDate = new Date(elapsedMs);  // ms from epoch
+  const age = Math.abs(elapsedDate.getUTCFullYear() - 1970);
+
+  if (age < 45)
+    return AgeRange.LESS_THAN_45;
+  else if (age >= 45 && age < 50)
+    return AgeRange.FROM_45_TO_49;
+  else if (age >= 50 && age < 70)
+    return AgeRange.FROM_50_TO_69;
+  else if (age >= 70 && age < 75)
+    return AgeRange.FROM_70_TO_74;
+  else
+    return AgeRange.MORE_THAN_74;
 };
 
 
