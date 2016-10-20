@@ -391,7 +391,7 @@ const pages = {
     headerFontSize: 14,
     questionFontSize: 14,
     textFontSize: 16,
-    paragraphSpacing: 25,
+    paragraphSpacing: 30,
   },
 };
 
