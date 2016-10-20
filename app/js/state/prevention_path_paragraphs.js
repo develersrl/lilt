@@ -43,7 +43,7 @@ La diagnosi precoce - o prevenzione secondaria - consiste nella diagnosi di un t
 
 Tra i 45 e i 49 anni il rischio di sviluppare un tumore del seno è elevato. Per questo, recentemente la Regione Toscana ha deciso di allargare lo screening anche alle donne di questa età, con una mammografia annuale (servizio gratuito). L’estensione dello screening sarà rivolta anche a chi ha tra i 70 e i 74 anni, con controllo ogni due anni. Le lettere di invito saranno spedite, gradualmente, a partire dal 2017.
 
-Se hai qualche dubbio al riguardo, puoi rivolgerti all’Ufficio Relazioni con il Pubblico dell’ISPO. email urp@ispo.toscana.it – tel 055 32697821`;
+Se hai qualche dubbio al riguardo, puoi rivolgerti all’Ufficio Relazioni con il Pubblico dell’ISPO (vedi sezione "Strutture" all'interno di questa APP).`;
 
 const screeningNoMoreThan74 = `Lo screening per il tumore della mammella nella Regione Toscana si rivolge alle donne di età compresa tra i 45 e i 74 anni.
 
@@ -62,19 +62,19 @@ const mammografiaYesFrom45To49 = `Se hai già fatto una mammografia ti consiglia
 
 Ti ricordiamo che la Regione Toscana ha recentemente esteso il programma di screening mammografico alle donne tra i 45 e i 49 anni, che a partire dal 2017 riceveranno, annualmente, l’invito alla mammografia di screening.
 
-Se hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO. email urp@ispo.toscana.it – tel 055 32697821`;
+Se hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO (vedi sezione "Strutture" all'interno di questa APP).`;
 
 const mammografiaYesFrom50To69 = `Se hai già fatto una mammografia ti consigliamo di continuare a seguire i consigli del tuo medico curante.
 
 Le donne tra i 50 e i 69 anni, residenti nella Regione Toscana, possono accedere al programma di screening, che invita al controllo mammografico con periodicità biennale (servizio gratuito).
 
-Se non hai ricevuto l’invito, se non trovi più la lettera, o se hai qualche dubbio al riguardo, puoi rivolgerti all’Ufficio Relazioni con il Pubblico dell’ISPO. email urp@ispo.toscana.it – tel 055 32697821`;
+Se non hai ricevuto l’invito, se non trovi più la lettera, o se hai qualche dubbio al riguardo, puoi rivolgerti all’Ufficio Relazioni con il Pubblico dell’ISPO (vedi sezione "Strutture" all'interno di questa APP).`;
 
 const mammografiaYesFrom70To74 = `Se hai già fatto una mammografia ti consigliamo di continuare a seguire i consigli del tuo medico curante.
 
 Ti ricordiamo che la Regione Toscana ha recentemente esteso il programma di screening mammografico alle donne tra i 70 e i 74 anni, che a partire dal 2017 riceveranno, ogni due anni, l’invito alla mammografia di screening.
 
-Se hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO. email urp@ispo.toscana.it – tel 055 32697821`;
+Se hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO (vedi sezione "Strutture" all'interno di questa APP).`;
 
 const mammografiaYesMoreThan74 = `Se hai già fatto una mammografia ti consigliamo di continuare a seguire i consigli del tuo medico curante.
 
@@ -97,7 +97,7 @@ La Regione Toscana ha recentemente esteso il programma di screening mammografico
 
 Ti invitiamo ad aderire al programma di screening.
 
-Se hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO. email urp@ispo.toscana.it – tel 055 32697821`;
+Se hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO (vedi sezione "Strutture" all'interno di questa APP).`;
 
 const mammografiaNoFrom50To74 = `Attenzione: non partecipi ai programmi di screening e non hai mai fatto una mammografia.
 
@@ -109,7 +109,7 @@ La Regione Toscana ha recentemente esteso lo screening anche alle donne tra i 70
 
 Ti invitiamo ad aderire al programma di screening.
 
-Se non hai ricevuto l’invito, se non trovi più la lettera, o hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO. email urp@ispo.toscana.it – tel 055 32697821`;
+Se non hai ricevuto l’invito, se non trovi più la lettera, o hai qualche dubbio al riguardo, puoi rivolgerti all’URP dell’ISPO (vedi sezione "Strutture" all'interno di questa APP).`;
 
 const mammografiaNoMoreThan74 = `Se non hai mai fatto una mammografia, parlane con il tuo medico curante, per valutare l’opportunità di  sottoporti all’esame mammografico.
 In ogni caso, non perdere l’abitudine di fare attenzione ad eventuali cambiamenti del seno.
@@ -148,8 +148,7 @@ In media, chi fuma perde 10 anni di vita, rispetto a chi non ha mai fumato. Smet
 
 Quindi: non iniziare è la cosa migliore, ma comunque non è mai troppo tardi per smettere e prima si smette e meglio è.
 
-Se hai bisogno di aiuto per smettere di fumare puoi rivolgerti alla LILT
-www.legatumorifirenze.it/   tel 055-576939`;
+Se hai bisogno di aiuto per smettere di fumare puoi rivolgerti alla LILT (vedi sezione "About LILT" per contatti ed email)`;
 
 const fumoYesInThePast = `Sei stata molto brava a smettere di fumare: smettere di fumare, a qualsiasi età, riduce il rischio di ammalarsi.
 Il beneficio è inoltre immediato sulla circolazione sanguigna e sulla funzione respiratoria. Dopo un anno, ad esempio, si dimezza il rischio di patologia coronarica, rispetto a chi ancora fuma. Il rischio di tumore al polmone si dimezza dopo 10 anni.`;
@@ -224,7 +223,7 @@ Per rimanere in salute, cerca di mantenere il peso nei limiti del normale, mangi
 
 Se non riesci ad aumentare di peso o se hai perso peso involontariamente, consulta un dietista, un nutrizionista o un medico.
 Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
-link http://www.legatumorifirenze.it/   tel 055 576939`;
+(vedi sezione "About LILT" per contatti ed email)`;
 
 const bmiNormalweight = `Bene, il tuo peso è giusto.
 Per rimanere in salute, controlla periodicamente il tuo peso e cerca di mangiare in modo sano ed equilibrato: una dieta sana contribuisce, insieme agli altri componenti dello stile di vita sano, a ridurre il rischio di sviluppare i tumori.
@@ -252,7 +251,7 @@ se non vuoi rinunciare ai tuoi alimenti preferiti, riduci la porzione, togli la 
 muoviti regolarmente, aumentando gradualmente il livello di attività fisica.
 
 Segui i consigli dati nella sezione prevenzione di questa APP e se non riesci a perdere peso consulta un dietista, nutrizionista o un medico. Se vuoi avere consigli per una corretta alimentazione puoi rivolgerti alla LILT Firenze
-link http://www.legatumorifirenze.it/   tel 055 576939`;
+(vedi sezione "About LILT" per contatti ed email)`;
 
 const bmiObese = `Attenzione, il tuo peso è maggiore di quello considerato normale e ti trovi attualmente in una condizione di obesità: il peso in eccesso è un fattore di rischio per il tumore della mammella, soprattutto in post-menopausa.
 
