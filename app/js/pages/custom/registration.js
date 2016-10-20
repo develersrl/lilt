@@ -61,13 +61,18 @@ export default class Registration extends Component {
 
 
   onSendPress() {
-    const { navigator, getRoute } = this.props;
+    const { navigator, getRoute, mode } = this.props;
     const error = stateApi.userValidate(this.state.user);
+
     this.setState({ ...this.state, error });
 
     if (error === 'OK') {
       stateApi.userRegister(this.state.user)
-        .then(() => navigator.push(getRoute('__question0__')));
+        .then(() => {
+          if (mode === 'Registration')
+            navigator.replace(getRoute('profile'));
+          navigator.push(getRoute('__question0__'));
+        });
     }
   }
 
@@ -120,6 +125,7 @@ export default class Registration extends Component {
                                bounces={false}
                                showsVerticalScrollIndicator={false}
                                automaticallyAdjustContentInsets={false}
+                               contentContainerStyle={{paddingBottom: 20}}
                                >
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{title}</Text>

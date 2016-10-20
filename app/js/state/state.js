@@ -8,15 +8,24 @@ import {
   removeLocal,
   validateEmail,
   eqSet,
+  AgeRange,
+  BMIRange,
 } from '../misc';
 
 import { init as mixpanelInit, test as mixpanelTest } from './mixpanel';
 import { test as usersTest, register } from './users';
 import { removeStoredUser, dataSenderRetryInterval } from './config';
+
 import {
   getAnswersInitialState,
   getAnswersTranslations,
+  getQuestionData,
 } from './questions_data';
+
+import {
+  getParagraphFromUserAnswer,
+  getParagraphFromBMIRange,
+} from './prevention_path_data';
 /* -------------------------------------------------------------------------- */
 
 
@@ -269,6 +278,31 @@ const userData = (standard) => {
 
 const getAnswer = (targetField) => state.answers[targetField];
 
+
+const getSavedAnswerValue = (questionIndex) => {
+  const questionData = getQuestionData(questionIndex);
+  return state.user.savedAnswers[questionData.targetField];
+};
+
+
+const getSavedAnswerText = (questionIndex) => {
+  const questionData = getQuestionData(questionIndex);
+  const savedAnswerValue = state.user.savedAnswers[questionData.targetField];
+
+  if (savedAnswerValue === null)
+    return '';
+
+  for (let i = 0; i < questionData.answers.length; ++i) {
+    const answer = questionData.answers[i];
+    if (answer.value === savedAnswerValue) {
+      return answer.text;
+    }
+  }
+
+  return '';
+};
+
+
 const saveAnswer = (targetField, answerValue) => {
   state.answers[targetField] = answerValue;
 };
@@ -276,6 +310,25 @@ const saveAnswer = (targetField, answerValue) => {
 const commitAnswers = () => {
   state.user.savedAnswers = { ...state.answers };
   return saveLocal('liltUser', state.user);
+};
+
+/**
+ * Returns true if the user has completed the questionnaire.
+ */
+const isQuestionnaireDone = () => {
+  // If there is no registered user the questionnaire cannot be completed
+  if (!userExists())
+    return false;
+
+  // We assume that the questionnaire contains at least one question, and that
+  // the questionnaire is completed when ALL questions have been answered.
+  // With this assumption the answers can be in two possible states: either
+  // all of them have been answered or none of them have been answered.
+  // So if the first answer exists (i.e. it is not null) we can say that all
+  // the questionnaire is completed.
+  const firstQuestionData = getQuestionData(0);
+  const targetField = firstQuestionData.targetField;
+  return state.user.savedAnswers[targetField] !== null;
 };
 
 
@@ -332,11 +385,81 @@ const getStructuresForTranslatedType = (translatedType) => {
 };
 
 
+/**
+ * Compute age range from user birthdate.
+ * It returns a misc.AgeRange enum value.
+ */
+const getUserAgeRange = () => {
+  // This should not happen...
+  if (!userExists())
+    return AgeRange.LESS_THAN_45;
+
+  // User birthdate is a date with format dd-mm-yyyy
+  const tokens = state.user.data.birthdate.split('-');
+  const birthdate = new Date(tokens[2], tokens[1], tokens[0]);
+
+  // Sometimes an user inserts a fake birthdate that is today or in the future.
+  // We handle these cases manually
+  const thisYear = new Date().getFullYear();
+  if (birthdate.getFullYear() >= thisYear)
+    return AgeRange.LESS_THAN_45;
+
+  // https://stackoverflow.com/questions/4060004/calculate-age-in-javascript
+  const elapsedMs = Date.now() - birthdate.getTime();
+  const elapsedDate = new Date(elapsedMs);  // ms from epoch
+  const age = Math.abs(elapsedDate.getUTCFullYear() - 1970);
+
+  if (age < 45)
+    return AgeRange.LESS_THAN_45;
+  else if (age >= 45 && age < 50)
+    return AgeRange.FROM_45_TO_49;
+  else if (age >= 50 && age < 70)
+    return AgeRange.FROM_50_TO_69;
+  else if (age >= 70 && age < 75)
+    return AgeRange.FROM_70_TO_74;
+  else
+    return AgeRange.MORE_THAN_74;
+};
+
+
+const isBMIAvailable = () => {
+  // BMI is not available if there is no registered user
+  if (!userExists())
+    return false;
+
+  // BMI is not available if height or weight is not available
+  const { height, weight } = state.user.data;
+  return (height !== '' && weight !== '');
+};
+
+
+const getUserBMIRange = () => {
+  const { height, weight } = state.user.data;
+  const bmi = (weight / (height * height));
+
+  if (bmi < 18.5)
+    return BMIRange.LESS_THAN_18_5;
+  else if (bmi >= 18.5 && bmi < 25)
+    return BMIRange.FROM_18_5_TO_24_9;
+  else if (bmi >= 25 && bmi < 30)
+    return BMIRange.FROM_25_TO_29_9;
+  else
+    return BMIRange.MORE_THAN_29_9;
+};
+
+
+const getParagraphForBMIRange = (bmiRange) => {
+  return getParagraphFromBMIRange(bmiRange);
+};
+
+
+
 const api = {
   init,
   test,
   userValidate,
   userRegister,
+  getUserAgeRange,
   answersRegister,
   userForget,
   addListener,
@@ -348,12 +471,19 @@ const api = {
   getAnswer,
   saveAnswer,
   commitAnswers,
+  getSavedAnswerText,
+  getSavedAnswerValue,
+  isQuestionnaireDone,
   selectedTab,
   setSelectedTab,
   getRenderableUserFields,
   getRenderableUserAnswers,
   getStructureTypes,
   getStructuresForTranslatedType,
+  getParagraphFromUserAnswer,
+  isBMIAvailable,
+  getUserBMIRange,
+  getParagraphForBMIRange,
 };
 /* -------------------------------------------------------------------------- */
 
