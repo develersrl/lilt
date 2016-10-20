@@ -139,7 +139,7 @@ Ti consigliamo di continuare a controllare il tuo seno e di parlare con il tuo m
 
 Leggi con attenzione le sezioni “prevenzione” e “diagnosi precoce” di questa APP.
 
-Se hai meno di 50 anni e pensi di avere problemi di familiarità, puoi parlarne con il tuo medico curante o rivolgerti ad un Centro di Senologia LINK ALLE BREAST UNIT IN CONTATTI
+Se hai meno di 50 anni e pensi di avere problemi di familiarità, puoi parlarne con il tuo medico curante o rivolgerti ad un Centro di Senologia
 (vedi il capitolo su Familiarità e genetica in: SAPERNE DI PIÙ/Cause e fattori di Rischio)`;
 
 const tumoreYes = `Dopo una prima diagnosi di cancro della mammella il rischio che la malattia si ripresenti (cosiddetta recidiva) o il rischio di un nuovo tumore è aumentato.
@@ -149,8 +149,7 @@ Leggi con attenzione le sezioni “prevenzione” e “diagnosi precoce” di qu
 
 Se sei interessata ad un percorso di riabilitazione, a Firenze LILT e ISPO, grazie anche al contributo di Corri la Vita e Toscana Donna, hanno dato vita al Centro di Riabilitazione Oncologica (Ce.Ri.On.), una realtà innovativa che si fonda sulla condivisione di risorse e obiettivi a cavallo tra il servizio pubblico e il mondo del volontariato.
 
-Al Ce.Ri.On., mettendo insieme il sapere medico e il sapere psicologico, si accompagna il paziente oncologico in un percorso riabilitativo integrato e individualizzato, grazie alla sinergia tra diverse figure professionali.
-LINK AL CERION`;
+Al Ce.Ri.On., mettendo insieme il sapere medico e il sapere psicologico, si accompagna il paziente oncologico in un percorso riabilitativo integrato e individualizzato, grazie alla sinergia tra diverse figure professionali.`;
 /* -------------------------------------------------------------------------- */
 
 
@@ -190,7 +189,7 @@ Evita i superalcolici.
 
 Una unità alcolica contiene 10-12 g di alcool puro e corrisponde ad un bicchiere di vino (125 ml), una lattina di birra (330 ml) oppure un bicchierino di superalcolico (30-40 ml)
 
-Se sei interessato a fare un percorso per muoverti verso una riduzione del consumo di alcolici, puoi contattare il centro Alcologico Regionale  CART (LINK)`;
+Se sei interessato a fare un percorso per muoverti verso una riduzione del consumo di alcolici, puoi contattare il centro Alcologico Regionale`;
 /* -------------------------------------------------------------------------- */
 
 
