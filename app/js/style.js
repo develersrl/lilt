@@ -263,7 +263,7 @@ const pages = {
       container: {
         height: 280,
         width: Dimensions.get('window').width,
-        resizeMode: 'stretch',
+        // resizeMode: 'stretch',
       },
       footer: {
         height: 40,
