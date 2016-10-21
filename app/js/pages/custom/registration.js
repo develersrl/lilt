@@ -167,9 +167,8 @@ export default class Registration extends Component {
         <View style={myStyle.titleView}>
           <Text style={myStyle.titleText}>{title}</Text>
           <Text style={myStyle.subTitle}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nunc dapibus id orci feugiat vulputate. Fusce quis bibendum erat.
-            Donec pretium convallis consectetur.
+            Inserisci i tuoi dati per avere un persorso di prevenzione
+            personalizzato.
           </Text>
         </View>
         <View style={myStyle.formContainer}>
@@ -209,6 +208,7 @@ export default class Registration extends Component {
                      label={'indirizzo'}
                      defaultValue={address}
                      onChangeText={makeCb('address')}
+                     placeholder='via / civico / città'
                      mandatory={true}
                      />
           <TextInput style={myStyle.spacing}
@@ -216,12 +216,14 @@ export default class Registration extends Component {
                      defaultValue={height}
                      onChangeText={makeCb('height')}
                      keyboardType={'numeric'}
+                     placeholder='altezza in metri'
                      />
           <TextInput style={myStyle.spacing}
                      label={'peso'}
                      defaultValue={weight}
                      onChangeText={makeCb('weight')}
                      keyboardType={'numeric'}
+                     placeholder='peso in kg'
                      />
           <View style={myStyle.mandatoryAdviceView}>
             <Text style={myStyle.mandatoryAdviceText}>*campi obbligatori</Text>

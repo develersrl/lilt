@@ -14,6 +14,7 @@ export default class MyTextInput extends Component {
       onChangeText,
       keyboardType,
       mandatory,
+      placeholder
     } = this.props;
 
     const _keyboardType = keyboardType === undefined ? 'default' : keyboardType;
@@ -35,6 +36,7 @@ export default class MyTextInput extends Component {
                      defaultValue={defaultValue}
                      onChangeText={onChangeText}
                      keyboardType={_keyboardType}
+                     placeholder={placeholder}
                      />
         </View>
       </View>
@@ -49,6 +51,7 @@ MyTextInput.propTypes = {
   onChangeText: React.PropTypes.func.isRequired,
   keyboardType: React.PropTypes.string,
   mandatory: React.PropTypes.bool,
+  placeholder: React.PropTypes.string,
   style: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.number,
