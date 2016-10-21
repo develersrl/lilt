@@ -43,9 +43,10 @@ Or, if you prefer `gem`:
 $ gem install cocoapods
 ```
 
-If this is your first time using CocoaPods, run `pod setup` to create a local CocoaPods spec mirror.
+If this is your first time using CocoaPods, run `
+` to create a local CocoaPods spec mirror.
 
-Now go into `app/ios` folder and run `pod setup` to install the dependencies (the [Mixpanel](https://mixpanel.com/report/1015849/explore/) dependency for now).
+Now go into `app/ios` folder and run `pod install` to install the dependencies (the [Mixpanel](https://mixpanel.com/report/1015849/explore/) dependency for now).
 
 ### [React-Native Dependencies Setup](#index)
 
@@ -55,16 +56,8 @@ To setup react-native dependencies run the following commands inside the `app` d
 ```
 $ npm install
 ...
-$ rnpm link
+$ react-native link
 ```
-
-If you do not have the `rnpm` package, you should install it globally:
-
-```
-$ npm install -g rnpm
-```
-
-and re-run `rnpm link` inside the `app` directory.
 
 ### [Generating and Launch the App](#index)
 
