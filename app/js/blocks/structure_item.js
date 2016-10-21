@@ -189,7 +189,7 @@ export default class StructureItem extends Component {
       require('../../images/clock.png'),
       require('../../images/mail.png'),
       require('../../images/website.png'),
-      require('../../images/website.png'),
+      require('../../images/address.png'),
     ];
 
     const renderableInfos = [];
