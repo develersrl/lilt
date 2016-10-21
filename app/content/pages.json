@@ -76,25 +76,25 @@
                 {
                     "type": "link_list_item",
                     "title": "Informazioni",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Il tumore al seno e i suoi numeri",
                     "link": "#c_gen_8"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cause e Fattori di rischio",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Dall’età alla familiarità, dagli estrogeni allo stile di vita",
                     "link": "#c_gen_3"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Chirurgia, terapia medica, radioterapia e ricostruzione del seno",
                     "link": "#c_gen_11"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Dopo la terapia",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Controlli, riabilitazione oncologica e prevenzione recidive",
                     "link": "#c_gen_6",
                     "final": true
                 }
@@ -118,19 +118,19 @@
                 {
                     "type": "link_list_item",
                     "title": "Stile di vita",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Uno stile di vita sano al centro della prevenzione",
                     "link": "#c_gen_10"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Allattamento al seno",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "I vantaggi dell’allattamento",
                     "link": "#c_gen_1"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia ormonale sostitutiva",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Pro e contro",
                     "link": "#c_gen_12",
                     "final": true
                 }
@@ -154,31 +154,31 @@
                 {
                     "type": "link_list_item",
                     "title": "Cos'è la diagnosi precoce",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "L’importanza di identificare presto il tumore",
                     "link": "#c_gen_5"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Lo screening organizzato",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "La mammografia come strumento di diagnosi precoce",
                     "link": "#c_gen_9"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cosa fare a seconda dell'età",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Gli esami consigliati in base ai tuoi anni",
                     "link": "#c_gen_4"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Ho sentito qualcosa di diverso",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "Cosa fare quando qualcosa non va",
                     "link": "#c_gen_7"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Approfondimenti diagnostici",
-                    "caption": "Capitolo 1 / Capitolo 2",
+                    "caption": "I passi da compiere per capire se c’è un problema",
                     "link": "#c_gen_2",
                     "final": true
                 }
