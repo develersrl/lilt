@@ -22,7 +22,7 @@ export default class Content extends Component {
     const { markdown } = blocks;
     const pdfName = "{{pdfName}}";
     const headerImage = {{headerImage}};
-    const sharedText = "{{sharedText}}";
+    const sharedText = `{{sharedText}}`;
 
     return (
       <ScrollView style={[flexible]}

@@ -66,8 +66,8 @@ export default class Structures extends Component {
         <View style={myStyle.aboveView}>
           <Text style={myStyle.titleText}>STRUTTURE</Text>
           <Text style={myStyle.subtitleText}>
-            Lorem ipsum dolor sit amet, consectetur adipicing elit.
-            Nunc dapibus id orci feugiat vulputate.
+            Contatti delle strutture nell’area fiorentina{'\n'}
+            a cui fare riferimento
           </Text>
         </View>
         <View style={myStyle.belowView}>

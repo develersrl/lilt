@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { TabBarIOS, StyleSheet } from 'react-native';
+import { TabBarIOS } from 'react-native';
 
 import AppNavigator from './navigator';
 import ProfileNavigator from './profile_navigator';
@@ -11,7 +11,7 @@ import { api as stateApi } from '../state';
 import { custom } from '../pages';
 const { About, ThanksTo, Structures } = custom;
 
-import { blocks, common } from '../style';
+import { blocks } from '../style';
 const { tabbar } = blocks;
 
 
@@ -46,8 +46,7 @@ export default class TabBar extends Component {
                  tintColor={tabbar.textSelectedColor}
                  barTintColor={tabbar.barColor}
                  >
-        <TabBarIOS.Item style={myStyle.item}
-                        title={'profilo'}
+        <TabBarIOS.Item title={'profilo'}
                         icon={tabbar.profileUnselectedIcon}
                         selectedIcon={tabbar.profileSelectedIcon}
                         renderAsOriginal={true}
@@ -56,8 +55,7 @@ export default class TabBar extends Component {
                         >
           <ProfileNavigator />
         </TabBarIOS.Item>
-        <TabBarIOS.Item style={myStyle.item}
-                        title={'strutture'}
+        <TabBarIOS.Item title={'strutture'}
                         icon={tabbar.structuresUnselectedIcon}
                         selectedIcon={tabbar.structuresSelectedIcon}
                         renderAsOriginal={true}
@@ -66,8 +64,7 @@ export default class TabBar extends Component {
                         >
           <Structures />
         </TabBarIOS.Item>
-        <TabBarIOS.Item style={myStyle.item}
-                        title={'home'}
+        <TabBarIOS.Item title={'home'}
                         icon={tabbar.homeUnselectedIcon}
                         selectedIcon={tabbar.homeSelectedIcon}
                         renderAsOriginal={true}
@@ -76,8 +73,7 @@ export default class TabBar extends Component {
                         >
           <AppNavigator />
         </TabBarIOS.Item>
-        <TabBarIOS.Item style={myStyle.item}
-                        title={'about LILT'}
+        <TabBarIOS.Item title={'about LILT'}
                         icon={tabbar.aboutUnselectedIcon}
                         selectedIcon={tabbar.aboutSelectedIcon}
                         renderAsOriginal={true}
@@ -86,8 +82,7 @@ export default class TabBar extends Component {
                         >
           <About />
         </TabBarIOS.Item>
-        <TabBarIOS.Item style={myStyle.item}
-                        title={'grazie a'}
+        <TabBarIOS.Item title={'grazie a'}
                         icon={tabbar.sponsorUnselectedIcon}
                         selectedIcon={tabbar.sponsorSelectedIcon}
                         renderAsOriginal={true}
@@ -100,10 +95,3 @@ export default class TabBar extends Component {
       );
   }
 }
-
-
-const myStyle = StyleSheet.create({
-  item: {
-    marginBottom: common.tabBarHeight,
-  },
-});

@@ -109,7 +109,7 @@ def get_output_pdfname(pdf_name):
 
     same_pdf = 0
     for f in os.listdir(pdf_dir):
-        if f.lower().startswith(basename):
+        if f.decode('utf-8').lower().startswith(basename):
             same_pdf += 1
 
     suffix = '' if same_pdf == 0 else '{}'.format(same_pdf)

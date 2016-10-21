@@ -33,11 +33,15 @@ def import_content_page(
 
     # Copy all images from source directory to destination directory.
     # This automatically copies the page header image.
-    pngs = [f for f in os.listdir(input_page_dir) if f.lower().endswith('png')]
-    for png in pngs:
-        input_png_fn = os.path.join(input_page_dir, png)
-        output_png_fn = os.path.join(output_page_dir, png)
-        shutil.copy(input_png_fn, output_png_fn)
+    imgs = []
+    for f in os.listdir(input_page_dir):
+        if f.lower().endswith('png') or f.lower().endswith('jpg'):
+            imgs.append(f)
+
+    for img in imgs:
+        input_img_fn = os.path.join(input_page_dir, img)
+        output_img_fn = os.path.join(output_page_dir, img)
+        shutil.copy(input_img_fn, output_img_fn)
 
     # Return the python dictionary that describes the generated page
     return {
