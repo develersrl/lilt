@@ -7,11 +7,23 @@ import { common } from '../style';
 
 
 export default class Button2 extends Component {
+  onInternalPress() {
+    const { disabled, onPress } = this.props;
+    if (!disabled)
+      onPress();
+  }
+
+
   render() {
-    const { text, onPress } = this.props;
+    const { text, disabled } = this.props;
+
+    const containerStyle = [myStyle.container];
+    if (disabled)
+      containerStyle.push(myStyle.disabled);
 
     return (
-      <TouchableOpacity style={myStyle.container} onPress={onPress}>
+      <TouchableOpacity style={containerStyle}
+                        onPress={this.onInternalPress.bind(this)}>
         <View>
           <Text style={myStyle.text}>{text}</Text>
         </View>
@@ -21,7 +33,6 @@ export default class Button2 extends Component {
 }
 
 
-const { form } = common;
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -29,6 +40,9 @@ const myStyle = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  disabled: {
+    backgroundColor: '#C1DBF8',
   },
   text: {
     color: 'white',

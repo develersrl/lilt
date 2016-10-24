@@ -11,6 +11,7 @@ import About from './about';
 import ThanksTo from './thanks_to';
 import Structures from './structures';
 import CustomPrevention from './custom_prevention';
+import Privacy from './privacy';
 
 module.exports = {
   Home,
@@ -24,4 +25,5 @@ module.exports = {
   ThanksTo,
   Structures,
   CustomPrevention,
+  Privacy,
 };

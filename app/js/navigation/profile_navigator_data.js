@@ -27,6 +27,10 @@ const routes = {
       text: 'Grazie per aver completato\nil nostro questionario!'
     },
   },
+  privacy: {
+    title: 'INFORMATIVA',
+    component: pages.custom.Privacy,
+  },
 };
 
 

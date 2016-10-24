@@ -7,6 +7,8 @@ import {
   StyleSheet,
   LayoutAnimation,
   ActivityIndicator,
+  Switch,
+  TouchableOpacity,
 } from 'react-native';
 
 import { KeyboardAwareScrollView }
@@ -25,6 +27,7 @@ export default class Registration extends Component {
     this.state = {
       user: { ...stateApi.getState().user.data },
       error: 'OK',
+      privacyCheckbox: true,
     };
   }
 
@@ -77,6 +80,11 @@ export default class Registration extends Component {
   }
 
 
+  onPrivacyCheckboxChange(val) {
+    this.setState({ ...this.state, privacyCheckbox: val });
+  }
+
+
   renderErrorString() {
     const { error } = this.state;
 
@@ -93,6 +101,35 @@ export default class Registration extends Component {
     if (stateApi.isSendingUserData())
       return (<ActivityIndicator size={'large'} />);
     return null;
+  }
+
+
+  renderPrivacyCheckbox() {
+    const { mode, navigator, getRoute } = this.props;
+
+    if (mode === 'Edit')
+      return null;
+
+    return (
+      <View style={myStyle.checkboxView}>
+        <View style={myStyle.switchView}>
+          <Switch value={this.state.privacyCheckbox}
+                  onValueChange={this.onPrivacyCheckboxChange.bind(this)}
+                  />
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={myStyle.disclaimerText}>
+            Acconsento al trattamento dei miei dati personali
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigator.push(getRoute('privacy'))}>
+            <Text style={[myStyle.disclaimerText, myStyle.link]}>
+              Leggi l'informativa
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      );
   }
 
 
@@ -190,10 +227,13 @@ export default class Registration extends Component {
             <Text style={myStyle.mandatoryAdviceText}>*campi obbligatori</Text>
           </View>
           {this.renderErrorString()}
+          {this.renderPrivacyCheckbox()}
           <View style={myStyle.buttonRow}>
             <View style={myStyle.buttonView}>
               <Button2 text={buttonText}
-                       onPress={this.onSendPress.bind(this)}/>
+                       onPress={this.onSendPress.bind(this)}
+                       disabled={!this.state.privacyCheckbox}
+                       />
             </View>
             {this.renderActivityIndicator()}
           </View>
@@ -265,4 +305,22 @@ const myStyle = StyleSheet.create({
   spacing: {
     marginTop: 10,
   },
+  checkboxView: {
+    flexDirection: 'row',
+    marginBottom: 20,
+  },
+  switchView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  disclaimerText: {
+    color: '#8E8E8E',
+    fontFamily: 'GillSans',
+    fontSize: 15,
+    lineHeight: 20,
+  },
+  link: {
+    color: '#74B3FA',
+  }
 });
