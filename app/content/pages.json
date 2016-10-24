@@ -77,25 +77,25 @@
                     "type": "link_list_item",
                     "title": "Informazioni",
                     "caption": "Il tumore al seno e i suoi numeri",
-                    "link": "#c_gen_8"
+                    "link": "#c_gen_11"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cause e Fattori di rischio",
                     "caption": "Dall’età alla familiarità, dagli estrogeni allo stile di vita",
-                    "link": "#c_gen_3"
+                    "link": "#c_gen_6"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia",
                     "caption": "Chirurgia, terapia medica, radioterapia e ricostruzione del seno",
-                    "link": "#c_gen_11"
+                    "link": "#c_gen_14"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Dopo la terapia",
                     "caption": "Controlli, riabilitazione oncologica e prevenzione recidive",
-                    "link": "#c_gen_6",
+                    "link": "#c_gen_9",
                     "final": true
                 }
             ]
@@ -119,19 +119,19 @@
                     "type": "link_list_item",
                     "title": "Stile di vita",
                     "caption": "Uno stile di vita sano al centro della prevenzione",
-                    "link": "#c_gen_10"
+                    "link": "#c_gen_13"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Allattamento al seno",
                     "caption": "I vantaggi dell’allattamento",
-                    "link": "#c_gen_1"
+                    "link": "#c_gen_4"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Terapia ormonale sostitutiva",
                     "caption": "Pro e contro",
-                    "link": "#c_gen_12",
+                    "link": "#c_gen_15",
                     "final": true
                 }
             ]
@@ -155,31 +155,31 @@
                     "type": "link_list_item",
                     "title": "Cos'è la diagnosi precoce",
                     "caption": "L’importanza di identificare presto il tumore",
-                    "link": "#c_gen_5"
+                    "link": "#c_gen_8"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Lo screening organizzato",
                     "caption": "La mammografia come strumento di diagnosi precoce",
-                    "link": "#c_gen_9"
+                    "link": "#c_gen_12"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Cosa fare a seconda dell'età",
                     "caption": "Gli esami consigliati in base ai tuoi anni",
-                    "link": "#c_gen_4"
+                    "link": "#c_gen_7"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Ho sentito qualcosa di diverso",
                     "caption": "Cosa fare quando qualcosa non va",
-                    "link": "#c_gen_7"
+                    "link": "#c_gen_10"
                 },
                 {
                     "type": "link_list_item",
                     "title": "Approfondimenti diagnostici",
                     "caption": "I passi da compiere per capire se c’è un problema",
-                    "link": "#c_gen_2",
+                    "link": "#c_gen_5",
                     "final": true
                 }
             ]

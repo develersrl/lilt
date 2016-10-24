@@ -77,9 +77,14 @@ export default class Home extends Component {
         // Since the user is registered we open custom prevention page
         navigator.push(getRoute('customPrevention'));
       }
-      else {
-        // TODO: open the right page based on index
+      else if (index === 1) {
+        navigator.push(getRoute('#c_gen_2'));
+      }
+      else if (index === 2) {
         navigator.push(getRoute('#c_gen_1'));
+      }
+      else {
+        navigator.push(getRoute('#c_gen_3'));
       }
     }
   }
