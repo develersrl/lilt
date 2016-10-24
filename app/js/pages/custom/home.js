@@ -184,7 +184,7 @@ const myStyle = StyleSheet.create({
     flex: 1,
   },
   container: {
-    paddingBottom: 20,
+    // paddingBottom: 20,
     justifyContent: 'center',
   },
   logoView: {

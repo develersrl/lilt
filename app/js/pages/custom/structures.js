@@ -95,6 +95,7 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: common.statusBarHeight,
+    marginBottom: 50,
   },
   aboveView: {
     justifyContent: 'center',

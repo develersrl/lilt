@@ -39,6 +39,7 @@ export default class About extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
+    marginBottom: 50,
   },
   backImg: {
     position: 'absolute',

@@ -32,5 +32,6 @@ const myStyle = StyleSheet.create({
     */
     // https://github.com/aksonov/react-native-router-flux/blob/master/src/NavBar.js#L66
     marginTop: 44,
+    marginBottom: 60,
   },
 });
