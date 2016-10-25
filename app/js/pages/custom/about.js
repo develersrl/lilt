@@ -141,6 +141,7 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     marginBottom: 50,
+    marginTop: common.statusBarHeight,
   },
   backImg: {
     position: 'absolute',
@@ -159,7 +160,6 @@ const myStyle = StyleSheet.create({
   titleView: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: common.statusBarHeight,
     padding: 20,
   },
   titleText: {
