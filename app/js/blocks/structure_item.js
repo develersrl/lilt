@@ -13,12 +13,53 @@ import {
 
 import { openURL, extractPhoneNumber } from '../misc';
 
-
 import { blocks } from '../style';
 const { structureitem } = blocks;
 
 
+/**
+ * Setup simple enum to discriminate between special breast unit structures.
+ */
+const BreastUnit = {
+  CAREGGI_MAIN: 0,
+  CAREGGI_CORD: 1,
+  OTHER: 2,
+};
+
+
 export default class StructureItem extends Component {
+  isCareggiMain() {
+    const { structuretype, title } = this.props;
+
+    // Filter non-breastunit structures
+    if (structuretype !== 'breastunit')
+      return false;
+
+    // Match title substring
+    if (title.startsWith('CENTRO DI SENOLOGIA AOU CAREGGI'))
+      return true;
+
+    return false;
+  }
+
+
+  isCareggiCORD() {
+    const { structuretype, title } = this.props;
+
+    // Filter non-breastunit structures
+    if (structuretype !== 'breastunit')
+      return false;
+
+    if (this.isCareggiMain())
+      return false;
+
+    if (title.startsWith('Ospedale'))
+      return false;
+
+    return true;
+  }
+
+
   renderInfoValue(propName, index) {
     // There are a bunch of fields that must be ignored because they are
     // accessory to other fields
@@ -180,8 +221,74 @@ export default class StructureItem extends Component {
   }
 
 
+  renderTitleAndSubtitle() {
+    const { title, subtitle } = this.props;
+
+    let subtitleElement = null;
+    if (subtitle && subtitle !== '')
+      subtitleElement = (<Text style={myStyle.subtitleText}>{subtitle}</Text>);
+
+    let careggiMainBreastUnit = null;
+    if (this.isCareggiMain())
+      careggiMainBreastUnit = (
+        <Text style={myStyle.titleText}>BREAST UNIT</Text>
+        );
+
+    let titleTextBlock = null;
+    let markerImage = require('../../images/transparent.png');
+    if (!this.isCareggiCORD()) {
+      titleTextBlock = (<Text style={myStyle.titleText}>{title}</Text>);
+      markerImage = require('../../images/marker-orange.png');
+    }
+
+    return (
+      <View style={myStyle.firstRow}>
+        <Image style={myStyle.titleMarker}
+               source={markerImage}
+               />
+        <View style={myStyle.titleView}>
+          {titleTextBlock}
+          {careggiMainBreastUnit}
+          {subtitleElement}
+        </View>
+      </View>
+      );
+  }
+
+
+  renderCareggiMainAdditionalInfos() {
+    if (!this.isCareggiMain())
+      return null;
+
+    const valueStyle = [myStyle.infoValueText, myStyle.infoLink];
+    const infoText = 'rxsenologica@aou.careggi.toscana.it';
+
+    const textBlock = (
+      <Text style={valueStyle}
+            onPress={() => openURL('mailto:' + infoText)}
+            >
+        {infoText}
+      </Text>
+      );
+
+    const infoViewStyle = [myStyle.infoView, myStyle.infoSpacing];
+
+    return (
+      <View style={{marginTop: 30}}>
+        <Text style={myStyle.subtitleText}>Diagnostica Senologica</Text>
+        <View style={infoViewStyle}>
+          <Image style={myStyle.infoIcon}
+               source={require('../../images/mail.png')}
+               />
+          {textBlock}
+        </View>
+      </View>
+      );
+  }
+
+
   render() {
-    const { style, title, subtitle } = this.props;
+    const { style } = this.props;
     const renderInfo = this.renderInfo.bind(this);
     const infoNames = ['phone', 'openings', 'mail', 'web', 'address'];
     const infoIcons = [
@@ -215,17 +322,10 @@ export default class StructureItem extends Component {
 
     return (
       <View style={[myStyle.container, style]}>
-        <View style={myStyle.firstRow}>
-          <Image style={myStyle.titleMarker}
-                 source={require('../../images/marker-orange.png')}
-                 />
-          <View style={myStyle.titleView}>
-            <Text style={myStyle.titleText}>{title}</Text>
-            <Text style={myStyle.subtitleText}>{subtitle}</Text>
-          </View>
-        </View>
+        {this.renderTitleAndSubtitle()}
         <View style={myStyle.infosView}>
           {renderableInfos.map(renderInfo)}
+          {this.renderCareggiMainAdditionalInfos()}
           {this.renderDescription()}
         </View>
       </View>

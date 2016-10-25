@@ -224,7 +224,7 @@ const openURL = (url) => {
       }
       else {
         // eslint-disable-next-line no-console
-        console.warning('Cannot open URL: ' + url);
+        console.warn('Cannot open URL: ' + url);
       }
     })
     .catch((e) => console.warn(e));
