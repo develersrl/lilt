@@ -394,6 +394,22 @@ const getUserAgeRange = () => {
   if (!userExists())
     return AgeRange.LESS_THAN_45;
 
+  const age = getUserAge();
+
+  if (age < 45)
+    return AgeRange.LESS_THAN_45;
+  else if (age >= 45 && age < 50)
+    return AgeRange.FROM_45_TO_49;
+  else if (age >= 50 && age < 70)
+    return AgeRange.FROM_50_TO_69;
+  else if (age >= 70 && age < 75)
+    return AgeRange.FROM_70_TO_74;
+  else
+    return AgeRange.MORE_THAN_74;
+};
+
+
+const getUserAge = () => {
   // User birthdate is a date with format dd-mm-yyyy
   const tokens = state.user.data.birthdate.split('-');
   const birthdate = new Date(tokens[2], tokens[1], tokens[0]);
@@ -407,18 +423,7 @@ const getUserAgeRange = () => {
   // https://stackoverflow.com/questions/4060004/calculate-age-in-javascript
   const elapsedMs = Date.now() - birthdate.getTime();
   const elapsedDate = new Date(elapsedMs);  // ms from epoch
-  const age = Math.abs(elapsedDate.getUTCFullYear() - 1970);
-
-  if (age < 45)
-    return AgeRange.LESS_THAN_45;
-  else if (age >= 45 && age < 50)
-    return AgeRange.FROM_45_TO_49;
-  else if (age >= 50 && age < 70)
-    return AgeRange.FROM_50_TO_69;
-  else if (age >= 70 && age < 75)
-    return AgeRange.FROM_70_TO_74;
-  else
-    return AgeRange.MORE_THAN_74;
+  return Math.abs(elapsedDate.getUTCFullYear() - 1970);
 };
 
 
@@ -480,6 +485,7 @@ const api = {
   test,
   userValidate,
   userRegister,
+  getUserAge,
   getUserAgeRange,
   answersRegister,
   userForget,

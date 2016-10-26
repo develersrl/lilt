@@ -131,6 +131,8 @@ export default class CustomPrevention extends Component {
     const { flexible, centeredChildren } = common;
     const { content } = pages;
     const headerImage = require('../../../images/header_fallback.png');
+    const data = stateApi.userData(true);
+    const age = stateApi.getUserAge();
 
     return (
       <ScrollView style={[flexible]}
@@ -147,6 +149,11 @@ export default class CustomPrevention extends Component {
           </View>
         </Image>
         <View style={[content.body.container]}>
+          <View style={[flexible, centeredChildren]}>
+            <Text style={myStyle.userInfo}>
+              {`${data.name} ${data.surname}, ${age}`}
+            </Text>
+          </View>
           {this.renderQuestionnaireParagraphs()}
           {this.renderBMIParagraph()}
         </View>
@@ -157,6 +164,11 @@ export default class CustomPrevention extends Component {
 
 
 const myStyle = StyleSheet.create({
+  userInfo: {
+    fontFamily: 'GillSans',
+    fontSize: 20,
+    marginBottom: 15,
+  },
   parContainer: {
     // borderWidth: 1,
     // borderColor: 'red',
