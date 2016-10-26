@@ -5,7 +5,7 @@
  */
 module.exports = {
   mixpanel: {
-    enabled: false,  // whether mixpanel service is enabled or not
+    enabled: true,  // whether mixpanel service is enabled or not
     token: '41130295cdda0093d7540ae45a7388f6',
   },
   usersSpreadsheet: {

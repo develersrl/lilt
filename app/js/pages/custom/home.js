@@ -10,6 +10,8 @@ import {
   ScrollView,
 } from 'react-native';
 
+import Mixpanel from 'react-native-mixpanel';
+
 import { api as stateApi } from '../../state';
 import { SquareMenu } from '../../blocks';
 import { pages } from '../../style';
@@ -37,22 +39,6 @@ export default class Home extends Component {
   }
 
 
-  onProfilePress() {
-    const { navigator, getRoute } = this.props;
-    const targetRoute = stateApi.userExists() ? 'profile' : 'registration';
-    navigator.push(getRoute(targetRoute));
-  }
-
-
-  renderProfileLink() {
-    return (
-      <TouchableOpacity onPress={this.onProfilePress.bind(this)}>
-        <Text style={myStyle.fakeLink}>Profilo</Text>
-      </TouchableOpacity>
-      );
-  }
-
-
   onSquareMenuPress(position) {
     const { navigator, getRoute } = this.props;
     const routes = [
@@ -62,12 +48,31 @@ export default class Home extends Component {
       'glossary',
     ];
 
-    navigator.push(getRoute(routes[position]));
+    const selectedRoute = routes[position];
+
+    const routeToMixpanelEvent = {
+      '#ll_menu_saperne': 'Saperne Di Piu',
+      '#ll_menu_prevenzione': 'Prevenzione',
+      '#ll_menu_diagnosi': 'Diagnosi Precoce',
+      glossary: 'Wiki LILT',
+    };
+
+    Mixpanel.track(routeToMixpanelEvent[selectedRoute]);
+    navigator.push(getRoute(selectedRoute));
   }
 
 
   onCustomMenuPress(index) {
     const { navigator, getRoute } = this.props;
+
+    const mixpanelEvent = [
+      'Mio percorso di prevenzione',
+      'Ho sentito qualcosa',
+      'Richiamata',
+      'Sono stata operata',
+    ];
+
+    Mixpanel.track(mixpanelEvent[index]);
 
     if (index === 0 && !stateApi.userExists()) {
       stateApi.setSelectedTab('profile');
