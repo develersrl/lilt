@@ -216,7 +216,7 @@ export default class Registration extends Component {
                      defaultValue={height}
                      onChangeText={makeCb('height')}
                      keyboardType={'numeric'}
-                     placeholder='altezza in metri'
+                     placeholder='altezza in centimetri'
                      />
           <TextInput style={myStyle.spacing}
                      label={'peso'}

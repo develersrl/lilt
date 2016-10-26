@@ -435,7 +435,7 @@ const isBMIAvailable = () => {
 
 const getUserBMIRange = () => {
   const { height, weight } = state.user.data;
-  const bmi = (weight / (height * height));
+  const bmi = (weight * 10000 / (height * height));
 
   if (bmi < 18.5)
     return BMIRange.LESS_THAN_18_5;
