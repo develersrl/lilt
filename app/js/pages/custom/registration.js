@@ -24,6 +24,7 @@ const { registerModify } = pages;
 export default class Registration extends Component {
   constructor(props) {
     super(props);
+    this.onFieldChange = this.onFieldChange.bind(this);
     this.state = {
       user: { ...stateApi.getState().user.data },
       error: 'OK',
@@ -147,8 +148,10 @@ export default class Registration extends Component {
       weight,
     } = this.state.user;
 
-    const cb = this.onFieldChange.bind(this);
-    const makeCb = (field) => (text) => cb(field, text);
+    const makeCb = (field, transform) => {
+      return (text) => this.onFieldChange(field, text ? transform(text) : '');
+    };
+
     let buttonText = 'INVIA E INIZIA QUESTIONARIO';
 
     let title = 'REGISTRAZIONE';
@@ -199,8 +202,8 @@ export default class Registration extends Component {
                      />
           <TextInput style={myStyle.spacing}
                      label={'cap'}
-                     defaultValue={cap}
-                     onChangeText={makeCb('cap')}
+                     defaultValue={`${cap}`}
+                     onChangeText={makeCb('cap', parseInt)}
                      keyboardType={'numeric'}
                      mandatory={true}
                      />
@@ -213,15 +216,15 @@ export default class Registration extends Component {
                      />
           <TextInput style={myStyle.spacing}
                      label={'altezza'}
-                     defaultValue={height}
-                     onChangeText={makeCb('height')}
+                     defaultValue={`${height}`}
+                     onChangeText={makeCb('height', parseInt)}
                      keyboardType={'numeric'}
                      placeholder='altezza in centimetri'
                      />
           <TextInput style={myStyle.spacing}
                      label={'peso'}
-                     defaultValue={weight}
-                     onChangeText={makeCb('weight')}
+                     defaultValue={`${weight}`}
+                     onChangeText={makeCb('weight', parseInt)}
                      keyboardType={'numeric'}
                      placeholder='peso in kg'
                      />
