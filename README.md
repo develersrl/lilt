@@ -291,14 +291,14 @@ If you want to deploy the webapp elsewhere in order to use another spreadsheet, 
 
 ## [App Content Editor](#index)
 
-The repository contains a simple markdown editor based on [electron](http://electron.atom.io/) inside the `markdown-editor` folder.
+The repository contains a simple markdown editor based on [electron](http://electron.atom.io/) inside the `content-editor` folder.
 
 ### [Running the editor](#index)
 
 To launch the editor from scratch:
 
 ```bash
-cd markdown-editor
+cd content-editor
 npm install
 npm start
 ```
