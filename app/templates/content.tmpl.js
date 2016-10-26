@@ -38,19 +38,17 @@ export default class Content extends Component {
             </Text>
           </View>
           <View style={[content.header.footer]}>
-            <View style={content.header.actionView}>
-              <TouchableOpacity onPress={() => openPdf(pdfName)}>
-                <Image style={content.header.actionImg}
-                       source={require('../../../images/download.png')} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={content.header.actionView}
+                              onPress={() => openPdf(pdfName)}>
+              <Image style={content.header.actionImg}
+                     source={require('../../../images/download.png')} />
+            </TouchableOpacity>
             <View style={content.header.separator} />
-            <View style={content.header.actionView}>
-              <TouchableOpacity onPress={() => share(sharedText)}>
-                <Image style={content.header.actionImg}
-                       source={require('../../../images/share.png')} />
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={content.header.actionView}
+                              onPress={() => share(sharedText)}>
+              <Image style={content.header.actionImg}
+                     source={require('../../../images/share.png')} />
+            </TouchableOpacity>
           </View>
         </Image>
         <View style={[content.body.container]}>
