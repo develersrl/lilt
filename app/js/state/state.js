@@ -432,10 +432,17 @@ const isBMIAvailable = () => {
   return (height !== '' && weight !== '');
 };
 
+/*
+ * Return the computed BMI (called also IMC) for the user.
+ */
+const getUserBMI = () => {
+  const { height, weight } = state.user.data;
+  return (weight * 10000 / (height * height));
+};
+
 
 const getUserBMIRange = () => {
-  const { height, weight } = state.user.data;
-  const bmi = (weight * 10000 / (height * height));
+  const bmi = getUserBMI();
 
   if (bmi < 18.5)
     return BMIRange.LESS_THAN_18_5;
@@ -445,6 +452,20 @@ const getUserBMIRange = () => {
     return BMIRange.FROM_25_TO_29_9;
   else
     return BMIRange.MORE_THAN_29_9;
+};
+
+
+const getUserBMILabel = (range) => {
+  switch (range) {
+  case 0:
+    return 'Sottopeso';
+  case 1:
+    return 'Normopeso';
+  case 2:
+    return 'Sovrappeso';
+  case 3:
+    return 'Obeso';
+  }
 };
 
 
@@ -482,7 +503,9 @@ const api = {
   getStructuresForTranslatedType,
   getParagraphFromUserAnswer,
   isBMIAvailable,
+  getUserBMI,
   getUserBMIRange,
+  getUserBMILabel,
   getParagraphForBMIRange,
 };
 /* -------------------------------------------------------------------------- */

@@ -126,6 +126,13 @@ export default class Profile extends Component {
     for (const k in fields)
       standardDataRows.push(this.renderInfo(fields[k], data[k]));
 
+    let bmi;
+    if (stateApi.isBMIAvailable()) {
+      const bmiVal = parseFloat(stateApi.getUserBMI()).toFixed(2);
+      const bmiLabel = stateApi.getUserBMILabel(stateApi.getUserBMIRange());
+      bmi = this.renderInfo('IMC', `${bmiVal} (${bmiLabel})`);
+    }
+
     return (
       <ScrollView style={myStyle.container}
                   bounces={false}
@@ -138,6 +145,7 @@ export default class Profile extends Component {
         <View>
           <Text style={myStyle.explanation}>I tuoi dati:</Text>
           {standardDataRows}
+          {bmi}
           {this.renderQuestionnaireRows()}
           {this.renderEditButton()}
           {this.renderQuestionnaireButton()}
