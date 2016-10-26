@@ -27,7 +27,7 @@ const customRoutes = {
   'test': { title: 'Test Title', component: pages.custom.CustomTestPage },
   'glossary': { title: 'GLOSSARIO', component: pages.custom.Glossary },
   'customPrevention': {
-    title: 'PREVENZIONE PERSONALE',
+    title: 'IL MIO PERCORSO',
     component: pages.custom.CustomPrevention,
   },
 };
