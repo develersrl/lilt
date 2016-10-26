@@ -149,7 +149,8 @@ export default class Registration extends Component {
     } = this.state.user;
 
     const makeCb = (field, transform) => {
-      return (text) => this.onFieldChange(field, text ? transform(text) : '');
+      return (text) => this.onFieldChange(
+        field, text && transform ? transform(text) : text);
     };
 
     let buttonText = 'INVIA E INIZIA QUESTIONARIO';
