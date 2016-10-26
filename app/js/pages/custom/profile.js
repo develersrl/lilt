@@ -39,9 +39,13 @@ export default class Profile extends Component {
     if (fields === null)
       return null;
 
+    const skipMammografia = (data.screening !== 'NO');
     const rows = [];
-    for (const k in fields)
+    for (const k in fields) {
+      if (k === 'mammografia' && skipMammografia)
+        continue;
       rows.push(this.renderInfo(fields[k], data[k]));
+    }
 
     return (
       <View style={myStyle.questionnaireView}>
