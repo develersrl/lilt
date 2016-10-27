@@ -7,6 +7,7 @@
       { "text": "SÌ, partecipo", "value": "SÌ" },
       { "text": "NO, non partecipo", "value": "NO" }
     ],
+    "notes": "",
   },
   {
     "targetField": "mammografia",
@@ -16,6 +17,7 @@
       { "text": "SÌ", "value": "SÌ" },
       { "text": "NO", "value": "NO" }
     ],
+    "notes": "",
   },
   {
     "targetField": "tumore",
@@ -25,6 +27,7 @@
       { "text": "NO", "value": "NO" },
       { "text": "SÌ", "value": "SÌ" }
     ],
+    "notes": "",
   },
   {
     "targetField": "fumo",
@@ -35,6 +38,7 @@
       { "text": "Sono stata fumatrice in passato", "value": "SÌ (in passato)" },
       { "text": "NO", "value": "NO" }
     ],
+    "notes": "",
   },
   {
     "targetField": "alcool",
@@ -45,6 +49,7 @@
       { "text": "SÌ, meno di una unità alcolica al giorno", "value": "SÌ (< 1 unità/gg)" },
       { "text": "SÌ, più di una unità alcolica al giorno", "value": "SÌ (> 1 unità/gg)" }
     ],
+    "notes": "Una unità alcolica contiene 10-12 g di alcool puro e corrisponde ad un bicchiere di vino (125 ml), una lattina di birra (330 ml) oppure un bicchierino di superalcolico (30-40 ml)",
   },
   {
     "targetField": "attivita_fisica",
@@ -55,5 +60,6 @@
       { "text": "Faccio un'attività moderata di almeno 30 minuti, due o più volte alla settimana", "value": "SÌ (moderata)" },
       { "text": "Mi muovo regolarmente e pratico un'attività più intensa, almeno due volte alla settimana", "value": "SÌ (intensa)" }
     ],
+    "notes": "",
   }
 ];

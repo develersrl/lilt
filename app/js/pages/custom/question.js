@@ -177,6 +177,20 @@ export default class Question extends Component {
   }
 
 
+  renderNotes() {
+    if (!this.props.notes)
+      return;
+
+    return (
+      <View>
+        <Text style={myStyle.notesText}>
+          {this.props.notes}
+        </Text>
+      </View>
+      );
+  }
+
+
   renderArrow() {
     const { questionIndex, questionsCount } = this.props;
     const enabled = (this.state.selectedIndex >= 0);
@@ -208,6 +222,7 @@ export default class Question extends Component {
                   >
         {this.renderQuestion()}
         {this.renderAnswers()}
+        {this.renderNotes()}
         {this.renderBottomBar()}
         {this.renderArrow()}
       </ScrollView>
@@ -222,6 +237,7 @@ Question.propTypes = {
     text: React.PropTypes.string,
     value: React.PropTypes.string,
   })).isRequired,
+  notes: React.PropTypes.string,
   questionsCount: React.PropTypes.number.isRequired,
   questionIndex: React.PropTypes.number.isRequired,
   targetField: React.PropTypes.string.isRequired,
@@ -248,6 +264,14 @@ const myStyle = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'GillSans',
     fontSize: question.questionFontSize,
+  },
+  notesText: {
+    color: '#8E8E8E',
+    textAlign: 'center',
+    fontFamily: 'GillSans',
+    fontSize: 12,
+    marginLeft: 15,
+    marginTop: 15,
   },
   answerView: {
     marginTop: question.answersSpacing,

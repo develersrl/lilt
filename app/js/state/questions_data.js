@@ -28,6 +28,7 @@ const getQuestionsRoutes = (pages) => {
       props: {
         questionText: data.question,
         answers: data.answers,
+        notes: data.notes,
         questionsCount: questionsData.length,
         questionIndex: i,
         targetField: data.targetField,
