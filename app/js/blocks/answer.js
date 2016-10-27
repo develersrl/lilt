@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
-import { blocks } from '../style';
+import { blocks, common } from '../style';
 const { answer } = blocks;
 
 
@@ -28,7 +28,7 @@ export default class Answer extends Component {
 
 
   render() {
-
+    const { flexible } = common;
     const circleStyle = [myStyle.circle];
     if (this.props.disabled)
       circleStyle.push(myStyle.circleDisabled);
@@ -46,11 +46,16 @@ export default class Answer extends Component {
             {this.renderSelected()}
           </View>
         </TouchableHighlight>
-        <View style={answerStyle}>
-          <Text style={myStyle.text}>
-            {this.props.text}
-          </Text>
-        </View>
+        <TouchableHighlight style={flexible}
+                            underlayColor={answer.selectionUnderlay}
+                            onPress={this.onAnswerPress.bind(this)}>
+
+          <View style={answerStyle}>
+            <Text style={myStyle.text}>
+              {this.props.text}
+            </Text>
+          </View>
+        </TouchableHighlight>
       </View>
       );
   }
