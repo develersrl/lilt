@@ -53,7 +53,7 @@ export default class StructureItem extends Component {
     if (this.isCareggiMain())
       return false;
 
-    if (title.startsWith('Ospedale'))
+    if (title.toLowerCase().includes('annunziata'))
       return false;
 
     return true;
@@ -222,15 +222,15 @@ export default class StructureItem extends Component {
 
 
   renderTitleAndSubtitle() {
-    const { title, subtitle } = this.props;
+    const { title, subtitle, structuretype } = this.props;
 
     let subtitleElement = null;
     if (subtitle && subtitle !== '')
       subtitleElement = (<Text style={myStyle.subtitleText}>{subtitle}</Text>);
 
-    let careggiMainBreastUnit = null;
-    if (this.isCareggiMain())
-      careggiMainBreastUnit = (
+    let breastUnitText = null;
+    if (structuretype === 'breastunit' && !this.isCareggiCORD())
+      breastUnitText = (
         <Text style={myStyle.titleText}>BREAST UNIT</Text>
         );
 
@@ -248,7 +248,7 @@ export default class StructureItem extends Component {
                />
         <View style={myStyle.titleView}>
           {titleTextBlock}
-          {careggiMainBreastUnit}
+          {breastUnitText}
           {subtitleElement}
         </View>
       </View>
@@ -347,13 +347,9 @@ StructureItem.propTypes = {
 
 
 const myStyle = StyleSheet.create({
-  container: {
-    // borderWidth: 1,
-    // borderColor: 'red',
-  },
+  container: {},
   firstRow: {
     flexDirection: 'row',
-    height: structureitem.titleRowHeight,
   },
   titleMarker: {
     width: structureitem.markerWidth,
