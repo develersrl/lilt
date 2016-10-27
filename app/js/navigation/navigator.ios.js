@@ -26,12 +26,7 @@ export default class AppNavigator extends Component {
 
 const myStyle = StyleSheet.create({
   wrapperStyle: {
-    /*
-    borderWidth: 1,
-    borderColor: 'red',
-    */
     // https://github.com/aksonov/react-native-router-flux/blob/master/src/NavBar.js#L66
-    marginTop: 44,
     marginBottom: 50,
   },
 });

@@ -141,7 +141,8 @@ export default class Home extends Component {
       <ScrollView style={myStyle.scrollView}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
-                  centerContent={true}
+                  automaticallyAdjustContentInsets={false}
+                  contentContainerStyle={{paddingTop: 15, paddingBottom: 10}}
                   >
         <View style={myStyle.container}>
           <View style={myStyle.logoView}>
@@ -194,7 +195,6 @@ const myStyle = StyleSheet.create({
     flex: 1,
   },
   container: {
-    // paddingBottom: 20,
     justifyContent: 'center',
   },
   logoView: {
@@ -207,10 +207,10 @@ const myStyle = StyleSheet.create({
   },
   logoParagraphView: {
     alignSelf: 'stretch',
-    marginTop: 15,
+    marginTop: 8,
     marginLeft: home.logoParagraphMargins,
     marginRight: home.logoParagraphMargins,
-    marginBottom: 25,
+    marginBottom: 15,
   },
   logoParagraph: {
     textAlign: 'center',
@@ -237,7 +237,7 @@ const myStyle = StyleSheet.create({
   },
   customServicesText: {
     textAlign: 'center',
-    padding: 20,
+    padding: 17,
     color: '#74B3FA',
     fontFamily: 'GillSans-Bold',
     fontSize: 14,
