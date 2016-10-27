@@ -57,7 +57,7 @@ const myStyle = StyleSheet.create({
   },
   contentView: {
     flex: 1,
-    marginLeft: 50,
+    marginLeft: 30,
     marginRight: 20,
   },
   titleView: {

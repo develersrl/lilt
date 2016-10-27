@@ -141,6 +141,7 @@ const blocks = {
     separator: {
       backgroundColor: '#A7A7A7',
       height: 1,
+      marginLeft: 30,
     },
     row: {
       flexDirection: 'row',
