@@ -39,7 +39,7 @@ export default class Glossary extends Component {
     const filterStr = `label CONTAINS[cd] %@`;
 
     return (
-      <View style={[flexible]}>
+      <View style={[flexible, {marginTop: 44}]}>
         <SearchBar ref={(c) => this._searchBar = c}
                    placeholder={'Cerca'}
                    showsCancelButton={this.state.searchFocused}
@@ -47,7 +47,8 @@ export default class Glossary extends Component {
                    onSearchButtonPress={() => this._searchBar.blur()}
                    onCancelButtonPress={this.clearFilter.bind(this)}
                    onFocus={() => this.setSearchFocus(true)}
-                   onBlur={() => this.setSearchFocus(false)}/>
+                   onBlur={() => this.setSearchFocus(false)}
+                   />
         <TableView tableViewStyle={TableView.Consts.Style.Plain}
                    tableViewCellStyle={TableView.Consts.CellStyle.Subtitle}
                    style={flexible}

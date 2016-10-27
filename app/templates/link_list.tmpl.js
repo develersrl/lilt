@@ -45,6 +45,7 @@ export default class LinkList extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 44,
   },
   backImg: {
     position: 'absolute',

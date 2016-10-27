@@ -143,7 +143,7 @@ export default class CustomPrevention extends Component {
     const age = stateApi.getUserAge();
 
     return (
-      <ScrollView style={[flexible]}
+      <ScrollView style={[flexible, {marginTop: 44}]}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}

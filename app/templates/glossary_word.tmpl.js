@@ -33,6 +33,7 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: glossaryWord.backgroundColor,
+    marginTop: 44,
   },
   titleView: {
     height: glossaryWord.titleHeight,
