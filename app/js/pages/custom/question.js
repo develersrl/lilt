@@ -27,7 +27,7 @@ export default class Question extends Component {
 
     if (stateApi.getUserAgeRange() === AgeRange.LESS_THAN_45 &&
       questionIndex === 0) {
-      index = 0;
+      index = 1;
       questionDisabled = true;
     }
 
