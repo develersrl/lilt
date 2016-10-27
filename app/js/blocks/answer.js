@@ -16,25 +16,37 @@ export default class Answer extends Component {
 
   renderSelected() {
     const { selected } = this.props;
+    const radioStyle = [myStyle.selected];
+    if (this.props.disabled)
+      radioStyle.push(myStyle.selectedDisabled);
 
     if (selected)
-      return <View style={myStyle.selected} />;
+      return <View style={radioStyle} />;
 
     return null;
   }
 
 
   render() {
+
+    const circleStyle = [myStyle.circle];
+    if (this.props.disabled)
+      circleStyle.push(myStyle.circleDisabled);
+
+    const answerStyle = [myStyle.answerView];
+    if (this.props.disabled)
+      answerStyle.push(myStyle.answerViewDisabled);
+
     return (
       <View style={myStyle.container}>
         <TouchableHighlight style={myStyle.circleView}
                             underlayColor={answer.selectionUnderlay}
                             onPress={this.onAnswerPress.bind(this)}>
-          <View style={myStyle.circle}>
+          <View style={circleStyle}>
             {this.renderSelected()}
           </View>
         </TouchableHighlight>
-        <View style={myStyle.answerView}>
+        <View style={answerStyle}>
           <Text style={myStyle.text}>
             {this.props.text}
           </Text>
@@ -48,6 +60,7 @@ export default class Answer extends Component {
 Answer.propTypes = {
   text: React.PropTypes.string.isRequired,
   selected: React.PropTypes.bool.isRequired,
+  disabled: React.PropTypes.bool,
   onPress: React.PropTypes.func,
 };
 
@@ -63,7 +76,7 @@ const myStyle = StyleSheet.create({
   },
   circle: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: '#8E8E8E',
     width: answer.circleWidth,
     height: answer.circleWidth,
     borderRadius: answer.circleWidth / 2,
@@ -71,11 +84,17 @@ const myStyle = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
   },
+  circleDisabled: {
+    backgroundColor: '#CCCCCC',
+  },
   answerView: {
     flex: 1,
     backgroundColor: answer.backgroundColor,
     justifyContent: 'center',
     padding: answer.answerPadding,
+  },
+  answerViewDisabled: {
+    backgroundColor: '#8E8E8E',
   },
   text: {
     color: answer.color,
@@ -87,5 +106,8 @@ const myStyle = StyleSheet.create({
     height: answer.circleWidth / 2,
     borderRadius: answer.circleWidth / 4,
     backgroundColor: 'black',
+  },
+  selectedDisabled: {
+    backgroundColor: '#8E8E8E',
   },
 });
