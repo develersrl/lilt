@@ -83,8 +83,16 @@ export default class CustomPrevention extends Component {
       return this.renderQuestionnaireWarningParagraph();
 
     const paragraphs = [];
-    for (let i = 0; i < getQuestionsCount(); ++i)
+    for (let i = 0; i < getQuestionsCount(); ++i) {
+      // If the woman follows screening we skip the paragraph number 2
+      if (i === 1) {
+        const answerValue = stateApi.getSavedAnswerValue(0);
+        if (answerValue === 'SÌ') {
+          continue;
+        }
+      }
       paragraphs.push(this.renderParagraph(i));
+    }
 
     return (
       <View>
