@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,52 +14,33 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="836"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="8ie-xW-0ye">
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="kId-c2-rCX">
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoBelow" translatesAutoresizingMaskIntoConstraints="NO" id="ORP-7u-i1m">
                     <constraints>
-                        <constraint firstAttribute="width" constant="300" id="k8m-k6-p9A"/>
-                        <constraint firstAttribute="height" constant="140" id="vQN-dc-vfm"/>
+                        <constraint firstAttribute="width" secondItem="ORP-7u-i1m" secondAttribute="height" multiplier="384:169" id="kDP-XT-ec4"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="cCQ-fV-WAv">
                     <constraints>
-                        <constraint firstAttribute="height" constant="240" id="K29-c2-WZX"/>
-                        <constraint firstAttribute="width" constant="240" id="gzh-cc-IjL"/>
+                        <constraint firstAttribute="height" secondItem="cCQ-fV-WAv" secondAttribute="width" id="twQ-rb-gTp"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LILT Firenze Seno" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y3X-KU-yzh">
-                    <constraints>
-                        <constraint firstAttribute="height" constant="149" id="N5z-8g-4Yy"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="48"/>
+                    <fontDescription key="fontDescription" name="GillSans-Bold" family="Gill Sans" pointSize="32"/>
                     <color key="textColor" red="0.88235294117647056" green="0.18823529411764706" blue="0.36862745098039218" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" red="1" green="0.8784313725490196" blue="0.81568627450980391" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="ORP-7u-i1m" firstAttribute="top" secondItem="Y3X-KU-yzh" secondAttribute="bottom" constant="77" id="4Ab-Cr-9Rf"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/3" constant="1" id="5cJ-9S-tgC"/>
+                <constraint firstItem="ORP-7u-i1m" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.7" id="48S-5R-5eg"/>
                 <constraint firstItem="ORP-7u-i1m" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-20" id="5pZ-m9-KVj"/>
-                <constraint firstItem="cCQ-fV-WAv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="1/4" constant="1" id="J1j-IV-K3a"/>
-                <constraint firstAttribute="centerX" secondItem="kId-c2-rCX" secondAttribute="centerX" id="Koa-jz-hwk"/>
-                <constraint firstAttribute="bottom" secondItem="8ie-xW-0ye" secondAttribute="bottom" constant="20" id="Kzo-t9-V3l"/>
-                <constraint firstItem="8ie-xW-0ye" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="MfP-vx-nX0"/>
-                <constraint firstAttribute="trailing" secondItem="Y3X-KU-yzh" secondAttribute="trailing" constant="62" id="ShM-M9-def"/>
                 <constraint firstItem="cCQ-fV-WAv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Yqd-Mz-pPk"/>
-                <constraint firstAttribute="centerX" secondItem="8ie-xW-0ye" secondAttribute="centerX" id="ZEH-qu-HZ9"/>
-                <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
+                <constraint firstItem="Y3X-KU-yzh" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.8" id="ctb-3J-hYS"/>
                 <constraint firstItem="Y3X-KU-yzh" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="gD1-uw-lQ5"/>
+                <constraint firstItem="cCQ-fV-WAv" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.4" id="h0u-UC-v5f"/>
+                <constraint firstItem="cCQ-fV-WAv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="0.1" id="i7P-t8-z8l"/>
                 <constraint firstItem="ORP-7u-i1m" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xeJ-BZ-H2G"/>
+                <constraint firstItem="Y3X-KU-yzh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="bottom" multiplier="0.45" id="ycy-h5-hYs"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -67,6 +49,6 @@
     </objects>
     <resources>
         <image name="Logo" width="407" height="407"/>
-        <image name="LogoBelow" width="480" height="169"/>
+        <image name="LogoBelow" width="481" height="169"/>
     </resources>
 </document>
