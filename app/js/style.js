@@ -320,7 +320,7 @@ const pages = {
   home: {
     menuHeight: 190,
     belowMenuHeight: 100,
-    logoImageHeight: 45,
+    logoImageHeight: 55,
     logoImage: require('../images/logo_home.png'),
     logoParagraphFontSize: 15,
     logoParagraphLineHeight: 20,
