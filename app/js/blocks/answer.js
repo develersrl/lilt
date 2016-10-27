@@ -29,20 +29,30 @@ export default class Answer extends Component {
 
   render() {
     const { flexible } = common;
-    const circleStyle = [myStyle.circle];
-    if (this.props.disabled)
-      circleStyle.push(myStyle.circleDisabled);
 
-    const answerStyle = [myStyle.answerView];
-    if (this.props.disabled)
-      answerStyle.push(myStyle.answerViewDisabled);
+    if (this.props.disabled) {
+      return (
+        <View style={myStyle.container}>
+          <View style={myStyle.circleView}>
+            <View style={[myStyle.circle, myStyle.circleDisabled]}>
+              {this.renderSelected()}
+            </View>
+          </View>
+          <View style={[myStyle.answerView, myStyle.answerViewDisabled]}>
+            <Text style={myStyle.text}>
+              {this.props.text}
+            </Text>
+          </View>
+        </View>
+        );
+    }
 
     return (
       <View style={myStyle.container}>
         <TouchableHighlight style={myStyle.circleView}
                             underlayColor={answer.selectionUnderlay}
                             onPress={this.onAnswerPress.bind(this)}>
-          <View style={circleStyle}>
+          <View style={myStyle.circle}>
             {this.renderSelected()}
           </View>
         </TouchableHighlight>
@@ -50,7 +60,7 @@ export default class Answer extends Component {
                             underlayColor={answer.selectionUnderlay}
                             onPress={this.onAnswerPress.bind(this)}>
 
-          <View style={answerStyle}>
+          <View style={myStyle.answerView}>
             <Text style={myStyle.text}>
               {this.props.text}
             </Text>
