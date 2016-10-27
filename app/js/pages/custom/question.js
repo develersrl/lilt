@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import { AgeRange } from '../../misc';
 import { api as stateApi, getQuestionData } from '../../state';
 import { Answer, ArrowMenu } from '../../blocks';
 import { pages } from '../../style';
@@ -18,9 +19,17 @@ const { question } = pages;
 export default class Question extends Component {
   constructor(props) {
     super(props);
-    const { targetField, answers } = this.props;
+    const { targetField, answers, questionIndex } = this.props;
     const answer = stateApi.getAnswer(targetField);
     let index = -1;
+    let questionDisabled = false;
+
+
+    if (stateApi.getUserAgeRange() === AgeRange.LESS_THAN_45 &&
+      questionIndex === 0) {
+      index = 0;
+      questionDisabled = true;
+    }
 
     if (answer !== null && answer !== '') {
       for (let i = 0; i < answers.length; ++i) {
@@ -31,7 +40,10 @@ export default class Question extends Component {
       }
     }
 
-    this.state = { selectedIndex: index };
+    this.state = {
+      selectedIndex: index,
+      questionDisabled
+    };
   }
 
 
@@ -112,7 +124,11 @@ export default class Question extends Component {
       <View key={index} style={myStyle.answerView}>
         <Answer text={answerText}
                 selected={index === this.state.selectedIndex}
-                onPress={() => this.onAnswerSelected.bind(this)(index)}
+                disabled={this.state.questionDisabled}
+                onPress={() => {
+                  if (!this.state.questionDisabled)
+                    this.onAnswerSelected(index);
+                }}
                 />
       </View>
       );
