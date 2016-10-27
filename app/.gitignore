@@ -53,3 +53,5 @@ content/glossary_bindings.json
 content/structures.json
 content/structures
 images/catalogs
+.vscode
+tsconfig.json
