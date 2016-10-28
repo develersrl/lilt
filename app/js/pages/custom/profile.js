@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { api as stateApi } from '../../state';
+import { api as stateApi, showForgetUserButton } from '../../state';
 import { pages } from '../../style';
 const { profile } = pages;
 
@@ -87,6 +87,9 @@ export default class Profile extends Component {
 
 
   renderForgetButton() {
+    if (!showForgetUserButton)
+      return null;
+
     return (
       <TouchableOpacity style={myStyle.editView}
                         activeOpacity={profile.editBtnActiveOpacity}

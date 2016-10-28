@@ -15,4 +15,9 @@ module.exports = {
   removeStoredUser: false,  // set this to true to wipe local storage
   // if network actions fail we retry with the following interval in seconds
   dataSenderRetryInterval: 30,
+
+  /*
+   * Show the "forget user" button inside profile page (dev only)
+   */
+  showForgetUserButton: false,
 };
