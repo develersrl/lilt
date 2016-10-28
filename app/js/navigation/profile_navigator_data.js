@@ -24,7 +24,8 @@ const routes = {
     title: 'GRAZIE',
     component: pages.custom.MessagePage,
     props: {
-      text: 'Grazie per aver completato\nil nostro questionario!'
+      text: 'Hai completato il nostro questionario',
+      title: 'GRAZIE!',
     },
   },
   privacy: {

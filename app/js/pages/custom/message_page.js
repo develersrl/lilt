@@ -19,22 +19,19 @@ export default class MessagePage extends Component {
 
 
   render() {
-    const { text } = this.props;
+    const { text, title } = this.props;
 
     return (
       <View style={myStyle.container}>
-        <Image style={myStyle.backImg}
-               source={require('../../../images/back1.png')} />
-        <View style={myStyle.contentView}>
-          <View style={myStyle.textView}>
-            <Text style={myStyle.text}>{text}</Text>
-          </View>
-          <View style={myStyle.btn}>
-            <Button2 text={'VAI AL TUO PROFILO'}
-                     onPress={this.onButtonPress.bind(this)} />
-          </View>
+        <Text style={myStyle.titleText}>{title}</Text>
+        <Text style={myStyle.text}>{text}</Text>
+        <Image style={myStyle.image}
+          source={require('../../../images/thanks.png')}
+        />
+        <View style={myStyle.btn}>
+          <Button2 text={'VAI AL TUO PROFILO'}
+                   onPress={this.onButtonPress.bind(this)} />
         </View>
-        <View style={myStyle.spacer} />
       </View>
       );
   }
@@ -43,6 +40,7 @@ export default class MessagePage extends Component {
 
 MessagePage.propTypes = {
   text: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string.isRequired,
   navigator: React.PropTypes.object.isRequired,
   getRoute: React.PropTypes.func.isRequired,
 };
@@ -51,6 +49,17 @@ MessagePage.propTypes = {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 110,
+    height: 110,
+  },
+  titleText: {
+    color: '#74B3FA',
+    fontFamily: 'GillSans-Bold',
+    fontSize: 22,
   },
   backImg: {
     position: 'absolute',
@@ -60,30 +69,16 @@ const myStyle = StyleSheet.create({
     height: Dimensions.get('window').height,
     resizeMode: 'stretch',
   },
-  contentView: {
-    flex: 1,
-    marginLeft: 60,
-    marginRight: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
   text: {
     color: '#8E8E8E',
     fontFamily: 'GillSans',
     lineHeight: 20,
     fontSize: 15,
     textAlign: 'center',
+    marginBottom: 50,
   },
   btn: {
-    width: 200,
-    marginTop: 20,
-  },
-  spacer: {
-    height: 200,
+    width: 240,
+    marginTop: 50,
   },
 });
