@@ -5,6 +5,6 @@
  */
 
 import { AppRegistry } from 'react-native';
-import { TabBar } from './js/navigation';
+import TabBar from './js/navigation/tabbar';
 
 AppRegistry.registerComponent('lilt', () => TabBar);

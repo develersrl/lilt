@@ -5,6 +5,6 @@
  */
 
 import { AppRegistry } from 'react-native';
-import AppNavigator from './js/navigation';
+import AppNavigator from './js/navigation/navigator';
 
 AppRegistry.registerComponent('lilt', () => AppNavigator);
