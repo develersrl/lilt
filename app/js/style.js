@@ -5,6 +5,16 @@ import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
 
 const pr = (sz) => sz * PixelRatio.get();
 
+const dim = Dimensions.get('window');
+
+const computeHeight = (over700, over600, other) => {
+  if (dim.height >= 700)
+    return over700;
+  if (dim.height >= 600)
+    return over600;
+  return other;
+};
+
 
 const common = {
   debug: {
@@ -318,13 +328,14 @@ const pages = {
     bodyPadding: 10,
   },
   home: {
-    menuHeight: 190,
+    menuHeight: computeHeight(250, 220, 190),
     belowMenuHeight: 100,
-    logoImageHeight: 55,
+    logoImageHeight: computeHeight(70, 55, 50),
     logoImage: require('../images/logo_home.png'),
     logoParagraphFontSize: 15,
     logoParagraphLineHeight: 20,
     logoParagraphMargins: 30,
+    logoParagraphMenuSpacing: computeHeight(30, 20, 15),
     menuTopLeftBackground: '#FFE0D0',
     menuTopLeftIcon: require('../images/know-more.png'),
     menuTopRightBackground: '#C1DBF8',
@@ -333,6 +344,7 @@ const pages = {
     menuBottomLeftIcon: require('../images/early-diagnosis.png'),
     menuBottomRightBackground: '#FF9C8D',
     menuBottomRightIcon: require('../images/wiki.png'),
+    menuBelowViewSpacing: computeHeight(20, 0, 0),
     customMenuCircleWidth: 50,
     customMenu1Icon: require('../images/prevention-path.png'),
     customMenu2Icon: require('../images/positive-diagnosis.png'),

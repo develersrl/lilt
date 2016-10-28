@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 
 import Mixpanel from 'react-native-mixpanel';
@@ -24,6 +25,7 @@ export default class Home extends Component {
     stateApi.init();
     // setTimeout(() => stateApi.setSelectedTab('structures'), 500);
     // setTimeout(() => navigator.push(getRoute('glossary')), 500);
+    console.log(Dimensions.get('window'));
   }
 
 
@@ -124,7 +126,7 @@ export default class Home extends Component {
     ];
 
     return (
-      <View>
+      <View style={myStyle.belowLogoView}>
         <Text style={myStyle.customServicesText}>
           Servizi Personalizzati
         </Text>
@@ -143,6 +145,7 @@ export default class Home extends Component {
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
                   contentContainerStyle={{paddingTop: 15, paddingBottom: 10}}
+                  centerContent={true}
                   >
         <View style={myStyle.container}>
           <View style={myStyle.logoView}>
@@ -210,7 +213,7 @@ const myStyle = StyleSheet.create({
     marginTop: 8,
     marginLeft: home.logoParagraphMargins,
     marginRight: home.logoParagraphMargins,
-    marginBottom: 15,
+    marginBottom: home.logoParagraphMenuSpacing,
   },
   logoParagraph: {
     textAlign: 'center',
@@ -235,6 +238,9 @@ const myStyle = StyleSheet.create({
     color: 'blue',
     textDecorationLine: 'underline',
   },
+  belowLogoView: {
+    marginTop: home.menuBelowViewSpacing,
+  },  
   customServicesText: {
     textAlign: 'center',
     padding: 17,
