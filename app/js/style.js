@@ -305,6 +305,11 @@ const pages = {
       titleText: {
         fontFamily: 'GillSans',
         fontSize: 24,
+        textShadowColor: '#8E8E8E',
+        textShadowOffset: {
+          width: 1,
+          height: 1,
+        },
       },
     },
     body: {
