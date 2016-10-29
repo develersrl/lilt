@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Navigator } from 'react-native';
+import { Navigator, BackAndroid } from 'react-native';
 
 import * as style from '../style';
 import { getStartRoute } from './navigator_data';
@@ -32,6 +32,18 @@ const navBarMapper = {
   }
 };
 
+let _navigator;
+BackAndroid.addEventListener('hardwareBackPress', () => {
+  if (!_navigator) {
+    return false;
+  }
+  if (_navigator.getCurrentRoutes().length === 1) {
+    return false;
+  }
+  _navigator.pop();
+  return true;
+});
+
 
 export default class AppNavigator extends Component {
   render() {
@@ -48,6 +60,7 @@ export default class AppNavigator extends Component {
                                    routeMapper={navBarMapper} />
         }
         renderScene={(route, navigator) => {
+          _navigator = navigator;
           return (
             <route.component navigator={navigator} {...route.passProps}/>
             );
