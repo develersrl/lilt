@@ -180,6 +180,7 @@ export default class Registration extends Component {
                      defaultValue={email}
                      onChangeText={makeCb('email', (val) => val.trim())}
                      keyboardType={'email-address'}
+                     capitalize={false}
                      mandatory={true}
                      />
           <TextInput style={myStyle.spacing}

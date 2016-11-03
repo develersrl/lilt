@@ -14,7 +14,8 @@ export default class MyTextInput extends Component {
       onChangeText,
       keyboardType,
       mandatory,
-      placeholder
+      placeholder,
+      capitalize,
     } = this.props;
 
     const _keyboardType = keyboardType === undefined ? 'default' : keyboardType;
@@ -37,6 +38,8 @@ export default class MyTextInput extends Component {
                      onChangeText={onChangeText}
                      keyboardType={_keyboardType}
                      placeholder={placeholder}
+                     autoCapitalize={capitalize ? 'sentences' : 'none'}
+                     autoCorrect={false}
                      />
         </View>
       </View>
@@ -51,11 +54,17 @@ MyTextInput.propTypes = {
   onChangeText: React.PropTypes.func.isRequired,
   keyboardType: React.PropTypes.string,
   mandatory: React.PropTypes.bool,
+  capitalize: React.PropTypes.bool.isRequired,
   placeholder: React.PropTypes.string,
   style: React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.number,
   ]),
+};
+
+
+MyTextInput.defaultProps = {
+  capitalize: true,
 };
 
 
