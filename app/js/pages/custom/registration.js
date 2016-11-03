@@ -178,20 +178,20 @@ export default class Registration extends Component {
         <View style={myStyle.formContainer}>
           <TextInput label={'email'}
                      defaultValue={email}
-                     onChangeText={makeCb('email')}
+                     onChangeText={makeCb('email', (val) => val.trim())}
                      keyboardType={'email-address'}
                      mandatory={true}
                      />
           <TextInput style={myStyle.spacing}
                      label={'nome'}
                      defaultValue={name}
-                     onChangeText={makeCb('name')}
+                     onChangeText={makeCb('name', (val) => val.trim())}
                      mandatory={true}
                      />
           <TextInput style={myStyle.spacing}
                      label={'cognome'}
                      defaultValue={surname}
-                     onChangeText={makeCb('surname')}
+                     onChangeText={makeCb('surname', (val) => val.trim())}
                      mandatory={true}
                      />
           <DateField style={myStyle.spacing}
@@ -211,7 +211,7 @@ export default class Registration extends Component {
           <TextInput style={myStyle.spacing}
                      label={'indirizzo'}
                      defaultValue={address}
-                     onChangeText={makeCb('address')}
+                     onChangeText={makeCb('address', (val) => val.trim())}
                      placeholder='via / civico / città'
                      mandatory={true}
                      />
