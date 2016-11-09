@@ -25,7 +25,6 @@ export default class Home extends Component {
     stateApi.init();
     // setTimeout(() => stateApi.setSelectedTab('structures'), 500);
     // setTimeout(() => navigator.push(getRoute('glossary')), 500);
-    console.log(Dimensions.get('window'));
   }
 
 
@@ -240,7 +239,7 @@ const myStyle = StyleSheet.create({
   },
   belowLogoView: {
     marginTop: home.menuBelowViewSpacing,
-  },  
+  },
   customServicesText: {
     textAlign: 'center',
     padding: 17,
