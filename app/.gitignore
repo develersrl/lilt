@@ -55,3 +55,4 @@ content/structures
 images/catalogs
 .vscode
 tsconfig.json
+typings/
