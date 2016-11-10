@@ -1,10 +1,9 @@
 'use strict';
 
-import { StyleSheet, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, Platform, Dimensions, PixelRatio } from 'react-native';
 
 
-const pr = (sz) => sz * PixelRatio.get();
-
+const ios = (Platform.OS === 'ios');
 const dim = Dimensions.get('window');
 
 const computeHeight = (over700, over600, other) => {
@@ -262,14 +261,21 @@ const blocks = {
 
 const pages = {
   navigator: {
-    nav: {
+    ios: {
+      flex: 1,
       paddingTop: 20,  // status bar height
     },
+    android: {
+      nav: {
+        flex: 1,
+      },
+    },
     wrapped: {
-      marginTop: 44,  // navigation bar height
+      marginTop: 44,  // navigation bar height (user by Android)
     },
   },
   content: {
+    marginTop: ios ? 44 : 0,
     header: {
       container: {
         height: 280,
@@ -332,7 +338,11 @@ const pages = {
     titleFontSize: 16,
     bodyPadding: 10,
   },
+  linkList: {
+    marginTop: ios ? 44 : 0,
+  },
   home: {
+    paddingTop: ios ? 0 : 20,
     menuHeight: computeHeight(250, 220, 190),
     belowMenuHeight: 100,
     logoImageHeight: computeHeight(70, 55, 50),

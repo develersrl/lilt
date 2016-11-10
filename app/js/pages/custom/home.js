@@ -195,6 +195,7 @@ Home.propTypes = {
 const myStyle = StyleSheet.create({
   scrollView: {
     flex: 1,
+    paddingTop: home.paddingTop,
   },
   container: {
     justifyContent: 'center',

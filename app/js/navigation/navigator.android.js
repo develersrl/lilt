@@ -52,13 +52,10 @@ export default class AppNavigator extends Component {
 
     return (
       <Navigator
-        style={[flexible, navigator.nav]}
+        style={navigator.android.nav}
         itemWrapperStyle={navigator.wrapped}
         initialRoute={getStartRoute()}
-        navigationBar={
-          <Navigator.NavigationBar style={navigator.nav}
-                                   routeMapper={navBarMapper} />
-        }
+        configureScene={() => Navigator.SceneConfigs.FadeAndroid}
         renderScene={(route, navigator) => {
           _navigator = navigator;
           return (

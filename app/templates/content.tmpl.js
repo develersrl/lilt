@@ -25,7 +25,7 @@ export default class Content extends Component {
     const sharedText = `{{sharedText}}`;
 
     return (
-      <ScrollView style={[flexible, {marginTop: 44}]}
+      <ScrollView style={[flexible, content.marginTop]}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}

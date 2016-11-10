@@ -10,12 +10,11 @@ import { getStartRoute } from './navigator_data';
 
 export default class AppNavigator extends Component {
   render() {
-    const { flexible } = style.common;
     const { navigator } = style.pages;
 
     return (
       <NavigatorIOS
-        style={[flexible, navigator.nav]}
+        style={navigator.ios}
         initialRoute={getStartRoute()}
         itemWrapperStyle={myStyle.wrapperStyle}
         />

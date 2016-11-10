@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 
 import { LinkListItem } from '../../blocks';
-import { common } from '../../style';
+import { common, pages } from '../../style';
+const { linkList } = pages;
 
 
 export default class LinkList extends Component {
@@ -45,7 +46,7 @@ export default class LinkList extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 44,
+    marginTop: linkList.marginTop,
   },
   backImg: {
     position: 'absolute',
