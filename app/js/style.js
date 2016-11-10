@@ -1,6 +1,6 @@
 'use strict';
 
-import { StyleSheet, Platform, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
 
 
 const ios = (Platform.OS === 'ios');
@@ -216,6 +216,7 @@ const blocks = {
   },
   tabbar: {
     barColor: '#CC0000',
+    elementTopBottomPadding: 3,  // android only
     textUnselectedColor: 'white',
     textSelectedColor: '#FF9C8D',
     profileUnselectedIcon: require('../images/bar-profile-1.png'),
@@ -272,6 +273,7 @@ const pages = {
     },
     wrapped: {
       marginTop: 44,  // navigation bar height (user by Android)
+      backgroundColor: 'white',
     },
   },
   content: {

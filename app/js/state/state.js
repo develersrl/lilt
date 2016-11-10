@@ -1,5 +1,8 @@
 'use strict';
 
+import Mixpanel from 'react-native-mixpanel';
+
+
 /* ---------------- imports ------------------------------------------------- */
 import {
   localKeyExists,
@@ -58,6 +61,8 @@ const initialState = {
     selectedTab: 'home',
   },
 };
+
+const initialTab = 'home';
 
 const mandatoryFields = {
   email: 'Email',
@@ -335,8 +340,17 @@ const isQuestionnaireDone = () => {
 const selectedTab = () => state.view.selectedTab;
 
 const setSelectedTab = (tabId) => {
+  const tabToMixpanelEvent = {
+    profile: 'Tab Profilo',
+    structures: 'Tab Strutture',
+    home: 'Tab Home',
+    about: 'Tab About',
+    sponsor: 'Tab Sponsor',
+  };
+
   if (tabId !== state.view.selectedTab) {
     state.view.selectedTab = tabId;
+    Mixpanel.track(tabToMixpanelEvent[tabId]);
     notifyListeners();
   }
 };
@@ -479,7 +493,6 @@ const getParagraphForBMIRange = (bmiRange) => {
 };
 
 
-
 const api = {
   init,
   test,
@@ -513,6 +526,7 @@ const api = {
   getUserBMIRange,
   getUserBMILabel,
   getParagraphForBMIRange,
+  initialTab,
 };
 /* -------------------------------------------------------------------------- */
 

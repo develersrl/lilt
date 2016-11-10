@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { TabBarIOS } from 'react-native';
-import Mixpanel from 'react-native-mixpanel';
 
 import AppNavigator from './navigator';
 import ProfileNavigator from './profile_navigator';
@@ -39,16 +38,7 @@ export default class TabBar extends Component {
 
 
   render() {
-    const titleToMixpanelEvent = {
-      profile: 'Tab Profilo',
-      structures: 'Tab Strutture',
-      home: 'Tab Home',
-      about: 'Tab About',
-      sponsor: 'Tab Sponsor',
-    };
-
     const createCb = (text) => () => {
-      Mixpanel.track(titleToMixpanelEvent[text]);
       this.onTabPress.bind(this)(text);
     };
 

@@ -196,6 +196,7 @@ const myStyle = StyleSheet.create({
   scrollView: {
     flex: 1,
     paddingTop: home.paddingTop,
+    backgroundColor: 'white',
   },
   container: {
     justifyContent: 'center',

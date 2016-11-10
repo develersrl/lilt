@@ -1,8 +1,9 @@
 'use strict';
 
-import { AsyncStorage, ActionSheetIOS, Linking } from 'react-native';
+import { AsyncStorage, ActionSheetIOS, Linking, Navigator } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
+import buildStyleInterpolator from 'buildStyleInterpolator';
 
 
 const AgeRange = {
@@ -252,6 +253,27 @@ const extractPhoneNumber = (phoneString) => {
 };
 
 
+// https://github.com/facebook/react-native/issues/1953#issuecomment-252522870
+const NoTransition = {
+  opacity: {
+    value: 1.0,
+    type: 'constant',
+  },
+};
+
+const Transitions = {
+  NONE: {
+    ...Navigator.SceneConfigs.FadeAndroid,
+    gestures: null,
+    defaultTransitionVelocity: 1000,
+    animationInterpolators: {
+      into: buildStyleInterpolator(NoTransition),
+      out: buildStyleInterpolator(NoTransition)
+    },
+  },
+};
+
+
 module.exports = {
   enableApi,
   openPdf,
@@ -269,4 +291,5 @@ module.exports = {
   extractPhoneNumber,
   AgeRange,
   BMIRange,
+  Transitions,
 };
