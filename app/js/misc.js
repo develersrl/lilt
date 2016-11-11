@@ -1,10 +1,10 @@
 'use strict';
 
-import { AsyncStorage, ActionSheetIOS, Linking, Navigator } from 'react-native';
+import { AsyncStorage, Linking, Navigator } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 import buildStyleInterpolator from 'buildStyleInterpolator';
-
+import Share from 'react-native-share';
 
 const AgeRange = {
   LESS_THAN_45: 0,
@@ -202,17 +202,8 @@ const share = (text) => {
   if (text === '')
     return;
 
-  ActionSheetIOS.showShareActionSheetWithOptions({
-    message: text,
-  },
-  (error) => console.log(error),
-  (success, method) => {
-    if (success) {
-      console.log(`Shared via ${method}`);
-    }
-    else {
-      console.log('You didn\'t share');
-    }
+  Share.open({
+    message: text
   });
 };
 
