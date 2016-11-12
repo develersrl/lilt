@@ -8,6 +8,7 @@ import {
   Dimensions,
   ScrollView,
   Text,
+  Platform,
 } from 'react-native';
 
 import { LinkListItem } from '../../blocks';
@@ -47,6 +48,7 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: linkList.marginTop,
+    ...Platform.select({ ios: {}, android: { backgroundColor: 'white' } })
   },
   backImg: {
     position: 'absolute',

@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 import { api as stateApi, showForgetUserButton } from '../../state';
@@ -136,11 +137,14 @@ export default class Profile extends Component {
       bmi = this.renderInfo('IMC', `${bmiVal} (${bmiLabel})`);
     }
 
+    const paddingBottom = (Platform.OS === 'ios')? 0 : 20;
+
     return (
       <ScrollView style={myStyle.container}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
+                  contentContainerStyle={{paddingBottom}}
                   >
         <Image style={myStyle.icon}
                source={require('../../../images/profile-icon.png')}
@@ -170,6 +174,7 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     padding: profile.bodyPadding,
+    backgroundColor: 'white',
   },
   icon: {
     width: profile.iconWidth,

@@ -278,6 +278,7 @@ const pages = {
   },
   content: {
     marginTop: ios ? 44 : 0,
+    backgroundColor: 'white',
     header: {
       container: {
         height: 280,
@@ -402,6 +403,7 @@ const pages = {
     editBtnActiveOpacity: 0.8,
   },
   registerModify: {
+    backgroundColor: 'white',
     paddingLeftRight: 20,
     textPaddingLeftRight: 10,
   },

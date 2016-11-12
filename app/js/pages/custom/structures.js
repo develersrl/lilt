@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   ListView,
+  Platform,
 } from 'react-native';
 
 import { api as stateApi } from '../../state';
@@ -94,8 +95,10 @@ export default class Structures extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: common.statusBarHeight,
-    marginBottom: 50,
+    ...Platform.select({
+      ios: { marginTop: common.statusBarHeight, marginBottom: 50 },
+      android: { backgroundColor: 'white' },
+    }),
   },
   aboveView: {
     justifyContent: 'center',

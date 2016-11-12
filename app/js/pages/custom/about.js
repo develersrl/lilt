@@ -8,6 +8,7 @@ import {
   Dimensions,
   ScrollView,
   Text,
+  Platform,
 } from 'react-native';
 
 import { openURL } from '../../misc';
@@ -140,8 +141,10 @@ export default class About extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 50,
-    marginTop: common.statusBarHeight,
+    ...Platform.select({
+      ios: { marginBottom: 50, marginTop: common.statusBarHeight },
+      android: { backgroundColor: 'white' },
+    }),
   },
   backImg: {
     position: 'absolute',

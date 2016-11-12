@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 
 import {
@@ -143,7 +144,7 @@ export default class CustomPrevention extends Component {
     const age = stateApi.getUserAge();
 
     return (
-      <ScrollView style={[flexible, {marginTop: 44}]}
+      <ScrollView style={myStyle.container}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
@@ -172,6 +173,13 @@ export default class CustomPrevention extends Component {
 
 
 const myStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+    ...Platform.select({
+      ios: { marginTop: 44 },
+      android: { backgroundColor: 'white' },
+    }),
+  },
   userInfo: {
     fontFamily: 'GillSans',
     fontSize: 20,

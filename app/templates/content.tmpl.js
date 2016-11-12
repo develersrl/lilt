@@ -8,24 +8,25 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Platform,
 } from 'react-native';
 
 import { openPdf, openURL, share } from '../../misc';
 import { Stripe } from '../../blocks';
 import { common, blocks, pages } from '../../style';
+const { content } = pages;
 
 
 export default class Content extends Component {
   render() {
     const { flexible, centeredChildren } = common;
-    const { content } = pages;
     const { markdown } = blocks;
     const pdfName = "{{pdfName}}";
     const headerImage = {{headerImage}};
     const sharedText = `{{sharedText}}`;
 
     return (
-      <ScrollView style={[flexible, content.marginTop]}
+      <ScrollView style={[flexible, myStyle.container]}
                   bounces={false}
                   showsVerticalScrollIndicator={false}
                   automaticallyAdjustContentInsets={false}
@@ -58,3 +59,12 @@ export default class Content extends Component {
       );
   }
 }
+
+
+const myStyle = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: content.marginTop,
+    backgroundColor: content.backgroundColor,
+  },
+});

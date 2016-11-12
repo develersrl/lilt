@@ -261,6 +261,7 @@ Registration.propTypes = {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: registerModify.backgroundColor,
   },
   titleView: {
     paddingLeft: registerModify.paddingLeftRight,

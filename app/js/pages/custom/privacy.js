@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   Text,
+  Platform,
 } from 'react-native';
 
 import { common } from '../../style';
@@ -23,14 +24,14 @@ export default class Privacy extends Component {
     /* eslint-enable max-len */
 
     return (
-      <ScrollView style={[flexible]}
-                  bounces={false}
-                  showsVerticalScrollIndicator={false}
-                  automaticallyAdjustContentInsets={false}
-                  >
-        <View style={myStyle.container}>
-          <Image style={myStyle.backImg}
-                 source={require('../../../images/back1.png')} />
+      <View style={{flex: 1, backgroundColor: 'white'}}>
+        <Image style={myStyle.backImg}
+               source={require('../../../images/back1.png')} />
+        <ScrollView
+                    bounces={false}
+                    showsVerticalScrollIndicator={false}
+                    automaticallyAdjustContentInsets={false}
+                    >
           <View style={myStyle.contentView}>
             <View style={myStyle.titleView}>
               <Text style={myStyle.titleText}>{title}</Text>
@@ -41,8 +42,8 @@ export default class Privacy extends Component {
               </Text>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
       );
   }
 }
@@ -51,7 +52,10 @@ export default class Privacy extends Component {
 const myStyle = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 50,
+    ...Platform.select({
+      ios: { marginBottom: 50 },
+      android: { backgroundColor: 'white' },
+    }),
   },
   backImg: {
     position: 'absolute',
