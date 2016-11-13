@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.rnfs.RNFSPackage;
+import com.fileopener.FileOpenerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           new RNSharePackage(),
           new RNFSPackage(),
+          new FileOpenerPackage(),
           new RNMixpanel()
       );
     }
