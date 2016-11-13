@@ -1,14 +1,28 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { Navigator } from 'react-native';
+import { Navigator, BackAndroid } from 'react-native';
 
 import { Transitions } from '../misc';
 import * as style from '../style';
 import { getStartRoute } from './profile_navigator_data';
+import { api as stateApi } from '../state';
 
 
-export default class AppNavigator extends Component {
+let _navigator;
+BackAndroid.addEventListener('hardwareBackPress', () => {
+  if (stateApi.selectedTab() !== 'profile' || !_navigator) {
+    return false;
+  }
+  if (_navigator.getCurrentRoutes().length === 1) {
+    return false;
+  }
+  _navigator.pop();
+  return true;
+});
+
+
+export default class ProfileNavigator extends Component {
   render() {
     const { navigator } = style.pages;
 
@@ -19,6 +33,7 @@ export default class AppNavigator extends Component {
         initialRoute={getStartRoute()}
         configureScene={() => Transitions.NONE}
         renderScene={(route, navigator) => {
+          _navigator = navigator;
           return (
             <route.component navigator={navigator} {...route.passProps}/>
             );
