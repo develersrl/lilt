@@ -17,46 +17,10 @@ import { blocks } from '../style';
 const { structureitem } = blocks;
 
 
-/**
- * Setup simple enum to discriminate between special breast unit structures.
- */
-const BreastUnit = {
-  CAREGGI_MAIN: 0,
-  CAREGGI_CORD: 1,
-  OTHER: 2,
-};
-
-
 export default class StructureItem extends Component {
   isCareggiMain() {
     const { structuretype, title } = this.props;
-
-    // Filter non-breastunit structures
-    if (structuretype !== 'breastunit')
-      return false;
-
-    // Match title substring
-    if (title.startsWith('CENTRO DI SENOLOGIA AOU CAREGGI'))
-      return true;
-
-    return false;
-  }
-
-
-  isCareggiCORD() {
-    const { structuretype, title } = this.props;
-
-    // Filter non-breastunit structures
-    if (structuretype !== 'breastunit')
-      return false;
-
-    if (this.isCareggiMain())
-      return false;
-
-    if (title.toLowerCase().includes('annunziata'))
-      return false;
-
-    return true;
+    return (structuretype === 'breastunit' && title.toLowerCase().includes('aou careggi'));
   }
 
 
@@ -229,14 +193,13 @@ export default class StructureItem extends Component {
       subtitleElement = (<Text style={myStyle.subtitleText}>{subtitle}</Text>);
 
     let breastUnitText = null;
-    if (structuretype === 'breastunit' && !this.isCareggiCORD())
-      breastUnitText = (
-        <Text style={myStyle.titleText}>BREAST UNIT</Text>
-        );
+    if (structuretype === 'breastunit' && title !== '')
+      breastUnitText = (<Text style={myStyle.titleText}>BREAST UNIT</Text>);
 
+    // Hide marker image and title string if structure title is not specified
     let titleTextBlock = null;
     let markerImage = require('../../images/transparent.png');
-    if (!this.isCareggiCORD()) {
+    if (title) {
       titleTextBlock = (<Text style={myStyle.titleText}>{title}</Text>);
       markerImage = require('../../images/marker-orange.png');
     }
@@ -342,6 +305,7 @@ StructureItem.propTypes = {
   title: React.PropTypes.string.isRequired,
   subtitle: React.PropTypes.string.isRequired,
   structureid: React.PropTypes.string.isRequired,
+  structuretype: React.PropTypes.string.isRequired,
   getStructureDescription: React.PropTypes.func.isRequired,
 };
 
