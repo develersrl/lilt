@@ -54,6 +54,9 @@ content_glossary_bindings_fn = os.path.join(
 # Pdf files used by app pages are located inside this folder
 pdf_dir = os.path.join(content_dir, 'pdf')
 
+# Target directory (on android) for pdf files.
+android_target_pdf_dir = os.path.join(app_dir, 'android', 'app', 'src', 'main', 'assets', 'pdf')
+
 # The "templates" directory contains react native component templates.
 # Templates will be instanced with Jinja during the generation phase.
 templates_dir = os.path.join(app_dir, 'templates')
@@ -83,6 +86,12 @@ def clean_pdf_dir():
     pdf_files = [f for f in os.listdir(pdf_dir) if f.lower().endswith('pdf')]
     for pdf_name in pdf_files:
         os.remove(os.path.join(pdf_dir, pdf_name))
+
+
+def clean_android_target_pdf_dir():
+    """Prepare the target directory for pdf files on android."""
+    if os.path.exists(android_target_pdf_dir):
+        shutil.rmtree(android_target_pdf_dir)
 
 
 def clean_target_pages_dir():

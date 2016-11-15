@@ -1,10 +1,11 @@
 'use strict';
 
-import { AsyncStorage, Linking, Navigator } from 'react-native';
+import { AsyncStorage, Linking, Navigator, Platform } from 'react-native';
 import RNFS from 'react-native-fs';
 import FileOpener from 'react-native-file-opener';
 import buildStyleInterpolator from 'buildStyleInterpolator';
 import Share from 'react-native-share';
+import RNFetchBlob from 'react-native-fetch-blob';
 
 const AgeRange = {
   LESS_THAN_45: 0,
@@ -70,6 +71,29 @@ const openPdf = (pdfName) => {
   if (pdfName === '')
     return;
 
+
+  if (Platform.OS === 'android') {
+    const { fs, android } = RNFetchBlob;
+
+    fs.cp(
+      fs.asset(`pdf/${pdfName}`), `${fs.dirs.DownloadDir}/${pdfName}`)
+      .then(() => {
+        fs.exists(`${fs.dirs.DownloadDir}/${pdfName}`)
+          .then((exist) => {
+            if (exist) {
+              android.actionViewIntent(`${fs.dirs.DownloadDir}/${pdfName}`, 'application/pdf');
+            }
+          });
+      })
+      .catch(() => {
+        // eslint-disable-next-line no-console
+        console.warn('(ignore on simulator) cannot copy: ' + pdfName);
+      });
+
+    return;
+  }
+
+  // TODO: refactor to remove the dependency from react native fs
   RNFS.readDir(RNFS.MainBundlePath)
     .then((result) => {
       // search pdf dir in application bundle (the pdf directory name is

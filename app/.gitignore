@@ -56,3 +56,4 @@ images/catalogs
 .vscode
 tsconfig.json
 typings/
+android/app/src/main/assets/pdf/

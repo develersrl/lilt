@@ -290,6 +290,13 @@ def __gen_navigation():
     return True
 
 
+def __copy_pdf():
+    print 'Copy pdf'
+    common.clean_android_target_pdf_dir()
+    shutil.copytree(common.pdf_dir, common.android_target_pdf_dir)
+    return True
+
+
 def __finalcleanup():
     print 'Final cleanup'
 
@@ -313,6 +320,7 @@ if __name__ == '__main__':
         __gen_pages() and
         __gen_structures() and
         __gen_navigation() and
+        __copy_pdf() and
         __finalcleanup()
         )
     sys.exit(0 if ok else 1)
