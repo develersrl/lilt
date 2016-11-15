@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Platform } from 'react-native';
 
 import { Stripe } from '../../blocks';
 import { pages, blocks } from '../../style';
@@ -33,7 +33,7 @@ const myStyle = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: glossaryWord.backgroundColor,
-    marginTop: 44,
+    marginTop: (Platform.OS === 'ios' ? 44 : 0),
   },
   titleView: {
     height: glossaryWord.titleHeight,

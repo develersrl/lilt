@@ -13,6 +13,7 @@ import ArrowMenu from './arrow_menu';
 import DateField from './datefield';
 import SegmentControl from './segmentcontrol';
 import StructureItem from './structure_item';
+import SearchAndroid from './search_android';
 
 module.exports = {
   Button,
@@ -27,4 +28,5 @@ module.exports = {
   DateField,
   SegmentControl,
   StructureItem,
+  SearchAndroid,
 };

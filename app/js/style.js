@@ -257,6 +257,17 @@ const blocks = {
     fontColor: '#444444',
     activeOpacity: 0.8,
   },
+  searchBar: {
+    outerViewBackground: '#FFE0D0',
+    textColor: '#7B7B7B',
+    placeholderColor: '#BBBBBB',
+    contentPadding: 2,
+    borderColor: 'red',
+    fontFamily: 'GillSans',
+    fontSize: 18,
+    height: 50,
+    imageWidth: 20,
+  },
 };
 
 
