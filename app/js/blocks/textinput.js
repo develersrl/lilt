@@ -38,7 +38,9 @@ export default class MyTextInput extends Component {
                      onChangeText={onChangeText}
                      keyboardType={_keyboardType}
                      placeholder={placeholder}
+                     placeholderTextColor={'#BBBBBB'}
                      autoCapitalize={capitalize ? 'sentences' : 'none'}
+                     underlineColorAndroid={'rgba(0, 0, 0, 0)'}
                      autoCorrect={false}
                      />
         </View>
