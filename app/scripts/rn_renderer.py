@@ -127,6 +127,27 @@ class RNRenderer(mistune.Renderer):
         onPressCode = '() => openURL("{}")'.format(link)
         tmpl = '<Text style={{markdown.link}} onPress={{{}}}>{}</Text>'
         return tmpl.format(onPressCode, text)
+
+
+    def list(self, body, ordered=True):
+        """Rendering list tags like ``<ul>`` and ``<ol>``.
+        :param body: body contents of the list.
+        :param ordered: whether this list is ordered or not.
+        """
+        return body
+
+
+    def list_item(self, text):
+        """Rendering list item snippet. Like ``<li>``."""
+        tmpl = """
+        <View style={{{{flexDirection: 'row'}}}}>
+            <Text style={{[markdown.paragraph, {{marginLeft: 10, marginRight: 10}}]}}>{{"\u2022"}}</Text>
+            <View style={{{{flex: 1}}}}>
+                {}
+            </View>
+        </View>
+        """
+        return tmpl.format(text)
     # -------------------------------------------------------------------------
 
 
@@ -189,32 +210,6 @@ class RNRenderer(mistune.Renderer):
         """
 
         self.print_warning('hrule')
-        return ''
-
-
-    def list(self, body, ordered=True):
-        """Rendering list tags like ``<ul>`` and ``<ol>``.
-        :param body: body contents of the list.
-        :param ordered: whether this list is ordered or not.
-        """
-
-        """
-        tag = 'ul'
-        if ordered:
-            tag = 'ol'
-        return '<%s>\n%s</%s>\n' % (tag, body, tag)
-        """
-
-        self.print_warning('list')
-        return ''
-
-
-    def list_item(self, text):
-        """Rendering list item snippet. Like ``<li>``."""
-
-        # return '<li>%s</li>\n' % text
-
-        self.print_warning('list_item')
         return ''
 
 
