@@ -1,4 +1,4 @@
-package com.lilt;
+package it.legatumori.liltfiseno;
 
 import android.app.Application;
 import android.util.Log;
