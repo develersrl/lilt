@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -21,6 +22,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		45736CAA99FF4054A81EC2FF /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15153171B681437F8FAAE7F6 /* libRNFetchBlob.a */; };
 		653A9E9DE59649F98FF8A7E4 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FE4767ABFA349D389854B7A /* libRNShare.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8AF5C2D1DD8F6B1C2414C6CA /* libPods-lilt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F6F5DC6ED325BDF145C5DC44 /* libPods-lilt.a */; };
@@ -34,7 +36,6 @@
 		C0D1F99E1D8ACB7300E9A937 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = C0D1F99D1D8ACB7300E9A937 /* fonts */; };
 		C0D831C21D363DB600141DDB /* glossary.json in Resources */ = {isa = PBXBuildFile; fileRef = C0D831C11D363DB600141DDB /* glossary.json */; };
 		EE1EDD315C75E1C67C4FD662 /* libPods-liltTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BA7D0AD0AF17C5EB67DB766 /* libPods-liltTests.a */; };
-		45736CAA99FF4054A81EC2FF /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15153171B681437F8FAAE7F6 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +158,13 @@
 			remoteGlobalIDString = F6673F12F3C17ADB6EE3CDA5286D5486;
 			remoteInfo = "Pods-liltTests";
 		};
+		C0A3EECD1DDE12C800EE92D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 03058942615D4611A5D088AA /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
+		};
 		C0BB46A61D79BCAF00DDB2FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0CE93D302E304B3A87F2FB7A /* RNFileOpener.xcodeproj */;
@@ -190,6 +198,7 @@
 		00E356EE1AD99517003FC87E /* liltTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = liltTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* liltTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = liltTests.m; sourceTree = "<group>"; };
+		03058942615D4611A5D088AA /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		0CE93D302E304B3A87F2FB7A /* RNFileOpener.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFileOpener.xcodeproj; path = "../node_modules/react-native-file-opener/ios/RNFileOpener.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
@@ -201,6 +210,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = lilt/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = lilt/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		15153171B681437F8FAAE7F6 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		1E62DC6900073840E29D7EC3 /* Pods-lilt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lilt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lilt/Pods-lilt.debug.xcconfig"; sourceTree = "<group>"; };
 		2BA7D0AD0AF17C5EB67DB766 /* libPods-liltTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-liltTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3490A99D3C804D339D659F51 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
@@ -219,8 +229,6 @@
 		D36FF04DC4AA4FCCB1F67F82 /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMixpanel.xcodeproj; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; };
 		EA48E0F285C9A2133994CEF2 /* Pods-lilt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lilt.release.xcconfig"; path = "Pods/Target Support Files/Pods-lilt/Pods-lilt.release.xcconfig"; sourceTree = "<group>"; };
 		F6F5DC6ED325BDF145C5DC44 /* libPods-lilt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lilt.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		03058942615D4611A5D088AA /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		15153171B681437F8FAAE7F6 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,6 +486,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C0A3EEBD1DDE12C800EE92D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C0A3EECE1DDE12C800EE92D8 /* libRNFetchBlob.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		C0BB46961D79BCAF00DDB2FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +636,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = C0A3EEBD1DDE12C800EE92D8 /* Products */;
+					ProjectRef = 03058942615D4611A5D088AA /* RNFetchBlob.xcodeproj */;
 				},
 				{
 					ProductGroup = C0BB46961D79BCAF00DDB2FE /* Products */;
@@ -765,6 +785,13 @@
 			fileType = archive.ar;
 			path = "libPods-liltTests.a";
 			remoteRef = C08E61311D74775100C6AE57 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C0A3EECE1DDE12C800EE92D8 /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = C0A3EECD1DDE12C800EE92D8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C0BB46A71D79BCAF00DDB2FE /* libRNFileOpener.a */ = {
@@ -1027,6 +1054,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = DDMCN75GD8;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1061,6 +1089,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = DDMCN75GD8;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
