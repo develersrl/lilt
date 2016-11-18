@@ -6,7 +6,9 @@ import { StyleSheet, Platform, Dimensions } from 'react-native';
 const ios = (Platform.OS === 'ios');
 const dim = Dimensions.get('window');
 
-const computeHeight = (over700, over600, other) => {
+const computeHeight = (over1000, over700, over600, other) => {
+  if (dim.height >= 1000)
+    return over1000;
   if (dim.height >= 700)
     return over700;
   if (dim.height >= 600)
@@ -357,14 +359,14 @@ const pages = {
   },
   home: {
     paddingTop: ios ? 0 : 20,
-    menuHeight: computeHeight(250, 220, 190),
+    menuHeight: computeHeight(310, 250, 220, 190),
     belowMenuHeight: 100,
-    logoImageHeight: computeHeight(70, 55, 50),
+    logoImageHeight: computeHeight(90, 70, 55, 50),
     logoImage: require('../images/logo_home.png'),
     logoParagraphFontSize: 15,
     logoParagraphLineHeight: 20,
     logoParagraphMargins: 30,
-    logoParagraphMenuSpacing: computeHeight(30, 20, 15),
+    logoParagraphMenuSpacing: computeHeight(30, 30, 20, 15),
     menuTopLeftBackground: '#FFE0D0',
     menuTopLeftIcon: require('../images/know-more.png'),
     menuTopRightBackground: '#C1DBF8',
@@ -373,7 +375,7 @@ const pages = {
     menuBottomLeftIcon: require('../images/early-diagnosis.png'),
     menuBottomRightBackground: '#FF9C8D',
     menuBottomRightIcon: require('../images/wiki.png'),
-    menuBelowViewSpacing: computeHeight(20, 0, 0),
+    menuBelowViewSpacing: computeHeight(20, 20, 0, 0),
     customMenuCircleWidth: 50,
     customMenu1Icon: require('../images/prevention-path.png'),
     customMenu2Icon: require('../images/positive-diagnosis.png'),
