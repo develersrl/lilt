@@ -18,7 +18,7 @@ export default class SegmentControl extends Component {
   onTabPress(caption, index) {
     const { onValueChange } = this.props;
     this.setState({ selectedIndex: index });
-    onValueChange(caption);
+    onValueChange(caption, index);
   }
 
 

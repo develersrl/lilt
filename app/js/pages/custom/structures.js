@@ -9,6 +9,7 @@ import {
   ListView,
   Platform,
 } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import { api as stateApi } from '../../state';
 import { SegmentControl, StructureItem } from '../../blocks';
@@ -22,15 +23,24 @@ export default class Structures extends Component {
   constructor(props) {
     super(props);
     const tabLabels = stateApi.getStructureTypes();
-    const dataSource = new ListView.DataSource({
-      rowHasChanged: (r1, r2) => r1 !== r2,
-    });
+    const dataSources = [];
+
+    for (let i = 0; i < tabLabels.length; i++) {
+      dataSources.push(
+        this.computeNewDataSource(new ListView.DataSource({
+          rowHasChanged: (r1, r2) => r1 !== r2,
+        }), tabLabels[i])
+      );
+    }
 
     this.state = {
       selectedIndex: 0,
       tabLabels,
-      dataSource: this.computeNewDataSource(dataSource, tabLabels[0]),
+      dataSources,
+      currentDataSource: dataSources[0],
     };
+
+    this.onSegmentChange = this.onSegmentChange.bind(this);
   }
 
 
@@ -40,10 +50,11 @@ export default class Structures extends Component {
   }
 
 
-  onSegmentChange(newSegment) {
+  onSegmentChange(newSegment, index) {
     this.setState({
       ...this.state,
-      dataSource: this.computeNewDataSource(this.state.dataSource, newSegment),
+      selectedIndex: index,
+      currentDataSource: this.state.dataSources[index],
     });
   }
 
@@ -59,9 +70,59 @@ export default class Structures extends Component {
   }
 
 
-  render() {
-    const { selectedIndex, tabLabels, dataSource } = this.state;
+  renderIOS() {
+    const { selectedIndex, tabLabels, currentDataSource } = this.state;
 
+    return (
+      <View style={myStyle.belowView}>
+        <SegmentControl values={tabLabels}
+                        selectedIndex={selectedIndex}
+                        tintColor={structures.segmentsColor}
+                        onValueChange={this.onSegmentChange}
+                        />
+        <ListView style={myStyle.listView}
+                  dataSource={currentDataSource}
+                  automaticallyAdjustContentInsets={false}
+                  bounces={false}
+                  showsVerticalScrollIndicator={false}
+                  renderRow={this.renderStructure}
+                  contentContainerStyle={myStyle.listViewContainer}
+                  />
+      </View>
+      );
+  }
+
+  renderAndroid() {
+    const { tabLabels, dataSources } = this.state;
+
+    const tabElements = dataSources.map((source, i) => (
+      <ListView style={myStyle.listView}
+                dataSource={source}
+                key={i}
+                tabLabel={tabLabels[i]}
+                automaticallyAdjustContentInsets={false}
+                bounces={false}
+                showsVerticalScrollIndicator={false}
+                renderRow={this.renderStructure}
+                contentContainerStyle={myStyle.listViewContainer}
+                />
+    ));
+
+    return (
+      <View style={myStyle.belowView}>
+        <ScrollableTabView
+          tabBarActiveTextColor='#93B8D8'
+          tabBarInactiveTextColor='#C9D5F1'
+          tabBarTextStyle={myStyle.androidTab}
+          tabBarUnderlineStyle={myStyle.androidTabUnderline}
+          >
+          {tabElements}
+        </ScrollableTabView>
+      </View>
+      );
+  }
+
+  render() {
     return (
       <View style={myStyle.container}>
         <View style={myStyle.aboveView}>
@@ -71,21 +132,12 @@ export default class Structures extends Component {
             a cui fare riferimento
           </Text>
         </View>
-        <View style={myStyle.belowView}>
-          <SegmentControl values={tabLabels}
-                          selectedIndex={selectedIndex}
-                          tintColor={structures.segmentsColor}
-                          onValueChange={this.onSegmentChange.bind(this)}
-                          />
-          <ListView style={myStyle.listView}
-                    dataSource={dataSource}
-                    automaticallyAdjustContentInsets={false}
-                    bounces={false}
-                    showsVerticalScrollIndicator={false}
-                    renderRow={this.renderStructure}
-                    contentContainerStyle={myStyle.listViewContainer}
-                    />
-        </View>
+        {
+          Platform.select({
+            ios: this.renderIOS(),
+            android: this.renderAndroid()
+          })
+        }
       </View>
       );
   }
@@ -99,6 +151,14 @@ const myStyle = StyleSheet.create({
       ios: { marginTop: common.statusBarHeight, marginBottom: 50 },
       android: { backgroundColor: 'white' },
     }),
+  },
+  androidTab: {
+    fontFamily: 'GillSans',
+    fontSize: 14,
+  },
+  androidTabUnderline: {
+    backgroundColor: '#93B8D8',
+    height: 3,
   },
   aboveView: {
     justifyContent: 'center',
