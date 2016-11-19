@@ -53,7 +53,7 @@ export default class CustomPrevention extends Component {
     return (
       <View style={containerStyle} key={questionIndex}>
         <Text style={myStyle.question}>{questionText}</Text>
-        <Text style={myStyle.answer}>{answerText}</Text>
+        <Text style={[myStyle.answer, myStyle.answerSpacing]}>{answerText}</Text>
         {paragraphText}
       </View>
       );
@@ -125,10 +125,17 @@ export default class CustomPrevention extends Component {
     const bmiRange = stateApi.getUserBMIRange();
     const paragraphText = stateApi.getParagraphForBMIRange(bmiRange);
 
+    const bmiVal = parseFloat(stateApi.getUserBMI()).toFixed(2);
+    const bmiLabel = stateApi.getUserBMILabel(bmiRange);
+    const weight = stateApi.userData(true).weight;
+
     return (
       <View>
         <Text style={[myStyle.answer, myStyle.parSpacing]}>
           Peso e Alimentazione
+        </Text>
+        <Text style={[myStyle.info, myStyle.answerSpacing]}>
+          Peso {weight} kg, IMC {bmiVal} ({bmiLabel})
         </Text>
         {paragraphText}
       </View>
@@ -203,16 +210,24 @@ const myStyle = StyleSheet.create({
     fontSize: globSt.textFontSize,
     color: globSt.textColor,
   },
+  info: {
+    fontFamily: 'GillSans',
+    fontSize: globSt.questionFontSize,
+    color: globSt.textColor,
+    fontStyle: 'italic',
+  },
   question: {
     fontFamily: 'GillSans',
     fontSize: globSt.questionFontSize,
     color: globSt.questionColor,
     fontStyle: 'italic',
   },
+  answerSpacing: {
+    marginBottom: 10,
+  },
   answer: {
     fontFamily: 'GillSans-Bold',
     fontSize: globSt.headerFontSize,
     color: globSt.headerColor,
-    marginBottom: 10,
   },
 });
