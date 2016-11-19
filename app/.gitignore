@@ -57,3 +57,5 @@ images/catalogs
 tsconfig.json
 typings/
 android/app/src/main/assets/pdf/
+*.jks
+config.prod.json

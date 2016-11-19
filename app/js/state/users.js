@@ -6,8 +6,8 @@ import { enableApi } from '../misc';
 
 const createRequestBody = (action, data) => ({
   auth: {
-    user: '__LILT_BreastApp__',
-    password: 'J4XQh6UeZKjKmzTxz5ZVGXSe',
+    user: config.usersSpreadsheet.username,
+    password: config.usersSpreadsheet.password,
   },
   action,
   data,
@@ -44,15 +44,15 @@ const test = () => {
 
   const userData = {
     auth: {
-      user: '__LILT_BreastApp__',
-      password: 'J4XQh6UeZKjKmzTxz5ZVGXSe',
+      user: config.usersSpreadsheet.username,
+      password: config.usersSpreadsheet.password,
     },
     action: 'setUserData',
     data: {
       email: 'test@domain.com',
-      name: 'Carla',
-      surname: 'Fracci',
-      gender: 'F',
+      name: 'Mario',
+      surname: 'Rossi',
+      gender: 'M',
       created: new Date().toISOString(),
       lastModified: new Date().toISOString(),
     },

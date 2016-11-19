@@ -1,0 +1,25 @@
+// app settings
+{
+  // mixpanel service configuration
+  "mixpanel": {
+    "enabled": true,  //  enable/disable mixpanel service
+    "token": "41130295cdda0093d7540ae45a7388f6"  // mixpanel target project token
+  },
+
+  // users backend configuration
+  "usersSpreadsheet": {
+    "enabled": true,  // enable/disable users backend
+    "url": "https://script.google.com/macros/s/AKfycbx6BxoBZuWC9CkQvkfnythFSp2nIIi3TGezCLM0K058l_h_BQQ/exec",
+    "username": "__LILT_BreastApp__",
+    "password": "J4XQh6UeZKjKmzTxz5ZVGXSe"
+  },
+
+  // set this to true to wipe stored user
+  "removeStoredUser": false,
+
+  // if network actions fail we retry with the following interval in seconds
+  "dataSenderRetryInterval": 30,
+
+  // Show the "forget user" button inside profile page
+  "showForgetUserButton": false
+}
