@@ -301,6 +301,7 @@ const pages = {
       footer: {
         height: 40,
         flexDirection: 'row',
+        backgroundColor: '#00000033',
       },
       separator: {
         flex: 1,
