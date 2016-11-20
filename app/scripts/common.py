@@ -116,6 +116,10 @@ def get_output_pdfname(pdf_name):
     # the same name. To avoid the problem we add a suffix to the pdf name.
     basename = os.path.splitext(pdf_name)[0]
 
+    # Remove whitespaces from pdf filename otherwise there could be errors while opening the
+    # document on iOS devices
+    basename = '_'.join(basename.split(' '))
+
     same_pdf = 0
     for f in os.listdir(pdf_dir):
         if f.decode('utf-8').lower().startswith(basename):

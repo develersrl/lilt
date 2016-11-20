@@ -71,10 +71,8 @@ const openPdf = (pdfName) => {
   if (pdfName === '')
     return;
 
-
+  const { fs, android, ios } = RNFetchBlob;
   if (Platform.OS === 'android') {
-    const { fs, android } = RNFetchBlob;
-
     fs.cp(
       fs.asset(`pdf/${pdfName}`), `${fs.dirs.DownloadDir}/${pdfName}`)
       .then(() => {
@@ -138,7 +136,7 @@ const openPdf = (pdfName) => {
       }
 
       // open pdf with its native application (it does not work in simulator)
-      return FileOpener.open(pdfobj.path, '');
+      return ios.openDocument(pdfobj.path);
     })
     .catch(() => {
       /* eslint-disable no-console */
