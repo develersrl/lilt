@@ -24,6 +24,8 @@ Lilt Breast App Repo.
   * [Deploying the editor](#deploying-the-editor)
   * [Populating editor data from a docx](#populating-editor-data-from-a-docx)
 
+* [License](#license)
+
 ## [Mac Dev Environment Setup](#index)
 
 The following guide assumes that `node` and `npm` commands are available in the system, and Xcode is installed.
@@ -359,3 +361,7 @@ At this point:
 The `deploy.sh` script packages the app for mac (x64) and Windows platform.
 If everything goes well an `out` folder containing two zip files (one per platform) will be created.
 You can now git-tag the new version and upload the new release on github.
+
+## [License](#index)
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (BSD-3).
