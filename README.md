@@ -1,6 +1,6 @@
-# Lilt
+# LILT Firenze Seno [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
-Lilt Breast App Repo.
+A LILT app for iOS/Android smartphones and tablets about breast cancer prevention.
 
 ### iOS
 <img src="app/screenshots/iphone6-4_7/iphone6-home.png" width="250" />
