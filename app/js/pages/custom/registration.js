@@ -9,11 +9,13 @@ import {
   ActivityIndicator,
   Switch,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import { KeyboardAwareScrollView }
   from 'react-native-keyboard-aware-scroll-view';
 
+import { openURL } from '../../misc';
 import { api as stateApi } from '../../state';
 import { TextInput, Button2, DateField } from '../../blocks';
 import { common, pages, blocks } from '../../style';
@@ -123,7 +125,7 @@ export default class Registration extends Component {
             Acconsento al trattamento dei miei dati personali
           </Text>
           <TouchableOpacity
-            onPress={() => navigator.push(getRoute('privacy'))}>
+            onPress={() => openURL('http://www.legatumorifirenze.it/testi/2/41/')}>
             <Text style={[myStyle.disclaimerText, myStyle.link]}>
               Leggi l'informativa
             </Text>

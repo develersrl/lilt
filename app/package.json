@@ -10,7 +10,7 @@
     "generate-asset-catalogs": "python scripts/generate_asset_catalogs.py"
   },
   "dependencies": {
-    "react": "^15.3.2",
+    "react": "~15.3.1",
     "react-native": "^0.34.1",
     "react-native-datepicker": "^1.3.2",
     "react-native-fetch-blob": "^0.10.0",
