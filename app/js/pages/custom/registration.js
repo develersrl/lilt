@@ -136,6 +136,21 @@ export default class Registration extends Component {
   }
 
 
+  renderPrivacyLink() {
+    if (this.props.mode !== 'Edit')
+      return null;
+
+    return (
+      <TouchableOpacity style={myStyle.privacyLinkContainer}
+                        onPress={() => openURL('http://www.legatumorifirenze.it/testi/2/41/')}>
+        <Text style={[myStyle.disclaimerText, myStyle.link]}>
+          Leggi l'informativa
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+
+
   render() {
     const { mode } = this.props;
 
@@ -246,6 +261,7 @@ export default class Registration extends Component {
             </View>
             {this.renderActivityIndicator()}
           </View>
+          {this.renderPrivacyLink()}
         </View>
       </KeyboardAwareScrollView>
       );
@@ -323,6 +339,11 @@ const myStyle = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
+  },
+  privacyLinkContainer: {
+    alignItems: 'flex-end',
+    paddingRight: 2,
+    marginTop: 5,
   },
   disclaimerText: {
     color: '#8E8E8E',
