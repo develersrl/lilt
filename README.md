@@ -369,6 +369,13 @@ The `deploy.sh` script packages the app for mac (x64) and Windows platform.
 If everything goes well an `out` folder containing two zip files (one per platform) will be created.
 You can now git-tag the new version and upload the new release on github.
 
+## Caveats
+If you use Xcode and build process fails, make sure that:
+
+* you use the "Legacy Build System" (from File -> Workspace Settings)
+* you disable parallelizable builds in lilt "scheme"
+* (only on Xcode 11) you apply the patch described here: https://github.com/facebook/react-native/pull/25146/commits/61b8b9e69d8609fecaaaa7d2c9e32808bc5e98cb
+
 ## [License](#index)
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (BSD-3).
