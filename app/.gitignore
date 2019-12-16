@@ -59,3 +59,4 @@ typings/
 android/app/src/main/assets/pdf/
 *.jks
 config.prod.json
+*.mobileprovision
