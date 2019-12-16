@@ -581,6 +581,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1044,6 +1045,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 24;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = DDMCN75GD8;
 				HEADER_SEARCH_PATHS = (
@@ -1061,6 +1063,7 @@
 				INFOPLIST_FILE = lilt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.4;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1080,6 +1083,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 24;
 				DEVELOPMENT_TEAM = DDMCN75GD8;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1096,6 +1100,7 @@
 				INFOPLIST_FILE = lilt/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.0.4;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
