@@ -25,10 +25,10 @@
     "react-native-tableview": "git@github.com:develersrl/react-native-tableview.git"
   },
   "devDependencies": {
-    "babel-eslint": "^7.0.0",
-    "eslint": "^3.7.1",
-    "eslint-plugin-react": "^6.3.0",
-    "eslint-plugin-react-native": "^2.0.0",
-    "flow-bin": "^0.33.0"
+    "babel-eslint": "7.0.0",
+    "eslint": "3.7.1",
+    "eslint-plugin-react": "6.3.0",
+    "eslint-plugin-react-native": "2.0.0",
+    "flow-bin": "0.33.0"
   }
 }
